@@ -16,6 +16,8 @@ Each stage has:
 
 ## Stage 0 — Freeze and record the machines
 
+**Status: COMPLETE**
+
 ### Inputs
 
 Working PDP-7 UNIX host and bare PDP-11/20 emulator.
@@ -39,6 +41,8 @@ Do not modify either machine until reproducibility is restored.
 ---
 
 ## Stage 1 — Characterize the existing PDP-7 B environment
+
+**Status: CURRENT**
 
 ### Inputs
 
@@ -76,6 +80,8 @@ If the current B reconstruction is too opaque or divergent, isolate a smaller su
 
 ## Stage 2 — Build a modern verification oracle
 
+**Status: NOT STARTED**
+
 ### Inputs
 
 PDP-11 instruction documentation and known test vectors.
@@ -104,6 +110,8 @@ Use an existing trustworthy assembler/decoder as a temporary oracle, but pin its
 ---
 
 ## Stage 3 — Reconstruct a minimal standalone PDP-11 threaded-B nucleus
+
+**Status: NOT STARTED**
 
 ### Inputs
 
@@ -141,6 +149,8 @@ Reduce to threaded dispatch + literal + direct console write. Do not move onward
 
 ## Stage 4 — Audit PDP-11/20 arithmetic
 
+**Status: NOT STARTED**
+
 ### Inputs
 
 Minimal runtime from Stage 3 and confirmed PDP-11/20 hardware configuration.
@@ -170,6 +180,8 @@ Constrain the first B subset further, document the limitation, and continue hist
 ---
 
 ## Stage 5 — Reconstruct the PDP-7-hosted PDP-11 assembler
+
+**Status: NOT STARTED**
 
 ### Inputs
 
@@ -205,6 +217,8 @@ Shrink the accepted assembly grammar to exactly the compiler output we need. Com
 
 ## Stage 6 — Reconstruct the PDP-7 B-to-PDP-11 backend
 
+**Status: NOT STARTED**
+
 ### Inputs
 
 Characterized PDP-7 B front end/runtime model; working reconstructed `as11`; standalone PDP-11 threaded runtime.
@@ -228,6 +242,8 @@ Define and document a historically plausible restricted B subset. Do not add mod
 ---
 
 ## Stage 7 — Establish the general paper-tape path
+
+**Status: NOT STARTED**
 
 ### Inputs
 
@@ -263,6 +279,8 @@ If no general contemporary loader can be made to fit the period and hardware, re
 
 ## Stage 8 — Prove the complete historical-style loop
 
+**Status: NOT STARTED**
+
 ### Inputs
 
 Stages 1–7 passing.
@@ -296,6 +314,8 @@ The first failing boundary becomes a separately reproducible issue/test. Do not 
 
 ## Stage 9 — Build a small calculator systems test
 
+**Status: NOT STARTED**
+
 ### Purpose
 
 Before attempting `dc`, stress the exact categories `dc` will require without introducing arbitrary precision immediately.
@@ -321,6 +341,8 @@ Fix the runtime/compiler/loader boundary exposed by the calculator. Do not start
 ---
 
 ## Stage 10 — Reconstruct a historically grounded early `dc`
+
+**Status: NOT STARTED**
 
 ### Inputs
 
@@ -364,4 +386,3 @@ The project should ultimately produce more than a working emulator session:
 - generated paper-tape artifacts with reproducible build instructions;
 - a short technical write-up of what is known, reconstructed, substituted, and still unknown;
 - an end-to-end demonstration script or documented session reproducing the PDP-7 -> paper tape -> diskless PDP-11 workflow.
-

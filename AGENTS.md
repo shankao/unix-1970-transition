@@ -23,6 +23,10 @@ Never describe B/C/M material as original Bell Labs code.
 
 ## Development rules
 
+- Every substantial stage, gate, or milestone commit must update
+  `docs/STATUS.md` in the same commit so that `HEAD` describes the actual
+  project state. If work fails or reveals a blocker, record that actual result
+  in `STATUS.md`; never leave it describing only the intended state.
 - Always use `machines/pdp7` as this project's PDP-7 development host. Treat
   `../PDP-7` as a read-only pre-transition/reference machine; never run project
   sessions against it or modify it.

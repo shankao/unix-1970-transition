@@ -1,9 +1,7 @@
 # Current Experimental State
 
-This file records the starting point for repository work. Stage 0 capture is in
-progress; the persistent PDP-7 host and static PDP-11 configuration are now
-captured, but the remaining runtime-state gaps listed below keep the Stage 0
-gate open.
+This file records the frozen machine state established during completed Stage
+0. The current project checkpoint and resume instructions are in `STATUS.md`.
 
 ## Chronological target
 
