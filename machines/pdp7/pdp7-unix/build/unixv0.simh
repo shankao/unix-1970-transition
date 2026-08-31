@@ -10,6 +10,11 @@ show cpu
 ; UNIX character translations (CR to NL, ESC to ALTMODE):
 set tti unix
 
+; Paper tape devices are enabled and begin unattached. Attach them only for a
+; recorded tape operation.
+set ptr ena
+set ptp ena
+
 ; RB09 fixed head disk:
 set rb ena
 att rb image-shankao.fs

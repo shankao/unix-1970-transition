@@ -40,7 +40,8 @@ Known current characteristics:
 - B reconstruction available
 - native assembler available
 - `ed`, `roff`, shell, fork/background jobs explored
-- PTP/PTR exist in the restoration environment; attachment state to be recorded before first project use
+- PTR is device 01 and PTP is device 02; both are enabled and unattached at the
+  start of a fresh emulator process
 
 The existing `shankao` account (UID octal 16), its filesystem contents, and
 all exploratory files are intentionally retained. They are part of the frozen
@@ -61,6 +62,13 @@ pre-transition development state, not claims of original Bell Labs material.
   It configures an 8K PDP-7 with EAE, RB09, UNIX terminal translation,
   GRAPHICS-2 input on TCP port 12345, and attaches
   `build/image-shankao.fs`. It loads `build/boot.rim` at octal `010000`.
+- A configuration-only query of the imported emulator (no startup file, image
+  attachment, bootstrap load, or `go`) reported `PTR devno=01, not attached`
+  and `PTP devno=02, not attached`. The active startup file now explicitly
+  enables both devices and contains no attachment command for either, making
+  that initial state deterministic for a fresh project session. The updated
+  file is 663 bytes, repository mode 0644, SHA-256
+  `4147344078e9b91612dff6b8134a9afae009e2f70602893f697b134f41d24bd0`.
 - Imported emulator: Open SIMH PDP-7 V4.0-0 Current, Git commit `aad53510`.
 
 Key imported files:
@@ -75,6 +83,11 @@ Key imported files:
 | `machines/pdp7/pdp7-unix-copy/build/image.fs` | 4,096,000 | 0654 | `244b0876944fc60645f55ee9b5d3f293d0cca3d6267fc11d83c334286cacfd53` |
 | `machines/pdp7/pdp7-unix-copy/build/boot.rim` | 69 | 0654 | `a69adf03a700058300501b2e4a74e732b344fd175e727c9a87c7c7b7132bd4f2` |
 | `machines/pdp7/pdp7-unix-copy/build/unixv0.simh` | 492 | 0654 | `14ff89ea7ff0f457bb30c791bb082235a15e67d69d15856a041650fc054000c4` |
+
+The table and full manifest describe the immutable initial import in commit
+`5e9221ed27fc16acee98914472e7c48452933004`. Subsequent project configuration
+changes, such as making PTR/PTP enablement explicit, are ordinary reviewed Git
+changes and do not rewrite the import manifest.
 
 Filesystem images are expensive binary snapshots. A new image version is
 committed only at a meaningful project milestone, with its hash and reason
@@ -96,14 +109,14 @@ The host `/usr/bin/pdp11` reports Open SIMH PDP-11 V4.0-0 Current, Git commit
 `8a4b3752`; the binary is 2,730,056 bytes, SHA-256
 `db667822b3c65ab2ea87eb59c17ddaf2369d32640d3a964994535b917a4d07da`.
 
-Current visible enabled hardware:
+### Observed former live session
+
+The following was observed volatile runtime state in the previous PDP-11 SIMH
+session. That session was subsequently exited. The PTR observation was:
 
 ```text
-CPU     PDP-11/20, 24 KB
-CLK     60 Hz, address 17777546-17777547, vector 100, BR6
-TTI     address 17777560-17777563, vector 60, BR4
-TTO     address 17777564-17777567, vector 64, BR4
-PTR     address 17777550-17777553, vector 70, BR4; not attached
+PTR     address=17777550-17777553, vector=70, BR4
+        not attached
 ```
 
 Known disabled/not present for this stage:
@@ -119,7 +132,8 @@ no KE11
 no UNIX V1 image
 ```
 
-A 14-word DEC paper-tape bootstrap has been deposited but not executed:
+A 14-word DEC paper-tape bootstrap was deposited but not executed. The words
+were examined and verified immediately after deposit:
 
 ```text
 057744  016701
@@ -138,24 +152,38 @@ A 14-word DEC paper-tape bootstrap has been deposited but not executed:
 057776  177550
 ```
 
-## To capture before Stage 1
+Unless SIMH persisted memory by some mechanism not evidenced here, those words
+are now considered gone from the current machine state. They are evidence of
+the exited session, not a claim about present RAM. The captured
+`machines/pdp11/pdp11.conf` does not recreate them and remains an unchanged
+copy of the earlier static configuration.
+
+The verified listing above is sufficient to recreate the words
+deterministically later. `machines/pdp11/late-summer-1970.simh` encodes a fresh
+PDP-11/20 with 24 KB, CLK enabled, PTR enabled and unattached in a fresh SIMH
+process, all later storage/tape/network devices disabled, and the 14 deposits.
+It stops after displaying the configuration and memory; it contains no `go` or
+boot command. The reconstruction script has deliberately not been run merely
+to reproduce the former volatile evidence. It is 846 bytes, repository mode
+0644,
+SHA-256
+`33402b10a72a613ecb36955379f4db8b5edf759589a9fdbfd0c7be9116d91a1d`.
+
+## Stage 0 closure
 
 Captured host/tool baseline: Ubuntu 26.04.1 LTS, Linux
 `7.0.0-27-generic` x86-64, Git 2.53.0, Perl 5.40.1, and GCC 15.2.0.
 
-Remaining Stage 0 gate items:
+The PDP-11 emulator/package discrepancy is resolved as a local-install fact:
+Debian reports package `simh 3.8.1-6.3`, whose recorded MD5 for
+`usr/bin/pdp11` is `79824a0bce88fa975b5b035995469c4a`; the installed binary's
+MD5 is `2e85d81c40f594af331be4a439732af1`, and `dpkg -V simh` flags that file as
+modified. The executable's embedded V4.0-0/`8a4b3752` identification and
+SHA-256 recorded above therefore identify the actual emulator used; the Debian
+package version does not.
 
-- Record the PDP-7 PTR/PTP runtime attachment state before the first project
-  boot. The imported startup file contains no PTR/PTP attachment commands, but
-  the prior interactive state was not queried and must not be guessed.
-- Reconcile the PDP-11 transient state with the checked-in startup file.
-  `machines/pdp11/pdp11.conf` disables CLK and does not deposit the recorded
-  14-word bootstrap, while the observed state above has CLK enabled and those
-  words in memory. A guarded later operation must capture or reproducibly
-  encode that state without silently changing the intended machine.
-- Record how the PDP-11 Open SIMH V4.0-0 binary at Git commit `8a4b3752`
-  relates to the host package metadata, which reports Debian package
-  `simh 3.8.1-6.3` despite the embedded V4.0 identification.
-
-Until these items are resolved, the Stage 0 gate (recreate both machines from
-repository documentation without relying on chat history) has not passed.
+Stage 0's static reproducibility record is now complete enough to recreate the
+intended starting configurations without chat history. The first actual
+project boots remain guarded verification operations: confirm the displayed
+devices against this record before allowing either CPU to run, and do not
+treat the reconstructed PDP-11 deposits as newly observed evidence.

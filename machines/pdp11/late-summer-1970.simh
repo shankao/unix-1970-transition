@@ -1,0 +1,49 @@
+; Deterministic late-summer-1970 PDP-11/20 transition state.
+;
+; This script reconstructs the intended state from the captured static
+; configuration and the operator-observed volatile bootstrap listing recorded
+; in docs/STATE.md. It configures and deposits memory, but does not boot or run.
+
+set cpu 11/20
+set cpu 24K
+set cpu history=100
+set cpu noidle
+
+set rha disa
+set clk ena
+set ptr ena
+set ptp disa
+set lpt disa
+set dz disa
+
+set rk disa
+set rl disa
+set hk disa
+set rx disa
+set rp disa
+set rq disa
+
+set tm disa
+set tq disa
+
+set rom disa
+
+dep 057744 016701
+dep 057746 000026
+dep 057750 012702
+dep 057752 000352
+dep 057754 005211
+dep 057756 105711
+dep 057760 100376
+dep 057762 116162
+dep 057764 000002
+dep 057766 057400
+dep 057770 005267
+dep 057772 177756
+dep 057774 000765
+dep 057776 177550
+
+show cpu
+show dev
+show ptr
+examine 057744-057776
