@@ -1,0 +1,19 @@
+# Emulator/runtime output
+*.log
+*.core
+*.dump
+
+# Generated tape/object artifacts by default
+artifacts/*.pt
+artifacts/*.bin
+artifacts/*.tap
+artifacts/*.lst
+
+# Local machine state
+.local/
+state-local/
+
+# Editors / OS
+*~
+*.swp
+.DS_Store

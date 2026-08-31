@@ -1,0 +1,95 @@
+# Source Register
+
+This is a working source register, not a bibliography dump. Each entry should state what it actually supports.
+
+## Primary / near-primary historical accounts
+
+### Dennis M. Ritchie — *The Evolution of the Unix Time-sharing System*
+
+Canonical page:
+https://www.nokia.com/bell-labs/about/dennis-m-ritchie/hist.html
+
+Supports, among other points:
+
+- a PDP-7 B cross-compiler for the PDP-11 existed and was written in B;
+- B moved to the PDP-11 very early;
+- a version of multi-precision `dc` ran on the PDP-11 before the disk arrived;
+- the early diskless/RAM-disk PDP-11 period preceded the usable First Edition system.
+
+### Dennis M. Ritchie — *The Development of the C Language*
+
+Canonical PDF:
+https://www.nokia.com/bell-labs/about/dennis-m-ritchie/chist.pdf
+
+Supports:
+
+- the PDP-11 was received before its disk;
+- making B run on the PDP-11 required threaded-code operator fragments;
+- Ritchie coded a simple PDP-11 assembler in B;
+- `dc` became the first interesting program tested before an operating system;
+- the machine had 24 KB and an earliest test system later divided memory among OS, tiny user area, and RAM disk.
+
+### Ken Thompson oral history
+
+TUHS archive:
+https://www.tuhs.org/Archive/Documentation/OralHistory/transcripts/thompson.htm
+
+Supports the practical cross-development workflow, including the B-written PDP-11 assembler running on the PDP-7 and paper tape being moved from the PDP-7 to the PDP-11.
+
+## Surviving/reconstructed PDP-7 UNIX
+
+### DoctorWkt/pdp7-unix
+
+https://github.com/DoctorWkt/pdp7-unix
+
+Important provenance note from upstream:
+
+- the project was built from scans of original assembly code;
+- upstream separates scanned/original material from later restoration code;
+- upstream states that scanned UNIX source has different ownership from newly written restoration code.
+
+This repository must preserve that distinction if any material is imported.
+
+## B archaeology/reconstruction
+
+### Angelo Papenhoff (`aap/b`)
+
+https://github.com/aap/b
+
+Supports/references:
+
+- modern reconstruction of B and its original threaded-code model;
+- B compiler structure using a B first pass and target/assembler-dependent second pass;
+- reconstructed UNIX V1 PDP-11 B environment based partly on discovered binaries;
+- useful later PDP-11 runtime material for archaeological comparison.
+
+This is not evidence that its exact source layout or runtime equals the lost diskless-1970 implementation.
+
+## Contemporary DEC documentation
+
+### PDP-11 Paper Tape Software Programming Handbook
+
+Bitsavers copy:
+https://www.bitsavers.org/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-A-D%20PDP-11%20Paper%20Tape%20Software%20Programming%20Handbook.pdf
+
+Use for contemporary DEC paper-tape software, loader formats, device conventions, and PDP-11 programming details.
+
+If DEC Absolute Binary or another DEC loader is used in the experiment, its role must remain class C unless evidence establishes that Bell Labs used the same format.
+
+### PDP-11 Conventions / handbooks
+
+Bitsavers index:
+https://www.bitsavers.org/pdf/dec/pdp11/handbooks/
+
+Use exact dated editions wherever possible.
+
+## Source-management rule
+
+When a source becomes important to an implementation decision, add:
+
+- exact edition/date;
+- exact URL or archive identifier;
+- page/section or quoted claim location;
+- local archived hash if a copy is retained;
+- the decision(s) it constrains.
+
