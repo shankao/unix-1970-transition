@@ -23,6 +23,11 @@ Never describe B/C/M material as original Bell Labs code.
 
 ## Development rules
 
+- Always use `machines/pdp7` as this project's PDP-7 development host. Treat
+  `../PDP-7` as a read-only pre-transition/reference machine; never run project
+  sessions against it or modify it.
+- Do not commit a new PDP-7 filesystem image after every emulator session.
+  Commit image versions only at meaningful, documented project milestones.
 - Prefer a small verified implementation over a broad speculative one.
 - Add automated regression vectors for reconstructed instruction encoders, runtime operators, tape formats, and compiler output.
 - Isolate failures at boundaries; do not compensate by silently adding later hardware/software.

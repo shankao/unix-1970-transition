@@ -1,0 +1,46 @@
+FROM ubuntu:26.04 AS builder
+
+LABEL org.opencontainers.image.source="https://github.com/DoctorWkt/pdp7-unix"
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG SIMH_COMMIT=aad5351080fa401fab551cd09a369d2a3b85c5b5
+ARG UNIX_BUILD_COMMIT=d75505f478402a932b671eb86e58bdb601b1cf30
+
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends \
+        binutils \
+        build-essential \
+        ca-certificates \
+        curl \
+        git \
+        libedit-dev \
+        libpng-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git init /opt/simh \
+    && git -C /opt/simh remote add origin https://github.com/simh/simh.git \
+    && git -C /opt/simh fetch --depth=1 origin "${SIMH_COMMIT}" \
+    && git -C /opt/simh checkout --detach FETCH_HEAD
+
+# SIMH uses this helper when the host distribution no longer packages PCRE 8.
+# Pin it as well so PCRE 8.45 is built statically and the result is reproducible.
+RUN mkdir -p /opt/simh/BIN/unix-build \
+    && git -C /opt/simh/BIN/unix-build init \
+    && git -C /opt/simh/BIN/unix-build remote add origin https://github.com/simh/unix-build.git \
+    && git -C /opt/simh/BIN/unix-build fetch --depth=1 origin "${UNIX_BUILD_COMMIT}" \
+    && git -C /opt/simh/BIN/unix-build checkout --detach FETCH_HEAD
+
+RUN make -C /opt/simh pdp7 NOVIDEO=1 TESTS=0 BUILD_SEPARATE=0 OPTIMIZE=-O1 \
+    && test -x /opt/simh/BIN/pdp7 \
+    && readelf -h /opt/simh/BIN/pdp7 >/dev/null \
+    && readelf -d /opt/simh/BIN/pdp7 >/tmp/pdp7.dynamic \
+    && ! grep -q 'libpcre\.so' /tmp/pdp7.dynamic \
+    && strings /opt/simh/BIN/pdp7 | grep -qx 'G2IN' \
+    && strings /opt/simh/BIN/pdp7 | grep -qx 'G2OUT' \
+    && printf 'exit\n' >/tmp/smoke.simh \
+    && /opt/simh/BIN/pdp7 /tmp/smoke.simh >/dev/null \
+    && base64 /opt/simh/BIN/pdp7 >/opt/pdp7.b64 \
+    && sha256sum /opt/simh/BIN/pdp7 | cut -d ' ' -f 1 >/opt/pdp7.sha256
+
+FROM scratch AS artifact
+COPY --from=builder /opt/simh/BIN/pdp7 /pdp7

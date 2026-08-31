@@ -1,0 +1,128 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Digest::SHA qw(sha256_hex);
+use File::Basename qw(dirname);
+use File::Spec;
+use File::Temp qw(tempdir);
+use FindBin qw($Bin);
+use Test::More;
+
+my $source = shift // File::Spec->catfile($Bin, '..', 'build', 'image.fs');
+-f $source or plan skip_all => "build an image.fs or pass an image path";
+my $tool = File::Spec->catfile($Bin, 'adduserdir7');
+my $fsck = File::Spec->catfile($Bin, 'fsck7');
+my $tmp = tempdir('adduserdir7.XXXXXX', TMPDIR => 1, CLEANUP => 1);
+
+sub slurp {
+    my ($file) = @_;
+    open(my $f, '<', $file) or die "cannot open $file: $!";
+    binmode($f);
+    local $/;
+    return <$f>;
+}
+sub run_capture {
+    my (@cmd) = @_;
+    open(my $p, '-|', @cmd) or die "cannot run @cmd: $!";
+    local $/;
+    my $out = <$p> // '';
+    close($p);
+    return ($? >> 8, $out);
+}
+sub add_user {
+    my ($in, $out, $name, $uid) = @_;
+    return run_capture($tool, $in, $out, $name, $uid);
+}
+sub check_image {
+    my ($file, $name, $known_warning) = @_;
+    my ($rc, $listing) = run_capture($fsck, $file);
+    is($rc, 0, "$name: fsck7 exits successfully");
+    my $warnings = $listing;
+    $warnings =~ s/$known_warning//g if $known_warning;
+    unlike($warnings, qr/(?:multiply free|being used|re-used|link count 0|unallocated i-node|empty i-node|not a directory)/,
+        "$name: fsck7 reports no consistency warning");
+    return $listing;
+}
+
+sub duplicate_allocated_blocks {
+    my ($file) = @_;
+    my $raw = slurp($file);
+    my $surface = 8000 * 64 * 4;
+    my %seen;
+    my @duplicates;
+    my $word = sub {
+        my ($block, $offset) = @_;
+        return unpack('V', substr($raw, $surface + ($block*64+$offset)*4, 4)) & 0777777;
+    };
+    my $note = sub {
+        my ($block) = @_;
+        push @duplicates, $block if $seen{$block}++;
+    };
+    for my $ino (1..710*5-1) {
+        my $ib = 2 + int($ino/5);
+        my $io = 12 * ($ino%5);
+        my $flags = $word->($ib, $io);
+        next unless $flags & 0400000;
+        for my $n (0..6) {
+            my $p = $word->($ib, $io+1+$n);
+            next unless $p;
+            $note->($p);
+            if ($flags & 0200000) {
+                for my $o (0..63) {
+                    my $data = $word->($p, $o);
+                    $note->($data) if $data;
+                }
+            }
+        }
+    }
+    return @duplicates;
+}
+
+my $before_hash = sha256_hex(slurp($source));
+my $one = File::Spec->catfile($tmp, 'one.fs');
+my ($rc, $out) = add_user($source, $one, 'alice', '20');
+is($rc, 0, 'first addition succeeds');
+like($out, qr/Allocated inode:/, 'allocated inode is printed');
+my $listing = check_image($one, 'first addition');
+like($listing, qr{dd/alice$}m, 'first directory is listed');
+like($listing, qr{dd/alice/dd$}m, 'historical dd link is present');
+like($listing, qr{dd/alice/\.\.$}m, 'historical self-referential .. link is present');
+like($listing, qr{dd/alice/system$}m, 'system link is present');
+
+my $two = File::Spec->catfile($tmp, 'two.fs');
+($rc, $out) = add_user($one, $two, 'bob', '21');
+is($rc, 0, 'successive addition succeeds');
+$listing = check_image($two, 'successive addition');
+like($listing, qr{dd/alice$}m, 'first directory survives');
+like($listing, qr{dd/bob$}m, 'second directory is listed');
+
+my $refused = File::Spec->catfile($tmp, 'refused.fs');
+($rc, $out) = add_user($two, $refused, 'alice', '22');
+isnt($rc, 0, 'duplicate name is refused');
+ok(!-e $refused, 'duplicate refusal creates no output');
+($rc, $out) = add_user($source, $two, 'carol', '22');
+isnt($rc, 0, 'existing output is refused');
+($rc, $out) = add_user($source, $source, 'carol', '22');
+isnt($rc, 0, 'input as output is refused');
+
+# Force many partial/full blocks, cache refills, and direct-to-indirect growth.
+my $previous = $two;
+for my $n (3..55) {
+    my $next = File::Spec->catfile($tmp, "many-$n.fs");
+    ($rc, $out) = add_user($previous, $next, sprintf('u%02d', $n), sprintf('%o', 020+$n));
+    is($rc, 0, "bulk addition $n succeeds") or last;
+    unlink($previous) if $previous ne $two;
+    $previous = $next;
+}
+$listing = check_image($previous, 'large dd directory', qr/^In-use block \d+ is being re-used\n/m);
+like($listing, qr{dd/u55$}m, 'last bulk directory is listed');
+is_deeply([duplicate_allocated_blocks($previous)], [],
+    'independent scan finds no multiply allocated blocks');
+my $raw = slurp($previous);
+my $surface = 8000 * 64 * 4;
+my $inode4_flags_offset = $surface + (2 * 64 + 48) * 4;
+my $flags = unpack('V', substr($raw, $inode4_flags_offset, 4));
+ok($flags & 0200000, 'dd converted to large-file block addressing');
+
+is(sha256_hex(slurp($source)), $before_hash, 'input image remains unchanged');
+done_testing();

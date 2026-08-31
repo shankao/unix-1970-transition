@@ -1,0 +1,289 @@
+#!/usr/bin/env perl
+# Add an original-layout PDP-7 Unix user directory to a copied SIMH image.
+use strict;
+use warnings;
+use Fcntl qw(O_CREAT O_EXCL O_WRONLY);
+use File::Basename qw(dirname basename);
+use File::Spec;
+use Getopt::Long qw(GetOptions);
+use IO::Handle;
+
+use constant NB => 8000;
+use constant WPB => 64;
+use constant BPW => 4;
+use constant SURFACE => NB * WPB * BPW;
+use constant IMAGE_SIZE => 2 * SURFACE;
+use constant FS_BLOCKS => 6400;
+use constant FIRST_DATA => 712;
+use constant FIRST_IBLK => 2;
+use constant N_IBLKS => 710;
+use constant ISZ => 12;
+use constant IPB => 5;
+use constant USED => 0400000;
+use constant LARGE => 0200000;
+use constant DIR => 0000020;
+use constant DIR_MODE => 0400036;
+use constant MASK => 0777777;
+
+sub usage {
+    my ($ok) = @_;
+    my $f = $ok ? *STDOUT : *STDERR;
+    print $f "usage: $0 input-image output-image directory uid-octal\n";
+    print $f "Copy input-image and add an original-layout user directory to dd.\n";
+    exit($ok ? 0 : 1);
+}
+my $help;
+GetOptions('help|h' => \$help) or usage(0);
+usage(1) if $help;
+@ARGV == 4 or usage(0);
+my ($input, $output, $name, $uid_text) = @ARGV;
+$name =~ /\A[\x20-\x7e]{1,8}\z/ or die "directory name must be 1..8 printable ASCII characters\n";
+$uid_text =~ /\A[0-7]+\z/ or die "UID must be octal\n";
+my $uid = oct($uid_text);
+$uid <= MASK or die "UID does not fit in 18 bits\n";
+
+my $in_abs = File::Spec->rel2abs($input);
+my $out_abs = File::Spec->rel2abs($output);
+$in_abs ne $out_abs or die "refusing to overwrite the input image\n";
+my @is = stat($input) or die "cannot stat $input: $!\n";
+-f _ or die "input is not a regular file\n";
+$is[7] == IMAGE_SIZE or die "input size is $is[7], expected " . IMAGE_SIZE . " bytes\n";
+die "refusing to overwrite existing output $output\n" if -e $output || -l $output;
+
+open(my $fh, '<', $input) or die "cannot open $input: $!\n";
+binmode($fh);
+local $/;
+my $image = <$fh>;
+close($fh) or die "cannot close $input: $!\n";
+length($image) == IMAGE_SIZE or die "short read of input image\n";
+
+sub wi { SURFACE + ($_[0] * WPB + $_[1]) * BPW }
+sub getw { unpack('V', substr($image, wi($_[0], $_[1]), BPW)) & MASK }
+sub putw {
+    my ($b, $o, $v) = @_;
+    $b >= 0 && $b < NB && $o >= 0 && $o < WPB or die "word location out of range\n";
+    $v >= 0 && $v <= MASK or die "invalid 18-bit word $v\n";
+    substr($image, wi($b, $o), BPW, pack('V', $v));
+}
+sub iloc { return (FIRST_IBLK + int($_[0] / IPB), ISZ * ($_[0] % IPB)) }
+sub inode {
+    my ($ino) = @_;
+    my ($b, $o) = iloc($ino);
+    return map { getw($b, $o + $_) } 0..11;
+}
+sub set_inode {
+    my ($ino, @i) = @_;
+    @i == 12 or die "internal inode size error\n";
+    my ($b, $o) = iloc($ino);
+    putw($b, $o + $_, $i[$_]) for 0..11;
+}
+sub namewords {
+    my $n = sprintf('%-8s', $_[0]);
+    return map { (ord(substr($n, 2*$_, 1)) << 9) | ord(substr($n, 2*$_+1, 1)) } 0..3;
+}
+sub getname {
+    my ($b, $o) = @_;
+    my $n = join('', map { chr((getw($b,$o+$_)>>9)&0177) . chr(getw($b,$o+$_)&0177) } 1..4);
+    $n =~ s/ +\z//;
+    return $n;
+}
+sub add_dirent {
+    my ($b, $slot, $ino, $n, $uniq) = @_;
+    my $o = $slot * 8;
+    getw($b, $o) == 0 or die "directory slot $slot in block $b is occupied\n";
+    my @nw = namewords($n);
+    putw($b, $o, $ino);
+    putw($b, $o + 1 + $_, $nw[$_]) for 0..3;
+    putw($b, $o + 5, $uniq);
+    putw($b, $o + 6, 0);
+    putw($b, $o + 7, 0);
+}
+sub file_block {
+    my ($ino, $fileblock) = @_;
+    my @i = inode($ino);
+    if (!($i[0] & LARGE)) {
+        return 0 if $fileblock > 6;
+        return $i[1 + $fileblock];
+    }
+    my $which = int($fileblock / 64);
+    return 0 if $which > 6 || !$i[1 + $which];
+    return getw($i[1 + $which], $fileblock % 64);
+}
+
+# Inventory every allocated inode block before trusting free-space metadata.
+my %used;
+for my $ino (1 .. N_IBLKS * IPB - 1) {
+    my @i = inode($ino);
+    next unless $i[0] & USED;
+    for my $p (@i[1..7]) {
+        next unless $p;
+        $p < NB or die "invalid block pointer $p in inode $ino\n";
+        !$used{$p}++ or die "block $p is multiply allocated (inode $ino)\n";
+        if ($i[0] & LARGE) {
+            for my $o (0..63) {
+                my $d = getw($p, $o);
+                next unless $d;
+                $d < NB or die "invalid indirect pointer $d in inode $ino\n";
+                !$used{$d}++ or die "block $d is multiply allocated (inode $ino)\n";
+            }
+        }
+    }
+}
+
+# Validate both the active cache and the complete chained free list.
+my $nf = getw(0, 1);
+$nf <= 10 or die "invalid s.nfblks value $nf\n";
+my %free;
+sub note_free {
+    my ($b, $where) = @_;
+    $b >= FIRST_DATA && $b < FS_BLOCKS or die "invalid free block $b in $where\n";
+    !$used{$b} or die "block $b is both used and free ($where)\n";
+    !$free{$b}++ or die "block $b occurs more than once in free space\n";
+}
+note_free(getw(0, 2 + $_), 'sysdata cache') for 0 .. $nf - 1;
+my $chain = getw(0, 0);
+my %chain_seen;
+while ($chain) {
+    !$chain_seen{$chain}++ or die "cycle in free-list chain at block $chain\n";
+    note_free($chain, 'free-list chain');
+    for my $o (1..9) {
+        my $b = getw($chain, $o);
+        note_free($b, "free-list block $chain") if $b;
+    }
+    $chain = getw($chain, 0);
+}
+
+# Exactly model s4.s alloc, including cache refill from a chain block.
+my @allocations;
+sub alloc_block {
+    if ($nf == 0) {
+        my $head = getw(0, 0);
+        $head or die "out of free blocks\n";
+        putw(0, 0, getw($head, 0));
+        putw(0, 2, $head);
+        putw(0, 2 + $_, getw($head, $_)) for 1..9;
+        $nf = 10;
+    }
+    --$nf;
+    my $b = getw(0, 2 + $nf);
+    $free{$b} && !$used{$b} or die "allocator selected unavailable block $b\n";
+    delete $free{$b};
+    $used{$b} = 1;
+    putw(0, 1, $nf);
+    putw($b, $_, 0) for 0..63;       # alloc() zeroes every returned block
+    push @allocations, $b;
+    return $b;
+}
+
+my @root = inode(4);
+my @system = inode(3);
+($root[0] & (USED|DIR)) == (USED|DIR) or die "inode 4 is not the allocated dd directory\n";
+($system[0] & (USED|DIR)) == (USED|DIR) or die "inode 3 is not the allocated system directory\n";
+$root[10] % 8 == 0 or die "dd size is not a whole number of entries\n";
+my $entries = int($root[10] / 8);
+my $slot;
+for my $di (0 .. $entries - 1) {
+    my $b = file_block(4, int($di/8));
+    $b or die "dd has a missing data block for entry $di\n";
+    my $o = ($di % 8) * 8;
+    my $inum = getw($b, $o);
+    die "directory $name already exists in dd\n" if $inum && getname($b,$o) eq $name;
+    $slot = $di if !defined($slot) && !$inum;
+}
+
+# Match kernel icreat: search from decimal 17 upward for an inode lacking USED.
+my $newino;
+for my $ino (17 .. N_IBLKS * IPB - 1) {
+    my @i = inode($ino);
+    if (!($i[0] & USED)) { $newino = $ino; last }
+}
+defined($newino) or die "no free inode\n";
+for my $dino (1 .. N_IBLKS * IPB - 1) {
+    my @d = inode($dino);
+    next unless ($d[0] & (USED|DIR)) == (USED|DIR);
+    $d[10] % 8 == 0 or die "directory inode $dino has an invalid size\n";
+    for my $di (0 .. int($d[10]/8) - 1) {
+        my $b = file_block($dino, int($di/8));
+        $b or die "directory inode $dino has a missing data block\n";
+        die "free inode $newino is still referenced by directory inode $dino\n"
+            if getw($b, ($di % 8) * 8) == $newino;
+    }
+}
+
+# pget-like allocation for a directory block, including small-to-large conversion.
+sub ensure_file_block {
+    my ($ino, $fileblock) = @_;
+    my @i = inode($ino);
+    my $existing = file_block($ino, $fileblock);
+    return $existing if $existing;
+    if (!($i[0] & LARGE) && $fileblock <= 6) {
+        $i[1 + $fileblock] = alloc_block();
+        set_inode($ino, @i);
+        return $i[1 + $fileblock];
+    }
+    if (!($i[0] & LARGE)) {
+        my $indirect = alloc_block();
+        putw($indirect, $_, $i[1 + $_]) for 0..6;
+        $i[1] = $indirect;
+        $i[$_] = 0 for 2..7;
+        $i[0] |= LARGE;
+        set_inode($ino, @i);
+    }
+    @i = inode($ino);
+    my $which = int($fileblock / 64);
+    $which <= 6 or die "dd directory is too large\n";
+    if (!$i[1 + $which]) {
+        $i[1 + $which] = alloc_block();
+        set_inode($ino, @i);
+    }
+    my $indirect = $i[1 + $which];
+    my $data = getw($indirect, $fileblock % 64);
+    if (!$data) {
+        $data = alloc_block();
+        putw($indirect, $fileblock % 64, $data);
+    }
+    return $data;
+}
+
+$slot = $entries unless defined($slot);
+my $root_data = ensure_file_block(4, int($slot/8));
+my $dir_block = alloc_block();
+@root = inode(4);                 # ensure_file_block may have rewritten it
+my $newuniq = (getw(0, 12) + 1) & MASK;
+putw(0, 12, $newuniq);
+
+if ($slot == $entries) {
+    $root[10] += 8;
+}
+$root[9] = ($root[9] - 1) & MASK;
+set_inode(4, @root);
+$system[9] = ($system[9] - 1) & MASK;
+set_inode(3, @system);
+my @new = (DIR_MODE, $dir_block, (0) x 6, $uid, ((-2) & MASK), 24, $newuniq);
+set_inode($newino, @new);
+add_dirent($root_data, $slot % 8, $newino, $name, $newuniq);
+add_dirent($dir_block, 0, 4, 'dd', $root[11]);
+add_dirent($dir_block, 1, $newino, '..', $newuniq);
+add_dirent($dir_block, 2, 3, 'system', $system[11]);
+
+# Publish atomically: link(2) fails rather than replacing an existing output.
+my $outdir = dirname($out_abs);
+my $tmp = File::Spec->catfile($outdir, '.' . basename($out_abs) . ".tmp.$$" );
+sysopen(my $ofh, $tmp, O_WRONLY|O_CREAT|O_EXCL, 0600) or die "cannot create temporary output $tmp: $!\n";
+binmode($ofh);
+my $done = 0;
+while ($done < length($image)) {
+    my $n = syswrite($ofh, $image, length($image)-$done, $done);
+    defined($n) && $n > 0 or do { unlink($tmp); die "write failed: $!\n" };
+    $done += $n;
+}
+chmod($is[2] & 07777, $tmp) or do { unlink($tmp); die "chmod failed: $!\n" };
+$ofh->sync or do { unlink($tmp); die "fsync failed: $!\n" };
+close($ofh) or do { unlink($tmp); die "close failed: $!\n" };
+link($tmp, $out_abs) or do { unlink($tmp); die "cannot publish $output (it may already exist): $!\n" };
+unlink($tmp) or die "output published, but cannot remove temporary link $tmp: $!\n";
+
+print "Allocated inode: $newino (octal " . sprintf('%o', $newino) . ")\n";
+print "Directory slot: $slot\n";
+print "Allocated blocks: " . join(', ', map { sprintf('%06o', $_) } @allocations) . "\n";
+print "Created $output\n";

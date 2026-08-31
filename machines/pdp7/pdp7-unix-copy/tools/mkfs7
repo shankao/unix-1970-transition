@@ -1,0 +1,717 @@
+#!/usr/bin/env perl
+#
+# mkfs7: Make a PDP-7 filesystem image for SimH
+#
+# (c) 2016 Warren Toomey, GPL3
+#
+use strict;
+use warnings;
+use Data::Dumper;
+use Getopt::Long qw(GetOptions);
+
+Getopt::Long::Configure qw(gnu_getopt);
+
+# Constants
+use constant NUMBLOCKS     => 8000;    # Number of blocks on a surface
+use constant WORDSPERBLK   => 64;      # 64 words per block
+use constant LASTFREEBLOCK => 6399;    # That's what s9.s uses
+use constant NUMINODEBLKS  => 710;     # Number of i-node blocks
+use constant FIRSTINODEBLK => 2;       # First i-node block number
+use constant INODESIZE     => 12;      # Size of an i-node
+use constant INODESPERBLK => int(WORDSPERBLK / INODESIZE);
+use constant DIRENTSIZE => 8;          # Size of an directory entry
+use constant DIRENTSPERBLK => WORDSPERBLK / DIRENTSIZE;
+
+use constant DD_INUM => 2;             # I-number of the dd directory
+use constant MAXINT    => 0777777;     # Biggest unsigned integer
+
+# i-node field offsets
+use constant I_FLAGS  => 0;
+use constant I_DISKPS => 1;
+use constant I_UID    => 8;
+use constant I_NLKS   => 9;
+use constant I_SIZE   => 10;
+use constant I_UNIQ   => 11;
+
+use constant I_NUMBLKS => 7;           # Seven block pointers in i-node
+
+# i-node flag masks
+use constant I_USED       => 0400000;
+use constant I_LARGE      => 0200000;
+use constant I_SPECIAL    => 0000040;
+use constant I_DIRECTORY  => 0000020;
+use constant I_FILE       => 0000000;
+use constant I_OWNERREAD  => 0000010;
+use constant I_OWNERWRITE => 0000004;
+use constant I_WORLDREAD  => 0000002;
+use constant I_WORLDWRITE => 0000001;
+
+use constant I_LINK => 0000001;		# Never used in an i-node: just internal use
+
+# Directory field offsets
+use constant D_INUM     => 0;
+use constant D_NAME     => 1;
+use constant D_UNIQ     => 5;
+use constant D_NUMWORDS => 8;    # Eight words in a direntry
+
+# Globals
+my ($debug,$wantdot,$wantdotdot, $no_dd)=(0,0,0,0);
+my @Block;	# Array of blocks and words in each block
+my @Freelist;	# List of free block numbers
+my $nextinum   = 1;	# i-num 0 is never used
+my @Dirstack;	# Stack of directories. Each value is a ref
+                # to a [ blocknum, offset, inum ] array which
+                # is the next free position in the directory
+my $lastinum   = -1;	# last inum assigned, for link to i-num -1
+
+# Debug printing
+sub dprint {
+    print(@_) if ($debug);
+}
+
+sub dprintf {
+    printf(@_) if ($debug);
+}
+
+# Initialise the free block list
+# s9.s sets up blocks 710 to 6399 as free
+sub init_freelist {
+  foreach my $blk (FIRSTINODEBLK+NUMINODEBLKS-1 .. LASTFREEBLOCK) {
+    push(@Freelist, $blk);
+  }
+}
+
+# Recursively write the free list of blocks to disk.
+# Set up a block with nine free block numbers in it,
+# plus a pointer to the next block in the free list.
+# Return the block number of this block with nine free block numbers
+# or 0 if we did not set up a block.
+# The argument is only used to make the debug output pleasing
+sub write_freelist {
+   no warnings 'recursion';
+   my $i= shift;
+
+   # Get a block to store nine free block numbers
+   # Return if there are no free blocks
+   my $thisblock= shift(@Freelist);
+   return(0) if (!defined($thisblock));
+   dprint("$thisblock ");
+   dprint("\n") if (($i % 14) == 0);
+
+   # Try to grab nine of them and store in this block
+   foreach my $count (1 .. 9) {
+      $Block[$thisblock][$count]= shift(@Freelist) || 0;
+   }
+
+   # Now we need the pointer to the next block in the chain
+   $Block[$thisblock][0]= write_freelist($i+1);
+
+   # and return our own block number
+   return($thisblock);
+}
+
+# Fill block zero, the sysdata block, with whatever it needs.
+# As far as we can tell, all it needs is the pointer to the
+# beginning of the free list.
+sub fill_sysdata {
+  $Block[0][0]= write_freelist(6);
+}
+
+# Given a size in words, allocate and return a set of block numbers
+# for the entity
+sub allocate_blocks {
+    my $numwords = shift;
+    my @blklist;
+
+    my $numblocks = int( ( $numwords + WORDSPERBLK - 1 ) / WORDSPERBLK );
+    foreach my $cnt ( 1 .. $numblocks ) {
+	my $blk= shift(@Freelist);
+  	die("Not enough blocks\n") if (!defined($blk));
+        push( @blklist, $blk );
+    }
+    dprintf(
+        "Allocated blocks for size %d: %d .. %d (%06o .. %06o)\n",
+	$numwords, $blklist[0], $blklist[-1], $blklist[0], $blklist[-1])
+		if ($blklist[0]);
+    return (@blklist);
+}
+
+# Allocate and return either the specified i-node or the next
+# available one if there is no argument
+sub allocate_inode {
+    my $inum = shift;
+    return ( $nextinum++ ) if ( !defined($inum) );
+    if ( $inum < $nextinum ) {
+        print("i-num $inum already allocated, ignoring this\n")
+    } else {
+        $nextinum = $inum + 1;
+    }
+    return ($inum);
+}
+
+# Given a list of block numbers, allocate a set of indirect blocks
+# and install block pointers into the indirect blocks. Return the
+# list of indirect block numbers.
+sub build_indirect_blocks {
+    my @blklist  = @_;
+    my $blkcount = @blklist;
+
+    # Divide the number of data blocks by WORDSPERBLK and round up, so
+    # we know how many indirect blocks to allocate.
+    my $indcount = int( ( $blkcount + WORDSPERBLK - 1 ) / WORDSPERBLK );
+    dprint("Allocating $indcount indirect blks for $blkcount direct blks\n");
+
+    # Get enough indirect blocks
+    my @indlist = allocate_blocks(WORDSPERBLK * $indcount);
+
+    # Now fill in the pointers
+    my $indblock = $indlist[0];
+    my $offset   = 0;
+    foreach my $datablock (@blklist) {
+        # dprint("$indblock $offset -> $datablock\n");
+        $Block[$indblock][ $offset++ ] = $datablock;
+        if ( $offset == WORDSPERBLK ) {
+            $offset = 0;
+            $indblock++;
+        }
+    }
+
+    # Return the indirect block numbers
+    dprint("Built indirect blocks $indlist[0] .. $indlist[-1]\n");
+    return (@indlist);
+}
+
+# Return blocknumber and offset for a specific i-node
+sub get_inode_block_offset {
+    my $inum     = shift;
+    my $blocknum = FIRSTINODEBLK + int( $inum / INODESPERBLK );
+    my $offset   = INODESIZE * ( $inum % INODESPERBLK );
+    dprint("inum $inum => block $blocknum offset $offset\n");
+    return ( $blocknum, $offset );
+}
+
+# Given an i-node number (possibly undef), permission, filetype, uid, size
+# and up to seven direct or indirect block numbers, fill in the given i-node
+# with the data. If the i-node number is undef, allocate an i-node number.
+# Return the i-node number used.
+sub fill_inode {
+    my ( $inum, $perms, $filetype, $uid, $size, @blklist ) = @_;
+    die("Too many blocks\n") if ( @blklist > 7 );
+
+    $uid &= MAXINT;		# truncate negative UID to 18 bits
+
+    # Calculate the block number and word offset for this
+    $inum = allocate_inode() if ( !defined($inum) );
+    my ( $blocknum, $offset ) = get_inode_block_offset($inum);
+
+    # Fill in the easy fields. Link count is negative
+    $Block[$blocknum][ $offset + I_UID ]  = $uid;
+    $Block[$blocknum][ $offset + I_SIZE ] = $size;
+    $Block[$blocknum][ $offset + I_NLKS ] = 0;	
+
+    my $i = $offset;
+    foreach my $datablocknum (@blklist) {
+        $Block[$blocknum][ $i + I_DISKPS ] = $datablocknum;
+	$i++;
+    }
+
+    # Deal with the flags and see if it's a large file
+    my $flags = $perms | $filetype | I_USED;
+    $flags |= I_LARGE if ( $size > WORDSPERBLK * I_NUMBLKS );
+    $Block[$blocknum][ $offset + I_FLAGS ] = $flags;
+
+    dprintf( "Fill inum %d: flags %06o uid %06o size %d (%06o)=> blk %d off %d\n",
+        $inum, $flags, $uid, $size, $size, $blocknum, $offset );
+    return ($inum);
+}
+
+# Increase the file size of an i-node
+sub increment_file_length {
+    my ( $inum, $incr) = @_;
+    my ( $blocknum, $offset ) = get_inode_block_offset($inum);
+    $Block[$blocknum][ $offset + I_SIZE ] += $incr;
+}
+
+# Increase the link count of an i-node
+sub increment_link_count {
+    my $inum = shift;
+    my ( $blocknum, $offset ) = get_inode_block_offset($inum);
+    $Block[$blocknum][ $offset + I_NLKS ] --;
+    $Block[$blocknum][ $offset + I_NLKS ] &= MAXINT;
+}
+
+# Convert an ASCII string into an array of 18-bit word values
+# where two characters are packed into each word. Put NUL in
+# if the string has an odd number of characters. Return the array
+sub ascii2words {
+    my $str = shift;
+    my @words;
+    # Pad the string to eight characters
+    $str = sprintf( "%-8s", substr( $str, 0, 8 ) );
+    for ( my $i = 0 ; $i < length($str) ; $i += 2 ) {
+        my $c1 = substr( $str, $i,     1 ) || "\0";
+        my $c2 = substr( $str, $i + 1, 1 ) || "\0";
+
+        push( @words, ( ord($c1) << 9 ) | ord($c2) );
+    }
+    return (@words);
+}
+
+# Add an extra block to an i-node. NOTE: for now, we don't change the size
+# in the i-node.
+sub add_block_to_inode {
+    my ( $blknum, $inum ) = @_;
+
+    my ( $iblock, $offset ) = get_inode_block_offset($inum);
+
+    foreach my $i ( 1 .. I_NUMBLKS ) {
+        next if ( $Block[$iblock][ $offset + $i ] );    # Skip in-use blocks
+        $Block[$iblock][ $offset + $i ] = $blknum;
+        return;
+    }
+    die("Unable to add extra block to i-node $inum\n");
+    dprint("Added block $blknum to i-node $inum\n");
+}
+
+# Add a name and an i-node number to the current directory in the
+# directory stack.
+sub add_direntry {
+    my ( $name, $inum ) = @_;
+
+    $inum = $lastinum if ($inum == -1);
+
+    # Get the block and offset to the next empty slot in the directory
+    my $dirref = $Dirstack[-1];
+
+    if ( !defined($dirref) ) {
+        dprint("Adding $name inode $inum to current directory\n");
+        dprint("Empty dirstack, we must be building the root dir\n");
+        return;
+    }
+
+    my $blocknum = $dirref->[0];
+    my $offset   = $dirref->[1];
+    dprint("Adding $name inode $inum to curdir inum $dirref->[2]" .
+		" blk $blocknum off $offset\n");
+
+    # Convert the name into four words
+    my @wlist = ascii2words($name);
+
+    # Fill in the directory entry
+    $Block[$blocknum][ $offset + D_INUM ]     = $inum;
+    $Block[$blocknum][ $offset + D_NAME ]     = shift(@wlist);
+    $Block[$blocknum][ $offset + D_NAME + 1 ] = shift(@wlist);
+    $Block[$blocknum][ $offset + D_NAME + 2 ] = shift(@wlist);
+    $Block[$blocknum][ $offset + D_NAME + 3 ] = shift(@wlist);
+
+    # Move up to the next position in the directory.
+    $dirref->[1] += D_NUMWORDS;
+
+    # Update the directory inode's i.size, another 8 words
+    increment_file_length( $dirref->[2], D_NUMWORDS );
+
+    # If we have filled the directory up, allocate another block to it
+    if ( $dirref->[1] == WORDSPERBLK ) {
+        my ($nextblock) = allocate_blocks(WORDSPERBLK);
+	dprint("Extra block $nextblock for this directory\n");
+        $dirref->[0] = $nextblock;
+        $dirref->[1] = 0;
+
+        # And add this new block to the directory's i-node
+        add_block_to_inode( $nextblock, $dirref->[2] );
+    }
+
+    # Finally, increment the link count
+    increment_link_count($inum);
+    $lastinum = $inum;
+}
+
+# Given a name, perms, a user-id and an optional i-node number, make a
+# directory. Link it to the previous directory in the directory stack.
+# Allocate blocks and i-nodes for it. Add a "dd" entry as well.
+sub make_dir {
+    my ( $dirname, $perms, $uid, $inum ) = @_;
+
+    # Get an i-node number or validate the one we got
+    $inum = allocate_inode($inum);
+
+    # Get a block for this directory
+    my ($dirblock) = allocate_blocks(WORDSPERBLK);
+
+    # Add this to the previous directory
+    # and fill the i-node with the details
+    fill_inode( $inum, $perms, I_DIRECTORY, $uid, 0, $dirblock );
+    add_direntry( $dirname, $inum );
+
+    # Make this the top directory on the dirstack
+    dprint("Pushing dir block $dirblock inum $inum to dirstack\n");
+    push( @Dirstack, [ $dirblock, 0, $inum ] );
+
+    # Add a "." entry to this directory if requested
+    if ($wantdot) {
+      add_direntry( ".", $inum );
+      dprint("Added a . entry to ourselves\n");
+    }
+
+    # and a ".." directory to the previous one on the stack
+    if ($wantdotdot && defined($Dirstack[-2])) {
+      add_direntry( "..", $Dirstack[-2]->[2] );
+      dprintf("Added a .. entry to i-num %d\n", $Dirstack[-2]->[2] );
+    }
+
+    # Finally, add a "dd" entry to this directory. We get the
+    # i-num from the first entry in the Dirstack. Sorry for the dbl negative.
+    if (!$no_dd) {
+      add_direntry( "dd", $Dirstack[0]->[2] );
+      dprintf("Added a dd entry to i-num %d\n", $Dirstack[0]->[2] );
+      if (!$wantdotdot && !$wantdot) {	# PLB 2019
+	add_direntry( "..", $inum );
+	dprint("Added a .. entry to ourselves\n");
+      }
+    }
+    dprintf( "Made directory %s perms %06o uid %d in inum %d\n\n",
+        $dirname, $perms, $uid, $inum );
+}
+
+# Read a word from a file in paper tape binary format.
+# Return -1 on EOF
+sub read_word {
+    my $FH = shift;
+
+    # Convert three bytes into one 18-bit word
+    return (-1) if ( read( $FH, my $three, 3 ) != 3 );   # Not enough bytes read
+    my ( $b1, $b2, $b3 ) = unpack( "CCC", $three );
+    return ( ( ( $b1 & 077 ) << 12 ) | ( ( $b2 & 077 ) << 6 ) | ( $b3 & 077 ) );
+}
+
+# Given a filename, read that file in and return an array of
+# words containing that file, or die otherwise
+sub read_file {
+    my $extfile= shift;
+    my @buf;
+
+    # Open the external file
+    open( my $IN, "<", $extfile ) || die("Can't open $extfile: $!\n");
+
+    # Determine if this is ASCII or binary
+    my $isbinary = 0;
+    my $c        = getc($IN);
+    seek( $IN, 0, 0 );
+    $isbinary = 1 if ($c && (( ord($c) & 0300 ) == 0200 ));
+
+    # Read the file into a buffer, converting from ASCII or sixbit encoding
+    while (1) {
+        if ($isbinary) {
+
+            # Convert three bytes into one 18-bit word
+            my $result = read_word($IN);
+            last if ( $result == -1 );
+            push(@buf, $result);
+        } else {
+            # Convert two ASCII characters into one 18-bit word
+            my $c1 = getc($IN);
+            last if ( !defined($c1) );    # No character, leave the loop
+            my $word = ord($c1) << 9;
+            my $c2   = getc($IN);
+            $word |= ord($c2) if ( defined($c2) );
+            push(@buf, $word);
+        }
+    }
+    return(@buf);
+}
+
+# Write a file which is stored in a buffer into the in-memory
+# disk image. Takes the base block number and the buffer of words
+sub write_file {
+    my ($blocknum, @buf)= @_;
+    my $size= @buf;
+    my $offset=0;
+
+    foreach my $i (0 .. $size-1) {
+        $Block[$blocknum][$offset++]= $buf[$i];
+        if ( $offset == WORDSPERBLK ) {
+            $offset = 0;
+            $blocknum++;
+    	    dprint("Filling block $blocknum\n");
+        }
+    }
+}
+
+# Given a filename, perms, user-id and an external file, add a file to the
+# filesystem. Add an entry to this file in the current directory on
+# the dirstack.
+sub add_file {
+    my ( $name, $perms, $uid, $extfile, $inum ) = @_;
+    dprintf( "Adding file %s perms %06o uid %d extfile %s\n",
+        $name, $perms, $uid, $extfile );
+
+    # Read the file into a buffer
+    my @buf= read_file($extfile);
+    my $size= @buf;
+
+    # Allocate enough blocks for the file
+    my @blklist = allocate_blocks($size);
+
+    # Put the contents of the file into the blocks
+    if ($blklist[0]) {
+        dprint("Filling block $blklist[0] with content from $extfile\n");
+        write_file($blklist[0], @buf);
+    }
+
+    # If it's too big, allocate indirect blocks
+    my $large = 0;
+    my @indblocks;
+    if ( @blklist > I_NUMBLKS ) {
+        $large     = 1;
+        @indblocks = build_indirect_blocks(@blklist);
+    }
+
+    # Allocate and fill in the i-node
+    $inum = allocate_inode($inum);
+    if ($large) {
+        fill_inode( $inum, $perms, I_FILE, $uid, $size, @indblocks );
+    } else {
+        fill_inode( $inum, $perms, I_FILE, $uid, $size, @blklist );
+    }
+
+    # and add the entry in the directory
+    add_direntry( $name, $inum );
+    dprint("Done adding file $name as inum $inum\n\n");
+}
+
+# Given a name, perms, uid and i-number
+# add a special file to the filesystem
+sub add_special {
+    my ( $name, $perms, $uid, $inum ) = @_;
+
+    # Allocate and fill in the i-node
+    $inum = allocate_inode($inum);
+    fill_inode( $inum, $perms, I_SPECIAL, $uid, 0 );
+
+    # Add the entry in the directory
+    add_direntry( $name, $inum );
+    dprint("Done adding special file $name inum $inum\n\n");
+}
+
+# Parse the perms word from the proto file.
+# Return filetype and perms as a number.
+sub parse_perms {
+    my $permstring = shift;
+    my ( $filetype, $perms ) = ( I_FILE, 0 );
+
+    die("perms word $permstring is not 5 characters long\n")
+      if ( length($permstring) != 5 );
+
+    $filetype = I_DIRECTORY if ( $permstring =~ m{^d} );
+    $filetype = I_SPECIAL   if ( $permstring =~ m{^i} );
+    $filetype = I_LINK      if ( $permstring =~ m{^l} );
+
+    $perms |= I_OWNERREAD  if ( $permstring =~ m{^.r} );
+    $perms |= I_OWNERWRITE if ( $permstring =~ m{^..w} );
+    $perms |= I_WORLDREAD  if ( $permstring =~ m{^...r} );
+    $perms |= I_WORLDWRITE if ( $permstring =~ m{^....w} );
+    return ( $filetype, $perms );
+}
+
+sub uid {
+    my $uid = shift;
+    return -1 if ($uid eq '-1');
+    return oct($uid);
+}
+
+# Open the named proto file and parse it
+sub parse_proto_file {
+    my $file = shift;
+    open( my $IN, "<", $file ) || die("Can't one $file: $!\n");
+    while (<$IN>) {
+        chomp;
+
+        # Skip comments
+        s{#.*}{};
+
+        # Get the words on the line;
+        my @words = split( /\s+/, $_ );
+
+        # Skip if no words on this line
+        # but lose any empty word
+        next if ( @words == 0 );
+        shift(@words) if ( $words[0] eq '' );
+
+        # If the first word is a $, then pop a directory from the stack
+        if ( $words[0] eq '$' ) {
+            pop(@Dirstack);
+	    dprint("Popping back a directory in the dirstack\n\n");
+            next;
+        }
+
+        # Get the filetype and permissions
+        my ( $type, $perms ) = parse_perms( $words[1] );
+
+        if ( $type eq I_DIRECTORY ) {
+            my ( $name, $permstr, $uid, $inum ) = @words;
+            make_dir( $name, $perms, uid($uid), $inum );
+            next;
+        }
+        if ( $type eq I_FILE ) {
+            my ( $name, $permstr, $uid, $extfile, $inum ) = @words;
+            add_file( $name, $perms, uid($uid), $extfile, $inum );
+            next;
+        }
+        if ( $type eq I_SPECIAL ) {
+            my ( $name, $permstr, $uid, $inum ) = @words;
+            add_special( $name, $perms, uid($uid), $inum );
+            next;
+        }
+        if ( $type eq I_LINK ) {
+            my ( $name, $permstr, $inum ) = @words;
+	    dprint("Adding link in curdir to $name inum $inum\n");
+	    add_direntry( $name, $inum );
+            next;
+	}
+    }
+    close($IN);
+}
+
+# Convert an 18-bit word into two ASCII characters and return them.
+# Don't return NUL characters
+sub word2ascii {
+    my $word   = shift;
+    my $c1     = ( $word >> 9 ) & 0177;
+    my $c2     = $word & 0177;
+    my $result = "";
+    $result .= (($c1 >= 32) && ($c1 <= 126)) ? chr($c1) : ' ';
+    $result .= (($c2 >= 32) && ($c2 <= 126)) ? chr($c2) : ' ';
+    return ($result);
+}
+
+# Convert an 18-bit word into a scalar which has three sixbit
+# values in three bytes. Set the msb in the first byte
+sub word2three {
+    my $val = shift;
+
+    my $b1 = ( ( $val >> 12 ) & 077 ) | 0x80;
+    my $b2 = ( $val >> 6 ) & 077;
+    my $b3 = $val & 077;
+    return ( pack( "CCC", $b1, $b2, $b3 ) );
+}
+
+# Dump the image to the output file
+sub dump_image {
+    my ( $format, $output ) = @_;
+    open( my $OUT, ">", $output ) || die("Can't write to $output: $!\n");
+
+    # list: Octal output with block comments. We don't dump the first 8K blocks
+    if ( $format eq "list" ) {
+        foreach my $blocknum ( 0 .. NUMBLOCKS - 1 ) {
+            printf( $OUT "Block %d (%06o)\n", $blocknum, $blocknum );
+            foreach my $line ( 0 .. 7 ) {
+
+		# Print out the words in octal
+                foreach my $offset ( 0 .. 7 ) {
+                    printf( $OUT "%06o ",
+                        $Block[$blocknum][ 8 * $line + $offset ] || 0
+                    );
+                }
+
+		# Now print out the ASCII characters in the word
+                foreach my $offset ( 0 .. 7 ) {
+                    print( $OUT word2ascii(
+                        $Block[$blocknum][ 8 * $line + $offset ] || 0));
+                }
+                print( $OUT "\n" );
+            }
+            print( $OUT "\n" );
+        }
+    }
+
+    # ptr: Each word into three bytes, a sixbit in each one
+    if ( $format eq "ptr" ) {
+        # Dump 8000 empty blocks first
+        foreach my $blocknum ( 0 .. NUMBLOCKS - 1 ) {
+            foreach my $offset ( 0 .. WORDSPERBLK-1 ) {
+                print( $OUT word2three( 0 ) );
+            }
+        }
+
+	# Now the real blocks
+        foreach my $blocknum ( 0 .. NUMBLOCKS - 1 ) {
+            foreach my $offset ( 0 .. WORDSPERBLK-1 ) {
+                print( $OUT word2three( $Block[$blocknum][$offset] || 0 ) );
+            }
+        }
+    }
+
+    # simh: Each word into four bytes, little endian
+    if ( $format eq "simh" ) {
+        # Dump 8000 empty blocks first
+        foreach my $blocknum ( 0 .. NUMBLOCKS - 1 ) {
+            foreach my $offset ( 0 .. WORDSPERBLK-1 ) {
+                print( $OUT pack( "CCCC", 0,0,0,0));
+            }
+        }
+
+	# Now the real blocks
+        foreach my $blocknum ( 0 .. NUMBLOCKS - 1 ) {
+            foreach my $offset ( 0 .. WORDSPERBLK-1 ) {
+                my $word = $Block[$blocknum][$offset] || 0;
+		# SIMH format packs word in a little-endian 32-bit int
+                my $packedword = pack( "CCCC",
+                    $word & 0xff,
+                    ( $word >> 8 ) & 0xff,
+                    ( $word >> 16 ) & 0xff,
+                    ( $word >> 24 ) & 0xff);
+                print( $OUT $packedword );
+            }
+        }
+    }
+
+    close($OUT);
+}
+
+# Keep this near the GetOptions call to make it easy to add documentation!
+sub usage {
+    die("Usage: $0 [--debug] [--format=list|ptr|simh] [--out file] protofile\n");
+}
+
+### MAIN PROGRAM
+
+my ( $format, $output, $kernelfile, $chartable ) = ( "simh", "image.fs" );
+
+GetOptions(
+    'debug|d'    => \$debug,
+    'dot|1'      => \$wantdot,
+    'dotdot|2'   => \$wantdotdot,
+    'no_dd|3'    => \$no_dd,
+    'format|f=s' => \$format,
+    'output|o=s' => \$output,
+    'kernel|k=s' => \$kernelfile,
+    'chars|c=s'  => \$chartable,
+) or usage();
+
+usage() if ( @ARGV < 1 );
+init_freelist();
+parse_proto_file( $ARGV[0] );
+dprint("Storing free list in blocks ");
+fill_sysdata();
+dprint("\n");
+
+# If we were given a kernel image, write that to track 80
+# which is block number 6400.
+# (maksys.s can write to tracks 80-89)
+my $bootblock = 6400;
+if ($kernelfile) {
+    dprint("Adding kernel $kernelfile to track 80\n");
+    my @buf= read_file($kernelfile);
+    write_file($bootblock, @buf);
+}
+# If we were given a character table, write that
+# so it gets loaded at the 3K mark
+# maksys.s writes the contents of memory at 3K to the boot track!
+if ($chartable) {
+    dprint("Adding character table $chartable to track 80\n");
+    my @buf= read_file($chartable);
+    # XXX truncate to 1K, or at least complain??
+    write_file($bootblock + 3072/WORDSPERBLK, @buf);
+}
+dump_image( $format, $output );
+exit(0);

@@ -1,0 +1,53 @@
+.oh '11/3/70''STAT(I)'
+.ta 18 21 24
+NAME	stat -- get file status
+.sp
+SYNOPSIS	
+.ul
+stat
+name
+.sp
+DESCRIPTION	
+.ul
+stat
+gives several kinds of information about one file.
+.sp
+.nf
+	i-number
+	flags
+	owner
+	links
+	size
+.sp
+flag bits are:
+.nf
+.in 8
+40   special file
+20   directory
+10   read, owner
+04   write, owner
+02   read, non-owner
+01   write, non-owner
+.in 8
+.sp
+All values are printed in octal.
+.in 0
+.sp
+FILES	--
+.sp
+SEE ALSO
+.in 8
+.ul
+list
+shows all files in a directory in the same format as
+.ul
+stat.
+.in 0
+.sp
+DIAGNOSTICS	"name  ?" for any error. "nofiles" if no file
+	name is given.
+.sp
+BUGS	none
+.sp
+OWNER	ken, dmr
+

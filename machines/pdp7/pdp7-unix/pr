@@ -1,0 +1,216 @@
+The B runtime was not in unix-jun72 itself. I found it in Angelo Papenhoff’s reconstructed B environment, under aap/b/unix1_bdir:
+
+obrt1.s — older B startup/runtime
+obilib/ — older B interpreter library
+olibb/ — older B library
+
+Its README explicitly identifies those as older runtime/library variants. Papenhoff’s TUHS announcement says the regular runtimes were restored from s2 tape binaries, with older variants also reconstructed, and that reversed B programs could be rebuilt to exact matches apart from assembler differences.
+
+The strongest match was obrt1.s: it contains the same Init\n diagnostic found inside /bin/su, constructs the B argv area, then transfers control into threaded B code. That established that much of su should be interpreted using the old B runtime rather than as a normal linear PDP-11 assembly program.
+
+Proposed pull request
+
+Title
+
+Document the recovered su password and set-user-ID requirement
+
+File
+
+notes/su.txt
+
+Suggested contents
+
+USING THE RECOVERED /BIN/SU
+===========================
+
+The recovered First Edition /bin/su uses the syntax documented by the
+First Edition manual:
+
+        su password
+
+It does not prompt interactively. The password must be supplied as the
+first command-line argument.
+
+
+PASSWORD
+--------
+
+For the 746-byte /bin/su binary included in this repository, the
+password consists of four control characters:
+
+        octal bytes:    021 022 023 024
+        ASCII names:    DC1 DC2 DC3 DC4
+        keyboard:       CTRL-Q CTRL-R CTRL-S CTRL-T
+
+From a normal-user shell, type:
+
+        su <CTRL-Q><CTRL-R><CTRL-S><CTRL-T><RETURN>
+
+The four control characters are not printed on screen.
+
+With the supplied VT05/telnet setup, they can be entered directly. Some
+other terminal programs may interpret CTRL-Q and CTRL-S as XON/XOFF
+flow-control characters rather than passing them to UNIX.
+
+An incorrect password, or invoking su without the argument, prints:
+
+        Sorry
+
+
+SET-USER-ID MODE
+----------------
+
+Authentication alone is not sufficient. /bin/su must be owned by root
+and have its set-user-ID bit.
+
+The original s2-bits tape inventory records:
+
+        urwr-  0  746  ...  /bin/su
+
+However, a generated unix-jun72 image may contain it as an ordinary
+executable:
+
+        xrwr-  0  746  ...  /bin/su
+
+In that state the password is accepted and su executes another shell,
+but the shell still runs under the original user ID. The prompt remains
+'@' instead of changing to the root '#' prompt.
+
+As root, restore the original mode with:
+
+        chmod 76 /bin/su
+
+The listing should then start with:
+
+        surwr-
+
+After this correction, invoking su with the four control characters
+produces a root shell with the '#' prompt.
+
+
+VERIFICATION
+------------
+
+The following behaviour was confirmed on the unix-jun72 reconstruction:
+
+        su
+                prints "Sorry"
+
+        su with an incorrect argument
+                prints "Sorry"
+
+        su with bytes 021 022 023 024, without set-user-ID mode
+                does not print "Sorry"
+                starts a shell with the ordinary-user '@' prompt
+
+        chmod 76 /bin/su
+        su with bytes 021 022 023 024
+                starts a root shell with the '#' prompt
+
+This distinguishes the password check from the separate set-user-ID
+permission problem.
+
+
+BINARY ANALYSIS
+---------------
+
+The exact repository binary was exported and examined:
+
+        pathname:   /bin/su
+        size:       746 bytes
+        a.out type: 0405
+        SHA-256:
+        c5a3331c357bd5ab9307c848d0e08d7926ba465db08e42d23c1a6b852851f20f
+
+Visible strings include:
+
+        /bin/sh
+        Sorry
+        Init
+        LV out of range
+
+The executable contains a small early B program linked with an old PDP-11
+B runtime. It is therefore not correctly understood as one continuous
+ordinary PDP-11 assembly program: part of it is threaded B code dispatched
+through runtime routines.
+
+The password data decodes to:
+
+        021 022 023 024 000
+
+The final zero is the string terminator.
+
+
+B RUNTIME CONTEXT
+-----------------
+
+The runtime model used for analysis came from Angelo Papenhoff's
+reconstruction of the early UNIX B environment:
+
+        repository: aap/b
+        directory:  unix1_bdir
+        runtime:    obrt1.s
+        library:    obilib/
+        B library:  olibb/
+
+The unix1_bdir README describes obrt1, obilib and olibb as older versions
+of the reconstructed B runtime and libraries.
+
+The obrt1 startup code contains the same "Init" diagnostic found in su.
+It constructs the B argument vector and then jumps into threaded B code,
+which explains the structure of the recovered executable.
+
+Papenhoff reports that the reconstructed B tools and runtimes were
+derived from recovered object files, libraries and binaries from the s2
+tape, and were used to rebuild reverse-engineered B programs with exact
+matches apart from assembler differences.
+
+The original B source code for this particular su has not been recovered.
+The password and behaviour described here come from examination of the
+preserved executable followed by testing on the running reconstruction.
+
+
+OPTIONAL RAW-BYTE LAUNCHER
+--------------------------
+
+If a terminal program consumes CTRL-Q or CTRL-S instead of transmitting
+them, the password can be supplied without passing through terminal input.
+
+Create su0.s:
+
+        sys exec; path; args
+        sys exit
+
+        path: </bin/su\0>
+        pass: 011021;012023;0
+        args: path;pass;0
+
+Assemble and run:
+
+        as su0.s
+        a.out
+
+The two octal words store the four password bytes in PDP-11 little-endian
+order. This launcher is only a fallback; direct keyboard entry works with
+the supplied VT05 setup.
+
+The tape inventory confirms that the preserved /bin/su is 746 bytes and originally had mode urwr-, so documenting or correcting the lost set-user-ID permission is appropriate for the reconstruction repository.
+
+Suggested pull-request description
+This PR documents how to use the recovered First Edition /bin/su.
+
+The preserved binary expects the four control bytes 021, 022, 023 and
+024 as its password argument. These can be entered directly as
+CTRL-Q, CTRL-R, CTRL-S and CTRL-T in the supplied VT05 terminal setup.
+
+The original s2-bits inventory records /bin/su with mode urwr-, but the
+built image I tested contained it without the set-user-ID bit. In that
+state authentication succeeds, but su launches another ordinary-user
+shell. Restoring the historical mode with `chmod 76 /bin/su` makes it
+produce the expected root shell.
+
+The note also records the binary analysis and the relationship to the
+reconstructed early B runtime in aap/b/unix1_bdir.
+
+This PR is documentation-only. A separate build change may be appropriate
+to preserve the original set-user-ID mode automatically.
