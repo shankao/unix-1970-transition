@@ -67,3 +67,44 @@ Arguments occupy frame words 2 onward. Value return replaces saved-R3 word 1
 with the result and leaves R5 at word 2; void `n11` leaves R5 at word 1. This
 is class B inference consistent with class-A frame semantics, Stage 1 output,
 and B/C archaeology, not recovered late-1970 source.
+
+## D0010 — Persistent project PDP-7 and development identity
+
+**Status:** accepted
+
+`machines/pdp7` is the authoritative persistent working host; `../PDP-7` is a
+read-only pre-transition reference. Project work normally uses `shankao` and
+does not change historical accounts or hard-linked authentic files merely to
+bypass permissions. Working copies and generated artifacts remain
+distinguishable from authentic, reconstructed, and restored originals.
+
+## D0011 — Separate assembler, compiler, and tape transport
+
+**Status:** accepted
+
+Stage 4 reconstructs `as11`, a B-written PDP-11 assembler running on the
+PDP-7. Stage 5 separately reconstructs `b11`, which emits a readable PDP-11
+threaded assembly/representation for `as11`. Paper-tape construction and
+loading are Stage 7 transport concerns and belong to neither tool. This lets
+Stage 6 verify compiler and assembler with class-M loading before introducing
+the historically uncertain tape boundary.
+
+## D0012 — Contemporary DEC loader only as a labelled fallback
+
+**Status:** accepted
+
+Physical PDP-7-to-PDP-11 paper-tape transfer is attested, but its exact Bell
+Labs format remains unknown. DEC Absolute Binary/Absolute Loader machinery
+may be selected later as class C if no stronger evidence emerges. Selection
+would establish a contemporary substitute, not evidence that Bell Labs used
+that convention.
+
+## D0013 — Repository endpoint is the December 1970 disk transition
+
+**Status:** accepted
+
+The required completion gate is a reproducible first disk-backed PDP-11 UNIX
+environment consistent with surviving evidence for the December 1970 disk
+arrival. Core-only/RAM-filesystem UNIX and disk migration are explicit
+high-risk stages. Later 1971 development toward First Edition is outside this
+repository's required scope and may be continued separately.

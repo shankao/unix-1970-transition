@@ -2,11 +2,12 @@
 
 ## Scope and provenance
 
-Stage 3 is split because the direct-threaded nucleus has unusually strong
+Stage 3 was split because the direct-threaded nucleus has unusually strong
 technical evidence while the late-1970 control, call, return, and frame
-machinery is less certain. **Stage 3A** reconstructs and executes only the
-strongly evidenced nucleus. **Stage 3B** remains open for the rest of the
-minimal runtime.
+machinery is less certain. **Stage 3A** reconstructed and executed the
+strongly evidenced nucleus; **Stage 3B** then reconstructed and demonstrated
+the remaining control and call machinery. Both gates, and overall Stage 3,
+are complete.
 
 The historical architecture is class **A** evidence: Dennis Ritchie records
 that B reached the 1970 PDP-11 through threaded operator fragments, and Ken
@@ -110,10 +111,10 @@ devices and KE, and unattached PTR. The baseline script also reports
 the immediately displayed actual configuration is RHA disabled and CLK
 enabled. Stage 3A did not alter that baseline to suppress the diagnostics.
 
-Stage 3A proves only this nucleus. General B conditional/transfer operators,
-calls, returns, real frame creation, arguments, and remaining minimal execution
-machinery are Stage 3B. Arithmetic expansion, historical assembler/backend,
-paper tape/loader, and `dc` remain later gates.
+At the Stage 3A checkpoint this proved only the nucleus; the conditional,
+call, return, frame, and argument work was deliberately deferred to Stage 3B
+below. Arithmetic expansion as needed by applications, the historical
+assembler/compiler, paper tape/loader, and `dc` remain later gates.
 
 ## Stage 3B control and call reconstruction
 

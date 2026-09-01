@@ -4,10 +4,15 @@ This repository reconstructs a historically documented 1970 PDP-7 -> PDP-11 tran
 
 ## Before changing code
 
-1. Read `README.md`, `docs/METHOD.md`, `docs/PLAN.md`, and `docs/STATE.md`.
+1. Treat documentation at `HEAD` as authoritative. Read `README.md`,
+   `docs/STATUS.md`, `docs/METHOD.md`, `docs/PLAN.md`, and `docs/STATE.md`.
 2. Identify the current roadmap stage and its gate.
 3. Check whether the requested change relies on a historical assertion. If so, verify/add the source in `docs/SOURCES.md` or `evidence/` before encoding the assertion in code.
 4. Do not import third-party source until licensing/provenance is recorded.
+5. Consume historical findings already recorded in `docs/SOURCES.md`, design
+   documents, and `evidence/` instead of repeating broad research. New broad
+   research is appropriate only for a genuinely unresolved question that
+   affects the current gate.
 
 ## Required distinctions
 
@@ -39,6 +44,10 @@ Never describe B/C/M material as original Bell Labs code.
 - Modern tools may verify output, but the final historical demonstration must make the program bytes on the PDP-7 side and transfer them through the paper-tape path.
 - Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
+- Stage 4 (`as11`) is the next gate. Do not skip to `b11`, tape transport,
+  `dc`, or UNIX because a later stage appears more interesting.
+- Keep `as11`, `b11`, and paper-tape transport as separate architectural
+  layers unless a recorded evidence-backed decision changes that boundary.
 
 ## PDP-7 development account policy
 

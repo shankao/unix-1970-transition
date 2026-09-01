@@ -100,6 +100,7 @@ tool's responsibility.
 | multiplication/division/remainder | software implementation required |
 | multi-bit shifts | loops using one-bit shifts/rotates |
 
-Stage 3 should use this oracle to verify hand-constructed runtime words and
-diagnose extensions/branches. The class-B runtime must not import or call this
-class-M module, and Stage 3 must not silently acquire EIS or KE11 arithmetic.
+Stage 3 used this oracle to verify hand-constructed runtime words and diagnose
+extensions/branches. Later reconstructed tools should continue to use it as an
+independent check. Class-B target code must not import or call this class-M
+module, and no stage may silently acquire EIS or KE11 arithmetic.

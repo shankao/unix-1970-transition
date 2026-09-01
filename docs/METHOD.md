@@ -92,3 +92,23 @@ When a stage fails:
 
 Do not compensate for failure by silently enabling later hardware/software or importing a later implementation.
 
+## Proven reconstruction workflow
+
+Stages 0–3 established a working method for the remaining project:
+
+1. Investigate public and historical evidence before implementation, unless
+   the relevant investigation is already recorded in the repository.
+2. Track historical confidence separately from technical feasibility. Code
+   that works is not thereby authentic.
+3. Build independent test/oracle layers before combining uncertain systems.
+4. Prove one dependency at a time. Compiler, assembler, transport, loader,
+   and runtime remain separate even when the final workflow connects them.
+5. Preserve failures when they reveal a boundary; record the diagnosis and do
+   not let later success erase informative evidence.
+6. Modern instrumentation is acceptable for reconstruction and testing, but
+   it must disappear from the final claimed historical data path. Coordination
+   may remain M only when it does not create or alter the historical artifact.
+7. Prefer a documented contemporary substitute to an invented undocumented
+   mechanism when exact practice is lost, and label that substitute C.
+8. Never promote descendant, binary-derived, or reconstructed code into
+   original-source status merely because its behavior agrees.

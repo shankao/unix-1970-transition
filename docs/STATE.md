@@ -201,3 +201,14 @@ Stage 1 showed that explicit `set ptr ena` and `set ptp ena` commands are
 rejected by this SIMH build; they were removed. PTR and PTP remain present and
 unattached by fresh-process default. See `B-BASELINE.md` and the Stage 1
 evidence tables for the behavioral checkpoint.
+
+## Stage 3 volatile execution note
+
+Stages 3A and 3B loaded reconstructed threaded-B tests through explicit
+class-M SIMH deposits and executed them on fresh repository-configured 24 KB
+PDP-11/20 processes. Those tests changed volatile RAM only; every simulator
+process exited, no machine image or baseline configuration was written, and no
+disk or tape was attached. Canonical transcripts and exact deposit scripts are
+under `evidence/stage3a/` and `evidence/stage3b/`. Their results establish the
+runtime behavior summarized in `STATUS.md`; they do not redefine the frozen
+machine state or make deposits part of the final historical workflow.

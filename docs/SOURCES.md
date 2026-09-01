@@ -14,7 +14,11 @@ Supports, among other points:
 - a PDP-7 B cross-compiler for the PDP-11 existed and was written in B;
 - B moved to the PDP-11 very early;
 - a version of multi-precision `dc` ran on the PDP-11 before the disk arrived;
-- the early diskless/RAM-disk PDP-11 period preceded the usable First Edition system.
+- the early diskless/RAM-disk PDP-11 period preceded the usable First Edition
+  system;
+- the first disk arrived around December 1970, which supports this
+  repository's endpoint without implying later First Edition work was already
+  complete.
 
 ### Dennis M. Ritchie — *The Development of the C Language*
 
@@ -77,7 +81,7 @@ The binary-derived older/V1 `obrt1` reconstruction is corroborating B/C
 reference evidence for the R3/R4/R5 model and the four-instruction `n11`
 frame unwind recorded in `PDP11-B-RUNTIME.md`. Do not use the separately described
 `unix1_bdir/int` design as historical evidence; its author labels that
-interpreted-code design speculative. No `aap/b` code is imported in Stage 3A.
+interpreted-code design speculative. No `aap/b` code was imported in Stage 3.
 
 ## Contemporary DEC documentation
 
