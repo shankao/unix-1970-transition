@@ -14,10 +14,9 @@ not First Edition UNIX.
 
 ## Current stage and gate
 
-**Stage 2 — complete; gate passed.** The class-M oracle deterministically
-encodes and decodes the required base KA11/PDP-11/20 subset and passes the
-independent vectors and bootstrap regression. **Stage 3 is next and has not
-started.** Stages 4–10 also have not started.
+**Stage 3 is in progress: Stage 3A complete and gate passed; Stage 3B is next
+and has not started.** The strongly evidenced direct-threaded nucleus executed
+successfully on the bare PDP-11/20. Stages 4–10 have not started.
 
 ## Completed work
 
@@ -31,13 +30,17 @@ started.** Stages 4–10 also have not started.
 - **Stage 2 — complete at this checkpoint.** `tools/pdp11_oracle.py` and
   `tests/test_pdp11_oracle.py` provide the audited class-M instruction oracle;
   its boundary and use are documented in `PDP11-ORACLE.md`.
+- **Stage 3A — complete at this checkpoint.** Class-B `c`, `x`, `va`, `b12`,
+  and `b1` fragments plus direct R3 dispatch ran in four class-M deposited
+  smoke tests. See `PDP11-B-RUNTIME.md` and `evidence/stage3a/`.
 
 ## Authoritative machines
 
 - `machines/pdp7`: authoritative persistent PDP-7 project host. Preserve its
   `shankao` account, exploratory files, and filesystem image.
 - `machines/pdp11`: checked-in PDP-11 configurations; the target remains an
-  unbooted 11/20 with 24 KB, no disk, and no KE11.
+  11/20 with 24 KB, no disk, and no KE11. Stage 3A runs changed only volatile
+  RAM and each simulator process exited.
 - `../PDP-7`: read-only pre-transition/reference machine; never use it for
   project sessions or modify it.
 - `../PDP-11`: external reference location; do not modify it.
@@ -123,15 +126,43 @@ standalone threaded nucleus. Base-target multiplication, division/remainder,
 and multi-bit shifts require software routines/loops; neither KE11 nor later
 EIS instructions may be assumed. See `PDP11-ORACLE.md`.
 
-Do **not** begin a PDP-11 backend, cross-assembler, loader/tape format, or
-`dc`; do not modify the existing PDP-7 compiler/runtime to support later
-stages. Stage 3 must remain a separately scoped class-B runtime change.
+## Stage 3A result and Stage 3B boundary
+
+Stage 3A implements the documented R3 threaded PC, R4 frame/display pointer,
+R5 expression stack, and `jmp @(r3)+` dispatch. Readable class-B assembly
+closely follows Thompson's January 1972 printed `c`, `x`, `va`, `b12`, and
+`b1` sequences. That authentic manual postdates the late-1970 target, so this
+is conservative reconstruction rather than surviving 1970 source. `aap/b`
+`obrt1` is corroborating B/C reference only; no third-party code was imported.
+
+Four fresh bare-PDP-11 executions passed: constant/add printed `A`; external
+rvalue printed `B`; word-address assignment printed `C` and left
+`003002=000103`; synthetic automatic lvalue printed `D` and left
+`004004=000104`. All halted at PC `001302`. Twenty-two host tests pass and verify
+the fixed streams, oracle decoding, base-KA11-only words, 24 KB bounds,
+bootstrap non-overlap, address scaling, KL11 addresses, and deterministic
+deposits.
+
+The first A attempt halted before SIMH serviced its queued console character.
+It is preserved as failure evidence. The class-B project `emit` service now
+polls TPS again after writing TPB so output completes before immediate HALT;
+the five Thompson-derived operators were unchanged. Startup, `emit`, `stop`,
+fixed placement, deposits, and transcripts are reconstruction/test scaffolding
+(B/M), not documented original fragments or part of the final tape workflow.
+
+Stage 3B remains: general threaded control, calls/returns, real frame creation,
+arguments, and the other machinery required for a minimal representative B
+program. Stage 3 as a whole is not complete.
+
+Do **not** begin Stage 3B in the Stage 3A commit, or begin a PDP-11 backend,
+cross-assembler, loader/tape format, arithmetic expansion, or `dc`. Do not
+modify the existing PDP-7 compiler/runtime to support later stages.
 
 ## Resume here
 
-Begin Stage 3 only in a new, separately scoped change. Use
-`PDP11-ORACLE.md` and the Stage 1 contract in `B-BASELINE.md` to design the
-smallest standalone threaded-B nucleus described in `PLAN.md`; keep it class B
-and keep the oracle class M/outside the historical path. Before any PDP-11
-execution, prepare and review deterministic words and a guarded test plan. Do
-not add KE11/EIS, a backend, cross-assembler, loader/tape format, or `dc`.
+Begin Stage 3B only in a new, separately scoped change. First investigate and
+document the evidence boundary for general control, calls/returns, frame setup,
+and arguments; do not extrapolate them from the proven 3A fragments. Extend the
+smallest deterministic host/deposit tests needed for that gate while keeping
+the oracle and deposits class M. Do not add KE11/EIS, arithmetic expansion, a
+backend, cross-assembler, loader/tape format, or `dc`.

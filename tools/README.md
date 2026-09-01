@@ -9,3 +9,6 @@ These tools exist to verify encodings, inspect tapes, automate reproducibility c
 - `pdp11_oracle.py`: class-M encoder/decoder and byte/branch oracle for the
   project's base KA11/PDP-11/20 instruction subset. See
   `docs/PDP11-ORACLE.md`.
+- `build_stage3a.py`: fixed-layout class-M builder for the four Stage 3A word
+  manifests and explicit SIMH deposit scripts. It is intentionally not a
+  general assembler.

@@ -116,25 +116,37 @@ Use an existing trustworthy assembler/decoder as a temporary oracle, but pin its
 
 ## Stage 3 — Reconstruct a minimal standalone PDP-11 threaded-B nucleus
 
-**Status: NEXT — NOT STARTED**
+**Status: IN PROGRESS — Stage 3A COMPLETE; Stage 3B NEXT**
 
 ### Inputs
 
 Ritchie's description of B threaded execution; authentic PDP-7 interpreter semantics; later binary-derived PDP-11 B runtime archaeology.
 
+### Stage 3A — strongly evidenced execution nucleus
+
+**Status: COMPLETE**
+
+Reconstruct the documented R3/R4/R5 direct-threaded architecture and the
+`c`, `x`, `va`, `b12`, and `b1` fragments. Use fixed class-M deposits to prove
+constant/addition, external rvalue, assignment word-address scaling, automatic
+lvalue scaling, direct console output, and clean halt on the bare target.
+
+**Gate:** four streams emit A/B/C/D; assignment leaves `0103`; synthetic-frame
+automatic leaves `0104`; only base KA11 instructions and volatile deposits are
+used.
+
+### Stage 3B — remaining minimal execution machinery
+
+**Status: NEXT — NOT STARTED**
+
 ### Work
 
 Implement only the operator fragments necessary for first execution:
 
-- threaded dispatch
-- stack setup
-- constants
-- load/store
-- add/subtract
-- branch
+- general threaded control/branch operators
 - call/return
-- direct console output
-- halt/termination
+- real frame setup and argument handling
+- any remaining operators needed by the minimal Stage 3 program
 
 Initially assemble this with modern tooling so target-runtime debugging is isolated from cross-assembler debugging.
 
@@ -142,13 +154,17 @@ Initially assemble this with modern tooling so target-runtime debugging is isola
 
 The exact diskless-1970 PDP-11 runtime is lost. This implementation is class B, informed by class A accounts and later archaeological material.
 
-### Gate
+### Stage 3B gate
 
-A hand-constructed threaded sequence executes on the bare PDP-11 and prints a known character using no operating system.
+A hand-constructed representative stream exercises the reconstructed control,
+call/return, frame, and argument boundary on the bare PDP-11 with verified
+state/output and no operating system.
 
 ### Fallback
 
-Reduce to threaded dispatch + literal + direct console write. Do not move onward until the execution model itself is proven.
+Keep Stage 3B open and reduce the next test to the smallest unresolved control
+or frame boundary. Do not reinterpret the proven Stage 3A nucleus or advance
+to later stages to compensate.
 
 ---
 

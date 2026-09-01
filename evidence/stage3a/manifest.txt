@@ -1,0 +1,184 @@
+Stage 3A deterministic word manifest (M / modern instrumentation)
+All addresses and words are octal PDP-11 byte addresses/16-bit words.
+
+TEST A expected=A start=001000 stream=002000
+001000	012703	instruction	mov #STREAM,r3
+001002	002000	extension	mov #STREAM,r3
+001004	012704	instruction	mov #004000,r4
+001006	004000	extension	mov #004000,r4
+001010	012705	instruction	mov #005000,r5
+001012	005000	extension	mov #005000,r5
+001014	000133	instruction	jmp @(r3)+
+001100	012325	instruction	mov (r3)+,(r5)+
+001102	000133	instruction	jmp @(r3)+
+001120	013325	instruction	mov @(r3)+,(r5)+
+001122	000133	instruction	jmp @(r3)+
+001140	012300	instruction	mov (r3)+,r0
+001142	060400	instruction	add r4,r0
+001144	006200	instruction	asr r0
+001146	010025	instruction	mov r0,(r5)+
+001150	000133	instruction	jmp @(r3)+
+001160	064565	instruction	add -(r5),-2(r5)
+001162	177776	extension	add -(r5),-2(r5)
+001164	000133	instruction	jmp @(r3)+
+001200	014500	instruction	mov -(r5),r0
+001202	014501	instruction	mov -(r5),r1
+001204	006301	instruction	asl r1
+001206	010011	instruction	mov r0,(r1)
+001210	010025	instruction	mov r0,(r5)+
+001212	000133	instruction	jmp @(r3)+
+001240	014500	instruction	mov -(r5),r0
+001242	105737	instruction	tstb @#177564
+001244	177564	extension	tstb @#177564
+001246	100375	instruction	bpl poll
+001250	110037	instruction	movb r0,@#177566
+001252	177566	extension	movb r0,@#177566
+001254	105737	instruction	tstb @#177564 (drain)
+001256	177564	extension	tstb @#177564 (drain)
+001260	100375	instruction	bpl drain
+001262	000133	instruction	jmp @(r3)+
+001300	000000	instruction	halt
+002000	001100	thread/data	threaded stream A
+002002	000100	thread/data	threaded stream A
+002004	001100	thread/data	threaded stream A
+002006	000001	thread/data	threaded stream A
+002010	001160	thread/data	threaded stream A
+002012	001240	thread/data	threaded stream A
+002014	001300	thread/data	threaded stream A
+
+TEST B expected=B start=001000 stream=002040
+001000	012703	instruction	mov #STREAM,r3
+001002	002040	extension	mov #STREAM,r3
+001004	012704	instruction	mov #004000,r4
+001006	004000	extension	mov #004000,r4
+001010	012705	instruction	mov #005000,r5
+001012	005000	extension	mov #005000,r5
+001014	000133	instruction	jmp @(r3)+
+001100	012325	instruction	mov (r3)+,(r5)+
+001102	000133	instruction	jmp @(r3)+
+001120	013325	instruction	mov @(r3)+,(r5)+
+001122	000133	instruction	jmp @(r3)+
+001140	012300	instruction	mov (r3)+,r0
+001142	060400	instruction	add r4,r0
+001144	006200	instruction	asr r0
+001146	010025	instruction	mov r0,(r5)+
+001150	000133	instruction	jmp @(r3)+
+001160	064565	instruction	add -(r5),-2(r5)
+001162	177776	extension	add -(r5),-2(r5)
+001164	000133	instruction	jmp @(r3)+
+001200	014500	instruction	mov -(r5),r0
+001202	014501	instruction	mov -(r5),r1
+001204	006301	instruction	asl r1
+001206	010011	instruction	mov r0,(r1)
+001210	010025	instruction	mov r0,(r5)+
+001212	000133	instruction	jmp @(r3)+
+001240	014500	instruction	mov -(r5),r0
+001242	105737	instruction	tstb @#177564
+001244	177564	extension	tstb @#177564
+001246	100375	instruction	bpl poll
+001250	110037	instruction	movb r0,@#177566
+001252	177566	extension	movb r0,@#177566
+001254	105737	instruction	tstb @#177564 (drain)
+001256	177564	extension	tstb @#177564 (drain)
+001260	100375	instruction	bpl drain
+001262	000133	instruction	jmp @(r3)+
+001300	000000	instruction	halt
+002040	001120	thread/data	threaded stream B
+002042	003000	thread/data	threaded stream B
+002044	001240	thread/data	threaded stream B
+002046	001300	thread/data	threaded stream B
+003000	000102	thread/data	external value B
+
+TEST C expected=C start=001000 stream=002100
+001000	012703	instruction	mov #STREAM,r3
+001002	002100	extension	mov #STREAM,r3
+001004	012704	instruction	mov #004000,r4
+001006	004000	extension	mov #004000,r4
+001010	012705	instruction	mov #005000,r5
+001012	005000	extension	mov #005000,r5
+001014	000133	instruction	jmp @(r3)+
+001100	012325	instruction	mov (r3)+,(r5)+
+001102	000133	instruction	jmp @(r3)+
+001120	013325	instruction	mov @(r3)+,(r5)+
+001122	000133	instruction	jmp @(r3)+
+001140	012300	instruction	mov (r3)+,r0
+001142	060400	instruction	add r4,r0
+001144	006200	instruction	asr r0
+001146	010025	instruction	mov r0,(r5)+
+001150	000133	instruction	jmp @(r3)+
+001160	064565	instruction	add -(r5),-2(r5)
+001162	177776	extension	add -(r5),-2(r5)
+001164	000133	instruction	jmp @(r3)+
+001200	014500	instruction	mov -(r5),r0
+001202	014501	instruction	mov -(r5),r1
+001204	006301	instruction	asl r1
+001206	010011	instruction	mov r0,(r1)
+001210	010025	instruction	mov r0,(r5)+
+001212	000133	instruction	jmp @(r3)+
+001240	014500	instruction	mov -(r5),r0
+001242	105737	instruction	tstb @#177564
+001244	177564	extension	tstb @#177564
+001246	100375	instruction	bpl poll
+001250	110037	instruction	movb r0,@#177566
+001252	177566	extension	movb r0,@#177566
+001254	105737	instruction	tstb @#177564 (drain)
+001256	177564	extension	tstb @#177564 (drain)
+001260	100375	instruction	bpl drain
+001262	000133	instruction	jmp @(r3)+
+001300	000000	instruction	halt
+002100	001100	thread/data	threaded stream C
+002102	001401	thread/data	threaded stream C
+002104	001100	thread/data	threaded stream C
+002106	000103	thread/data	threaded stream C
+002110	001200	thread/data	threaded stream C
+002112	001240	thread/data	threaded stream C
+002114	001300	thread/data	threaded stream C
+003002	000000	thread/data	assignment target
+
+TEST D expected=D start=001000 stream=002140
+001000	012703	instruction	mov #STREAM,r3
+001002	002140	extension	mov #STREAM,r3
+001004	012704	instruction	mov #004000,r4
+001006	004000	extension	mov #004000,r4
+001010	012705	instruction	mov #005000,r5
+001012	005000	extension	mov #005000,r5
+001014	000133	instruction	jmp @(r3)+
+001100	012325	instruction	mov (r3)+,(r5)+
+001102	000133	instruction	jmp @(r3)+
+001120	013325	instruction	mov @(r3)+,(r5)+
+001122	000133	instruction	jmp @(r3)+
+001140	012300	instruction	mov (r3)+,r0
+001142	060400	instruction	add r4,r0
+001144	006200	instruction	asr r0
+001146	010025	instruction	mov r0,(r5)+
+001150	000133	instruction	jmp @(r3)+
+001160	064565	instruction	add -(r5),-2(r5)
+001162	177776	extension	add -(r5),-2(r5)
+001164	000133	instruction	jmp @(r3)+
+001200	014500	instruction	mov -(r5),r0
+001202	014501	instruction	mov -(r5),r1
+001204	006301	instruction	asl r1
+001206	010011	instruction	mov r0,(r1)
+001210	010025	instruction	mov r0,(r5)+
+001212	000133	instruction	jmp @(r3)+
+001240	014500	instruction	mov -(r5),r0
+001242	105737	instruction	tstb @#177564
+001244	177564	extension	tstb @#177564
+001246	100375	instruction	bpl poll
+001250	110037	instruction	movb r0,@#177566
+001252	177566	extension	movb r0,@#177566
+001254	105737	instruction	tstb @#177564 (drain)
+001256	177564	extension	tstb @#177564 (drain)
+001260	100375	instruction	bpl drain
+001262	000133	instruction	jmp @(r3)+
+001300	000000	instruction	halt
+002140	001140	thread/data	threaded stream D
+002142	000004	thread/data	threaded stream D
+002144	001100	thread/data	threaded stream D
+002146	000104	thread/data	threaded stream D
+002150	001200	thread/data	threaded stream D
+002152	001240	thread/data	threaded stream D
+002154	001300	thread/data	threaded stream D
+004000	000000	thread/data	synthetic frame
+004002	000000	thread/data	synthetic frame
+004004	000000	thread/data	synthetic frame

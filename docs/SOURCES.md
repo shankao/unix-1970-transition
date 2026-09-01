@@ -52,6 +52,15 @@ This repository must preserve that distinction if any material is imported.
 
 ## B archaeology/reconstruction
 
+### Ken Thompson — *User's Reference to B* (7 January 1972)
+
+Bell Labs internal memorandum, especially section 12, “Implementation and
+Debugging.” Authentic documentation of the later PDP-11 B direct-threaded
+implementation: R3/R4/R5 roles, frame layout, word/byte address scaling,
+`jmp *(r3)+` dispatch, and printed `va`, `x`, `c`, `b12`, and `b1` fragments.
+It postdates the project's late-1970 target and is not surviving source for the
+original diskless runtime; it constrains the class-B Stage 3A reconstruction.
+
 ### Angelo Papenhoff (`aap/b`)
 
 https://github.com/aap/b
@@ -64,6 +73,10 @@ Supports/references:
 - useful later PDP-11 runtime material for archaeological comparison.
 
 This is not evidence that its exact source layout or runtime equals the lost diskless-1970 implementation.
+The binary-derived older/V1 `obrt1` reconstruction is corroborating B/C
+reference evidence for the R3/R4/R5 model. Do not use the separately described
+`unix1_bdir/int` design as historical evidence; its author labels that
+interpreted-code design speculative. No `aap/b` code is imported in Stage 3A.
 
 ## Contemporary DEC documentation
 

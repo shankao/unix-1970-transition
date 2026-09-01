@@ -44,3 +44,13 @@ Paper-tape transfer is historically attested, but the exact Bell Labs record/loa
 
 Do not add a blanket repository license until we decide how newly written code, documentation, imported PDP-7 material, reconstructed B material, and generated artifacts will be separated. Imported source must retain upstream licensing/provenance.
 
+## D0008 — Split the threaded-B runtime gate into Stage 3A and Stage 3B
+
+**Status:** accepted
+
+Stage 3A is limited to the strongly evidenced R3/R4/R5 direct-threaded nucleus
+and documented `c`, `x`, `va`, `b12`, and `b1` semantics. The reconstruction
+is class B because Thompson's detailed manual is from January 1972 and the
+exact late-1970 source is lost. Control flow, calls, returns, real frame setup,
+arguments, and the remaining minimal execution machinery are a separate Stage
+3B gate; Stage 3A success must not be described as completion of all Stage 3.
