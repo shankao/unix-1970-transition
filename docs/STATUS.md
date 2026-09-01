@@ -14,11 +14,10 @@ not First Edition UNIX.
 
 ## Current stage and gate
 
-**Stage 1 — complete; gate passed.** The repository now contains an observed
-interface specification showing representative B source passing through the
-reconstructed compiler, emitted threaded assembly, surviving runtime, and
-native execution. **Stage 2 is next and has not started.** Stages 3–10 also
-have not started.
+**Stage 2 — complete; gate passed.** The class-M oracle deterministically
+encodes and decodes the required base KA11/PDP-11/20 subset and passes the
+independent vectors and bootstrap regression. **Stage 3 is next and has not
+started.** Stages 4–10 also have not started.
 
 ## Completed work
 
@@ -29,6 +28,9 @@ have not started.
 - **Stage 1 — complete at this checkpoint.** The static audit, designed probe
   corpus, captured emissions, native results, and interface mapping are in
   `B-BASELINE.md` and `evidence/pdp7-b-stage1-results.tsv`.
+- **Stage 2 — complete at this checkpoint.** `tools/pdp11_oracle.py` and
+  `tests/test_pdp11_oracle.py` provide the audited class-M instruction oracle;
+  its boundary and use are documented in `PDP11-ORACLE.md`.
 
 ## Authoritative machines
 
@@ -103,15 +105,33 @@ emissions, outputs, and the resulting interface contract are in
 `B-BASELINE.md` and the Stage 1 evidence directories. The PDP-7 was shut down
 cleanly. The PDP-11 was neither booted nor modified.
 
-Do **not** begin a PDP-11 backend, cross-assembler, loader/tape format,
-PDP-11 runtime, Stage 2 oracle, or `dc`; do not modify or boot the PDP-11; do
-not modify the existing PDP-7 compiler/runtime merely to pass probes.
+## Stage 2 result and Stage 3 boundary
+
+The oracle supports all eight operand modes and PC-special immediate,
+absolute, relative, and relative-deferred forms; required extension words;
+the project KA11 double/single operand, branch, call/return, condition-code,
+and operate subset; signed branch calculation in both directions; and
+little-endian serialization. Thirteen unit tests pass, including all supplied
+fixed vectors, DEC's exact `CMPB @#177560,#301` gold vector, negative rejection
+of later `MUL/DIV/ASH/ASHC/SOB/XOR`, and an address-aware walk of the project
+bootstrap that excludes its final data word.
+
+The oracle is class M only and is not part of the eventual historical path.
+It is deliberately not an assembler, emulator, symbol system, runtime,
+loader, or paper-tape formatter. Stage 3 can use it to verify a class-B
+standalone threaded nucleus. Base-target multiplication, division/remainder,
+and multi-bit shifts require software routines/loops; neither KE11 nor later
+EIS instructions may be assumed. See `PDP11-ORACLE.md`.
+
+Do **not** begin a PDP-11 backend, cross-assembler, loader/tape format, or
+`dc`; do not modify the existing PDP-7 compiler/runtime to support later
+stages. Stage 3 must remain a separately scoped class-B runtime change.
 
 ## Resume here
 
-Begin Stage 2 only in a new, separately scoped change: build the modern
-verification oracle described in `PLAN.md`, using the Stage 1 interface in
-`B-BASELINE.md` as its input contract. First update this checkpoint to mark
-Stage 2 current. Do not infer a PDP-11 backend or historical tape format from
-the probe results, and do not boot or modify the PDP-11 merely to start Stage
-2.
+Begin Stage 3 only in a new, separately scoped change. Use
+`PDP11-ORACLE.md` and the Stage 1 contract in `B-BASELINE.md` to design the
+smallest standalone threaded-B nucleus described in `PLAN.md`; keep it class B
+and keep the oracle class M/outside the historical path. Before any PDP-11
+execution, prepare and review deterministic words and a guarded test plan. Do
+not add KE11/EIS, a backend, cross-assembler, loader/tape format, or `dc`.

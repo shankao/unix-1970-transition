@@ -80,7 +80,7 @@ If the current B reconstruction is too opaque or divergent, isolate a smaller su
 
 ## Stage 2 — Build a modern verification oracle
 
-**Status: NEXT — NOT STARTED**
+**Status: COMPLETE**
 
 ### Inputs
 
@@ -91,9 +91,13 @@ PDP-11 instruction documentation and known test vectors.
 Create host-side tooling that can independently:
 
 - encode/decode the PDP-11 instruction subset we use;
-- inspect threaded-B operator streams;
-- inspect paper-tape records and checksums;
-- compare PDP-7-generated words with expected PDP-11 words.
+- calculate and invert branch displacements;
+- handle instruction extension words and little-endian bytes;
+- compare later PDP-7-generated words with expected PDP-11 words.
+
+Threaded-B stream inspection belongs with the reconstructed runtime boundary;
+paper-tape records/checksums remain gated to Stage 7 and are not silently
+selected here.
 
 ### Evidence boundary
 
@@ -101,7 +105,8 @@ Everything in this stage is class M. It is instrumentation only and must not app
 
 ### Gate
 
-Known instruction and tape-format vectors round-trip reproducibly in automated tests.
+Independent KA11 instruction vectors encode/decode reproducibly, later/EIS
+instructions are rejected, and the documented bootstrap is walked correctly.
 
 ### Fallback
 
@@ -111,7 +116,7 @@ Use an existing trustworthy assembler/decoder as a temporary oracle, but pin its
 
 ## Stage 3 — Reconstruct a minimal standalone PDP-11 threaded-B nucleus
 
-**Status: NOT STARTED**
+**Status: NEXT — NOT STARTED**
 
 ### Inputs
 

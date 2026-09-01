@@ -67,6 +67,22 @@ This is not evidence that its exact source layout or runtime equals the lost dis
 
 ## Contemporary DEC documentation
 
+### DEC — *PDP-11 Handbook*, Second Edition (1970)
+
+Primary authority for the base KA11/PDP-11/20 instruction formats, eight
+addressing modes, PC-special modes, branch displacements, little-endian word
+layout, console device addresses/vectors, and contemporary software-arithmetic
+examples. It constrains the class-M Stage 2 oracle and the Stage 3 instruction
+boundary. Use the exact 1970 second edition from the DEC PDP-11 handbook
+archive; the printed `CMPB @#177560,#301` example is retained as a gold vector.
+
+### DEC — *PDP-11/20 Price List*, 1 November 1970
+
+Primary commercial documentation establishing KE11-A as separately priced
+extended-arithmetic hardware for the PDP-11/20. It supports keeping KE11
+disabled and does not justify accepting the later EIS `MUL`, `DIV`, `ASH`, or
+`ASHC` CPU instructions.
+
 ### PDP-11 Paper Tape Software Programming Handbook
 
 Bitsavers copy:
@@ -92,4 +108,3 @@ When a source becomes important to an implementation decision, add:
 - page/section or quoted claim location;
 - local archived hash if a copy is retained;
 - the decision(s) it constrains.
-
