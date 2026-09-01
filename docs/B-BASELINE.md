@@ -195,6 +195,13 @@ ten valid emissions and their hashes are preserved under
 preserved under `evidence/pdp7-b-stage1/corrupt/`. Exact inode, size, hash, and
 observed-output records are in `evidence/pdp7-b-stage1-results.tsv`.
 
+The initial queued/corrupt attempts were made in `/shankao`; the ten final
+valid captures were compiled, assembled/linked, and executed in `/dmr` after
+ownership/linking restrictions obstructed the intended `shankao` workflow.
+This account choice supplied the existing local runtime/linkage context but
+does not affect the compiler/runtime behavior characterized here. It is a
+workflow caveat, not a reason to rerun or reinterpret the evidence.
+
 ## Observed compiler/runtime interface
 
 The valid probes establish this interface to the surviving interpreter in

@@ -40,6 +40,21 @@ Never describe B/C/M material as original Bell Labs code.
 - Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
 
+## PDP-7 development account policy
+
+- Use `shankao` by default for project development, tests, reconstruction work,
+  and generated artifacts on the persistent PDP-7 host.
+- Do not switch to historical accounts such as `dmr`, `ken`, or others merely
+  to bypass ownership, linking, pathname, or permission restrictions.
+- Where historically reasonable, copy required files into a `shankao`-owned
+  project workspace and leave authentic/recovered originals unchanged.
+- Do not casually edit, change ownership of, or replace hard-linked authentic
+  files, especially shared historical files such as `op.s`.
+- If historical software genuinely depends on another account's identity or
+  environment, document the reason and expected effect before using it.
+- Clearly distinguish authentic historical files, copied working files,
+  reconstructed files, and generated build artifacts.
+
 ## Interaction with the operator
 
 Minimize terminal back-and-forth. Before asking for commands on the historical machines, investigate source/tool behavior and prepare one guarded, meaningful operation where practical.

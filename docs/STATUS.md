@@ -88,6 +88,13 @@ vector/indirection, and library machinery. Four earlier queued console
 transfers were corrupt and are retained separately; they are not compiler
 failures. No compiler/runtime repair was attempted.
 
+Account caveat: the ten final valid Stage 1 compiler, assembler/link, and
+execution captures were performed under `dmr` after ownership/linking
+constraints were encountered while working from `shankao`. They remain valid
+Stage 1 behavioral evidence and do not change its conclusions. Future project
+development on the persistent PDP-7 should normally use `shankao`, copying
+needed working files there without altering authentic shared originals.
+
 Remaining technical limits are explicit: shift behavior is not in the
 demonstrated subset; only `.write` was dynamically exercised among the
 library entries; and the reconstructed host compiler needs GNU89 mode with the
