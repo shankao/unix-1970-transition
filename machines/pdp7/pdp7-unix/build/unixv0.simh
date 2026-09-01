@@ -10,10 +10,9 @@ show cpu
 ; UNIX character translations (CR to NL, ESC to ALTMODE):
 set tti unix
 
-; Paper tape devices are enabled and begin unattached. Attach them only for a
+; Paper tape devices exist and begin unattached in a fresh simulator process.
+; This PDP-7 SIMH build rejects SET PTR/PTP ENABLED; attach them only for a
 ; recorded tape operation.
-set ptr ena
-set ptp ena
 
 ; RB09 fixed head disk:
 set rb ena

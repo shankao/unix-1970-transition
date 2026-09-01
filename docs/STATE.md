@@ -185,3 +185,19 @@ intended starting configurations without chat history. The first actual
 project boots remain guarded verification operations: confirm the displayed
 devices against this record before allowing either CPU to run, and do not
 treat the reconstructed PDP-11 deposits as newly observed evidence.
+
+## Stage 1 PDP-7 milestone
+
+Stage 1 characterization completed on the persistent host and the PDP-7 was
+shut down cleanly. The retained `shankao` state includes valid native B probes,
+emitted threaded assembly, executables, and separately identified failed
+console-transfer artifacts. The filesystem image is 4,096,000 bytes, mode
+0654, SHA-256
+`27799503d6f4a7067b25aeb081c5634c2f6c3bd28749bf6dcd71ff996e309027`.
+
+The startup configuration is 715 bytes, mode 0644, SHA-256
+`5527422e949481ed6f824e6cd82f32c0d27061e44bf1156142da383cccff8eab`.
+Stage 1 showed that explicit `set ptr ena` and `set ptp ena` commands are
+rejected by this SIMH build; they were removed. PTR and PTP remain present and
+unattached by fresh-process default. See `B-BASELINE.md` and the Stage 1
+evidence tables for the behavioral checkpoint.

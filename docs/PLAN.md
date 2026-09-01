@@ -42,7 +42,7 @@ Do not modify either machine until reproducibility is restored.
 
 ## Stage 1 — Characterize the existing PDP-7 B environment
 
-**Status: CURRENT**
+**Status: COMPLETE**
 
 ### Inputs
 
@@ -80,7 +80,7 @@ If the current B reconstruction is too opaque or divergent, isolate a smaller su
 
 ## Stage 2 — Build a modern verification oracle
 
-**Status: NOT STARTED**
+**Status: NEXT — NOT STARTED**
 
 ### Inputs
 

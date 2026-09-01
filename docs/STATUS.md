@@ -14,11 +14,11 @@ not First Edition UNIX.
 
 ## Current stage and gate
 
-**Stage 1 — current:** characterize the existing PDP-7 B environment. The gate
-is a checked-in, observed interface specification showing how representative B
-source passes through the reconstructed PDP-7 compiler, its generated form,
-the surviving PDP-7 interpreter/runtime, and execution. Stages 2–10 have not
-started.
+**Stage 1 — complete; gate passed.** The repository now contains an observed
+interface specification showing representative B source passing through the
+reconstructed compiler, emitted threaded assembly, surviving runtime, and
+native execution. **Stage 2 is next and has not started.** Stages 3–10 also
+have not started.
 
 ## Completed work
 
@@ -26,6 +26,9 @@ started.
   imported the persistent PDP-7 host; `31ba389bae8f0ac9fa6391e0386a15450605f7cc`
   closed the static reproducibility capture. See `STATE.md` and
   `evidence/pdp7-import-manifest.tsv`.
+- **Stage 1 — complete at this checkpoint.** The static audit, designed probe
+  corpus, captured emissions, native results, and interface mapping are in
+  `B-BASELINE.md` and `evidence/pdp7-b-stage1-results.tsv`.
 
 ## Authoritative machines
 
@@ -65,14 +68,33 @@ selected. The exact Bell Labs tape encoding, diskless PDP-11 runtime,
 cross-assembler source, backend conventions, and earliest `dc` remain
 unresolved (D where evidence is insufficient).
 
-## Current unknowns and next gate work
+## Stage 1 result and remaining unknowns
 
-Stage 1 must identify the installed PDP-7 B compiler/runtime components and
-their provenance, invocation, intermediate representation, operator contract,
-and behavior for constants, storage, arithmetic, control flow, calls,
-arguments, vectors, and external/library calls. Static audit and probe design
-must precede the first project boot. Failures or divergent behavior are
-evidence and must be recorded rather than repaired silently.
+Stage 1A is complete. The surviving `bi.s`/`bl.s` scan transcriptions are A;
+their runnable restoration copies contain small changes and are B. The working
+compiler is Robert Swierczek's 2016 reconstructed `b.b`, installed as
+`/system/b`; it is B and its executable matches `build/bin/b` word-for-word.
+The installed invocation is `b source.b output.s`, then
+`as op.s bl.s output.s bi.s`, then `a.out`. A stale host-side readme instead
+says `bc`/`ops.s`; no installed `bc` exists. No `shankao` B source was found;
+its `hello.s` is direct assembly. See `B-BASELINE.md` and the inventory TSV.
+
+Stage 1B's class-M probes cover constants, storage, arithmetic,
+comparisons/branches, loops, zero- and two-argument calls, vectors,
+indirection, and `.write`. Ten synchronized probes passed native end to end:
+`s2`, `b4`, `l5`, `c6`, `g7`, `e9`, `c1`, `a3`, `v8`, and `i8`. Captured
+emissions map these constructs to `consop`, `binop`, `setop`, branch, call,
+vector/indirection, and library machinery. Four earlier queued console
+transfers were corrupt and are retained separately; they are not compiler
+failures. No compiler/runtime repair was attempted.
+
+Remaining technical limits are explicit: shift behavior is not in the
+demonstrated subset; only `.write` was dynamically exercised among the
+library entries; and the reconstructed host compiler needs GNU89 mode with the
+current GCC. These do not block the representative Stage 1 gate. Exact hashes,
+emissions, outputs, and the resulting interface contract are in
+`B-BASELINE.md` and the Stage 1 evidence directories. The PDP-7 was shut down
+cleanly. The PDP-11 was neither booted nor modified.
 
 Do **not** begin a PDP-11 backend, cross-assembler, loader/tape format,
 PDP-11 runtime, Stage 2 oracle, or `dc`; do not modify or boot the PDP-11; do
@@ -80,7 +102,9 @@ not modify the existing PDP-7 compiler/runtime merely to pass probes.
 
 ## Resume here
 
-Start Stage 1A with a read-only inventory of B-related material under
-`machines/pdp7`, compare the active and retained-reference trees by hash, and
-write `docs/B-BASELINE.md` plus `evidence/pdp7-b-inventory.tsv`. Update this
-file with material findings before designing or running probes.
+Begin Stage 2 only in a new, separately scoped change: build the modern
+verification oracle described in `PLAN.md`, using the Stage 1 interface in
+`B-BASELINE.md` as its input contract. First update this checkpoint to mark
+Stage 2 current. Do not infer a PDP-11 backend or historical tape format from
+the probe results, and do not boot or modify the PDP-11 merely to start Stage
+2.

@@ -1,0 +1,35 @@
+class	location	unit	sha256	role	comparison_or_note
+A	machines/pdp7/pdp7-unix/scans/bi.s	4352 bytes	71cd49a8c5f44a434e894b253d34757f87b49cdfcd2d2a1ab1475eee7bf4eb9f	OCR transcription of surviving B interpreter scan	Active and retained-reference copies identical
+A	machines/pdp7/pdp7-unix/scans/bl.s	2327 bytes	c0cb341d30d17bd8354c7804700c16c6d96222b88d4dd0e93dc21a93ac3e021e	OCR transcription of surviving B I/O/startup library scan	Active and retained-reference copies identical
+A	machines/pdp7/pdp7-unix/scans/bc.s	3262 bytes	c9cb1196c3a24501aef20599f9d5be33ebec104e016a1f19ac16e6241bac4b15	OCR transcription of surviving B interpreter diagnostic wrapper	Not installed or built by default; not the current compiler
+A	machines/pdp7/pdp7-unix/scans/ind.b	447 bytes	cb1553dd27312da3cfae6935f391e16569266b5996345ffa4a023ca0746ae132	Surviving B example/filter transcription	Active and retained-reference copies identical
+A	machines/pdp7/pdp7-unix/scans/lcase.b	368 bytes	18b3fb52484645de584e9f083b1148e7c4749e9c553b3a6bc7563150e99e8d58	Surviving B example/filter transcription	Active and retained-reference copies identical
+A	machines/pdp7/pdp7-unix/scans/op.s	1271 bytes	e2663143cf3fe2322fbb5f7fe0b8dfb80f86bff19c4e9472ce8ef0b728a28a7c	Surviving PDP-7 assembler opcode/system-call definitions	Required by native assembly invocation
+B	machines/pdp7/pdp7-unix/src/cmd/bi.s	4393 bytes	151edb3051c70f79939e49571ab166a2e9737b055ac58b1d69af2cbe7aa5f82b	Runnable restoration of surviving B interpreter	Differs from scan at ecla workaround plus blank line; active/reference identical
+B	machines/pdp7/pdp7-unix/src/cmd/bl.s	2168 bytes	4e9ea9f4872333070d413f83225b6d73b426b224ff63d206bf4f399b10e44d3d	Runnable restoration of surviving B I/O/startup library	Line endings normalized and sys save replaced by sys exit; active/reference identical
+A	machines/pdp7/pdp7-unix/src/cmd/bc.s	3262 bytes	c9cb1196c3a24501aef20599f9d5be33ebec104e016a1f19ac16e6241bac4b15	Unmodified surviving interpreter diagnostic wrapper	Exact scan match; omitted from default cmd target and filesystem
+A	machines/pdp7/pdp7-unix/src/cmd/ind.b	447 bytes	cb1553dd27312da3cfae6935f391e16569266b5996345ffa4a023ca0746ae132	Unmodified surviving B program	Exact scan match
+B	machines/pdp7/pdp7-unix/src/cmd/lcase.b	459 bytes	c19443b48c27bbc31ce9b0641d9910020b2af80e2be7209d4c200b007d439e64	Annotated restoration copy of surviving B program	Adds scan/page and omitted-character comments
+A	machines/pdp7/pdp7-unix/src/cmd/op.s	1271 bytes	e2663143cf3fe2322fbb5f7fe0b8dfb80f86bff19c4e9472ce8ef0b728a28a7c	Native assembler definitions used for B output	Exact scan match
+A	machines/pdp7/pdp7-unix/src/cmd/as.s	23195 bytes	01e766a42bf8222d486bdbc3e858b0e2a6d14d301cdd9aef9e23ad9bf783f1e1	Restored native PDP-7 assembler source	Required after B compiler emission; detailed modification audit deferred
+B	machines/pdp7/pdp7-unix/tools/b.c	14689 bytes	628bf5193a26a8c64c68e8f301696076e5823e9998cddb70c60bdf3cb9d09116	Robert Swierczek 2016 host C bootstrap compiler	GPL3; generates PDP-7 B threaded assembly; active/reference identical
+B	machines/pdp7/pdp7-unix/src/other/b.b	13751 bytes	dcdaec6683de5f32b68f11325aecfe41f8cb62bff2f413c090bae19828738329	Robert Swierczek 2016 self-hosting B compiler source	GPL3; installed in /dmr; active/reference identical
+B	machines/pdp7/pdp7-unix/src/other/hello.b	117 bytes	f64135800cc2d270714e52fefd4eba4fd95bfc5d0c542ceb399f2c0274d13790	Reconstruction example B program	Installed in /dmr; active/reference identical
+B	machines/pdp7/pdp7-unix/src/other/ctype.b	152 bytes	553beb8929a48d4fdde495d8af8bdde995a41a5bb5fb2d307c83b7d6c5dec420	Reconstruction B character-table source	Not installed by default
+B	machines/pdp7/pdp7-unix/src/other/string.b	863 bytes	fc43491d3359edeeb993991a21173c770154c6fdd3feaecc5d97d395e83641b3	Reconstruction B string-library source	Not installed by default
+B	machines/pdp7/pdp7-unix/src/other/brt.s	3235 bytes	a081f5a67a613a78b3288d4427a0134f1e4f6bb34cae4484942a296a6c8dc9aa	Extended reconstructed B runtime/library startup	Separate host/a7out experiment; not installed by default
+B	machines/pdp7/pdp7-unix/src/other/brtb.b	995 bytes	b486b4a9eafedf15ed5672188501616942b3534f241a64df4aff101f50f260f0	Extended reconstructed B runtime library	Separate host/a7out experiment; not installed by default
+B	machines/pdp7/pdp7-unix/src/other/test.b	1109 bytes	418d15d8524c5de37340eacfbaddbc3cd179f6d351b90a5f4ca3f97cf70afab0	Extended reconstructed B runtime test	Separate host/a7out experiment; not installed by default
+B	machines/pdp7/pdp7-unix/build/bin/b	10995 bytes	5a49d40f6dfc083f8eb5a2e845a663788c735288b1fd0d3bf39e79ff2d46f5ef	Generated PDP-7 executable of reconstructed self-hosted compiler	Word-for-word match to installed /system/b after decoding PTR encoding
+A	machines/pdp7/pdp7-unix/build/bin/as	3054 bytes	9541f586d49ef26594853dfdd01c48320f0fe1954fb6eecd5f6d8aa745b8e71e	Generated restored native assembler executable	Installed as /system/as
+M	machines/pdp7/pdp7-unix/build/fs/b_readme	176 bytes	effaabf5934d32950f3c7f9e42f09f336b6f74a9fec78187cdb36af82521001e	Restoration build instruction seed	Does not match installed /dmr/b_readme text
+M	machines/pdp7/pdp7-unix/build/Makefile	9748 bytes	7b7217c6d041b64dc3479ec23784499ca2555d712ad9349f6277bf3ca9e160ef	Modern restoration build recipe	Builds b via b.c -> b.b -> bl.s/output/bi.s
+M	machines/pdp7/pdp7-unix/build/proto	3499 bytes	53972f5d9b6233a78491df033eec5a4e066cd9d214cbdc2d533e77a0eeb8c9b0	Modern filesystem construction recipe	Places b and B sources in initial image
+B	image:/system/b	3665 words	fed46d1055b0710e72dd387332ce83f94e255a9d8b17ec6252b0a427180a79a9	Installed reconstructed B compiler executable	SHA-256 over little-endian 32-bit stored 18-bit words; equals decoded build/bin/b words
+B	image:/dmr/bi.s	2197 words	12871d4ca20fa8045d6f1280dfe4f5c4a51b4afa7fc32448d29abc57d2c33de7	Installed runnable B interpreter source	Canonical word hash; decoded text hash equals src/cmd/bi.s
+B	image:/dmr/bl.s	1084 words	4fb09f2ba80cad4201e6687acf745871b6acf0969645c29e74bb84d32119faaf	Installed runnable B I/O/startup source	Canonical word hash; decoded text hash equals src/cmd/bl.s
+B	image:/dmr/b.b	6876 words	40a7a40eff4287917c6f882316c30baa2f39c5d7f4b31e4be62e9dc1ca792833	Installed reconstructed compiler source	Canonical word hash; decoded text hash equals src/other/b.b
+B	image:/dmr/hello.b	59 words	b8a0be6e44dec8436ae499d4ed391eca09c5b03d1eb245bb6f6489e8d4ab50e0	Installed reconstruction example	Canonical word hash; decoded text hash equals src/other/hello.b
+M	image:/dmr/b_readme	55 words	3b2d02bf6460c42aaab422a5bcecf87692689fbe406aa834b4a0a8f5683043df	Installed restoration invocation note	Says b and op.s; differs materially from build/fs seed saying bc and ops.s
+M	image:/shankao/hello.s	56 words	743e7606766cb9cded790e16e340736269ad1225efe703003b1e4a069141988b	Local exploratory PDP-7 assembly source	Handwritten lac/sys program, not B compiler output
+M	image:/shankao/hello	13 words	d26f57fcb10b6f7e29536a783ef7f7126378f7817606019d1f50cd12ec1dc418	Local exploratory PDP-7 executable	Assembled hello.s; not evidence of a B probe
