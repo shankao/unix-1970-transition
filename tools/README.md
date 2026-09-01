@@ -12,3 +12,5 @@ These tools exist to verify encodings, inspect tapes, automate reproducibility c
 - `build_stage3a.py`: fixed-layout class-M builder for the four Stage 3A word
   manifests and explicit SIMH deposit scripts. It is intentionally not a
   general assembler.
+- `build_stage3b.py`: fixed-layout class-M extension for Stage 3B control,
+  call/frame, argument, return, and nested-call deposits; also not an assembler.

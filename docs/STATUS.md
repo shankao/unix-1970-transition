@@ -14,9 +14,10 @@ not First Edition UNIX.
 
 ## Current stage and gate
 
-**Stage 3 is in progress: Stage 3A complete and gate passed; Stage 3B is next
-and has not started.** The strongly evidenced direct-threaded nucleus executed
-successfully on the bare PDP-11/20. Stages 4–10 have not started.
+**Stage 3 complete; both Stage 3A and Stage 3B gates passed.** The reconstructed
+direct-threaded nucleus, control flow, frames, calls, arguments, void/value
+returns, and nesting executed successfully on the bare PDP-11/20. **Stage 4 is
+next and has not started.** Stages 5–10 have not started.
 
 ## Completed work
 
@@ -33,6 +34,9 @@ successfully on the bare PDP-11/20. Stages 4–10 have not started.
 - **Stage 3A — complete at this checkpoint.** Class-B `c`, `x`, `va`, `b12`,
   and `b1` fragments plus direct R3 dispatch ran in four class-M deposited
   smoke tests. See `PDP11-B-RUNTIME.md` and `evidence/stage3a/`.
+- **Stage 3B / overall Stage 3 — complete at this checkpoint.** Control,
+  calls/frames, one/two arguments, void/value returns, and nested frames passed
+  nine additional bare-machine tests. See `evidence/stage3b/`.
 
 ## Authoritative machines
 
@@ -126,7 +130,7 @@ standalone threaded nucleus. Base-target multiplication, division/remainder,
 and multi-bit shifts require software routines/loops; neither KE11 nor later
 EIS instructions may be assumed. See `PDP11-ORACLE.md`.
 
-## Stage 3A result and Stage 3B boundary
+## Stage 3 result
 
 Stage 3A implements the documented R3 threaded PC, R4 frame/display pointer,
 R5 expression stack, and `jmp @(r3)+` dispatch. Readable class-B assembly
@@ -150,19 +154,41 @@ the five Thompson-derived operators were unchanged. Startup, `emit`, `stop`,
 fixed placement, deposits, and transcripts are reconstruction/test scaffolding
 (B/M), not documented original fragments or part of the final tape workflow.
 
-Stage 3B remains: general threaded control, calls/returns, real frame creation,
-arguments, and the other machinery required for a minimal representative B
-program. Stage 3 as a whole is not complete.
+Stage 3B adds class-B `f`, `tra`, `b4`, `mark`, `call`, `set`, automatic
+rvalue `a`, archaeological `n11`, and `retv`. Calls follow the Stage 1 order:
+function value, mark, left-to-right arguments, call. R2 temporarily identifies
+the pending frame while caller R4 remains active for argument evaluation.
+Frames contain old R4, saved R3, then argument/automatic words 2 onward.
+Value return replaces saved-R3 word 1 with the result and advances R5 to word
+2; void `n11` is materially unchanged and leaves R5 at word 1.
 
-Do **not** begin Stage 3B in the Stage 3A commit, or begin a PDP-11 backend,
-cross-assembler, loader/tape format, arithmetic expansion, or `dc`. Do not
-modify the existing PDP-7 compiler/runtime to support later stages.
+Actual results: E/F conditionals printed `E`/`F`; loop G printed `123` and
+left its counter `000064`; synthetic unwind H printed `H`; one-argument I
+printed `A`; two-argument add J printed `B` with slots 2/3 equal to
+`000100`/`000002`; value return K printed `C`; nested L printed `D` with frame
+chain `005006 -> 005000 -> 004000`; real void return M printed `V`. All halted
+cleanly. Unchanged Stage 3A A/B/C/D scripts were rerun and passed. Thirty-one
+host tests cover both stages, oracle decoding, frame/return placement,
+transcripts, bounds, and deterministic deposits.
+
+The detailed Thompson frame/register model is A evidence but postdates the
+target. `n11` is B/C archaeological corroboration. Call entry, value return,
+control fragments, and tests are class B/M reconstruction. No exact 1970 call
+source is claimed. Stage 1 semantics and this convention do not conflict, but
+the precise lost 1970 instruction sequence remains unknown.
+
+One significant Stage 3B failure is retained: initial G stopped after `1`
+because the first reconstructed `b4` destroyed CMP flags with CLR. Branching
+before Boolean construction fixed it without changing evidenced fragments.
+
+Do **not** begin Stage 4 arithmetic, a PDP-11 backend, cross-assembler,
+loader/tape format, or `dc` in the Stage 3B commit. Do not modify the existing
+PDP-7 compiler/runtime to support later stages.
 
 ## Resume here
 
-Begin Stage 3B only in a new, separately scoped change. First investigate and
-document the evidence boundary for general control, calls/returns, frame setup,
-and arguments; do not extrapolate them from the proven 3A fragments. Extend the
-smallest deterministic host/deposit tests needed for that gate while keeping
-the oracle and deposits class M. Do not add KE11/EIS, arithmetic expansion, a
-backend, cross-assembler, loader/tape format, or `dc`.
+Begin Stage 4 only in a new, separately scoped change. Audit the B arithmetic
+contract against the base 11/20 and design software multiply,
+division/remainder, and multi-bit-shift tests without KE11/EIS. Preserve all
+Stage 3 A–M machine transcripts and host regressions. Do not begin the PDP-7
+cross-assembler/backend, loader/tape format, or `dc`.

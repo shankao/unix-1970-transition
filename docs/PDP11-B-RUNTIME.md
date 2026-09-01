@@ -114,3 +114,87 @@ Stage 3A proves only this nucleus. General B conditional/transfer operators,
 calls, returns, real frame creation, arguments, and remaining minimal execution
 machinery are Stage 3B. Arithmetic expansion, historical assembler/backend,
 paper tape/loader, and `dc` remain later gates.
+
+## Stage 3B control and call reconstruction
+
+Stage 3B adds class-B `f` (branch on zero), `tra` (unconditional threaded
+transfer), `b4` (equality), `mark`, `call`, `set`, automatic-rvalue `a`,
+return-without-value `n11`, and return-with-value `retv`. CPU branches inside
+fragments are implementation details; B control targets are byte addresses in
+the threaded stream. `f` consumes its value: zero loads its following target
+into R3, while nonzero skips that target word. `tra` always loads it.
+
+The call entry is reconstruction, not printed Thompson source. It follows the
+Stage 1 compiler order exactly: function value, mark, left-to-right argument
+expressions, call. `mark` removes the function value and reserves a frame at
+the current R5 while leaving R4 unchanged so argument operators still address
+the caller. R2 temporarily holds this pending-frame address. `call` replaces
+the temporary callee word with caller R3, activates R4, and dispatches to the
+callee. R2 is not the B stack and has no persistent frame role.
+
+The active frame is:
+
+| Byte offset / B slot | Meaning |
+| --- | --- |
+| `0` / word 0 | previous R4 |
+| `2` / word 1 | saved caller R3; replaced by a returned value on unwind |
+| `4` / word 2 | first argument/automatic |
+| `6` / word 3 | second argument/automatic |
+| later words | additional arguments/automatics/expressions |
+
+Arguments are stored left-to-right beginning at byte offset 4, agreeing with
+the Stage 1 `pargs.s` use of automatic slots 2 then 3. `set N` moves R5 to
+`R4 + 2*N`; `a offset` loads an automatic rvalue. This hand stream separates
+`a` from the documented `va` lvalue operator rather than changing `va`.
+
+For the canonical calls, caller R5 begins at `005000`; mark makes that the
+callee frame base. After a value return, the result is at `005002` and R5 is
+`005004`; the caller's `emit` consumes it and leaves R5 `005002`. One- and
+two-argument values remain visible at `005004` and `005004`/`005006`
+respectively. These locations are fixed test placement, not historical
+addresses.
+
+Archaeological `n11` is retained materially unchanged:
+
+```text
+mov r4,r5; mov (r5)+,r4; mov (r5),r3; jmp @(r3)+
+```
+
+Thus void return leaves R5 at frame word 1. `retv` first saves the callee's
+top value, performs the same unwind, overwrites saved-R3 word 1 with the value,
+advances R5 to word 2, and dispatches through the recovered R3. This convention
+is inferred from the documented frame, Stage 1 observed return behavior, and
+the local PDP-7 `retrn` fragment; it is not claimed as recovered 1970 source.
+
+### Stage 3B observed tests
+
+The fixed M-class placement keeps streams at `002200`–`002600`, functions at
+`003100`–`003340`, the expression/call frames at `005000` upward, and the
+synthetic return frame at `006000`. It remains inside 24 KB and clear of the
+bootstrap.
+
+| Test | Capability | Bare-machine result |
+| --- | --- | --- |
+| E | nonzero conditional plus threaded transfer | `E`, HALT |
+| F | zero conditional target | `F`, HALT |
+| G | repeated loop, equality, assignment | `123`; counter `000064`; HALT |
+| H | synthetic archaeological `n11` | `H`; R4 `004000`, R5 `006002`; HALT |
+| I | one argument/identity return | `A`; slot 2 `000101`; HALT |
+| J | two arguments and `b12` return | `B`; slots 2/3 `000100`/`000002`; HALT |
+| K | explicit returned value | `C`; caller result slot `000103`; HALT |
+| L | nested outer/inner calls | `D`; two-frame chain observed; HALT |
+| M | real call and void `n11` return | `V`; HALT |
+
+Nested test L leaves outer frame word 0 at `005000 = 004000` and inner frame
+word 0 at `005006 = 005000`. Inner argument slot `005012 = 000001`; the inner
+result at `005010` becomes `000104`, then the outer result appears at caller
+slot `005002`. Both frames unwind to R4 `004000` and R5 `005002` after emit.
+
+The first G run printed only `1`: reconstructed `b4` executed CLR before BNE
+and destroyed CMP flags. The failure transcript is retained; `b4` now branches
+on CMP flags before constructing 0/1. No evidenced operator was changed.
+
+Stage 3A A/B/C/D scripts were rerun unchanged and remain passing. Stage 3B
+does not implement the complete B operator library, multiplication/division,
+general shifts, vectors, a historical assembler/backend, or loading/tape.
+Those remain separately gated.

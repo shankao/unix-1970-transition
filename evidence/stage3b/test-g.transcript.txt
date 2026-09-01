@@ -1,0 +1,167 @@
+Logging to file "/home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/evidence/stage3b/test-g.transcript.txt"
+Logging to file "/home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/evidence/stage3b/test-g.transcript.txt" at Tue Sep  1 16:46:42 2026
+./machines/pdp11/late-summer-1970.simh-7> set cpu 11/20
+%SIM-INFO: Disabling XQ which never existed on a Unibus system
+%SIM-INFO: RQ: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQB: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQC: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQD: RQDX3 controller not valid on a Unibus system, changing to UDA50
+./machines/pdp11/late-summer-1970.simh-12> set rha disa
+Command not allowed
+./machines/pdp11/late-summer-1970.simh-13> set clk ena
+Command not allowed
+CPU     11/20, autoconfiguration enabled, idle disabled
+        24KB
+PDP-11 simulator configuration
+
+CPU     11/20, autoconfiguration enabled, idle disabled
+SYSTEM  PDP-11 model options
+RHA     disabled
+RHB     disabled
+RHC     disabled
+RHD     disabled
+CLK     60Hz, address=17777546-17777547, vector=100, BR6
+PCLK    disabled
+PTR     address=17777550-17777553, vector=70, BR4
+PTP     disabled
+TTI     7p, address=17777560-17777563, vector=60, BR4
+TTO     7p, address=17777564-17777567, vector=64, BR4
+TDC     disabled
+CR      disabled
+LPT     disabled
+DLI     disabled
+DLO     disabled
+DLCJI   disabled
+DLCJO   disabled
+DCI     disabled
+DCO     disabled
+DZ      disabled
+VH      disabled
+DH      disabled
+RC      disabled
+RF      disabled
+RK      disabled
+RL      disabled
+HK      disabled
+RX      disabled
+RY      disabled
+RP      disabled
+RPB     disabled
+RR      disabled
+RS      disabled
+RQ      disabled
+RQB     disabled
+RQC     disabled
+RQD     disabled
+TC      disabled
+TM      disabled
+TS      disabled
+TQ      disabled
+TU      disabled
+TA      disabled
+XQ      disabled
+XQB     disabled
+XU      disabled
+XUB     disabled
+KG      disabled
+DMC     disabled
+DUP     disabled
+DPV     disabled
+KDP     disabled
+KE      disabled
+ROM     disabled
+CH      disabled
+MB      disabled
+PTR     address=17777550-17777553, vector=70, BR4
+        not attached
+57744:	016701
+57746:	000026
+57750:	012702
+57752:	000352
+57754:	005211
+57756:	105711
+57760:	100376
+57762:	116162
+57764:	000002
+57766:	057400
+57770:	005267
+57772:	177756
+57774:	000765
+57776:	177550
+STAGE3B-G START=001000 EXPECT=123
+123
+HALT instruction, PC: 001302 (HALT)
+
+STAGE3B-G HALTED
+PC:	001302
+R2:	000000
+R3:	002342
+R4:	004000
+R5:	005000
+3000:	000064
+CPU     11/20, autoconfiguration enabled, idle disabled
+        24KB
+PDP-11 simulator configuration
+
+CPU     11/20, autoconfiguration enabled, idle disabled
+SYSTEM  PDP-11 model options
+RHA     disabled
+RHB     disabled
+RHC     disabled
+RHD     disabled
+CLK     60Hz, address=17777546-17777547, vector=100, BR6
+PCLK    disabled
+PTR     address=17777550-17777553, vector=70, BR4
+PTP     disabled
+TTI     7p, address=17777560-17777563, vector=60, BR4
+TTO     7p, address=17777564-17777567, vector=64, BR4
+TDC     disabled
+CR      disabled
+LPT     disabled
+DLI     disabled
+DLO     disabled
+DLCJI   disabled
+DLCJO   disabled
+DCI     disabled
+DCO     disabled
+DZ      disabled
+VH      disabled
+DH      disabled
+RC      disabled
+RF      disabled
+RK      disabled
+RL      disabled
+HK      disabled
+RX      disabled
+RY      disabled
+RP      disabled
+RPB     disabled
+RR      disabled
+RS      disabled
+RQ      disabled
+RQB     disabled
+RQC     disabled
+RQD     disabled
+TC      disabled
+TM      disabled
+TS      disabled
+TQ      disabled
+TU      disabled
+TA      disabled
+XQ      disabled
+XQB     disabled
+XU      disabled
+XUB     disabled
+KG      disabled
+DMC     disabled
+DUP     disabled
+DPV     disabled
+KDP     disabled
+KE      disabled
+ROM     disabled
+CH      disabled
+MB      disabled
+PTR     address=17777550-17777553, vector=70, BR4
+        not attached
+Goodbye
+Log file closed

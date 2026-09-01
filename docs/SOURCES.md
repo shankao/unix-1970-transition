@@ -74,7 +74,8 @@ Supports/references:
 
 This is not evidence that its exact source layout or runtime equals the lost diskless-1970 implementation.
 The binary-derived older/V1 `obrt1` reconstruction is corroborating B/C
-reference evidence for the R3/R4/R5 model. Do not use the separately described
+reference evidence for the R3/R4/R5 model and the four-instruction `n11`
+frame unwind recorded in `PDP11-B-RUNTIME.md`. Do not use the separately described
 `unix1_bdir/int` design as historical evidence; its author labels that
 interpreted-code design speculative. No `aap/b` code is imported in Stage 3A.
 

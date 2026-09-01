@@ -19,3 +19,7 @@ python3 -m unittest discover -v
 
 Do not extend this Stage 3A source with control flow, calls, returns, or frame
 creation; those are explicitly gated to Stage 3B.
+
+Stage 3B is kept separately readable in `control-call.s`; its call entry and
+value-return sequences are class-B inference, while its `n11` body closely
+retains the cited archaeological reconstruction.

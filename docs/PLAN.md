@@ -116,7 +116,7 @@ Use an existing trustworthy assembler/decoder as a temporary oracle, but pin its
 
 ## Stage 3 — Reconstruct a minimal standalone PDP-11 threaded-B nucleus
 
-**Status: IN PROGRESS — Stage 3A COMPLETE; Stage 3B NEXT**
+**Status: COMPLETE — Stage 3A COMPLETE; Stage 3B COMPLETE**
 
 ### Inputs
 
@@ -137,7 +137,7 @@ used.
 
 ### Stage 3B — remaining minimal execution machinery
 
-**Status: NEXT — NOT STARTED**
+**Status: COMPLETE**
 
 ### Work
 
@@ -170,7 +170,7 @@ to later stages to compensate.
 
 ## Stage 4 — Audit PDP-11/20 arithmetic
 
-**Status: NOT STARTED**
+**Status: NEXT — NOT STARTED**
 
 ### Inputs
 

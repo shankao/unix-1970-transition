@@ -12,3 +12,5 @@ End-to-end tests should preserve provenance and identify any modern instrumentat
 
 `test_stage3a.py` verifies the fixed class-M build products and the captured
 bare-machine transcripts for the class-B threaded nucleus.
+`test_stage3b.py` verifies control targets, frame/call layout, argument and
+return placement, nesting, generated deposits, and the Stage 3B transcripts.

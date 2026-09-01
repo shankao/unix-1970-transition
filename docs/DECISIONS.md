@@ -54,3 +54,16 @@ is class B because Thompson's detailed manual is from January 1972 and the
 exact late-1970 source is lost. Control flow, calls, returns, real frame setup,
 arguments, and the remaining minimal execution machinery are a separate Stage
 3B gate; Stage 3A success must not be described as completion of all Stage 3.
+
+## D0009 — Stage 3B pending-frame and return-value convention
+
+**Status:** accepted
+
+Reconstructed argument-bearing calls follow the observed Stage 1 ordering:
+function value, mark, left-to-right arguments, call. `mark` reserves
+`[old R4, callee]` at R5 and records the pending frame in temporary R2 without
+changing R4; `call` replaces the callee word with saved R3 and activates R4.
+Arguments occupy frame words 2 onward. Value return replaces saved-R3 word 1
+with the result and leaves R5 at word 2; void `n11` leaves R5 at word 1. This
+is class B inference consistent with class-A frame semantics, Stage 1 output,
+and B/C archaeology, not recovered late-1970 source.
