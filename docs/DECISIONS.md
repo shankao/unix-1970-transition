@@ -126,8 +126,18 @@ resource limits, and target execution rather than debugging them together.
 
 Normal project development and tests run directly on `machines/pdp7` as
 `shankao`; its filesystem is expected to evolve. Git supplies recovery, an
-uncommitted dirty image is acceptable during active work, and image revisions
-are committed only at meaningful machine milestones. Legitimate changes are
-not reverted to preserve an old hash. Disposable image copies are reserved for
-experiments with a specific destructive or high-risk reason, not routine
-runner architecture.
+uncommitted dirty image is acceptable during active work, and each successfully
+completed PDP-7 development substage normally commits an image checkpoint with
+useful native artifacts retained. Legitimate changes are not reverted to
+preserve an old hash. Disposable image copies are reserved for experiments with
+a specific destructive or high-risk reason, not routine runner architecture.
+
+## D0016 — Preserve native computation despite PDP-7 execution cost
+
+**Status:** accepted
+
+Native text transfer where required, B compilation, assembly/linking, program
+execution, and filesystem operations remain on the PDP-7 even when slow. Class-M
+tools may supervise and optimize orchestration but must not replace historical
+computation solely for convenience. Discovery uses a persistent interactive
+SIMH session; automation follows a demonstrated native procedure.

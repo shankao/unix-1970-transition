@@ -1,0 +1,25 @@
+Stage 4A authoritative PDP-7 machine checkpoint
+Date: 2026-09-03
+
+Image: machines/pdp7/pdp7-unix/build/image-shankao.fs
+Size: 4096000 bytes
+SHA-256: ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0
+
+Integrity validation:
+  machines/pdp7/pdp7-unix/tools/fsck7 <image>
+  exit status: 0
+  consistency warnings: none
+
+Stage 4A artifacts retained in dd/shankao (fsck7 reports sizes in PDP-7 words):
+  s4op.s       636   shankao working copy of runtime operator source
+  s4bl.s      1084   shankao working copy of B library source
+  s4bi.s      2197   shankao working copy of B initialization source
+  io.b         502   Stage 4A B probe source
+  rewind.s     236   reconstructed B-callable rewind helper
+  input        189   deterministic 378-character input
+  io.s         751   B compiler output
+  a.out        860   linked native executable
+  result       236   successful 472-character result
+
+No Stage 4A artifact was removed for being an intermediate build product.
+The shared authentic op.s/bl.s/bi.s sources were not edited or chowned.

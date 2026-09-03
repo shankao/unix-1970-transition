@@ -76,6 +76,13 @@ Completion commits verified in Git:
   all five required six-digit octal values exactly. See
   [`PDP7-AS11.md`](PDP7-AS11.md) and `evidence/stage4a/`.
 
+The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
+`fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
+bytes with SHA-256
+`ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0`.
+The native `shankao` directory retains the working runtime copies, `io.b`,
+`rewind.s`, 378-character input, generated `io.s`, linked `a.out`, and result.
+
 The active reconstructed frame convention is word 0 previous R4, word 1
 saved caller R3 (or returned value after `retv`), and word 2 onward arguments,
 automatics, and expression space. Only base KA11 instructions were used. No
@@ -86,8 +93,8 @@ deposits and capture harnesses are class M and are not the final workflow.
 
 - `machines/pdp7`: persistent PDP-7 project host. Preserve its `shankao`
   account, exploratory files, hard-linked authentic files, and filesystem
-  image. It is an evolving host used directly for normal development; a dirty
-  image is acceptable between meaningful, documented image commits.
+  image. It is an evolving host used directly for normal development; each
+  passing PDP-7 development substage normally commits its image checkpoint.
 - `machines/pdp11`: checked-in target configuration, PDP-11/20, 24 KB, no
   disk and no KE11. Stage 3 executions affected volatile RAM only and exited.
 - `../PDP-7`: read-only pre-transition/reference machine; never use it for

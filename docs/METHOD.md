@@ -112,3 +112,18 @@ Stages 0–3 established a working method for the remaining project:
    mechanism when exact practice is lost, and label that substitute C.
 8. Never promote descendant, binary-derived, or reconstructed code into
    original-source status merely because its behavior agrees.
+
+## Historical-machine development record
+
+`machines/pdp7` is the authoritative evolving host and normal work runs there
+directly. A successful PDP-7 development substage normally checkpoints its
+filesystem image, hash, and useful native artifacts in Git; in-progress image
+changes are expected. Preserve meaningful sources, compiler/assembler output,
+executables, inputs, and results rather than cleaning them merely because a
+modern workflow calls them intermediate.
+
+Native PDP-7 execution may be slow. That is not grounds to replace historical
+computation with Python or another host tool. Optimize class-M orchestration:
+keep persistent interactive SIMH sessions during discovery, reuse proven
+flow-controlled transfer methods, avoid redundant work, and automate only once
+the native procedure is understood.

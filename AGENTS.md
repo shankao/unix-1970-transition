@@ -39,10 +39,12 @@ Never describe B/C/M material as original Bell Labs code.
   directly and may modify its filesystem. Inspect Git status and image hashes
   around meaningful work. Git is the recovery mechanism; do not revert
   legitimate project state merely to keep the image byte-identical.
-- Do not commit a new PDP-7 filesystem image after every emulator session.
-  Commit image versions only at meaningful, documented project milestones.
-  A dirty image during active development is acceptable. Use a disposable copy
-  only for a specifically identified destructive or high-risk experiment.
+- A dirty PDP-7 image is acceptable while a substage is in progress. Each
+  successfully completed PDP-7 development substage/gate normally checkpoints
+  the authoritative filesystem image in Git, together with its hash and useful
+  native sources, build products, inputs, and results. Remove only clearly
+  accidental debris. Use a disposable copy only for a specifically identified
+  destructive or high-risk experiment.
 - Prefer a small verified implementation over a broad speculative one.
 - Add automated regression vectors for reconstructed instruction encoders, runtime operators, tape formats, and compiler output.
 - Isolate failures at boundaries; do not compensate by silently adding later hardware/software.
@@ -80,6 +82,11 @@ shell, filesystem, stdio, or process semantics. Reuse established session and
 flow-controlled transfer methods. Add host automation only after the native
 procedure is understood. Such automation remains class M instrumentation and
 is never a semantic substitute for PDP-7 UNIX.
+
+Native PDP-7 work being slow is acceptable and sometimes informative. Improve
+orchestration—persistent sessions, avoiding redundant transfers, and automating
+known procedures—but do not move compilation, assembly, execution, or required
+filesystem work to a modern host solely for speed.
 
 ## Commits
 

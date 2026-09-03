@@ -62,6 +62,8 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 - **Provenance:** assembler B; oracle and host harness M.
 
 Parent Stage 4 is complete only when all five dependency gates below pass.
+Each passing PDP-7 substage checkpoints the authoritative filesystem image and
+useful native artifacts unless that gate explicitly made no PDP-7 state change.
 
 #### Stage 4A — PDP-7 B I/O substrate
 

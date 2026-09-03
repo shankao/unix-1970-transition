@@ -79,8 +79,9 @@ The final run changed `image-shankao.fs` from SHA-256
 to `ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0`
 by replacing Stage-4A-owned sources, generated `io.s`/`a.out`, input, and
 result in `shankao`. Earlier discovery/failure sessions also evolved the image;
-no legitimate state was restored to retain an old hash. The image is left
-uncommitted pending a meaningful later machine milestone.
+no legitimate state was restored to retain an old hash. The Stage 4A follow-up
+checkpoint committed this authoritative image after `fsck7` completed without
+a consistency warning.
 
 The runner and session capture are class **M**. They automate observed PDP-7
 behavior; they do not implement rewind semantics on the host.

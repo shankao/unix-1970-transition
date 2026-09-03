@@ -87,10 +87,11 @@ The table and full manifest describe the immutable initial import in commit
 changes, such as making PTR/PTP enablement explicit, are ordinary reviewed Git
 changes and do not rewrite the import manifest.
 
-Filesystem images are expensive binary snapshots. A new image version is
-committed only at a meaningful project milestone, with its hash and reason
-recorded here or in a stage-specific evidence note. Routine PDP-7 sessions do
-not each produce a committed image revision.
+Filesystem images are expensive binary snapshots, but the evolving machine is
+part of the reconstruction record. In-progress sessions may leave the image
+dirty; each successfully completed PDP-7 development substage normally commits
+the authoritative image with its hash and useful native artifacts. Failed or
+routine exploratory sessions do not independently require checkpoints.
 
 Important preservation rule: the PDP-7 machine is not disposable setup machinery. It is part of the experiment and must remain reproducible.
 
@@ -106,8 +107,9 @@ changed `build/image-shankao.fs` from SHA-256
 `ee3b12de0b1d6ac304237bcbb2424759eb06870ff72b5cdae56c6032248b9c07` to
 `ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0`
 through intentional Stage-4A source, build, input, and result files. No
-legitimate changes were restored. This active image remains uncommitted until
-a later meaningful machine milestone; details are in `evidence/stage4a/`.
+legitimate changes were restored. The Stage 4A follow-up checkpoint committed
+that image; read-only `fsck7` reported no consistency warning. Details are in
+`evidence/stage4a/`.
 
 ## PDP-11/20
 
