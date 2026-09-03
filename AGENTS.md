@@ -88,6 +88,12 @@ orchestration—persistent sessions, avoiding redundant transfers, and automatin
 known procedures—but do not move compilation, assembly, execution, or required
 filesystem work to a modern host solely for speed.
 
+Stage 4A observed that the configured terminal/editor transfer path lowercased
+alphabetic characters. This is not evidence that PDP-7 filenames, B, or its
+scanner are lowercase-only. Preserve exact case in tests and comparisons, use
+established lowercase historical names rather than invented uppercase variants,
+and verify the transfer path before relying on case-sensitive Stage 4 input.
+
 ## Commits
 
 Keep commits stage-scoped. Suggested prefixes:
