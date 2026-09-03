@@ -1,0 +1,189 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+CPU     idle disabled
+        8KW, EAE
+./unixv0.simh-19> att rb image-shankao.fs
+%SIM-INFO: RB: buffering file in memory
+./unixv0.simh-23> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+PDP-7 simulator configuration
+
+CPU     idle disabled
+CLK     60Hz, devno=00
+PTR     devno=01
+PTP     devno=02
+TTI     devno=03
+TTO     devno=04
+LPT     disabled
+DRM     disabled
+RB      devno=71
+DT      disabled
+G2OUT   devno=05
+G2IN    devno=43-44
+
+login: shankao
+password: shankao
+@ rm io.b
+@ rm io.s
+@ rm rewind.s
+@ rm input
+@ rm result
+@ rm a.out
+@ stat s4op.s
+227 17 16 01 01174
+@ stat s4bl.s
+230 17 16 01 02074
+@ stat s4bi.s
+231 17 16 01 04225
+@ ed
+edit
+a
+/* Stage 4A: PDP-7 B buffered-input restart and textual-octal probe. */
+
+copy(n) $(
+  extrn read, write;
+  auto i;
+  i = 0;
+  while (i < n) $(
+    write(read());
+    i = i + 1;
+  $)
+$)
+
+putoct6(v) $(
+  extrn write;
+  auto i, d;
+  d = 0100000;
+  i = 0;
+  while (i < 6) $(
+    write((v / d) % 8 + '0');
+    d = d / 8;
+    i = i + 1;
+  $)
+  write('*n');
+$)
+
+main $(
+  extrn read, write, flush, rewind;
+  auto ch, n;
+
+  write('A1'); write('*n'); copy(17); write('*n');
+  rewind();
+  write('A2'); write('*n'); copy(17); write('*n');
+
+  rewind();
+  write('B1'); write('*n'); copy(173); write('*n');
+  rewind();
+  write('B2'); write('*n'); copy(173); write('*n');
+
+  rewind();
+  n = 0;
+  ch = read();
+  while (ch != 004) $(
+    n = n + 1;
+    ch = read();
+  $)
+  write('CE'); write('*n');
+  putoct6(ch);
+  putoct6(n);
+  rewind();
+  write('CR'); write('*n'); copy(17); write('*n');
+
+  write('O:'); write('*n');
+  putoct6(0);
+  putoct6(1);
+  putoct6(077777);
+  putoct6(0100000);
+  putoct6(0177777);
+  flush();
+$)
+.
+w io.b
+1004
+q
+@ ed
+edit
+a
+" Stage 4A B-callable input rewind helper.
+" Class B reconstruction support; not surviving Bell Labs source.
+"
+" bl.s getc returns iflg before consulting cibufp/eibufp.  Reset the
+" descriptor with the authentic seek syscall, discard that pending character,
+" and make the current range empty so the next getc refills from .fin.
+
+.rewind: .+1
+   n 8
+   n 7
+   lac .fin
+   sys seek; 0; 0
+   sma
+   jmp 1f
+   jmp stop
+1:
+   dzm iflg
+   lac eibufp
+   dac cibufp
+   jmp fetch
+.
+w rewind.s
+472
+q
+@ ed
+edit
+a
+l00:abcdefghijklmnopqrstuvwxyz:0123456789
+l01:bcdefghijklmnopqrstuvwxyza:1234567890
+l02:cdefghijklmnopqrstuvwxyzab:2345678901
+l03:defghijklmnopqrstuvwxyzabc:3456789012
+l04:efghijklmnopqrstuvwxyzabcd:4567890123
+l05:fghijklmnopqrstuvwxyzabcde:5678901234
+l06:ghijklmnopqrstuvwxyzabcdef:6789012345
+l07:hijklmnopqrstuvwxyzabcdefg:7890123456
+l08:ijklmnopqrstuvwxyzabcdefgh:8901234567
+.
+w input
+378
+q
+@ b io.b io.s
+@ as s4op.s s4bl.s io.s rewind.s s4bi.s
+I
+II
+s4op.s  
+s4bl.s  
+io.s    
+rewind.s
+s4bi.s  
+@ a.out input result
+@ cat result
+a1
+l00:abcdefghijklm
+a2
+l00:abcdefghijklm
+b1
+l00:abcdefghijklmnopqrstuvwxyz:0123456789
+l01:bcdefghijklmnopqrstuvwxyza:1234567890
+l02:cdefghijklmnopqrstuvwxyzab:2345678901
+l03:defghijklmnopqrstuvwxyzabc:3456789012
+l04:e
+b2
+l00:abcdefghijklmnopqrstuvwxyz:0123456789
+l01:bcdefghijklmnopqrstuvwxyza:1234567890
+l02:cdefghijklmnopqrstuvwxyzab:2345678901
+l03:defghijklmnopqrstuvwxyzabc:3456789012
+l04:e
+ce
+000004
+000572
+cr
+l00:abcdefghijklm
+o:
+000000
+000001
+077777
+100000
+177777
+@ 
+Simulation stopped, PC: 01105 (AND 4136)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs

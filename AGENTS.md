@@ -35,8 +35,14 @@ Never describe B/C/M material as original Bell Labs code.
 - Always use `machines/pdp7` as this project's PDP-7 development host. Treat
   `../PDP-7` as a read-only pre-transition/reference machine; never run project
   sessions against it or modify it.
+- `machines/pdp7` is an evolving host: normal development and tests run there
+  directly and may modify its filesystem. Inspect Git status and image hashes
+  around meaningful work. Git is the recovery mechanism; do not revert
+  legitimate project state merely to keep the image byte-identical.
 - Do not commit a new PDP-7 filesystem image after every emulator session.
   Commit image versions only at meaningful, documented project milestones.
+  A dirty image during active development is acceptable. Use a disposable copy
+  only for a specifically identified destructive or high-risk experiment.
 - Prefer a small verified implementation over a broad speculative one.
 - Add automated regression vectors for reconstructed instruction encoders, runtime operators, tape formats, and compiler output.
 - Isolate failures at boundaries; do not compensate by silently adding later hardware/software.
@@ -67,6 +73,13 @@ Never describe B/C/M material as original Bell Labs code.
 ## Interaction with the operator
 
 Minimize terminal back-and-forth. Before asking for commands on the historical machines, investigate source/tool behavior and prepare one guarded, meaningful operation where practical.
+
+For PDP-7 discovery/debugging, keep one interactive SIMH session alive and
+test native operations incrementally; do not assume later-UNIX pathname,
+shell, filesystem, stdio, or process semantics. Reuse established session and
+flow-controlled transfer methods. Add host automation only after the native
+procedure is understood. Such automation remains class M instrumentation and
+is never a semantic substitute for PDP-7 UNIX.
 
 ## Commits
 

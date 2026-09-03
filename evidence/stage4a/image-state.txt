@@ -1,0 +1,27 @@
+image=machines/pdp7/pdp7-unix/build/image-shankao.fs
+pre_sha256=ee3b12de0b1d6ac304237bcbb2424759eb06870ff72b5cdae56c6032248b9c07
+post_sha256=ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0
+pre_git_status:
+ M AGENTS.md
+ M docs/DECISIONS.md
+ M docs/PLAN.md
+ M docs/STATE.md
+ M docs/STATUS.md
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? evidence/stage4a/
+?? src/pdp7/as11/
+?? tests/pdp7-as11/
+?? tests/test_stage4a.py
+?? tools/run_stage4a.py
+post_git_status:
+ M AGENTS.md
+ M docs/DECISIONS.md
+ M docs/PLAN.md
+ M docs/STATE.md
+ M docs/STATUS.md
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? evidence/stage4a/
+?? src/pdp7/as11/
+?? tests/pdp7-as11/
+?? tests/test_stage4a.py
+?? tools/run_stage4a.py

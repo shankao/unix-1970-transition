@@ -94,6 +94,21 @@ not each produce a committed image revision.
 
 Important preservation rule: the PDP-7 machine is not disposable setup machinery. It is part of the experiment and must remain reproducible.
 
+It is also an evolving development host, not an immutable fixture. Normal
+project builds and tests use `machines/pdp7` directly as `shankao` and may
+change its filesystem. Record Git status and hashes around meaningful work;
+use Git for recovery, but do not restore legitimate changes merely to retain a
+prior image hash. A dirty image during active development is normal. Disposable
+copies are exceptional safeguards for specifically destructive/high-risk work.
+
+Stage 4A ran directly on this host as `shankao`. Its final successful run
+changed `build/image-shankao.fs` from SHA-256
+`ee3b12de0b1d6ac304237bcbb2424759eb06870ff72b5cdae56c6032248b9c07` to
+`ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0`
+through intentional Stage-4A source, build, input, and result files. No
+legitimate changes were restored. This active image remains uncommitted until
+a later meaningful machine milestone; details are in `evidence/stage4a/`.
+
 ## PDP-11/20
 
 Role: new diskless target machine.

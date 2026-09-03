@@ -47,7 +47,7 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 
 ### Stage 4 — `as11`
 
-**Status: NEXT — NOT STARTED**
+**Status: IN PROGRESS — Stage 4A COMPLETE; Stage 4B NEXT**
 
 - **Objective:** reconstruct the attested simple PDP-11 assembler in B and run
   it on `machines/pdp7` as `shankao`. It assembles PDP-11 code; it does not own
@@ -60,6 +60,60 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 - **Gate:** PDP-7 `as11` reproduces known Stage 3 words byte-for-byte, or
   semantically identically where layout differences are intentional.
 - **Provenance:** assembler B; oracle and host harness M.
+
+Parent Stage 4 is complete only when all five dependency gates below pass.
+
+#### Stage 4A — PDP-7 B I/O substrate
+
+**Status: COMPLETE**
+
+- **Objective:** prove an ordinary PDP-7 B program can reread input reliably
+  at mid-buffer, across refill, and after EOT/EOF, and can emit deterministic
+  six-digit textual octal. Provide only the minimal B-callable rewind support
+  required by a real two-pass tool.
+- **Gate:** all rewind and textual-output cases execute under `shankao` in the
+  authoritative PDP-7 UNIX/B environment; shared authentic `bl.s` remains
+  unchanged and filesystem-image changes are inspected and explained.
+
+#### Stage 4B — Assembler language and symbol engine
+
+**Status: NEXT — NOT STARTED**
+
+- **Objective:** define, tokenize, and parse the conservative early-UNIX
+  assembly language and perform two-pass symbol and local-label resolution.
+  Do not encode PDP-11 instructions in this gate.
+- **Gate:** PDP-7 B tests demonstrate deterministic pass restart, tokenization,
+  symbols, local labels, location accounting, and diagnostics over a fixed
+  language corpus.
+
+#### Stage 4C — PDP-11 encoding engine
+
+**Status: NOT STARTED**
+
+- **Objective:** add KA11 operands/instructions, extension words, branches,
+  and raw-word emission to the established language/symbol engine.
+- **Gate:** exhaustive fixed encodings produced by PDP-7 B agree with the
+  independent Stage 2 oracle, including negative and range cases.
+
+#### Stage 4D — Complete usable `as11`
+
+**Status: NOT STARTED**
+
+- **Objective:** integrate 4B and 4C into a genuine two-pass PDP-11 assembler
+  written in B and running on the PDP-7; exercise substantial source and
+  resource limits.
+- **Gate:** repeatable assembly of representative multi-fragment sources on
+  PDP-7, with stable symbols, output, diagnostics, and documented limits.
+
+#### Stage 4E — Stage 3 gold round trip
+
+**Status: NOT STARTED**
+
+- **Objective:** assemble the Stage 3 nested-call program with PDP-7 `as11`,
+  verify its word map independently, then use class-M loading to run those
+  exact PDP-7-produced words on the bare PDP-11.
+- **Gate:** the verified map reproduces the known Stage 3 nested-call result
+  with no host-created replacement words and no paper-tape claim.
 
 ### Stage 5 — `b11`
 

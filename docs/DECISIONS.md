@@ -108,3 +108,26 @@ environment consistent with surviving evidence for the December 1970 disk
 arrival. Core-only/RAM-filesystem UNIX and disk migration are explicit
 high-risk stages. Later 1971 development toward First Edition is outside this
 repository's required scope and may be continued separately.
+
+## D0014 — Split `as11` reconstruction into five dependency gates
+
+**Status:** accepted
+
+Stage 4 proceeds as: 4A PDP-7 B input-restart/text-output substrate; 4B
+language and two-pass symbol engine without target encoding; 4C independently
+verified KA11 encoding; 4D integrated usable two-pass `as11`; and 4E the Stage
+3 nested-call gold round trip. Parent Stage 4 completes only after all five
+pass. This split isolates historical B I/O, language inference, encoding,
+resource limits, and target execution rather than debugging them together.
+
+## D0015 — Normal PDP-7 development uses the evolving persistent host
+
+**Status:** accepted
+
+Normal project development and tests run directly on `machines/pdp7` as
+`shankao`; its filesystem is expected to evolve. Git supplies recovery, an
+uncommitted dirty image is acceptable during active work, and image revisions
+are committed only at meaningful machine milestones. Legitimate changes are
+not reverted to preserve an old hash. Disposable image copies are reserved for
+experiments with a specific destructive or high-risk reason, not routine
+runner architecture.

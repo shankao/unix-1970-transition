@@ -14,3 +14,6 @@ End-to-end tests should preserve provenance and identify any modern instrumentat
 bare-machine transcripts for the class-B threaded nucleus.
 `test_stage3b.py` verifies control targets, frame/call layout, argument and
 return placement, nesting, generated deposits, and the Stage 3B transcripts.
+`test_stage4a.py` verifies the checked-in Stage 4A helper, fixture, runner
+contract, and captured native evidence. It is host-only; the actual PDP-7 gate
+is `python3 tools/run_stage4a.py --record`.

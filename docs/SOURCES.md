@@ -54,6 +54,12 @@ Important provenance note from upstream:
 
 This repository must preserve that distinction if any material is imported.
 
+For Stage 4A, the checked-in local copies
+`machines/pdp7/pdp7-unix/src/cmd/bl.s`, `src/sys/s2.s`, and `src/cmd/as.s`
+are direct implementation evidence for the recovered B input buffer and EOF
+behavior, kernel `seek`, and authentic PDP-7 assembler syscall syntax. They do
+not establish the lost PDP-11 `as11` language or source.
+
 ## B archaeology/reconstruction
 
 ### Ken Thompson — *User's Reference to B* (7 January 1972)

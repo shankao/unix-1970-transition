@@ -1,0 +1,9 @@
+l00:abcdefghijklmnopqrstuvwxyz:0123456789
+l01:bcdefghijklmnopqrstuvwxyza:1234567890
+l02:cdefghijklmnopqrstuvwxyzab:2345678901
+l03:defghijklmnopqrstuvwxyzabc:3456789012
+l04:efghijklmnopqrstuvwxyzabcd:4567890123
+l05:fghijklmnopqrstuvwxyzabcde:5678901234
+l06:ghijklmnopqrstuvwxyzabcdef:6789012345
+l07:hijklmnopqrstuvwxyzabcdefg:7890123456
+l08:ijklmnopqrstuvwxyzabcdefgh:8901234567

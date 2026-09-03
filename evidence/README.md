@@ -15,6 +15,7 @@ pdp7-b-static/                 static compiler/runtime comparisons
 pdp7-b-stage1/                 captured compiler/runtime probe evidence
 stage3a/                       threaded-nucleus deposits and transcripts
 stage3b/                       control/call deposits and transcripts
+stage4a/                       PDP-7 B rewind/output native execution evidence
 ```
 
 Do not commit third-party scans/binaries merely because they are publicly downloadable. Check redistribution rights first; otherwise store URL, metadata, hash, and local retrieval instructions.

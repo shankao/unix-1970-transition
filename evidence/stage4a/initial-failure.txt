@@ -1,0 +1,26 @@
+Stage 4A initial native failure evidence (2026-09-03)
+
+The first full authoritative-host run transferred and built the probe, but
+the generated result file was empty. A persistent interactive session then
+reran the native assembler and exposed these diagnostics:
+
+    s4bl.s:  u 0073
+             u 0166
+             u 0182
+    rewind.s: u 0011
+
+Native `ed` inspection showed the transferred end of `s4bl.s` contained
+`dzm ofl` and omitted `jmp initio i`, a blank line, and `.fin: 0`. Repairing
+those lines made assembly diagnostic-free. The result remained empty, and a
+Stage 1 `pstore.s` regression built with the transferred runtime entered a
+self-loop at PC 10355 instead of returning/printing. Thus the remaining
+failure was a syntactically valid but behaviorally corrupt `s4bi.s` transfer,
+not evidence against rewind semantics.
+
+Cause: the first runner acknowledged individual echoed characters. Repeated
+characters could satisfy a later acknowledgement before PDP-7 UNIX had
+consumed the intended input. The corrected transfer sends one editor line and
+waits for its echoed newline, matching the successful interactive repair.
+
+All activity used the authoritative `machines/pdp7` image under `shankao`.
+No shared original was edited and no image restoration was performed.

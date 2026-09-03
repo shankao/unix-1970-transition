@@ -25,8 +25,11 @@ Stage 0  COMPLETE
 Stage 1  COMPLETE
 Stage 2  COMPLETE
 Stage 3  COMPLETE (3A and 3B)
-Stage 4  NEXT — NOT STARTED
-Stages 5–12  NOT STARTED
+Stage 4  IN PROGRESS
+Stage 4A COMPLETE
+Stage 4B NEXT — NOT STARTED
+Stages 4C–4E NOT STARTED
+Stages 5–12 NOT STARTED
 ```
 
 Completion commits verified in Git:
@@ -65,6 +68,13 @@ Completion commits verified in Git:
   passed. Two simultaneously active frames unwound correctly. See
   [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md) and `evidence/stage3a/` and
   `evidence/stage3b/`.
+- **Stage 4A:** a separately maintained B-callable `rewind` helper used the
+  authentic PDP-7 `seek` syscall, cleared pending `iflg`, and forced a fresh
+  refill with `cibufp = eibufp`. On authoritative `machines/pdp7` as
+  `shankao`, a 378-character native B test passed odd mid-buffer and
+  cross-refill rewinds, observed EOF as `004`, restarted after EOF, and wrote
+  all five required six-digit octal values exactly. See
+  [`PDP7-AS11.md`](PDP7-AS11.md) and `evidence/stage4a/`.
 
 The active reconstructed frame convention is word 0 previous R4, word 1
 saved caller R3 (or returned value after `retv`), and word 2 onward arguments,
@@ -76,7 +86,8 @@ deposits and capture harnesses are class M and are not the final workflow.
 
 - `machines/pdp7`: persistent PDP-7 project host. Preserve its `shankao`
   account, exploratory files, hard-linked authentic files, and filesystem
-  image; commit image versions only at meaningful milestones.
+  image. It is an evolving host used directly for normal development; a dirty
+  image is acceptable between meaningful, documented image commits.
 - `machines/pdp11`: checked-in target configuration, PDP-11/20, 24 KB, no
   disk and no KE11. Stage 3 executions affected volatile RAM only and exited.
 - `../PDP-7`: read-only pre-transition/reference machine; never use it for
@@ -132,16 +143,14 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 - Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
 - Do not merge assembler, compiler, and paper-tape responsibilities.
 - Do not enable KE11/EIS, attach disk/tape, or substitute a later UNIX system.
-- Do not modify either reference tree or historical machine merely for fresh
-  evidence; use `machines/pdp7` as `shankao` only when Stage 4 authorizes it.
+- Do not modify either reference tree; use authoritative `machines/pdp7` as
+  `shankao` for authorized Stage 4 development and preserve shared originals.
 - Do not repeat broad historical research already recorded here and in
   SOURCES; investigate only a newly identified unresolved question.
 
 ## Resume here
 
-Investigate and design **Stage 4 `as11`** as a separately scoped change. Read
-the Stage 4 gate in PLAN, inventory the locally recorded assembler evidence,
-define the smallest input/object boundary needed to reproduce Stage 3 words,
-and plan PDP-7 execution under `shankao`. Do not implement `b11`, paper-tape
-transport, `dc`, or UNIX, and do not begin Stage 4 implementation as part of
-this documentation milestone.
+Investigate and finalize the **Stage 4B assembler-language and symbol-engine
+design before implementation**. Consume the proven Stage 4A restart/output
+contract and local historical evidence; do not start Stage 4C instruction
+encoding, `b11`, paper-tape transport, `dc`, or UNIX.
