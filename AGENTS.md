@@ -45,6 +45,15 @@ Never describe B/C/M material as original Bell Labs code.
   native sources, build products, inputs, and results. Remove only clearly
   accidental debris. Use a disposable copy only for a specifically identified
   destructive or high-risk experiment.
+- Development checkpoints and experiential snapshots are distinct. Every
+  passing PDP-7 development gate normally checkpoints `machines/pdp7`; selected
+  states that meaningfully show the development journey are also preserved as
+  ordinary physical images under `eras/`. Do not invent an era manager or
+  assume a PDP-11-era layout before operational requirements establish one.
+- Beginning with the next successful PDP-7 development checkpoint (Stage 4C),
+  maintain a concise native `dd/shankao/readme` describing what works and what
+  does not yet exist. Update it as part of normal native development; never
+  alter an older snapshot retroactively to insert it.
 - Prefer a small verified implementation over a broad speculative one.
 - Add automated regression vectors for reconstructed instruction encoders, runtime operators, tape formats, and compiler output.
 - Isolate failures at boundaries; do not compensate by silently adding later hardware/software.
@@ -56,6 +65,9 @@ Never describe B/C/M material as original Bell Labs code.
   `dc`, or UNIX because a later stage appears more interesting.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
+- Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the
+  minimum evidenced capability needed to reach the next useful PDP-11 state,
+  not features merely for tool completeness.
 
 ## PDP-7 development account policy
 

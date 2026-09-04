@@ -64,6 +64,10 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 Parent Stage 4 is complete only when all five dependency gates below pass.
 Each passing PDP-7 substage checkpoints the authoritative filesystem image and
 useful native artifacts unless that gate explicitly made no PDP-7 state change.
+The cross-tools are bootstrap scaffolding: each gate implements what is needed
+to reach the next useful PDP-11 capability, not completeness for its own sake.
+Stage 4C is also the first checkpoint expected to maintain a short native
+`dd/shankao/readme` for someone exploring the machine from inside PDP-7 UNIX.
 
 #### Stage 4A — PDP-7 B I/O substrate
 
@@ -282,3 +286,9 @@ At every gate preserve source, tests, claim notes, reproducible machine state,
 and artifact metadata. Generated tapes/listings are artifacts; source plus
 reproducible build steps are authoritative. Informative failures remain
 evidence rather than being erased by later success.
+
+Selected PDP-7 checkpoints that meaningfully expose a distinct development
+state are also materialized as ordinary exact images under `eras/`. This
+experiential layer supplements rather than replaces per-gate checkpoints. A
+layout for future PDP-11 RAM/tape/disk or paired-machine eras remains deferred
+until those artifacts acquire concrete operating requirements.

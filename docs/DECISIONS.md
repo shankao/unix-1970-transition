@@ -153,3 +153,33 @@ counter. Assignments require immediate resolution; only fixed-size bare words
 may forward-reference labels. Expressions are octal with unary/binary `+`/`-`
 and square-bracket grouping. Stage 4B emits semantic traces only. Instruction
 and addressing encoding remain a separate Stage 4C concern.
+
+## D0018 — Preserve selected PDP-7 development states as physical snapshots
+
+**Status:** accepted
+
+Every passing PDP-7 development gate continues to checkpoint the authoritative
+`machines/pdp7` image. In addition, a state that meaningfully exposes a distinct
+point in the development journey may be materialized as an exact ordinary Git
+file under `eras/`, with source commit, original path, and SHA-256 recorded.
+Snapshots are mutable version-controlled files, not an era format: no manager,
+boot wrapper, immutability layer, or copy-on-boot mechanism is required. The
+proper representation of later PDP-11 RAM, tape, disk, and paired-machine eras
+is deferred until operational experience supplies real requirements.
+
+Starting with the next passing PDP-7 development checkpoint (Stage 4C), the
+native `dd/shankao/readme` should concisely state what works and what remains
+absent. It evolves during normal native work and naturally enters later
+snapshots; exact older checkpoint images are never edited retroactively to add
+it.
+
+## D0019 — PDP-7 cross-tools are bootstrap scaffolding
+
+**Status:** accepted
+
+The reconstructed PDP-7 `as11` and `b11` exist to reach useful destination
+PDP-11 capabilities and the attested cross-development path. Their scope follows
+bootstrap sufficiency: implement evidenced features needed by the next gate,
+not a permanent comprehensive PDP-11 development environment on the PDP-7.
+Later migration toward native PDP-11 development is part of the intended
+historical arc, while the PDP-7 remains preserved as fallback and history.

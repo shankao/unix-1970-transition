@@ -122,6 +122,22 @@ changes are expected. Preserve meaningful sources, compiler/assembler output,
 executables, inputs, and results rather than cleaning them merely because a
 modern workflow calls them intermediate.
 
+A development checkpoint and an experiential snapshot serve different needs.
+Every passing PDP-7 development gate normally records the authoritative image;
+selected states that expose a distinct, useful moment are additionally copied
+as exact physical images under `eras/`. Snapshot provenance records the source
+commit, original path, and SHA-256. The files remain ordinary, mutable Git
+content rather than requiring an era-management or copy-on-boot layer. PDP-11
+era organization is deferred until persistent tape/disk/machine combinations
+provide concrete requirements.
+
+Before relying extensively on a recovered tool or environment, inspect its
+local source, documentation, and evidence; establish and verify one minimal
+native behavior; then automate the observed procedure. Familiar later-Unix
+names are not interface specifications. Cross-development tools likewise
+follow bootstrap sufficiency: build the evidenced subset needed for the next
+destination-machine capability rather than pursuing completeness as an end.
+
 Native PDP-7 execution may be slow. That is not grounds to replace historical
 computation with Python or another host tool. Optimize class-M orchestration:
 keep persistent interactive SIMH sessions during discovery, reuse proven

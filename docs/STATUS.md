@@ -45,7 +45,8 @@ Completion commits verified in Git:
 - Stage 4A I/O substrate: `1caacfe7a87411f4c47317dd06834b1c374a962f`
 - Stage 4A machine checkpoint: `1143e4de12138bd9a18c9afcf627038478b7991e`
 - PDP-7 terminal/case clarification: `cb81e3393cce3470c2af1981965f1716f40fb978`
-- Stage 4B symbol engine and machine checkpoint: this commit
+- Stage 4B symbol engine and machine checkpoint:
+  `313ba822d1e962b4bba2360805717820db61a0c5`
 
 ## What has been demonstrated
 
@@ -107,6 +108,16 @@ working copies, final fixtures/results, and the combined `probe.s`/`probe.o`.
 indirect block 2987 is marked in the inode scan and again when inode 38
 (`dd/shankao`) is traversed; debug output shows no distinct second owner and no
 other consistency warning.
+
+Exact, directly explorable PDP-7 images for the Stage 0, Stage 1, Stage 4A,
+and Stage 4B development states are now materialized under `eras/`. They are
+ordinary tracked files recovered from the recorded Git checkpoints, not new
+machine reconstructions. This experiential layer is distinct from the normal
+per-gate authoritative image checkpoints. A representation for PDP-11 RAM,
+tape, disk, or paired-machine eras remains deliberately undecided. Beginning
+with the next successful PDP-7 checkpoint, Stage 4C, the native `shankao`
+directory should also contain a short `readme` describing the machine's current
+capabilities; none was inserted retroactively into these exact old images.
 
 The active reconstructed frame convention is word 0 previous R4, word 1
 saved caller R3 (or returned value after `retv`), and word 2 onward arguments,
