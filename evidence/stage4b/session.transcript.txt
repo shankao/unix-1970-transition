@@ -1,0 +1,473 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+CPU     idle disabled
+        8KW, EAE
+./unixv0.simh-19> att rb image-shankao.fs
+%SIM-INFO: RB: buffering file in memory
+./unixv0.simh-23> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+PDP-7 simulator configuration
+
+CPU     idle disabled
+CLK     60Hz, devno=00
+PTR     devno=01
+PTP     devno=02
+TTI     devno=03
+TTO     devno=04
+LPT     disabled
+DRM     disabled
+RB      devno=71
+DT      disabled
+G2OUT   devno=05
+G2IN    devno=43-44
+
+login: shankao
+password: shankao
+@ rm as11.s
+@ rm a.out
+@ rm rewind.s
+@ ed
+edit
+a
+" Stage 4A B-callable input rewind helper.
+" Class B reconstruction support; not surviving Bell Labs source.
+"
+" bl.s getc returns iflg before consulting cibufp/eibufp.  Reset the
+" descriptor with the authentic seek syscall, discard that pending character,
+" and make the current range empty so the next getc refills from .fin.
+
+.rewind: .+1
+   n 8
+   n 7
+   lac .fin
+   sys seek; 0; 0
+   sma
+   jmp 1f
+   jmp stop
+1:
+   dzm iflg
+   lac eibufp
+   dac cibufp
+   jmp fetch
+.
+w rewind.s
+472
+q
+@ b as11.b as11.s
+@ as s4op.s s4bl.s as11.s rewind.s s4bi.s
+I
+II
+s4op.s
+s4bl.s
+as11.s
+rewind.s
+s4bi.s
+@ stat as11.b as11.s a.out
+240 17 16 01 10476
+236 17 16 01 13367
+241 17 16 01 06345
+@ rm empty.s
+@ ed
+edit
+a
+/ empty and comments only
+/ semicolon here is ignored ; .=177777
+.
+w empty.s
+65
+q
+@ rm empty.o
+@ a.out empty.s empty.o
+@ cat empty.o
+@ rm pos.s
+@ ed
+edit
+a
+/ comments only before the first statement ; ignored separator
+.=[0+0] / grouping in a resolvable location assignment
+.=001000; base=7
+start:
+012345 / comment ; this must be ignored
+forward
+.+2
+-base+[2+3]
+1f; 1:; 1b; 1f; 1:; 1b
+2f; 3f; 2:; 2b; 3:; 3b
+forward:
+start+2
+longnamex=1
+longnamey=2
+longnamex
+base=10
+base
+foo:; 1
+bar:; foo+2
+alpha=20
+alpha-1+2
+[alpha-[3+1]]+1
+4f
+4:
+4b
+/ padding makes this source cross the 128-character B input refill boundary
+.
+w pos.s
+456
+q
+@ rm pos.o
+@ a.out pos.s pos.o
+@ cat pos.o
+a base 000007
+l start 001000
+w 001000 012345
+w 001002 001030
+w 001004 001006
+w 001006 177776
+w 001010 001012
+n 1 001012
+w 001012 001012
+w 001014 001016
+n 1 001016
+w 001016 001016
+w 001020 001024
+w 001022 001026
+n 2 001024
+w 001024 001024
+n 3 001026
+w 001026 001026
+l forward 001030
+w 001030 001002
+a longname 000001
+a longname 000002
+w 001032 000002
+a base 000010
+w 001034 000010
+l foo 001036
+w 001036 000001
+l bar 001040
+w 001040 001040
+a alpha 000020
+w 001042 000021
+w 001044 000015
+w 001046 001050
+n 4 001050
+w 001050 001050
+@ rm large.s
+@ ed
+edit
+a
+/ stage 4b capacity and resource fixture: 48 globals, 10 local definitions
+.=002000
+a00=0;a01=1;a02=2;a03=3;a04=4;a05=5;a06=6;a07=7
+a10=10;a11=11;a12=12;a13=13;a14=14;a15=15;a16=16;a17=17
+s00:;a00
+s01:;a01
+s02:;a02
+s03:;a03
+s04:;a04
+s05:;a05
+s06:;a06
+s07:;a07
+s10:;a10
+s11:;a11
+s12:;a12
+s13:;a13
+s14:;a14
+s15:;a15
+s16:;a16
+s17:;a17
+s20:;s00;s21:;s01;s22:;s02;s23:;s03
+s24:;s04;s25:;s05;s26:;s06;s27:;s07
+s30:;s10;s31:;s11;s32:;s12;s33:;s13
+s34:;s14;s35:;s15;s36:;s16;s37:;s17
+0:;0b;1:;1b;2:;2b;3:;3b;4:;4b
+5:;5b;6:;6b;7:;7b;8:;8b;9:;9b
+/ long enough to cross multiple buffered-input refills on the pdp-7
+.
+w large.s
+604
+q
+@ rm large.o
+@ a.out large.s large.o
+@ cat large.o
+a a00 000000
+a a01 000001
+a a02 000002
+a a03 000003
+a a04 000004
+a a05 000005
+a a06 000006
+a a07 000007
+a a10 000010
+a a11 000011
+a a12 000012
+a a13 000013
+a a14 000014
+a a15 000015
+a a16 000016
+a a17 000017
+l s00 002000
+w 002000 000000
+l s01 002002
+w 002002 000001
+l s02 002004
+w 002004 000002
+l s03 002006
+w 002006 000003
+l s04 002010
+w 002010 000004
+l s05 002012
+w 002012 000005
+l s06 002014
+w 002014 000006
+l s07 002016
+w 002016 000007
+l s10 002020
+w 002020 000010
+l s11 002022
+w 002022 000011
+l s12 002024
+w 002024 000012
+l s13 002026
+w 002026 000013
+l s14 002030
+w 002030 000014
+l s15 002032
+w 002032 000015
+l s16 002034
+w 002034 000016
+l s17 002036
+w 002036 000017
+l s20 002040
+w 002040 002000
+l s21 002042
+w 002042 002002
+l s22 002044
+w 002044 002004
+l s23 002046
+w 002046 002006
+l s24 002050
+w 002050 002010
+l s25 002052
+w 002052 002012
+l s26 002054
+w 002054 002014
+l s27 002056
+w 002056 002016
+l s30 002060
+w 002060 002020
+l s31 002062
+w 002062 002022
+l s32 002064
+w 002064 002024
+l s33 002066
+w 002066 002026
+l s34 002070
+w 002070 002030
+l s35 002072
+w 002072 002032
+l s36 002074
+w 002074 002034
+l s37 002076
+w 002076 002036
+n 0 002100
+w 002100 002100
+n 1 002102
+w 002102 002102
+n 2 002104
+w 002104 002104
+n 3 002106
+w 002106 002106
+n 4 002110
+w 002110 002110
+n 5 002112
+w 002112 002112
+n 6 002114
+w 002114 002114
+n 7 002116
+w 002116 002116
+n 8 002120
+w 002120 002120
+n 9 002122
+w 002122 002122
+@ rm undef.s
+@ ed
+edit
+a
+missing
+.
+w undef.s
+8
+q
+@ rm undef.o
+@ a.out undef.s undef.o
+@ cat undef.o
+e 000001 un
+@ rm dup.s
+@ ed
+edit
+a
+foo:
+foo:
+.
+w dup.s
+10
+q
+@ rm dup.o
+@ a.out dup.s dup.o
+@ cat dup.o
+e 000002 gd
+@ rm conf.s
+@ ed
+edit
+a
+foo=1
+foo:
+.
+w conf.s
+11
+q
+@ rm conf.o
+@ a.out conf.s conf.o
+@ cat conf.o
+e 000002 gd
+@ rm missf.s
+@ ed
+edit
+a
+1f
+.
+w missf.s
+3
+q
+@ rm missf.o
+@ a.out missf.s missf.o
+@ cat missf.o
+e 000001 un
+@ rm missb.s
+@ ed
+edit
+a
+1b
+.
+w missb.s
+3
+q
+@ rm missb.o
+@ a.out missb.s missb.o
+@ cat missb.o
+e 000001 un
+@ rm badloc.s
+@ ed
+edit
+a
+12:
+.
+w badloc.s
+4
+q
+@ rm badloc.o
+@ a.out badloc.s badloc.o
+@ cat badloc.o
+e 000001 nl
+@ rm badexp.s
+@ ed
+edit
+a
+1+
+.
+w badexp.s
+3
+q
+@ rm badexp.o
+@ a.out badexp.s badexp.o
+@ cat badexp.o
+e 000001 xp
+@ rm unl.s
+@ ed
+edit
+a
+[1+2
+.
+w unl.s
+5
+q
+@ rm unl.o
+@ a.out unl.s unl.o
+@ cat unl.o
+e 000001 rb
+@ rm unr.s
+@ ed
+edit
+a
+1]
+.
+w unr.s
+3
+q
+@ rm unr.o
+@ a.out unr.s unr.o
+@ cat unr.o
+e 000001 st
+@ rm badoct.s
+@ ed
+edit
+a
+18
+.
+w badoct.s
+3
+q
+@ rm badoct.o
+@ a.out badoct.s badoct.o
+@ cat badoct.o
+e 000001 xp
+@ rm odd.s
+@ ed
+edit
+a
+.=1
+1
+.
+w odd.s
+6
+q
+@ rm odd.o
+@ a.out odd.s odd.o
+@ cat odd.o
+e 000002 od
+@ rm over.s
+over.s   ?
+@ ed
+edit
+a
+.=200000
+.
+w over.s
+9
+q
+@ rm over.o
+over.o   ?
+@ a.out over.s over.o
+@ cat over.o
+e 000001 ad
+@ rm urdot.s
+urdot.s  ?
+@ ed
+edit
+a
+.=future
+future:
+.
+w urdot.s
+17
+q
+@ rm urdot.o
+urdot.o  ?
+@ a.out urdot.s urdot.o
+@ cat urdot.o
+e 000001 ur
+@
+Simulation stopped, PC: 02255 (SNA)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs

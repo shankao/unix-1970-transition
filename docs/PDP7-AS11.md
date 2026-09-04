@@ -5,8 +5,8 @@
 Participant accounts establish that a simple PDP-11 assembler was written in
 B and run on the PDP-7, making a two-pass B tool historically plausible. The
 exact 1970 source and language are lost. Stage 4 reconstructs the tool as class
-**B** in five dependency gates; this document records only completed Stage 4A
-results and the remaining plan.
+**B** in five dependency gates; this document records completed Stages 4A and
+4B and the remaining plan.
 
 Local recovered/restored sources under `machines/pdp7/pdp7-unix/src/` are the
 implementation evidence used here: `cmd/bl.s` for B I/O, `sys/s2.s` for
@@ -86,13 +86,111 @@ a consistency warning.
 The runner and session capture are class **M**. They automate observed PDP-7
 behavior; they do not implement rewind semantics on the host.
 
+## Stage 4B — language and symbol engine
+
+[`as11.b`](../src/pdp7/as11/as11.b) is the class-B semantic front end. It has
+no PDP-11 opcode/addressing table and emits no machine code. Native invocation
+as `shankao` is:
+
+```text
+b as11.b as11.s
+as s4op.s s4bl.s as11.s rewind.s s4bi.s
+a.out source result
+```
+
+The first two commands compile/link with shankao-owned runtime copies. The
+last executes pass 1, calls Stage 4A `rewind`, and rereads the same descriptor
+for pass 2. The complete source is never stored in memory.
+
+### Frozen language contract
+
+Space and tab separate tokens. Physical newline terminates a statement and
+increments the line number; semicolon terminates a logical statement without
+incrementing it. Slash discards everything, including semicolons, through
+physical newline. B EOT `004` is EOF. The scanner uses one-character pushback.
+
+Identifiers begin with a letter/underscore and continue with letters, digits,
+or underscore. Characters are compared exactly and `as11` does not case-fold;
+fixtures are lowercase because the configured transfer path lowercases input.
+The complete legal spelling is consumed, but only eight characters are packed
+and significant. Thus `longnamex` and `longnamey` identify the same symbol.
+
+Numbers are octal sequences containing only `0`–`7`; ordinary 8/9 constants
+are rejected. Decimal and hexadecimal are absent. A single digit `0`–`9`
+followed by `:`, `f`, or `b` is a numeric-local construct. Expressions contain
+octal numbers, globals, numeric locals, `.`, unary minus, binary `+`/`-`, and
+square-bracket grouping. Binary operations evaluate left-to-right; brackets
+override. Parentheses and all broader arithmetic/relocation syntax are absent.
+
+`.` is a future PDP-11 **byte** address. A bare expression models one future
+16-bit word and advances `.` by two; odd addresses fail. `.=expr` requires an
+immediately resolved `000000..177777` address. A fixed-size bare word may
+forward-reference a label in pass 1 but must resolve in pass 2. Semantic word
+values use `&0177777`, so `-1` becomes `177777`; positive word overflow and
+address overflow fail.
+
+### Symbols and passes
+
+Each global entry is six PDP-7 words: four words packing two 9-bit characters
+each, a state, and a value. The 64-entry `gtab[384]` supports undefined, label,
+and assigned states. A label resolves an undefined entry; duplicate labels and
+label/assignment conflicts fail. Assigned values must resolve immediately and
+may be reassigned. Pass 2 checks label values against pass 1 and has a real
+phase-error path; final undefined symbols fail.
+
+Numeric locals are separate: ten occurrence counters plus 64 two-word
+digit/occurrence-key and address entries in `ltab[128]`. Counters reset on each
+pass. Repeated definitions, forward `nf`, and most-recent backward `nb` work;
+missing directions fail.
+
+Pass 2 emits lowercase semantic records only:
+
+```text
+l <name> <address>
+a <name> <value>
+n <digit> <address>
+w <address> <value>
+```
+
+Addresses/values are six-digit octal. Errors are
+`e <six-digit-physical-line> <two-character-code>`.
+
+### Native results and resources
+
+The 456-byte positive fixture covers required scanner, symbol, assignment,
+expression, comment/semicolon, local, long-name, location, and cross-refill
+behavior. Empty/comment-only input succeeds. The 604-byte substantial fixture
+uses 48 globals and 10 numeric definitions and emits 58 words. Thirteen
+negative fixtures reject all required error classes. A production phase check
+exists; no artificial phase inconsistency fixture was added.
+
+Local Stage 3 measurement finds 17 globals and 5 numeric definitions. Native
+`stat` reports:
+
+| Artifact | PDP-7 words | Octal |
+| --- | ---: | ---: |
+| `as11.b` | 4,414 | `010476` |
+| generated `as11.s` | 5,879 | `013367` |
+| linked `a.out` | 3,301 | `006345` |
+
+Against the ordinary 4,096-word user region, linked-file size leaves about 795
+words (`01433`) of static load-size headroom. This is a file-size estimate,
+not a live stack high-water mark. Compact tables consume 522 words. Ordinary B
+was sufficient; Virtual B and host-side symbol processing were not used.
+
+All native work ran as `shankao`; authentic shared files were unchanged. The
+class-M runner only transfers, supervises, captures, and compares fixed output
+hashes. The final image SHA-256 is
+`3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
+See `evidence/stage4b/` for traces, diagnostics, and checkpoint details.
+
 ## Remaining Stage 4 gates
 
-- **4B:** language, tokenizer/parser, and two-pass symbol/local-label engine;
-  no target encoding.
+- **4B: complete.** Language, tokenizer/parser, and two-pass symbol/local-label
+  engine; no target encoding.
 - **4C:** KA11 encoding and raw words checked by the Stage 2 oracle.
 - **4D:** integrate and resource-test usable PDP-7 B `as11`.
 - **4E:** reproduce and execute the Stage 3 nested-call gold program from
   PDP-7-produced words using class-M loading.
 
-No 4B parser or symbol implementation has started.
+Stage 4C is next and has not started.

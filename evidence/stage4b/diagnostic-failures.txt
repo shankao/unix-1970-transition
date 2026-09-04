@@ -1,0 +1,18 @@
+Stage 4B informative development record
+
+1. `auto nm[4]` failed in native B with `[] 2`; local B precedent confirmed
+   the recovered syntax `auto nm 4`.
+2. Three missing per-function `extrn` declarations (`bad` in statement and
+   setglob; `tname` in primary) caused ignored assignment/location effects and
+   unresolved traces. Adding them fixed the combined native probe.
+3. The scanner initially rejected numeric definitions `8:`/`9:` as bad octal.
+   It now permits 0--9 only for `:`, `f`, and `b`; ordinary octal rejects 8/9.
+4. A semantic run was externally interrupted by a Codex backend 404 after 13
+   native cases. This was not a PDP-7 failure. Valid partial outputs were
+   inspected; the final suite reused installed source and completed 16 cases.
+5. An edit attempt invoked `ed as11.b` and never obtained a valid loaded search
+   buffer. No substitution or `w` occurred. Local source proves argv is ignored
+   and `r as11.b` is required. AGENTS.md and docs/PDP7-TOOLS.md now record the
+   synchronized native procedure.
+
+No PDP-11 was booted and no Stage 4C encoder was written.

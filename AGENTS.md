@@ -83,10 +83,27 @@ flow-controlled transfer methods. Add host automation only after the native
 procedure is understood. Such automation remains class M instrumentation and
 is never a semantic substitute for PDP-7 UNIX.
 
+Before depending on an unfamiliar PDP-7 command—especially in automation—
+inspect its checked-in recovered source, project documentation, or existing
+evidence for its real invocation and important semantics. Where practical,
+confirm that understanding with one minimal interactive native operation, then
+automate the observed procedure. Do not infer a later-Unix interface merely
+from a familiar command name; see `docs/PDP7-TOOLS.md`.
+
 Native PDP-7 work being slow is acceptable and sometimes informative. Improve
 orchestration—persistent sessions, avoiding redundant transfers, and automating
 known procedures—but do not move compilation, assembly, execution, or required
 filesystem work to a modern host solely for speed.
+
+The recovered PDP-7 `ed` is not later Unix `ed`: invoke `ed`, then use `r name`
+to load an existing file; `ed name` does not load it. For native edits, use
+only the source-verified commands and syntax in `docs/PDP7-TOOLS.md`. Send one
+complete physical command line at a time and wait for its result. Locate and
+print the target before changing it, print and verify it afterward, then write
+explicitly and send `q` separately. The terminal uses `#` to erase one
+character and `@` to kill the input line; do not assume Backspace/Delete.
+Prefer a known-good retransmission over a long or ambiguous edit sequence, and
+automate only a sequence first proven this way.
 
 Stage 4A observed that the configured terminal/editor transfer path lowercased
 alphabetic characters. This is not evidence that PDP-7 filenames, B, or its

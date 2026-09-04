@@ -18,3 +18,7 @@ These tools exist to verify encodings, inspect tapes, automate reproducibility c
   Stage 4A procedure on authoritative `machines/pdp7`. It transfers sources
   with terminal pacing, builds/runs as `shankao`, captures evidence, and checks
   output; rewind and I/O semantics execute on PDP-7, not in Python.
+- `run_stage4b.py`: class-M supervision for the native Stage 4B two-pass B
+  parser/symbol engine. It can reuse installed source, retains PDP-7-created
+  traces, and compares fixed hashes; it does not parse or resolve source on
+  the host.

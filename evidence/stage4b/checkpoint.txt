@@ -1,0 +1,27 @@
+Stage 4B authoritative PDP-7 machine checkpoint
+Date: 2026-09-04
+
+Image: machines/pdp7/pdp7-unix/build/image-shankao.fs
+Size: 4096000 bytes
+SHA-256: 3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a
+
+Integrity validation:
+  machines/pdp7/pdp7-unix/tools/fsck7 <image>
+  exit status: 0
+  distinct-inode/free-list warnings: none
+  reported line: In-use block 2987 is being re-used
+
+That line is a checker self-revisit, not a second owner. Stage 4B made
+dd/shankao a large directory. fsck7 marks inode 38's indirect pointer block
+2987 in the all-inode scan, then check_directory() calls get_inode(38,1) and
+marks it again. Debug output locates both marks at inode 38 and reports no
+other duplicate/free block.
+
+Retained dd/shankao artifacts (PDP-7 words):
+  s4op.s 636; s4bl.s 1084; s4bi.s 2197; rewind.s 236
+  as11.b 4414; as11.s 5879; a.out 3301
+  empty/positive/substantial and thirteen negative source/result pairs
+  probe.s 16; probe.o 42 (location/assignment/8--9 local proof)
+
+Shared authentic op.s/bl.s/bi.s were not edited or chowned. Useful Stage 4B
+intermediates were not removed.

@@ -111,6 +111,13 @@ legitimate changes were restored. The Stage 4A follow-up checkpoint committed
 that image; read-only `fsck7` reported no consistency warning. Details are in
 `evidence/stage4a/`.
 
+Stage 4B also ran directly on this host as `shankao`. Its completed semantic
+suite and retained source/build/input/result artifacts evolved the image to
+SHA-256 `3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
+`fsck7` exits 0; its sole extra message is a reproducible checker self-revisit
+of large-directory indirect block 2987 when inode 38 is walked a second time,
+not ownership by another inode. See `evidence/stage4b/checkpoint.txt`.
+
 ## PDP-11/20
 
 Role: new diskless target machine.

@@ -47,7 +47,7 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 
 ### Stage 4 — `as11`
 
-**Status: IN PROGRESS — Stage 4A COMPLETE; Stage 4B NEXT**
+**Status: IN PROGRESS — Stages 4A–4B COMPLETE; Stage 4C NEXT**
 
 - **Objective:** reconstruct the attested simple PDP-11 assembler in B and run
   it on `machines/pdp7` as `shankao`. It assembles PDP-11 code; it does not own
@@ -79,7 +79,7 @@ useful native artifacts unless that gate explicitly made no PDP-7 state change.
 
 #### Stage 4B — Assembler language and symbol engine
 
-**Status: NEXT — NOT STARTED**
+**Status: COMPLETE**
 
 - **Objective:** define, tokenize, and parse the conservative early-UNIX
   assembly language and perform two-pass symbol and local-label resolution.

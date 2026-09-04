@@ -17,3 +17,6 @@ return placement, nesting, generated deposits, and the Stage 3B transcripts.
 `test_stage4a.py` verifies the checked-in Stage 4A helper, fixture, runner
 contract, and captured native evidence. It is host-only; the actual PDP-7 gate
 is `python3 tools/run_stage4a.py --record`.
+`test_stage4b.py` verifies fixed native trace hashes, compact-table/two-pass
+source contracts, Stage 3 capacity demand, and absence of Stage 4C encoding.
+Scanner, parser, expression, and symbol semantics execute only in PDP-7 B.

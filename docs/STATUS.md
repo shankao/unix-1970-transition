@@ -27,8 +27,9 @@ Stage 2  COMPLETE
 Stage 3  COMPLETE (3A and 3B)
 Stage 4  IN PROGRESS
 Stage 4A COMPLETE
-Stage 4B NEXT — NOT STARTED
-Stages 4C–4E NOT STARTED
+Stage 4B COMPLETE
+Stage 4C NEXT — NOT STARTED
+Stages 4D–4E NOT STARTED
 Stages 5–12 NOT STARTED
 ```
 
@@ -41,6 +42,10 @@ Completion commits verified in Git:
 - Stage 2 oracle: `51fcfb34c39fdbf68c9a87f08c9932263cf80668`
 - Stage 3A nucleus: `5908c81a1a88193b7510144a3bc44994e8a84ad8`
 - Stage 3B / Stage 3 closure: `134b2a7e9a28c061c427620f623be01fb0e19af4`
+- Stage 4A I/O substrate: `1caacfe7a87411f4c47317dd06834b1c374a962f`
+- Stage 4A machine checkpoint: `1143e4de12138bd9a18c9afcf627038478b7991e`
+- PDP-7 terminal/case clarification: `cb81e3393cce3470c2af1981965f1716f40fb978`
+- Stage 4B symbol engine and machine checkpoint: this commit
 
 ## What has been demonstrated
 
@@ -75,6 +80,16 @@ Completion commits verified in Git:
   cross-refill rewinds, observed EOF as `004`, restarted after EOF, and wrote
   all five required six-digit octal values exactly. See
   [`PDP7-AS11.md`](PDP7-AS11.md) and `evidence/stage4a/`.
+- **Stage 4B:** class-B `src/pdp7/as11/as11.b` performs an internal pass 1,
+  Stage-4A rewind, and pass 2 on the authoritative PDP-7. It scans the frozen
+  assembly-like language, maintains a PDP-11 byte-address location counter,
+  resolves forward/backward globals and repeated `0:`–`9:` locals, evaluates
+  restricted expressions, and emits deterministic semantic traces without
+  PDP-11 instruction encoding. Three positive native fixtures and thirteen
+  negative fixtures passed. The largest is 604 host bytes with 48 globals and
+  10 local definitions; capacity is 64/64. Stage 3 demand is 17 globals and 5
+  local definitions. See [`PDP7-AS11.md`](PDP7-AS11.md) and
+  `evidence/stage4b/`.
 
 The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
 `fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
@@ -82,6 +97,16 @@ bytes with SHA-256
 `ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0`.
 The native `shankao` directory retains the working runtime copies, `io.b`,
 `rewind.s`, 378-character input, generated `io.s`, linked `a.out`, and result.
+
+The Stage 4B checkpoint supersedes that machine state. The 4,096,000-byte
+`image-shankao.fs` has SHA-256
+`3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
+It retains `as11.b`, generated `as11.s`, linked `a.out`, `rewind.s`, runtime
+working copies, final fixtures/results, and the combined `probe.s`/`probe.o`.
+`fsck7` exits 0. Its sole diagnostic is a checker self-revisit: large-directory
+indirect block 2987 is marked in the inode scan and again when inode 38
+(`dd/shankao`) is traversed; debug output shows no distinct second owner and no
+other consistency warning.
 
 The active reconstructed frame convention is word 0 previous R4, word 1
 saved caller R3 (or returned value after `retv`), and word 2 onward arguments,
@@ -148,6 +173,8 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 ## Do not do yet
 
 - Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
+- Do not start Stage 4D integration or Stage 4E execution before Stage 4C's
+  independently verified encoding gate.
 - Do not merge assembler, compiler, and paper-tape responsibilities.
 - Do not enable KE11/EIS, attach disk/tape, or substitute a later UNIX system.
 - Do not modify either reference tree; use authoritative `machines/pdp7` as
@@ -157,7 +184,7 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Investigate and finalize the **Stage 4B assembler-language and symbol-engine
-design before implementation**. Consume the proven Stage 4A restart/output
-contract and local historical evidence; do not start Stage 4C instruction
-encoding, `b11`, paper-tape transport, `dc`, or UNIX.
+Investigate and finalize the **Stage 4C KA11 operand/instruction encoding
+design before implementation**. Consume the frozen Stage 4B parser/symbol
+contract and compare every later encoding with the Stage 2 oracle. Do not
+start Stage 4D, Stage 4E, `b11`, paper-tape transport, `dc`, or UNIX.

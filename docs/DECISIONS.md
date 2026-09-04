@@ -141,3 +141,15 @@ execution, and filesystem operations remain on the PDP-7 even when slow. Class-M
 tools may supervise and optimize orchestration but must not replace historical
 computation solely for convenience. Discovery uses a persistent interactive
 SIMH session; automation follows a demonstrated native procedure.
+
+## D0017 — Stage 4B compact semantic front end
+
+**Status:** accepted
+
+The reconstructed `as11` front end uses six-word, eight-significant-character
+global entries (64 capacity), a separate two-word occurrence/address table for
+numeric `0:`–`9:` labels (64 definitions), and a PDP-11 byte-address location
+counter. Assignments require immediate resolution; only fixed-size bare words
+may forward-reference labels. Expressions are octal with unary/binary `+`/`-`
+and square-bracket grouping. Stage 4B emits semantic traces only. Instruction
+and addressing encoding remain a separate Stage 4C concern.

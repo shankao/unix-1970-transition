@@ -1,0 +1,50 @@
+pre_sha256=f4355f0484e389816a85f35497cbb5f0f4594d82b5b9a387cc290f3d019c7a82
+post_sha256=3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a
+pre_git_status:
+ M AGENTS.md
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? docs/PDP7-TOOLS.md
+?? evidence/stage4b/
+?? src/pdp7/as11/as11.b
+?? tests/pdp7-as11/addrover.s
+?? tests/pdp7-as11/badexpr.s
+?? tests/pdp7-as11/badlocal.s
+?? tests/pdp7-as11/badoctal.s
+?? tests/pdp7-as11/conflict.s
+?? tests/pdp7-as11/duplicate.s
+?? tests/pdp7-as11/empty.s
+?? tests/pdp7-as11/missingb.s
+?? tests/pdp7-as11/missingf.s
+?? tests/pdp7-as11/oddword.s
+?? tests/pdp7-as11/stage4b-positive.s
+?? tests/pdp7-as11/stage4b-substantial.s
+?? tests/pdp7-as11/undefined.s
+?? tests/pdp7-as11/unmatchedl.s
+?? tests/pdp7-as11/unmatchedr.s
+?? tests/pdp7-as11/unresdot.s
+?? tools/__pycache__/
+?? tools/run_stage4b.py
+post_git_status:
+ M AGENTS.md
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? docs/PDP7-TOOLS.md
+?? evidence/stage4b/
+?? src/pdp7/as11/as11.b
+?? tests/pdp7-as11/addrover.s
+?? tests/pdp7-as11/badexpr.s
+?? tests/pdp7-as11/badlocal.s
+?? tests/pdp7-as11/badoctal.s
+?? tests/pdp7-as11/conflict.s
+?? tests/pdp7-as11/duplicate.s
+?? tests/pdp7-as11/empty.s
+?? tests/pdp7-as11/missingb.s
+?? tests/pdp7-as11/missingf.s
+?? tests/pdp7-as11/oddword.s
+?? tests/pdp7-as11/stage4b-positive.s
+?? tests/pdp7-as11/stage4b-substantial.s
+?? tests/pdp7-as11/undefined.s
+?? tests/pdp7-as11/unmatchedl.s
+?? tests/pdp7-as11/unmatchedr.s
+?? tests/pdp7-as11/unresdot.s
+?? tools/__pycache__/
+?? tools/run_stage4b.py
