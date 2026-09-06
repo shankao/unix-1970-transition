@@ -50,6 +50,10 @@ Never describe B/C/M material as original Bell Labs code.
   states that meaningfully show the development journey are also preserved as
   ordinary physical images under `eras/`. Do not invent an era manager or
   assume a PDP-11-era layout before operational requirements establish one.
+- While PDP-7-only state is sufficient, a selected experiential era is a
+  self-contained directory containing `README.md`, `boot.rim`, `pdp7.fs`, and
+  `pdp7.simh`, bootable from that directory without a wrapper. Small duplicated
+  bootstrap/configuration files are preferable to premature management tooling.
 - Beginning with the next successful PDP-7 development checkpoint (Stage 4C),
   maintain a concise native `dd/shankao/readme` describing what works and what
   does not yet exist. Update it as part of normal native development; never

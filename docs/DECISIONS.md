@@ -167,6 +167,12 @@ boot wrapper, immutability layer, or copy-on-boot mechanism is required. The
 proper representation of later PDP-11 RAM, tape, disk, and paired-machine eras
 is deferred until operational experience supplies real requirements.
 
+For PDP-7-only eras, the established self-contained form is `README.md`, the
+recovered `boot.rim`, `pdp7.fs`, and an era-local `pdp7.simh` that attaches that
+filesystem. The tiny bootstrap/configuration duplication is deliberate; no
+wrapper or management abstraction is introduced. This form is not presumed to
+fit later multi-machine eras.
+
 Starting with the next passing PDP-7 development checkpoint (Stage 4C), the
 native `dd/shankao/readme` should concisely state what works and what remains
 absent. It evolves during normal native work and naturally enters later

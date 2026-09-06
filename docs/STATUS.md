@@ -109,12 +109,14 @@ indirect block 2987 is marked in the inode scan and again when inode 38
 (`dd/shankao`) is traversed; debug output shows no distinct second owner and no
 other consistency warning.
 
-Exact, directly explorable PDP-7 images for the Stage 0, Stage 1, Stage 4A,
-and Stage 4B development states are now materialized under `eras/`. They are
-ordinary tracked files recovered from the recorded Git checkpoints, not new
-machine reconstructions. This experiential layer is distinct from the normal
-per-gate authoritative image checkpoints. A representation for PDP-11 RAM,
-tape, disk, or paired-machine eras remains deliberately undecided. Beginning
+Directly explorable PDP-7 states for Stage 0, Stage 1, Stage 4A, and Stage 4B
+are materialized under `eras/`. Each PDP-7-only directory now carries its own
+recovered bootstrap and SIMH configuration as well as the filesystem image.
+Stage 1/4A/4B remain exact checkpoint images; the Stage 0 image has intentional
+post-materialization user changes, recorded separately from its source hash in
+its README. This experiential layer is distinct from the normal per-gate
+authoritative image checkpoints. A representation for PDP-11 RAM, tape, disk,
+or paired-machine eras remains deliberately undecided. Beginning
 with the next successful PDP-7 checkpoint, Stage 4C, the native `shankao`
 directory should also contain a short `readme` describing the machine's current
 capabilities; none was inserted retroactively into these exact old images.

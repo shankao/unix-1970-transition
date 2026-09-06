@@ -131,6 +131,12 @@ content rather than requiring an era-management or copy-on-boot layer. PDP-11
 era organization is deferred until persistent tape/disk/machine combinations
 provide concrete requirements.
 
+For the currently understood PDP-7-only case, each selected era carries its
+own README, recovered bootstrap, filesystem image, and direct SIMH configuration
+so it can be used from that directory. This concrete duplication is intentional;
+do not abstract it until repeated use reveals a real need. It does not prescribe
+the later multi-machine/tape/disk layout.
+
 Before relying extensively on a recovered tool or environment, inspect its
 local source, documentation, and evidence; establish and verify one minimal
 native behavior; then automate the observed procedure. Familiar later-Unix
