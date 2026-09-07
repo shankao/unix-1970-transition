@@ -189,3 +189,15 @@ bootstrap sufficiency: implement evidenced features needed by the next gate,
 not a permanent comprehensive PDP-11 development environment on the PDP-7.
 Later migration toward native PDP-11 development is part of the intended
 historical arc, while the PDP-7 remains preserved as fallback and history.
+
+## D0020 — Stage 4C high-memory symbol arena is provisional
+
+**Status:** provisional; Stage 4C remains open
+
+The encoder made Stage-4B's static tables incompatible with ordinary B.
+Current Stage 4C retains the measured 48-global/10-local demand, uses five
+words per global by storing state in unused high bits of the first packed
+ASCII name word, and places records below `bl.s`'s two 64-word I/O buffers.
+This is native B symbol processing, not host substitution. Encoding succeeds,
+but maximum occupancy leaves only five B-stack words and fails the substantial
+regression, so this layout is evidence and a candidate—not a completed ABI.

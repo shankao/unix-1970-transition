@@ -33,16 +33,17 @@ class Stage4BArtifacts(unittest.TestCase):
         locals_ = re.findall(r"(?m)(?<![A-Za-z0-9_])([0-9]):", text)
         self.assertEqual((len(globals_), len(locals_)), (48, 10))
 
-    def test_compact_global_table_is_six_words(self) -> None:
+    def test_compact_global_table_retains_packed_names(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
-        self.assertIn("gtab[384]", source)
-        self.assertIn("nglob * 6", source)
+        self.assertIn("017537-nglob*5", source)
+        self.assertIn("nglob >= 48", source)
+        self.assertIn("p[0]&0177777", source)
 
     def test_numeric_locals_are_separate_and_bounded(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
-        self.assertIn("ltab[128]", source)
+        self.assertIn("017544+nlocal*2", source)
         self.assertIn("occ[10]", source)
-        self.assertIn("nlocal >= 64", source)
+        self.assertIn("nlocal >= 10", source)
 
     def test_real_internal_two_pass_rewind(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
@@ -50,26 +51,25 @@ class Stage4BArtifacts(unittest.TestCase):
 
     def test_eight_character_packed_names(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
-        self.assertIn("if (i >= 8) return", source)
-        self.assertIn("p = i / 2", source)
+        self.assertIn("if(i<8)", source)
+        self.assertIn("p=i/2", source)
         self.assertNotIn("tolower", source)
 
     def test_location_is_byte_addressed(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
-        self.assertIn("loc = loc + 2", source)
-        self.assertIn("loc & 1", source)
-        self.assertIn("loc > 0177776", source)
+        self.assertIn("loc=loc+2", source)
+        self.assertIn("loc&1", source)
+        self.assertIn("loc>0177776", source)
 
     def test_expression_surface_is_deliberately_small(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
-        for spelling in ("c == '+'", "c == '-'", "c == '['", "c == ']'"):
-            self.assertIn(spelling, source)
-        self.assertNotIn("c == '('", source)
+        self.assertIn("ctab[12] '.','+','-','[',']'", source)
+        self.assertIn("tok=i+5", source)
 
-    def test_no_stage4c_opcode_engine(self) -> None:
+    def test_stage4c_extends_the_same_stage4b_source(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text().lower()
-        for mnemonic in ("mov", "jsr", "rts", "tstb", "opcode"):
-            self.assertNotIn(mnemonic, source)
+        self.assertIn("stage 4c", source)
+        self.assertIn("mfind", source)
 
     def test_stage3_symbol_demand_is_stable(self) -> None:
         sources = [

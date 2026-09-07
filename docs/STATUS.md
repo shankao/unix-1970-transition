@@ -28,7 +28,7 @@ Stage 3  COMPLETE (3A and 3B)
 Stage 4  IN PROGRESS
 Stage 4A COMPLETE
 Stage 4B COMPLETE
-Stage 4C NEXT — NOT STARTED
+Stage 4C OPEN — encoder proven; ordinary-B scale gate blocked
 Stages 4D–4E NOT STARTED
 Stages 5–12 NOT STARTED
 ```
@@ -91,6 +91,21 @@ Completion commits verified in Git:
   10 local definitions; capacity is 64/64. Stage 3 demand is 17 globals and 5
   local definitions. See [`PDP7-AS11.md`](PDP7-AS11.md) and
   `evidence/stage4b/`.
+- **Stage 4C (open):** PDP-7 B now encodes all Stage-3-required KA11
+  mnemonics, all eight addressing modes, PC-special forms, extension words,
+  branches, JMP/JSR/RTS, and deterministic `i`/`x`/`w` traces. The fixed
+  encoding fixture and 18 rejection fixtures passed against the Stage 2
+  oracle, as did the normal Stage 4B positive regression. The 48-global,
+  10-local Stage 4B substantial fixture fails with an empty result because
+  the 3,696-word executable and maximum five-word symbol arena leave only
+  five PDP-7 words between the upward-growing B stack and live symbol data.
+  Stage 4C therefore has **not passed**. See `evidence/stage4c/`.
+
+The resulting authoritative in-progress PDP-7 image is 4,096,000 bytes with
+SHA-256 `edce49358ff2f104e4114255c5ec85344626709b8a2122268617a7a66198910d`.
+Read-only `fsck7` exited 0 with the already-understood inode-38/block-2987
+self-revisit diagnostic. This is an open development checkpoint, not a
+completed Stage 4C experiential era.
 
 The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
 `fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
@@ -197,7 +212,9 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Investigate and finalize the **Stage 4C KA11 operand/instruction encoding
-design before implementation**. Consume the frozen Stage 4B parser/symbol
-contract and compare every later encoding with the Stage 2 oracle. Do not
-start Stage 4D, Stage 4E, `b11`, paper-tape transport, `dc`, or UNIX.
+Resume **Stage 4C**, not Stage 4D. Reduce the ordinary-B memory collision
+without dropping the 48-global/10-local Stage 4B substantial regression, or
+record an evidence-backed change to that resource gate. Re-run
+`python3 tools/run_stage4c.py --record --reuse-source`; the maximum-capacity
+case is deliberately last. Do not start Stage 4D, Stage 4E, `b11`, tape,
+`dc`, or UNIX.

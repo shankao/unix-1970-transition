@@ -118,6 +118,15 @@ SHA-256 `3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
 of large-directory indirect block 2987 when inode 38 is walked a second time,
 not ownership by another inode. See `evidence/stage4b/checkpoint.txt`.
 
+The open Stage 4C investigation also ran directly on this host as `shankao`
+and evolved the development image to SHA-256
+`edce49358ff2f104e4114255c5ec85344626709b8a2122268617a7a66198910d`.
+The encoder and its focused fixtures work, but the maximum Stage 4B scale
+fixture exposes an ordinary-B stack/symbol-arena collision, so this is an
+in-progress checkpoint rather than a completed era. Read-only `fsck7` exited
+0 with the same inode-38/block-2987 checker self-revisit already explained for
+Stage 4B. See `evidence/stage4c/checkpoint-open.txt`.
+
 ## PDP-11/20
 
 Role: new diskless target machine.

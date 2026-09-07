@@ -1,0 +1,562 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+CPU     idle disabled
+        8KW, EAE
+./unixv0.simh-19> att rb image-shankao.fs
+%SIM-INFO: RB: buffering file in memory
+./unixv0.simh-23> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+PDP-7 simulator configuration
+
+CPU     idle disabled
+CLK     60Hz, devno=00
+PTR     devno=01
+PTP     devno=02
+TTI     devno=03
+TTO     devno=04
+LPT     disabled
+DRM     disabled
+RB      devno=71
+DT      disabled
+G2OUT   devno=05
+G2IN    devno=43-44
+
+login: shankao
+password: shankao
+@ rm as11.s
+@ rm a.out
+@ rm rewind.s
+@ ed
+edit
+a
+" Stage 4A B-callable input rewind helper.
+" Class B reconstruction support; not surviving Bell Labs source.
+"
+" bl.s getc returns iflg before consulting cibufp/eibufp.  Reset the
+" descriptor with the authentic seek syscall, discard that pending character,
+" and make the current range empty so the next getc refills from .fin.
+
+.rewind: .+1
+   n 8
+   n 7
+   lac .fin
+   sys seek; 0; 0
+   sma
+   jmp 1f
+   jmp stop
+1:
+   dzm iflg
+   lac eibufp
+   dac cibufp
+   jmp fetch
+.
+w rewind.s
+472
+q
+@ b as11.b as11.s
+@ as s4op.s s4bl.s as11.s rewind.s s4bi.s
+I
+II
+s4op.s  
+s4bl.s  
+as11.s  
+rewind.s
+s4bi.s  
+@ stat as11.b as11.s a.out
+240 17 16 01 13004
+236 17 16 01 20031
+241 17 16 01 07160
+@ rm enc.s
+@ ed
+edit
+a
+/ stage 4c all-mode and bootstrap-mnemonic encoding fixture
+.=001000
+start:
+mov r0,r1
+mov (r0),(r1)
+mov (r0)+,(r1)+
+mov *(r0)+,*(r1)+
+mov -(r0),-(r1)
+mov *-(r0),*-(r1)
+mov 2(r0),4(r1)
+mov *6(r0),*10(r1)
+mov $1,r0
+mov *$177566,r0
+mov target,r0
+mov *target,r0
+mov target,target2
+movb $101,*$177566
+cmp r0,r1
+add r0,r1
+clr r0
+tst r0
+tstb *$177564
+asl r0
+asr r0
+jmp (r3)
+jsr r5,(r3)
+rts r5
+br forward
+012345
+forward:
+bne start
+bpl forward
+halt
+target:
+1
+target2:
+2
+mark:
+mark
+.=002000
+br .+0400
+.=002400
+br .-0376
+.
+w enc.s
+510
+q
+@ rm enc.o
+@ a.out enc.s enc.o
+@ cat enc.o
+l start 001000
+i 001000 010001
+i 001002 011011
+i 001004 012021
+i 001006 013031
+i 001010 014041
+i 001012 015051
+i 001014 016061
+x 001016 000002
+x 001020 000004
+i 001022 017071
+x 001024 000006
+x 001026 000010
+i 001030 012700
+x 001032 000001
+i 001034 013700
+x 001036 177566
+i 001040 016700
+x 001042 000060
+i 001044 017700
+x 001046 000054
+i 001050 016767
+x 001052 000050
+x 001054 000050
+i 001056 112737
+x 001060 000101
+x 001062 177566
+i 001064 020001
+i 001066 060001
+i 001070 005000
+i 001072 005700
+i 001074 105737
+x 001076 177564
+i 001100 006300
+i 001102 006200
+i 001104 000113
+i 001106 004513
+i 001110 000205
+i 001112 000401
+w 001114 012345
+l forward 001116
+i 001116 001330
+i 001120 100376
+i 001122 000000
+l target 001124
+w 001124 000001
+l target2 001126
+w 001126 000002
+l mark 001130
+w 001130 001130
+i 002000 000577
+i 002400 000600
+@ rm pos.s
+@ ed
+edit
+a
+/ comments only before the first statement ; ignored separator
+.=[0+0] / grouping in a resolvable location assignment
+.=001000; base=7
+start:
+012345 / comment ; this must be ignored
+forward
+.+2
+-base+[2+3]
+1f; 1:; 1b; 1f; 1:; 1b
+2f; 3f; 2:; 2b; 3:; 3b
+forward:
+start+2
+longnamex=1
+longnamey=2
+longnamex
+base=10
+base
+foo:; 1
+bar:; foo+2
+alpha=20
+alpha-1+2
+[alpha-[3+1]]+1
+4f
+4:
+4b
+/ padding makes this source cross the 128-character B input refill boundary
+.
+w pos.s
+456
+q
+@ rm pos.o
+@ a.out pos.s pos.o
+@ cat pos.o
+a base 000007
+l start 001000
+w 001000 012345
+w 001002 001030
+w 001004 001006
+w 001006 177776
+w 001010 001012
+n 1 001012
+w 001012 001012
+w 001014 001016
+n 1 001016
+w 001016 001016
+w 001020 001024
+w 001022 001026
+n 2 001024
+w 001024 001024
+n 3 001026
+w 001026 001026
+l forward 001030
+w 001030 001002
+a longname 000001
+a longname 000002
+w 001032 000002
+a base 000010
+w 001034 000010
+l foo 001036
+w 001036 000001
+l bar 001040
+w 001040 001040
+a alpha 000020
+w 001042 000021
+w 001044 000015
+w 001046 001050
+n 4 001050
+w 001050 001050
+@ rm bop.s
+bop.s    ?
+@ ed
+edit
+a
+mov ,r0
+.
+w bop.s
+8
+q
+@ rm bop.o
+bop.o    ?
+@ a.out bop.s bop.o
+@ cat bop.o
+e 000001 xp
+@ rm breg.s
+breg.s   ?
+@ ed
+edit
+a
+rts r6
+.
+w breg.s
+7
+q
+@ rm breg.o
+breg.o   ?
+@ a.out breg.s breg.o
+@ cat breg.o
+e 000001 rg
+@ rm bsyn.s
+bsyn.s   ?
+@ ed
+edit
+a
+mov *r0,r1
+.
+w bsyn.s
+11
+q
+@ rm bsyn.o
+bsyn.o   ?
+@ a.out bsyn.s bsyn.o
+@ cat bsyn.o
+e 000001 ea
+@ rm bpar.s
+bpar.s   ?
+@ ed
+edit
+a
+mov (r0,r1
+.
+w bpar.s
+11
+q
+@ rm bpar.o
+bpar.o   ?
+@ a.out bpar.s bpar.o
+@ cat bpar.o
+e 000001 rp
+@ rm bplus.s
+bplus.s  ?
+@ ed
+edit
+a
+mov +1,r0
+.
+w bplus.s
+10
+q
+@ rm bplus.o
+bplus.o  ?
+@ a.out bplus.s bplus.o
+@ cat bplus.o
+e 000001 xp
+@ rm bstar.s
+bstar.s  ?
+@ ed
+edit
+a
+mov **,r0
+.
+w bstar.s
+10
+q
+@ rm bstar.o
+bstar.o  ?
+@ a.out bstar.s bstar.o
+@ cat bstar.o
+e 000001 xp
+@ rm brodd.s
+brodd.s  ?
+@ ed
+edit
+a
+.=001000
+br 001003
+.
+w brodd.s
+19
+q
+@ rm brodd.o
+brodd.o  ?
+@ a.out brodd.s brodd.o
+@ cat brodd.o
+e 000002 br
+@ rm brlow.s
+brlow.s  ?
+@ ed
+edit
+a
+.=001000
+br .-0400
+.
+w brlow.s
+19
+q
+@ rm brlow.o
+brlow.o  ?
+@ a.out brlow.s brlow.o
+@ cat brlow.o
+e 000002 br
+@ rm brhigh.s
+brhigh.s ?
+@ ed
+edit
+a
+.=001000
+br .+0402
+.
+w brhigh.s
+19
+q
+@ rm brhigh.o
+brhigh.o ?
+@ a.out brhigh.s brhigh.o
+@ cat brhigh.o
+e 000002 br
+@ rm bjmp.s
+bjmp.s   ?
+@ ed
+edit
+a
+jmp r0
+.
+w bjmp.s
+7
+q
+@ rm bjmp.o
+bjmp.o   ?
+@ a.out bjmp.s bjmp.o
+@ cat bjmp.o
+e 000001 jm
+@ rm bjsr.s
+bjsr.s   ?
+@ ed
+edit
+a
+jsr r5,r0
+.
+w bjsr.s
+10
+q
+@ rm bjsr.o
+bjsr.o   ?
+@ a.out bjsr.s bjsr.o
+@ cat bjsr.o
+e 000001 jm
+@ rm bmul.s
+bmul.s   ?
+@ ed
+edit
+a
+mul r0,r1
+.
+w bmul.s
+10
+q
+@ rm bmul.o
+bmul.o   ?
+@ a.out bmul.s bmul.o
+@ cat bmul.o
+e 000001 st
+@ rm bdiv.s
+bdiv.s   ?
+@ ed
+edit
+a
+div r0,r1
+.
+w bdiv.s
+10
+q
+@ rm bdiv.o
+bdiv.o   ?
+@ a.out bdiv.s bdiv.o
+@ cat bdiv.o
+e 000001 st
+@ rm bash.s
+bash.s   ?
+@ ed
+edit
+a
+ash r0,r1
+.
+w bash.s
+10
+q
+@ rm bash.o
+bash.o   ?
+@ a.out bash.s bash.o
+@ cat bash.o
+e 000001 st
+@ rm bashc.s
+bashc.s  ?
+@ ed
+edit
+a
+ashc r0,r1
+.
+w bashc.s
+11
+q
+@ rm bashc.o
+bashc.o  ?
+@ a.out bashc.s bashc.o
+@ cat bashc.o
+e 000001 st
+@ rm bxor.s
+bxor.s   ?
+@ ed
+edit
+a
+xor r0,r1
+.
+w bxor.s
+10
+q
+@ rm bxor.o
+bxor.o   ?
+@ a.out bxor.s bxor.o
+@ cat bxor.o
+e 000001 st
+@ rm bsob.s
+bsob.s   ?
+@ ed
+edit
+a
+sob r0,.
+.
+w bsob.s
+9
+q
+@ rm bsob.o
+bsob.o   ?
+@ a.out bsob.s bsob.o
+@ cat bsob.o
+e 000001 st
+@ rm bmark.s
+bmark.s  ?
+@ ed
+edit
+a
+mark r0
+.
+w bmark.s
+8
+q
+@ rm bmark.o
+bmark.o  ?
+@ a.out bmark.s bmark.o
+@ cat bmark.o
+e 000001 st
+@ rm large.s
+@ ed
+edit
+a
+/ stage 4b capacity and resource fixture: 48 globals, 10 local definitions
+.=002000
+a00=0;a01=1;a02=2;a03=3;a04=4;a05=5;a06=6;a07=7
+a10=10;a11=11;a12=12;a13=13;a14=14;a15=15;a16=16;a17=17
+s00:;a00
+s01:;a01
+s02:;a02
+s03:;a03
+s04:;a04
+s05:;a05
+s06:;a06
+s07:;a07
+s10:;a10
+s11:;a11
+s12:;a12
+s13:;a13
+s14:;a14
+s15:;a15
+s16:;a16
+s17:;a17
+s20:;s00;s21:;s01;s22:;s02;s23:;s03
+s24:;s04;s25:;s05;s26:;s06;s27:;s07
+s30:;s10;s31:;s11;s32:;s12;s33:;s13
+s34:;s14;s35:;s15;s36:;s16;s37:;s17
+0:;0b;1:;1b;2:;2b;3:;3b;4:;4b
+5:;5b;6:;6b;7:;7b;8:;8b;9:;9b
+/ long enough to cross multiple buffered-input refills on the pdp-7
+.
+w large.s
+604
+q
+@ rm large.o
+@ a.out large.s large.o
+@ cat large.o
+@ 
+Simulation stopped, PC: 02256 (JMP 2254)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs

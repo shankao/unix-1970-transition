@@ -184,13 +184,60 @@ hashes. The final image SHA-256 is
 `3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
 See `evidence/stage4b/` for traces, diagnostics, and checkpoint details.
 
+## Stage 4C — KA11 encoding (open)
+
+Local Stage 3 sources require exactly `add asl asr bne bpl br clr cmp halt
+jmp mov movb tst tstb`; `movb`/`tstb` are byte forms and `br`/`bne`/`bpl`
+are branches. Stage 4C also adds JSR and RTS because their encoding classes
+and bootstrap value are small. No other mnemonic is accepted; in particular
+`mul div ash ashc xor sob mark` remain ordinary identifiers or errors, and
+the threaded-runtime symbol `mark` remains usable as a raw expression.
+
+The B operand parser accepts `r0`–`r5`, `sp`, `pc`, `(r)`, `(r)+`, `*(r)+`,
+`-(r)`, `*-(r)`, `expr(r)`, `*expr(r)`, `$expr`, `*$expr`, `expr`, and
+`*expr`. It records 0/no extension, 1/absolute extension, or 2/PC-relative
+extension. Source extensions precede destination extensions. For an extension
+at E, PC-relative output is `target-(E+2)`. Byte instructions still emit full
+16-bit extension words. JMP/JSR register-mode destinations are rejected.
+
+Branch byte delta is `target-(A+2)`, checked against `-0400..0376` before
+division. Because native B negative division did not have the initially
+assumed behavior, the implementation divides a positive magnitude and restores
+the sign. Native `-0200` and `0177` word-displacement boundaries pass; `-0201`,
+`0200`, and odd targets fail. Pass 2 emits `i` instruction, `x` extension, and
+existing `w` raw-word records.
+
+The fixed native encoding trace contains 30 oracle-decodable instructions and
+matches the Stage 2 vectors across all eight modes, PC-special modes, dual
+extensions, bytes, branches, JMP, JSR, RTS, and every Stage 3 mnemonic. All 18
+new negative fixtures pass, as does the normal Stage 4B positive fixture.
+
+### Ordinary-B resource blocker
+
+This gate is not complete. The linked artifact is 3,696 words (`007160`),
+from 5,636-word `as11.b` (`013004`) and 8,217-word generated `as11.s`
+(`020031`). `bl.s` reserves the top 128 words for input/output buffers. To
+avoid charging unused capacity to the executable, the current reconstruction
+stores up to 48 five-word globals downward from `017537` and ten two-word
+numeric locals at `017544..017567`; state occupies otherwise-unused high bits
+of the first packed ASCII name word. This remains native B processing.
+
+At the measured maximum (48 globals, 10 locals), the lowest global begins at
+`017164`, while the executable's upward-growing B stack begins at `017160`.
+Only five words remain, and the 604-byte Stage 4B substantial fixture exits
+with an empty result. Consequently Stage 4C is **OPEN/FAIL**, no native
+`shankao/readme` was installed, no Stage-4C era was materialized, and Stage 4D
+must not begin. The informative attempts and all successful partial results
+are retained in `evidence/stage4c/`.
+
 ## Remaining Stage 4 gates
 
 - **4B: complete.** Language, tokenizer/parser, and two-pass symbol/local-label
   engine; no target encoding.
-- **4C:** KA11 encoding and raw words checked by the Stage 2 oracle.
+- **4C: open.** Encoding is correct; resolve the ordinary-B maximum-capacity
+  stack collision without losing the established Stage 4B contract.
 - **4D:** integrate and resource-test usable PDP-7 B `as11`.
 - **4E:** reproduce and execute the Stage 3 nested-call gold program from
   PDP-7-produced words using class-M loading.
 
-Stage 4C is next and has not started.
+Stage 4C remains current; Stage 4D has not started.

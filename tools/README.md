@@ -22,3 +22,8 @@ These tools exist to verify encodings, inspect tapes, automate reproducibility c
   parser/symbol engine. It can reuse installed source, retains PDP-7-created
   traces, and compares fixed hashes; it does not parse or resolve source on
   the host.
+- `run_stage4c.py`: class-M supervision for the open native Stage 4C KA11
+  encoder. It builds and runs the B program, transfers fixed fixtures, and
+  compares native traces; it contains no PDP-11 encoding implementation. The
+  maximum-capacity regression is intentionally last and currently exposes the
+  documented ordinary-B memory blocker.

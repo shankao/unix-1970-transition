@@ -47,7 +47,7 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 
 ### Stage 4 — `as11`
 
-**Status: IN PROGRESS — Stages 4A–4B COMPLETE; Stage 4C NEXT**
+**Status: IN PROGRESS — Stages 4A–4B COMPLETE; Stage 4C OPEN**
 
 - **Objective:** reconstruct the attested simple PDP-11 assembler in B and run
   it on `machines/pdp7` as `shankao`. It assembles PDP-11 code; it does not own
@@ -94,7 +94,7 @@ Stage 4C is also the first checkpoint expected to maintain a short native
 
 #### Stage 4C — PDP-11 encoding engine
 
-**Status: NOT STARTED**
+**Status: OPEN — encoding passes; maximum Stage 4B scale regression blocks completion**
 
 - **Objective:** add KA11 operands/instructions, extension words, branches,
   and raw-word emission to the established language/symbol engine.

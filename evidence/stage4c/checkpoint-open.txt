@@ -1,0 +1,36 @@
+Stage 4C open development checkpoint
+
+authoritative image:
+  machines/pdp7/pdp7-unix/build/image-shankao.fs
+sha256:
+  edce49358ff2f104e4114255c5ec85344626709b8a2122268617a7a66198910d
+
+read-only fsck7:
+  exit 0
+  repeated diagnostic: In-use block 2987 is being re-used
+  interpretation: known inode-38 checker self-revisit documented at Stage 4B
+
+native sizes (PDP-7 words):
+  as11.b  013004 = 5636
+  as11.s  020031 = 8217
+  a.out   007160 = 3696
+
+configured native capacity:
+  globals: 48 entries x 5 words, downward from 017537
+  numeric locals: 10 entries x 2 words, 017544..017567
+  lowest maximum global entry: 017164
+  upward-growing B stack begins near: 017160
+  remaining separation at maximum occupancy: 5 words
+
+final native results:
+  fixed KA11 encoding fixture: PASS
+  ordinary Stage 4B positive fixture: PASS
+  Stage 4C negative fixtures: 18 PASS
+  Stage 4B substantial fixture (48 globals, 10 locals): FAIL, empty trace
+
+The image retains as11.b, generated as11.s, linked a.out, fixtures, and
+successful output traces. It also retains one zero-length accidental filename
+(`5:;5b;o`) from an earlier terminal-transfer desynchronization; it is recorded
+rather than risking another native mutation after the gate failure.
+
+No native Stage 4C readme was installed and no Stage 4C era was materialized.

@@ -1,0 +1,35 @@
+Stage 3 KA11 instruction inventory (local-source audit)
+
+Sources audited:
+  tools/build_stage3a.py
+  tools/build_stage3b.py
+  src/pdp11/threaded-b/core.s
+  src/pdp11/threaded-b/control-call.s
+
+Unique mnemonics used by the proven Stage 3 builders:
+  add asl asr bne bpl br clr cmp halt jmp mov movb tst tstb
+
+Byte variants used:
+  movb tstb
+
+Branches used:
+  br bne bpl
+
+Addressing forms used:
+  register
+  register deferred
+  autoincrement
+  autoincrement deferred
+  autodecrement
+  indexed
+  immediate (PC autoincrement)
+  absolute (PC autoincrement deferred)
+
+The Stage 3 sources do not use autodecrement deferred, indexed deferred,
+ordinary PC-relative operands, JSR, RTS, or raw assembler-word statements as
+PDP-11 instructions. Stage 4C nevertheless tests all eight KA11 operand modes;
+JSR and RTS are included as cheap bootstrap-relevant members of encoding
+classes already needed by the gate.
+
+The Stage 3 threaded operator named `mark` is a data-stream symbol, not the
+later PDP-11 MARK instruction.

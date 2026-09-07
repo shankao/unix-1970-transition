@@ -1,0 +1,16 @@
+stage 4c
+
+pdp7 is the development host.
+
+working:
+b
+as11 two-pass input
+labels and expressions
+pdp11 ka11 instruction encoding
+encoding trace
+
+not yet working:
+final as11 object map
+b11
+paper tape transfer
+pdp11 unix
