@@ -1,0 +1,35 @@
+set cpu 8k
+set cpu eae
+set cpu history=100
+set cpu noidle
+set throttle 400K
+show cpu
+
+; set up SIMH devices:
+
+; UNIX character translations (CR to NL, ESC to ALTMODE):
+set tti unix
+
+; Paper tape devices exist and begin unattached in a fresh simulator process.
+; This PDP-7 SIMH build rejects SET PTR/PTP ENABLED; attach them only for a
+; recorded tape operation.
+
+; RB09 fixed head disk:
+set rb ena
+att rb pdp7.fs
+
+; enable TELNET in GRAPHICS-2 keyboard/display(!!)
+set g2in ena
+att -U g2in 12345
+
+; disable hardware UNIX-7 doesn't know about:
+set lpt disa
+set drm disa
+set dt disa
+
+; show device settings:
+show dev
+
+; load and run the paper tape bootstrap (loads system from disk)
+load boot.rim 010000
+go

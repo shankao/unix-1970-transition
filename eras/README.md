@@ -23,6 +23,9 @@ can use port 12345 at a time without an intentional configuration change.
 The era-local configuration attaches only its own `pdp7.fs`, leaves paper tape
 unattached, loads the bootstrap at octal `010000`, and runs it.
 
+Current PDP-7 snapshots are `stage-0`, `stage-1`, `stage-4a`, `stage-4b`, and
+`stage-4c`.
+
 The images are not immutable museum objects. A user may boot and change one;
 normal Git usage such as `git restore eras/stage-4b/pdp7.fs` restores its
 recorded bytes. Each successful PDP-7 development gate still checkpoints the

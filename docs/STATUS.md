@@ -51,6 +51,8 @@ Completion commits verified in Git:
   `b3414a051761ba1ddadc4a54081a207aa3fa2371`
 - Stage 4C capacity characterization:
   `9ad806b0c66a546ef48b43d559d619bdb3251eb7`
+- Stage 4C completion/machine checkpoint:
+  `b0379f3548c309d464d23dbcc5fb1178b19ccbe6`
 
 ## What has been demonstrated
 
