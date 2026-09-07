@@ -91,6 +91,14 @@ class Stage4CHostTests(unittest.TestCase):
         self.assertIn("outcode('w ',loc,v&0177777)", AS11)
         self.assertIn("ctab[12]", AS11)
         self.assertIn("'[',']'", AS11)
+        self.assertIn("nglob >= 48", AS11)  # no premature 38-global guard
+
+    def test_native_completion_readme_records_open_capacity_work(self):
+        text = (ROOT / "src/pdp7/as11/readme.stage4c").read_text()
+        self.assertIn("stage 4c", text)
+        self.assertIn("ka11 instruction encoding", text)
+        self.assertIn("final as11 memory capacity is not fixed yet", text)
+        self.assertIn("stage 4d", text)
 
     def test_later_instructions_are_not_mnemonics(self):
         for name in ("mul", "div", "ash", "ashc", "xor", "sob", "mark"):

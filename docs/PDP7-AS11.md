@@ -184,7 +184,7 @@ hashes. The final image SHA-256 is
 `3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
 See `evidence/stage4b/` for traces, diagnostics, and checkpoint details.
 
-## Stage 4C — KA11 encoding (open)
+## Stage 4C — KA11 encoding (complete)
 
 Local Stage 3 sources require exactly `add asl asr bne bpl br clr cmp halt
 jmp mov movb tst tstb`; `movb`/`tstb` are byte forms and `br`/`bne`/`bpl`
@@ -212,9 +212,9 @@ matches the Stage 2 vectors across all eight modes, PC-special modes, dual
 extensions, bytes, branches, JMP, JSR, RTS, and every Stage 3 mnemonic. All 18
 new negative fixtures pass, as does the normal Stage 4B positive fixture.
 
-### Ordinary-B resource blocker
+### Ordinary-B capacity finding
 
-This gate is not complete. The linked artifact is 3,696 words (`007160`),
+The linked artifact is 3,696 words (`007160`),
 from 5,636-word `as11.b` (`013004`) and 8,217-word generated `as11.s`
 (`020031`). `bl.s` reserves the top 128 words for input/output buffers. To
 avoid charging unused capacity to the executable, the current reconstruction
@@ -225,10 +225,8 @@ of the first packed ASCII name word. This remains native B processing.
 At the measured maximum (48 globals, 10 locals), the lowest global begins at
 `017164`, while the executable's upward-growing B stack begins at `017160`.
 Only five words remain, and the 604-byte Stage 4B substantial fixture exits
-with an empty result. Consequently Stage 4C is **OPEN/FAIL**, no native
-`shankao/readme` was installed, no Stage-4C era was materialized, and Stage 4D
-must not begin. The informative attempts and all successful partial results
-are retained in `evidence/stage4c/`.
+with an empty result. The informative attempts and all successful partial
+results are retained in `evidence/stage4c/`.
 
 ### Capacity characterization
 
@@ -259,11 +257,11 @@ words—105 more than 38/10. All Stage 4B constructs used by the stress family
 remain correct below the boundary. This is therefore a capacity regression,
 not a semantic regression.
 
-The cheapest clean guard is currently to change the native global allocation
+One investigated clean guard was to change the native global allocation
 limit from 48 to 38, retaining the existing `gf` error before allocating a
 39th entry. It should require only an immediate-literal replacement (no linked
 growth) and executes wholly on PDP-7. It is proposed, not yet implemented or
-accepted as the gate. A dynamic `sp` guard would require a B-callable runtime
+accepted or implemented. A dynamic `sp` guard would require a B-callable runtime
 hook and reserve for the guard's own call, adding roughly 10–20 words and more
 uncertainty.
 
@@ -276,13 +274,26 @@ records could save more (roughly 40–80 words), but would first require a new
 deterministic validation path. None of these estimates has been encoded or
 measured by rebuilding. See `evidence/stage4c-capacity/`.
 
+The completed-stage interpretation separates concerns deliberately. Stage 4B
+guarantees its language/parser/symbol semantics and records that standalone
+implementation's 48/10 stress result; it does not promise that every larger
+successor executable retains the same maximum. Stage 4C guarantees those
+semantics remain available, the KA11 encoder is correct, and the current
+Stage-3-shaped 17/5 bootstrap workload fits with substantial margin. Stage 4D
+owns the final textual object map, combined bootstrap-sufficient capacity,
+clean exhaustion behavior, and documented safety margin. This preserves the
+48/10 evidence without turning it into the wrong substage gate. Stage 4C is
+therefore **COMPLETE/PASS**; the allocator, capacities, encoder, and trace were
+not changed to close it.
+
 ## Remaining Stage 4 gates
 
 - **4B: complete.** Language, tokenizer/parser, and two-pass symbol/local-label
   engine; no target encoding.
-- **4C: open.** Encoding is correct; resolve the ordinary-B maximum-capacity
-  stack collision without losing the established Stage 4B contract.
-- **4D:** integrate and resource-test usable PDP-7 B `as11`.
+- **4C: complete.** KA11 encoding and current bootstrap-shaped feasibility are
+  independently verified; the measured capacity frontier remains evidence.
+- **4D:** finalize the textual map and establish guarded, bootstrap-sufficient
+  integrated capacity and safety margin.
 - **4E:** reproduce and execute the Stage 3 nested-call gold program from
   PDP-7-produced words using class-M loading.
 

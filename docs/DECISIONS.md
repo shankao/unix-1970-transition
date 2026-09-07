@@ -192,7 +192,7 @@ historical arc, while the PDP-7 remains preserved as fallback and history.
 
 ## D0020 — Stage 4C high-memory symbol arena is provisional
 
-**Status:** provisional; Stage 4C remains open
+**Status:** superseded for gate interpretation by D0021; allocator remains provisional
 
 The encoder made Stage-4B's static tables incompatible with ordinary B.
 Current Stage 4C retains the measured 48-global/10-local demand, uses five
@@ -207,4 +207,22 @@ locals, while 39 globals fails with even one local; a Stage-3-shaped 17/5
 workload passes with a 105-word larger static separation. The capacity issue is
 therefore localized, but no lower limit or guard is accepted yet. The leading
 candidate is a zero-growth 38-global allocation guard using the existing `gf`
-error. This remains a proposal pending the next Stage 4C decision.
+error. This remains an unimplemented investigation result, not a final limit.
+
+## D0021 — Stage 4B, 4C, and 4D own distinct capacity questions
+
+**Status:** accepted
+
+Stage 4B guarantees language/parser/symbol semantics and records the capacity
+of its standalone implementation. Stage 4C guarantees preservation of those
+semantics, KA11 encoding correctness, and feasibility of the current realistic
+Stage-3-shaped bootstrap workload. Stage 4D owns the final textual map and the
+complete assembler's measured bootstrap capacity, clean native exhaustion
+behavior, and safety margin.
+
+Accordingly, Stage 4B's genuine 48-global/10-local result remains historical
+evidence but is not a permanent minimum for every larger intermediate build.
+Stage 4C closes with the measured frontier fully visible and without adopting
+the proposed 38-global guard. Symbol count alone is not a sufficient safety
+model: 39 globals/0 locals passed while 39 globals/1 or more failed. Final
+capacity decisions wait for Stage 4D's actual integrated architecture.

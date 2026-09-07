@@ -157,13 +157,40 @@ def run(record: bool, build_only: bool, reuse_source: bool) -> None:
     print(f"PASS pre_sha256={pre_hash} post_sha256={post_hash}")
 
 
+def install_readme() -> None:
+    """Install only the reviewed native Stage 4C checkpoint status file."""
+    child = pexpect.spawn(
+        str(BUILD / "pdp7"), ["unixv0.simh"], cwd=str(BUILD),
+        encoding="latin1", timeout=30,
+    )
+    session = Session(child)
+    try:
+        child.expect_exact("login:")
+        session.line("shankao")
+        child.expect_exact("password:")
+        session.line("shankao")
+        child.expect_exact("@ ")
+        session.command("rm readme")
+        session.install("readme", NATIVE_README.read_text(encoding="ascii"))
+        session.command("cat readme", timeout=60)
+    finally:
+        child.sendcontrol("e")
+        child.expect_exact("sim>", timeout=10)
+        child.sendline("quit")
+        child.expect(pexpect.EOF, timeout=10)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--record", action="store_true")
     parser.add_argument("--build-only", action="store_true")
     parser.add_argument("--reuse-source", action="store_true")
+    parser.add_argument("--install-readme-only", action="store_true")
     args = parser.parse_args()
-    run(args.record, args.build_only, args.reuse_source)
+    if args.install_readme_only:
+        install_readme()
+    else:
+        run(args.record, args.build_only, args.reuse_source)
 
 
 if __name__ == "__main__":

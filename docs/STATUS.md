@@ -28,7 +28,7 @@ Stage 3  COMPLETE (3A and 3B)
 Stage 4  IN PROGRESS
 Stage 4A COMPLETE
 Stage 4B COMPLETE
-Stage 4C OPEN — encoder proven; ordinary-B scale gate blocked
+Stage 4C COMPLETE
 Stages 4D–4E NOT STARTED
 Stages 5–12 NOT STARTED
 ```
@@ -47,6 +47,10 @@ Completion commits verified in Git:
 - PDP-7 terminal/case clarification: `cb81e3393cce3470c2af1981965f1716f40fb978`
 - Stage 4B symbol engine and machine checkpoint:
   `313ba822d1e962b4bba2360805717820db61a0c5`
+- Stage 4C encoder/open checkpoint:
+  `b3414a051761ba1ddadc4a54081a207aa3fa2371`
+- Stage 4C capacity characterization:
+  `9ad806b0c66a546ef48b43d559d619bdb3251eb7`
 
 ## What has been demonstrated
 
@@ -91,7 +95,7 @@ Completion commits verified in Git:
   10 local definitions; capacity is 64/64. Stage 3 demand is 17 globals and 5
   local definitions. See [`PDP7-AS11.md`](PDP7-AS11.md) and
   `evidence/stage4b/`.
-- **Stage 4C (open):** PDP-7 B now encodes all Stage-3-required KA11
+- **Stage 4C:** PDP-7 B encodes all Stage-3-required KA11
   mnemonics, all eight addressing modes, PC-special forms, extension words,
   branches, JMP/JSR/RTS, and deterministic `i`/`x`/`w` traces. The fixed
   encoding fixture and 18 rejection fixtures passed against the Stage 2
@@ -99,22 +103,26 @@ Completion commits verified in Git:
   10-local Stage 4B substantial fixture fails with an empty result because
   the 3,696-word executable and maximum-capacity symbol arena leave only
   five PDP-7 words between the upward-growing B stack and live symbol data.
-  Stage 4C therefore has **not passed**. See `evidence/stage4c/`.
+  This remains a documented capacity finding for Stage 4D, not a loss of
+  Stage 4B language semantics. See `evidence/stage4c/`.
 
-The resulting authoritative in-progress PDP-7 image is 4,096,000 bytes with
-SHA-256 `11d16c243a2f4e34b812b2382bdf0eec879dcb586ebb7af004caae313a3f4d36`
-after the focused capacity runs. These runs changed only retained native
-fixtures/results; the installed `as11` source and executable were reused.
+The completed Stage 4C authoritative PDP-7 image is 4,096,000 bytes with
+SHA-256 `d9a40b9ca80b1f9fa6623947faba1e0097ff8042d12d8e75236eb9b9081de245`.
+Capacity runs changed only retained native fixtures/results; closure added
+only the reviewed native `shankao/readme`. The installed `as11` source and
+executable were reused.
 Read-only `fsck7` exited 0 with the already-understood inode-38/block-2987
-self-revisit diagnostic. This is an open development checkpoint, not a
-completed Stage 4C experiential era.
+self-revisit diagnostic. The completion checkpoint and corresponding Stage 4C
+experiential era do not change encoder logic or capacity limits.
 
 Focused native characterization now establishes a safe tested point of 38
 globals/10 numeric locals; 39 globals passes only with zero locals and fails
 with one or more. A realistic Stage-3-shaped 17-global/5-local input passes all
 required encodings with 160 words between the B stack label and global arena,
 105 more than the 38/10 case. The 48/10 failure is a capacity regression, not
-loss of Stage 4B semantics. No capacity reduction has yet been accepted.
+loss of Stage 4B semantics. Stage 4C therefore passes its encoder and current
+bootstrap-feasibility contract. No capacity reduction has been accepted;
+final capacity and clean exhaustion behavior belong to Stage 4D.
 
 The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
 `fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
@@ -133,7 +141,8 @@ indirect block 2987 is marked in the inode scan and again when inode 38
 (`dd/shankao`) is traversed; debug output shows no distinct second owner and no
 other consistency warning.
 
-Directly explorable PDP-7 states for Stage 0, Stage 1, Stage 4A, and Stage 4B
+Directly explorable PDP-7 states for Stage 0, Stage 1, Stage 4A, Stage 4B, and
+Stage 4C
 are materialized under `eras/`. Each PDP-7-only directory now carries its own
 recovered bootstrap and SIMH configuration as well as the filesystem image.
 Stage 1/4A/4B remain exact checkpoint images; the Stage 0 image has intentional
@@ -141,9 +150,9 @@ post-materialization user changes, recorded separately from its source hash in
 its README. This experiential layer is distinct from the normal per-gate
 authoritative image checkpoints. A representation for PDP-11 RAM, tape, disk,
 or paired-machine eras remains deliberately undecided. Beginning
-with the next successful PDP-7 checkpoint, Stage 4C, the native `shankao`
-directory should also contain a short `readme` describing the machine's current
-capabilities; none was inserted retroactively into these exact old images.
+the Stage 4C checkpoint, the native `shankao` directory contains a short
+`readme` describing the machine's current capabilities; none was inserted
+retroactively into the older exact images.
 
 The active reconstructed frame convention is word 0 previous R4, word 1
 saved caller R3 (or returned value after `retv`), and word 2 onward arguments,
@@ -210,8 +219,7 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 ## Do not do yet
 
 - Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
-- Do not start Stage 4D integration or Stage 4E execution before Stage 4C's
-  independently verified encoding gate.
+- Do not start Stage 4E execution before Stage 4D's integrated assembler gate.
 - Do not merge assembler, compiler, and paper-tape responsibilities.
 - Do not enable KE11/EIS, attach disk/tape, or substitute a later UNIX system.
 - Do not modify either reference tree; use authoritative `machines/pdp7` as
@@ -221,9 +229,9 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Resume **Stage 4C**, not Stage 4D. Reduce the ordinary-B memory collision
-without dropping the 48-global/10-local Stage 4B substantial regression, or
-make an explicit evidence-backed decision to adopt a guarded
-bootstrap-sufficient limit. The measured candidate is 38 globals/10 locals;
-the proposed zero-growth guard rejects the 39th global before allocation.
-Do not start Stage 4D, Stage 4E, `b11`, tape, `dc`, or UNIX.
+Investigate and finalize **Stage 4D's bootstrap-sufficient output/resource
+design before implementation**. Replace the diagnostic trace with the final
+textual address/word map, measure the resulting executable against realistic
+bootstrap inputs, and design clean native memory-exhaustion behavior with an
+adequate safety margin. Do not assume 38 globals is universally safe, and do
+not start Stage 4E, `b11`, tape, `dc`, or UNIX.

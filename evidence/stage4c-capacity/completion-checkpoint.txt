@@ -1,0 +1,25 @@
+Stage 4C completion machine checkpoint
+
+authoritative image:
+  machines/pdp7/pdp7-unix/build/image-shankao.fs
+pre-closure sha256:
+  11d16c243a2f4e34b812b2382bdf0eec879dcb586ebb7af004caae313a3f4d36
+final sha256:
+  d9a40b9ca80b1f9fa6623947faba1e0097ff8042d12d8e75236eb9b9081de245
+
+native closure change:
+  installed reviewed lowercase dd/shankao/readme as shankao
+  no as11 source, executable, allocator, capacity, or trace change
+
+read-only fsck7:
+  exit 0
+  repeated diagnostic: In-use block 2987 is being re-used
+  interpretation: known inode-38 checker self-revisit documented at Stage 4B
+
+Stage 4C closes on encoder correctness, preservation of Stage 4B language
+semantics, and successful current Stage-3-shaped bootstrap demand. The full
+capacity frontier and 48/10 failure remain evidence for Stage 4D, which owns
+the final object map, guarded capacity, clean exhaustion, and safety margin.
+
+No 38-global guard was implemented. No PDP-11 was booted. Stage 4D was not
+started.

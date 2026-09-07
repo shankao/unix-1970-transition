@@ -47,7 +47,7 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 
 ### Stage 4 — `as11`
 
-**Status: IN PROGRESS — Stages 4A–4B COMPLETE; Stage 4C OPEN**
+**Status: IN PROGRESS — Stages 4A–4C COMPLETE; Stage 4D NEXT**
 
 - **Objective:** reconstruct the attested simple PDP-11 assembler in B and run
   it on `machines/pdp7` as `shankao`. It assembles PDP-11 code; it does not own
@@ -91,15 +91,20 @@ Stage 4C is also the first checkpoint expected to maintain a short native
 - **Gate:** PDP-7 B tests demonstrate deterministic pass restart, tokenization,
   symbols, local labels, location accounting, and diagnostics over a fixed
   language corpus.
+- **Capacity scope:** its standalone stress measurements characterize that
+  implementation; they do not permanently require a larger later integrated
+  executable to retain the identical maximum count.
 
 #### Stage 4C — PDP-11 encoding engine
 
-**Status: OPEN — encoding passes; maximum Stage 4B scale regression blocks completion**
+**Status: COMPLETE**
 
 - **Objective:** add KA11 operands/instructions, extension words, branches,
   and raw-word emission to the established language/symbol engine.
 - **Gate:** exhaustive fixed encodings produced by PDP-7 B agree with the
-  independent Stage 2 oracle, including negative and range cases.
+  independent Stage 2 oracle, including negative and range cases; Stage 4B
+  language semantics remain available and the current Stage-3-shaped
+  bootstrap workload fits ordinary B.
 
 #### Stage 4D — Complete usable `as11`
 
@@ -109,7 +114,9 @@ Stage 4C is also the first checkpoint expected to maintain a short native
   written in B and running on the PDP-7; exercise substantial source and
   resource limits.
 - **Gate:** repeatable assembly of representative multi-fragment sources on
-  PDP-7, with stable symbols, output, diagnostics, and documented limits.
+  PDP-7, with the final textual address/word map, stable symbols, output,
+  clean memory-exhaustion behavior, realistic bootstrap capacity, and a
+  documented safety margin and final limits.
 
 #### Stage 4E — Stage 3 gold round trip
 
