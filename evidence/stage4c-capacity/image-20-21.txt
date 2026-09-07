@@ -1,0 +1,16 @@
+pre_sha256=a4ca51c134170ba52b551557ab0eb97e8963309a5315efc443c15ccaf626e8ad
+post_sha256=c72ca146b03269bcbe1163ad8375921a0f8f11e4d442972f96cedebc0cc8ee0f
+pre_git_status:
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? evidence/stage4c-capacity/
+?? tests/pdp7-as11/stage4c-stage3-shaped.s
+?? tests/test_stage4c_capacity.py
+?? tools/__pycache__/
+?? tools/run_stage4c_capacity.py
+post_git_status:
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? evidence/stage4c-capacity/
+?? tests/pdp7-as11/stage4c-stage3-shaped.s
+?? tests/test_stage4c_capacity.py
+?? tools/__pycache__/
+?? tools/run_stage4c_capacity.py

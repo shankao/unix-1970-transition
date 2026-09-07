@@ -27,3 +27,7 @@ These tools exist to verify encodings, inspect tapes, automate reproducibility c
   compares native traces; it contains no PDP-11 encoding implementation. The
   maximum-capacity regression is intentionally last and currently exposes the
   documented ordinary-B memory blocker.
+- `run_stage4c_capacity.py`: class-M generator/supervisor for bounded native
+  capacity fixtures and the Stage-3-shaped workload. It reuses the installed
+  PDP-7 executable and records exact native traces; it does not implement
+  assembler semantics.

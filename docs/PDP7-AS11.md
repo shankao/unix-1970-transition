@@ -230,6 +230,52 @@ with an empty result. Consequently Stage 4C is **OPEN/FAIL**, no native
 must not begin. The informative attempts and all successful partial results
 are retained in `evidence/stage4c/`.
 
+### Capacity characterization
+
+The linked file is loaded at user address `010000`. Its `007160` words end at
+`017157`, which is also `bi.s`'s final `stack` word; `sp`, `dp`, and `ap` are
+initialized to that label, and interpreter operations grow `sp` upward. The
+first global entry begins at `017537`; subsequent five-word entries grow
+downward. Ten two-word numeric-local entries grow upward through
+`017544..017567`. Independently, `bl.s` lowers `lastv=017770` twice by 64 words
+at startup, so its output and input buffers occupy `017570..017767` above the
+local table.
+
+Thus the earlier five-word figure is the count of addresses from the B stack
+label `017157` through `017163`, immediately below the lowest 48th global at
+`017164`. It is not measured dynamic stack headroom. With so little room,
+pass-1 calls overwrite stack/control state and the process can exit before
+`flush()`, leaving the already-created output file empty. At a less severe
+collision (39 globals plus locals), execution survives long enough for pass 2
+to observe overwritten pass-1 symbol state and emit `e 000051 ph`.
+
+Native boundary tests preserve exact semantic traces through 38 globals and
+10 local definitions (55-word static separation). Thirty-nine globals pass
+only with zero locals; adding even one local fails, so 39/0 is not a safe
+general capacity. A realistic 646-byte Stage-3-shaped input using all Stage 3
+mnemonics, 17 globals, and five local definitions passes and produces a
+1,249-byte trace decoded by the Stage 2 oracle. Its static separation is 160
+words—105 more than 38/10. All Stage 4B constructs used by the stress family
+remain correct below the boundary. This is therefore a capacity regression,
+not a semantic regression.
+
+The cheapest clean guard is currently to change the native global allocation
+limit from 48 to 38, retaining the existing `gf` error before allocating a
+39th entry. It should require only an immediate-literal replacement (no linked
+growth) and executes wholly on PDP-7. It is proposed, not yet implemented or
+accepted as the gate. A dynamic `sp` guard would require a B-callable runtime
+hook and reserve for the guard's own call, adding roughly 10–20 words and more
+uncertainty.
+
+Source inspection found only modest low-risk savings: factoring duplicate
+value/range checks may save roughly 5–10 words; merging trace-output prefixes
+may save roughly 5–12 words but increases coupling. Removing JSR/RTS could save
+their six table words plus a small dispatch arm, but would discard explicitly
+tested bootstrap support and is not recommended. Removing semantic trace
+records could save more (roughly 40–80 words), but would first require a new
+deterministic validation path. None of these estimates has been encoded or
+measured by rebuilding. See `evidence/stage4c-capacity/`.
+
 ## Remaining Stage 4 gates
 
 - **4B: complete.** Language, tokenizer/parser, and two-pass symbol/local-label

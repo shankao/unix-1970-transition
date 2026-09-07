@@ -1,0 +1,20 @@
+kind	globals	locals	host_bytes	static_separation_words	result	note
+synthetic	17	5	262	160	PASS	exact trace
+synthetic	24	5	325	125	PASS	exact trace
+synthetic	32	5	397	85	PASS	exact trace
+synthetic	36	5	433	65	PASS	exact trace
+synthetic	37	5	442	60	PASS	exact trace
+synthetic	38	5	451	55	PASS	exact trace
+synthetic	39	0	430	50	PASS	exact trace; unsafe edge case
+synthetic	39	1	436	50	FAIL	pass-2 phase error at line 000051
+synthetic	39	2	442	50	FAIL	pass-2 phase error at line 000051
+synthetic	39	4	454	50	FAIL	pass-2 phase error at line 000051
+synthetic	39	5	460	50	FAIL	pass-2 phase error at line 000051
+synthetic	39	10	490	50	FAIL	pass-2 phase error at line 000051
+synthetic	40	5	469	45	FAIL	pass-2 phase error at line 000051
+synthetic	24	0	295	125	PASS	exact trace
+synthetic	24	10	355	125	PASS	exact trace
+synthetic	32	10	427	85	PASS	exact trace
+synthetic	38	10	481	55	PASS	exact trace; highest representative safe point
+stage3-shaped	17	5	646	160	PASS	1249-byte trace, oracle decodes all instructions
+stage4b-original	48	10	604	5	FAIL	empty output; prior Stage 4C evidence

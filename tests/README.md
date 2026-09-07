@@ -24,3 +24,6 @@ and symbol semantics execute only in PDP-7 B.
 address/extension vectors, branch boundaries, oracle decoding, and that the
 runner remains instrumentation rather than a host encoder. Actual encoding
 continues to execute in B on the PDP-7.
+`test_stage4c_capacity.py` validates the fixed capacity generator, exact
+17-global/5-local Stage-3 shape, recorded pass/fail frontier, and oracle
+decoding of the native Stage-3-shaped trace.

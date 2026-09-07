@@ -201,3 +201,10 @@ ASCII name word, and places records below `bl.s`'s two 64-word I/O buffers.
 This is native B symbol processing, not host substitution. Encoding succeeds,
 but maximum occupancy leaves only five B-stack words and fails the substantial
 regression, so this layout is evidence and a candidate—not a completed ABI.
+
+Follow-up native characterization found exact traces at 38 globals/10 numeric
+locals, while 39 globals fails with even one local; a Stage-3-shaped 17/5
+workload passes with a 105-word larger static separation. The capacity issue is
+therefore localized, but no lower limit or guard is accepted yet. The leading
+candidate is a zero-growth 38-global allocation guard using the existing `gf`
+error. This remains a proposal pending the next Stage 4C decision.

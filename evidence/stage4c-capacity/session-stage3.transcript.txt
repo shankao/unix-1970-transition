@@ -1,0 +1,151 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+CPU     idle disabled
+        8KW, EAE
+./unixv0.simh-19> att rb image-shankao.fs
+%SIM-INFO: RB: buffering file in memory
+./unixv0.simh-23> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+PDP-7 simulator configuration
+
+CPU     idle disabled
+CLK     60Hz, devno=00
+PTR     devno=01
+PTP     devno=02
+TTI     devno=03
+TTO     devno=04
+LPT     disabled
+DRM     disabled
+RB      devno=71
+DT      disabled
+G2OUT   devno=05
+G2IN    devno=43-44
+
+login: shankao
+password: shankao
+@ rm s3cap.s
+@ ed
+edit
+a
+/ stage 3 shaped bootstrap workload: 17 globals and five numeric locals
+.=001000
+start:
+mov $stream,r3
+mov $frame,r4
+mov $stack,r5
+jmp *(r3)+
+c:;mov (r3)+,(r5)+;jmp *(r3)+
+x:;mov *(r3)+,(r5)+;jmp *(r3)+
+va:;mov (r3)+,r0;add r4,r0;asr r0;mov r0,(r5)+;jmp *(r3)+
+b12:;add -(r5),-2(r5);jmp *(r3)+
+b1:;mov -(r5),r0;mov -(r5),r1;asl r1;mov r0,(r1);mov r0,(r5)+;jmp *(r3)+
+emit:;tstb *$177564;bpl emit;movb r0,*$177566;jmp *(r3)+
+stop:;halt
+poll:;clr r0;tst r0;bne done;br poll
+done:;cmp r0,r1
+br 0f;0:
+1:;bne 1b
+br 2f;2:
+3:;bpl 3b
+br 4f;4:
+ext:;0102
+target:;0
+frame:;0
+stack:;0
+stream:;c;0100;c;1;b12;emit;stop
+mark:;start
+table:;x;ext;va;4;b1;target
+.
+w s3cap.s
+646
+q
+@ rm s3cap.o
+@ a.out s3cap.s s3cap.o
+@ cat s3cap.o
+l start 001000
+i 001000 012703
+x 001002 001134
+i 001004 012704
+x 001006 001130
+i 001010 012705
+x 001012 001132
+i 001014 000133
+l c 001016
+i 001016 012325
+i 001020 000133
+l x 001022
+i 001022 013325
+i 001024 000133
+l va 001026
+i 001026 012300
+i 001030 060400
+i 001032 006200
+i 001034 010025
+i 001036 000133
+l b12 001040
+i 001040 064565
+x 001042 177776
+i 001044 000133
+l b1 001046
+i 001046 014500
+i 001050 014501
+i 001052 006301
+i 001054 010011
+i 001056 010025
+i 001060 000133
+l emit 001062
+i 001062 105737
+x 001064 177564
+i 001066 100375
+i 001070 110037
+x 001072 177566
+i 001074 000133
+l stop 001076
+i 001076 000000
+l poll 001100
+i 001100 005000
+i 001102 005700
+i 001104 001001
+i 001106 000774
+l done 001110
+i 001110 020001
+i 001112 000400
+n 0 001114
+n 1 001114
+i 001114 001377
+i 001116 000400
+n 2 001120
+n 3 001120
+i 001120 100377
+i 001122 000400
+n 4 001124
+l ext 001124
+w 001124 000102
+l target 001126
+w 001126 000000
+l frame 001130
+w 001130 000000
+l stack 001132
+w 001132 000000
+l stream 001134
+w 001134 001016
+w 001136 000100
+w 001140 001016
+w 001142 000001
+w 001144 001040
+w 001146 001062
+w 001150 001076
+l mark 001152
+w 001152 001000
+l table 001154
+w 001154 001022
+w 001156 001124
+w 001160 001026
+w 001162 000004
+w 001164 001046
+w 001166 001126
+@ 
+Simulation stopped, PC: 01103 (RTL)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs

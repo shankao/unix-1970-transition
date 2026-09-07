@@ -97,15 +97,24 @@ Completion commits verified in Git:
   encoding fixture and 18 rejection fixtures passed against the Stage 2
   oracle, as did the normal Stage 4B positive regression. The 48-global,
   10-local Stage 4B substantial fixture fails with an empty result because
-  the 3,696-word executable and maximum five-word symbol arena leave only
+  the 3,696-word executable and maximum-capacity symbol arena leave only
   five PDP-7 words between the upward-growing B stack and live symbol data.
   Stage 4C therefore has **not passed**. See `evidence/stage4c/`.
 
 The resulting authoritative in-progress PDP-7 image is 4,096,000 bytes with
-SHA-256 `edce49358ff2f104e4114255c5ec85344626709b8a2122268617a7a66198910d`.
+SHA-256 `11d16c243a2f4e34b812b2382bdf0eec879dcb586ebb7af004caae313a3f4d36`
+after the focused capacity runs. These runs changed only retained native
+fixtures/results; the installed `as11` source and executable were reused.
 Read-only `fsck7` exited 0 with the already-understood inode-38/block-2987
 self-revisit diagnostic. This is an open development checkpoint, not a
 completed Stage 4C experiential era.
+
+Focused native characterization now establishes a safe tested point of 38
+globals/10 numeric locals; 39 globals passes only with zero locals and fails
+with one or more. A realistic Stage-3-shaped 17-global/5-local input passes all
+required encodings with 160 words between the B stack label and global arena,
+105 more than the 38/10 case. The 48/10 failure is a capacity regression, not
+loss of Stage 4B semantics. No capacity reduction has yet been accepted.
 
 The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
 `fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
@@ -214,7 +223,7 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 Resume **Stage 4C**, not Stage 4D. Reduce the ordinary-B memory collision
 without dropping the 48-global/10-local Stage 4B substantial regression, or
-record an evidence-backed change to that resource gate. Re-run
-`python3 tools/run_stage4c.py --record --reuse-source`; the maximum-capacity
-case is deliberately last. Do not start Stage 4D, Stage 4E, `b11`, tape,
-`dc`, or UNIX.
+make an explicit evidence-backed decision to adopt a guarded
+bootstrap-sufficient limit. The measured candidate is 38 globals/10 locals;
+the proposed zero-growth guard rejects the 39th global before allocation.
+Do not start Stage 4D, Stage 4E, `b11`, tape, `dc`, or UNIX.

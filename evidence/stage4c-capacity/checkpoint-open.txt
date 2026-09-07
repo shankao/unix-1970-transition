@@ -1,0 +1,44 @@
+Stage 4C capacity-characterization checkpoint (OPEN)
+
+authoritative image:
+  machines/pdp7/pdp7-unix/build/image-shankao.fs
+sha256 before characterization:
+  edce49358ff2f104e4114255c5ec85344626709b8a2122268617a7a66198910d
+sha256 after characterization:
+  11d16c243a2f4e34b812b2382bdf0eec879dcb586ebb7af004caae313a3f4d36
+
+native changes:
+  retained capacity fixtures/results and Stage-3-shaped fixture/result only
+  installed as11.b/as11.s/a.out reused; no encoder rebuild or source change
+
+read-only fsck7:
+  exit 0
+  repeated diagnostic: In-use block 2987 is being re-used
+  interpretation: known inode-38 checker self-revisit documented at Stage 4B
+
+memory addresses (PDP-7 word addresses):
+  user load base:                    010000
+  linked a.out words:                007160 (3696)
+  bi.s final stack label / sp base:  017157
+  first global entry:                017537..017543
+  numeric-local arena:               017544..017567
+  bl.s I/O buffers:                  017570..017767
+  bl.s initial lastv:                017770
+
+global arena:
+  five words per entry, grows downward
+  lowest address = 017537 - (global_count - 1) * 5
+
+measured boundary:
+  38 globals / 10 locals: PASS, 55-word static separation
+  39 globals / 0 locals:  PASS, 50-word separation, unsafe edge case
+  39 globals / 1+ locals: FAIL, pass-2 phase error
+  48 globals / 10 locals: FAIL, five-word separation, empty output
+
+Stage-3-shaped workload:
+  17 globals / 5 local definitions / 646 host bytes
+  PASS; 1249-byte native trace; 160-word static separation
+  all instruction records decoded by Stage 2 oracle
+
+No PDP-11 was booted. Stage 4C remains OPEN. No Stage-4C era or native
+completion readme was created.

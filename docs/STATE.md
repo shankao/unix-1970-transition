@@ -127,6 +127,13 @@ in-progress checkpoint rather than a completed era. Read-only `fsck7` exited
 0 with the same inode-38/block-2987 checker self-revisit already explained for
 Stage 4B. See `evidence/stage4c/checkpoint-open.txt`.
 
+The subsequent capacity-only follow-up reused that installed source and
+executable and retained its fixture/results, evolving the image to SHA-256
+`11d16c243a2f4e34b812b2382bdf0eec879dcb586ebb7af004caae313a3f4d36`.
+It did not change the encoder or close Stage 4C. Read-only `fsck7` again exited
+0 with only the same inode-38/block-2987 self-revisit. The measured boundary
+and memory diagram are in `evidence/stage4c-capacity/`.
+
 ## PDP-11/20
 
 Role: new diskless target machine.

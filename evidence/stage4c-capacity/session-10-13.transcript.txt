@@ -1,0 +1,331 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+CPU     idle disabled
+        8KW, EAE
+./unixv0.simh-19> att rb image-shankao.fs
+%SIM-INFO: RB: buffering file in memory
+Sockets: bind error 98 - Address already in use
+./unixv0.simh-23> att -U g2in 12345
+%SIM-ERROR: Can't open network port: 12345
+PDP-7 simulator configuration
+
+CPU     idle disabled
+CLK     60Hz, devno=00
+PTR     devno=01
+PTP     devno=02
+TTI     devno=03
+TTO     devno=04
+LPT     disabled
+DRM     disabled
+RB      devno=71
+DT      disabled
+G2OUT   devno=05
+G2IN    devno=43-44
+
+login: shankao
+password: shankao
+@ rm c12.s
+c12.s    ?
+@ ed
+edit
+a
+/ stage 4c capacity characterization
+.=002000
+a00=0
+a01=1
+a02=2
+a03=3
+a04=4
+a05=5
+a06=6
+a07=7
+a10=10
+a11=11
+a12=12
+a13=13
+a14=14
+a15=15
+a16=16
+a17=17
+s00:;a00
+s01:;a01
+s02:;a02
+s03:;a03
+s04:;a04
+s05:;a05
+s06:;a06
+s07:;a07
+/ padding makes every case cross the 128-character input refill boundary
+.
+w c12.s
+295
+q
+@ rm c12.o
+c12.o    ?
+@ a.out c12.s c12.o
+@ cat c12.o
+a a00 000000
+a a01 000001
+a a02 000002
+a a03 000003
+a a04 000004
+a a05 000005
+a a06 000006
+a a07 000007
+a a10 000010
+a a11 000011
+a a12 000012
+a a13 000013
+a a14 000014
+a a15 000015
+a a16 000016
+a a17 000017
+l s00 002000
+w 002000 000000
+l s01 002002
+w 002002 000001
+l s02 002004
+w 002004 000002
+l s03 002006
+w 002006 000003
+l s04 002010
+w 002010 000004
+l s05 002012
+w 002012 000005
+l s06 002014
+w 002014 000006
+l s07 002016
+w 002016 000007
+@ rm c13.s
+c13.s    ?
+@ ed
+edit
+a
+/ stage 4c capacity characterization
+.=002000
+a00=0
+a01=1
+a02=2
+a03=3
+a04=4
+a05=5
+a06=6
+a07=7
+a10=10
+a11=11
+a12=12
+a13=13
+a14=14
+a15=15
+a16=16
+a17=17
+s00:;a00
+s01:;a01
+s02:;a02
+s03:;a03
+s04:;a04
+s05:;a05
+s06:;a06
+s07:;a07
+0:;0b
+1:;1b
+2:;2b
+3:;3b
+4:;4b
+5:;5b
+6:;6b
+7:;7b
+8:;8b
+9:;9b
+/ padding makes every case cross the 128-character input refill boundary
+.
+w c13.s
+355
+q
+@ rm c13.o
+c13.o    ?
+@ a.out c13.s c13.o
+@ cat c13.o
+a a00 000000
+a a01 000001
+a a02 000002
+a a03 000003
+a a04 000004
+a a05 000005
+a a06 000006
+a a07 000007
+a a10 000010
+a a11 000011
+a a12 000012
+a a13 000013
+a a14 000014
+a a15 000015
+a a16 000016
+a a17 000017
+l s00 002000
+w 002000 000000
+l s01 002002
+w 002002 000001
+l s02 002004
+w 002004 000002
+l s03 002006
+w 002006 000003
+l s04 002010
+w 002010 000004
+l s05 002012
+w 002012 000005
+l s06 002014
+w 002014 000006
+l s07 002016
+w 002016 000007
+n 0 002020
+w 002020 002020
+n 1 002022
+w 002022 002022
+n 2 002024
+w 002024 002024
+n 3 002026
+w 002026 002026
+n 4 002030
+w 002030 002030
+n 5 002032
+w 002032 002032
+n 6 002034
+w 002034 002034
+n 7 002036
+w 002036 002036
+n 8 002040
+w 002040 002040
+n 9 002042
+w 002042 002042
+@ rm c14.s
+c14.s    ?
+@ ed
+edit
+a
+/ stage 4c capacity characterization
+.=002000
+a00=0
+a01=1
+a02=2
+a03=3
+a04=4
+a05=5
+a06=6
+a07=7
+a10=10
+a11=11
+a12=12
+a13=13
+a14=14
+a15=15
+a16=16
+a17=17
+s00:;a00
+s01:;a01
+s02:;a02
+s03:;a03
+s04:;a04
+s05:;a05
+s06:;a06
+s07:;a07
+s10:;a10
+s11:;a11
+s12:;a12
+s13:;a13
+s14:;a14
+s15:;a15
+s16:;a16
+s17:;a17
+0:;0b
+1:;1b
+2:;2b
+3:;3b
+4:;4b
+5:;5b
+6:;6b
+7:;7b
+8:;8b
+9:;9b
+/ padding makes every case cross the 128-character input refill boundary
+.
+w c14.s
+427
+q
+@ rm c14.o
+c14.o    ?
+@ a.out c14.s c14.o
+@ cat c14.o
+a a00 000000
+a a01 000001
+a a02 000002
+a a03 000003
+a a04 000004
+a a05 000005
+a a06 000006
+a a07 000007
+a a10 000010
+a a11 000011
+a a12 000012
+a a13 000013
+a a14 000014
+a a15 000015
+a a16 000016
+a a17 000017
+l s00 002000
+w 002000 000000
+l s01 002002
+w 002002 000001
+l s02 002004
+w 002004 000002
+l s03 002006
+w 002006 000003
+l s04 002010
+w 002010 000004
+l s05 002012
+w 002012 000005
+l s06 002014
+w 002014 000006
+l s07 002016
+w 002016 000007
+l s10 002020
+w 002020 000010
+l s11 002022
+w 002022 000011
+l s12 002024
+w 002024 000012
+l s13 002026
+w 002026 000013
+l s14 002030
+w 002030 000014
+l s15 002032
+w 002032 000015
+l s16 002034
+w 002034 000016
+l s17 002036
+w 002036 000017
+n 0 002040
+w 002040 002040
+n 1 002042
+w 002042 002042
+n 2 002044
+w 002044 002044
+n 3 002046
+w 002046 002046
+n 4 002050
+w 002050 002050
+n 5 002052
+w 002052 002052
+n 6 002054
+w 002054 002054
+n 7 002056
+w 002056 002056
+n 8 002060
+w 002060 002060
+n 9 002062
+w 002062 002062
+@ 
+Simulation stopped, PC: 01061 (DAC 5526)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs
