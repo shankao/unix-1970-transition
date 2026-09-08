@@ -22,10 +22,10 @@ Class B, C, and M work is never represented as original Bell Labs source.
 
 ## What works now
 
-Stages 0–3 are complete. The repository contains reproducible PDP-7 and
-PDP-11 baselines, a characterized reconstructed PDP-7 B environment, and a
-modern KA11 instruction oracle. Most importantly, the bare 24 KB PDP-11/20 has
-executed a historically grounded direct-threaded B nucleus using:
+Stages 0–3 and Stages 4A–4C are complete. The repository contains reproducible
+PDP-7 and PDP-11 baselines, a characterized reconstructed PDP-7 B environment,
+and a modern KA11 instruction oracle. Most importantly, the bare 24 KB
+PDP-11/20 has executed a historically grounded direct-threaded B nucleus using:
 
 ```text
 R3  threaded program counter
@@ -44,11 +44,17 @@ instrumentation, not the final historical workflow.
 
 ## Where the project is going
 
-The next stage is the historically attested B-written PDP-11 assembler,
-`as11`, running on the persistent PDP-7 host. It will be followed by a
-separate PDP-7-hosted B-to-PDP-11 compiler, `b11`. Assembly, compilation, and
-paper-tape transport remain separate layers so each uncertain boundary can be
-tested independently.
+The surviving/restored PDP-7 UNIX system is the principal source base for the
+UNIX migration. The immediate planning gate is to define the first kernel and
+command migration corpus, record its provenance and intended semantics, and
+derive its real PDP-11 assembler requirements. The current `as11` encoder is
+a validated bootstrap nucleus, not the final specification of the assembler.
+
+Two related tracks then advance: the `as11`/threaded-B/`b11`/`dc` bootstrap
+track and the migration of selected PDP-7 kernel and command responsibilities
+to a minimal PDP-11 system. They converge on the destination machine. Cross
+tools remain bootstrap scaffolding, and development should move onto the
+PDP-11 once that becomes historically and technically justified.
 
 The central standalone milestone is the complete “Across the Floor” loop:
 
@@ -59,11 +65,12 @@ edit B source on PDP-7
     -> standalone threaded-B execution
 ```
 
-After that, the reconstructed environment will support a small calculator and
-a historically constrained standalone `dc0`, followed by the much riskier
-core-only/RAM-filesystem UNIX reconstruction. The completion criterion for
-this repository is a reproducible first disk-backed PDP-11 UNIX environment
-consistent with the surviving evidence for the December 1970 disk arrival.
+In parallel with those standalone milestones, the Unix-directed work targets
+a single-console, core-only PDP-11/20 test system derived from selected PDP-7
+responsibilities and using conservatively reconstructed RAM-backed storage.
+The completion criterion for this repository is a reproducible first
+disk-backed PDP-11 UNIX environment consistent with the surviving evidence for
+the December 1970 RF11/RS11 disk transition.
 Later 1971 development toward First Edition is outside the required scope and
 may become a successor project.
 
@@ -92,6 +99,8 @@ claim about Bell Labs practice.
   boundary.
 - [`docs/PDP11-B-RUNTIME.md`](docs/PDP11-B-RUNTIME.md) — reconstructed runtime
   design and observed bare-machine results.
+- [`docs/UNIX-MIGRATION.md`](docs/UNIX-MIGRATION.md) — migration corpus,
+  provenance refinements, and workload-driven forward architecture.
 
 The repository layout separates historical/reconstructed target code in
 `src/`, modern host tooling in `tools/`, regression tests in `tests/`, and

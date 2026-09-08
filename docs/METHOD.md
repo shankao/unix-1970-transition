@@ -149,3 +149,19 @@ computation with Python or another host tool. Optimize class-M orchestration:
 keep persistent interactive SIMH sessions during discovery, reuse proven
 flow-controlled transfer methods, avoid redundant work, and automate only once
 the native procedure is understood.
+
+## Migration-driven reconstruction
+
+For the UNIX migration, begin with the actual local PDP-7 source and workload,
+not with a desired cross-tool feature list. Select a responsibility, establish
+the exact source variant and provenance, define the target semantics and
+omissions, and only then derive missing assembler or machine requirements.
+This keeps `as11`, threaded B, and `b11` in their evidenced role as bootstrap
+scaffolding rather than allowing them to define the destination system.
+
+Use the namespaced `P7-A-I`, `P7-A-II`, `P7-R`, `P7-C`, and `P7-O` refinements
+defined in [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). They supplement rather
+than replace A/B/C/D/M. In particular, do not infer that a working file in a
+restored source tree is an untouched contemporary original. Descendant V1 or
+later material may constrain a reconstruction but does not become the 1970
+target.

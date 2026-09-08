@@ -297,4 +297,11 @@ not changed to close it.
 - **4E:** reproduce and execute the Stage 3 nested-call gold program from
   PDP-7-produced words using class-M loading.
 
-Stage 4C remains current; Stage 4D has not started.
+Stage 4C is complete; Stage 4D has not started. Its implemented mnemonic set
+is a validated encoder nucleus and B-bootstrap test corpus derived from Stage
+3, not the final historical requirement for `as11`. Before Stage 4D chooses
+additional instructions or directives, the project will define and
+provenance-audit the actual PDP-7 UNIX migration corpus described in
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). Final capacity will then be judged
+against real selected bootstrap/migration workloads rather than assembler
+completeness or the Stage-3 corpus alone.

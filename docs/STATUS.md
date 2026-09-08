@@ -14,7 +14,9 @@ when necessary; and every category is stated. Reconstructed programs are not
 claimed to be the exact lost Bell Labs sources.
 
 The demonstrated point is still the diskless late-1970 PDP-11/20, now with a
-working reconstructed standalone threaded-B execution model. The repository’s
+working reconstructed standalone threaded-B execution model and a PDP-7-hosted
+KA11 encoder nucleus. The surviving/restored PDP-7 UNIX system is now the
+principal source base for defining what migrates next. The repository’s
 eventual boundary is the first disk-backed PDP-11 UNIX environment consistent
 with the December 1970 disk arrival—not the rest of 1971 or First Edition.
 
@@ -31,6 +33,7 @@ Stage 4B COMPLETE
 Stage 4C COMPLETE
 Stages 4D–4E NOT STARTED
 Stages 5–12 NOT STARTED
+UNIX migration corpus definition NEXT
 ```
 
 Completion commits verified in Git:
@@ -107,6 +110,8 @@ Completion commits verified in Git:
   five PDP-7 words between the upward-growing B stack and live symbol data.
   This remains a documented capacity finding for Stage 4D, not a loss of
   Stage 4B language semantics. See `evidence/stage4c/`.
+  This inventory is a validated encoder nucleus and B-bootstrap test corpus,
+  not the final historically derived `as11` or UNIX-migration requirement.
 
 The completed Stage 4C authoritative PDP-7 image is 4,096,000 bytes with
 SHA-256 `d9a40b9ca80b1f9fa6623947faba1e0097ff8042d12d8e75236eb9b9081de245`.
@@ -206,11 +211,13 @@ unknown; it is not established Bell Labs practice.
 
 ## Remaining roadmap and risk boundary
 
-Phase II reconstructs `as11` (Stage 4), `b11` (5), integrates them with
-modern loading (6), establishes real tape transport (7), and completes the
-“Across the Floor” loop (8). Phase III builds a small RPN calculator (9) and
-historically constrained `dc0` (10). Phase IV tackles core-only/RAM-filesystem
-UNIX (11). Phase V models disk arrival and the first disk-backed system (12).
+The next gate defines and provenance-audits the actual PDP-7 UNIX migration
+corpus before further assembler or UNIX implementation. After that, two
+dependency tracks can advance: bootstrap work (`as11`, threaded B, `b11`,
+paper tape, calculator, and `dc0`) and migration of selected PDP-7 kernel and
+command responsibilities through a bare-machine substrate into core-only
+PDP-11 UNIX. They converge on the PDP-11 and then on the December 1970 disk
+transition. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 
 `as11` and `b11` are medium technical risk with material historical
 uncertainty. Tape transport is technically bounded but its exact Bell encoding
@@ -221,6 +228,10 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 ## Do not do yet
 
 - Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
+- Do not port `s1`–`s8` or commands before the migration corpus and provenance
+  matrix has been reviewed.
+- Do not add assembler instructions/directives merely to broaden Stage 4C;
+  derive Stage 4D requirements from selected migration workloads.
 - Do not start Stage 4E execution before Stage 4D's integrated assembler gate.
 - Do not merge assembler, compiler, and paper-tape responsibilities.
 - Do not enable KE11/EIS, attach disk/tape, or substitute a later UNIX system.
@@ -231,9 +242,12 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Investigate and finalize **Stage 4D's bootstrap-sufficient output/resource
-design before implementation**. Replace the diagnostic trace with the final
-textual address/word map, measure the resulting executable against realistic
-bootstrap inputs, and design clean native memory-exhaustion behavior with an
-adequate safety margin. Do not assume 38 globals is universally safe, and do
-not start Stage 4E, `b11`, tape, `dc`, or UNIX.
+Define and provenance-audit the **PDP-7 UNIX migration corpus before any new
+implementation**. Start from the provisional `s1`–`s8` responsibility
+selection and `sh`, `cat`, `ls`, `rm`, and `stat` in
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). Produce a file/component,
+responsibility, provenance, target-semantics, omission, and required
+instruction/directive matrix. Use that result to finalize Stage 4D's
+bootstrap-sufficient output/resource design. Do not yet port code, add
+assembler features, fix capacity, or start Stage 4E, `b11`, tape, `dc`, or
+UNIX.

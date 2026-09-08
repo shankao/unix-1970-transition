@@ -54,6 +54,15 @@ Important provenance note from upstream:
 
 This repository must preserve that distinction if any material is imported.
 
+For future UNIX migration work, the restored tree is the principal local
+source base but is not one uniform provenance class. The namespaced
+`P7-A-I`/`P7-A-II`/`P7-R`/`P7-C`/`P7-O` model in
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) distinguishes the two contemporary
+listing/source lineages, restored working derivatives, necessary repair, and
+other material. No file-by-file assignment has yet been completed, so the
+presence of a file under restored `src/sys` or `src/cmd` does not by itself
+establish that it is untouched contemporary source.
+
 For Stage 4A, the checked-in local copies
 `machines/pdp7/pdp7-unix/src/cmd/bl.s`, `src/sys/s2.s`, and `src/cmd/as.s`
 are direct implementation evidence for the recovered B input buffer and EOF

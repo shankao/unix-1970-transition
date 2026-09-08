@@ -226,3 +226,36 @@ Stage 4C closes with the measured frontier fully visible and without adopting
 the proposed 38-global guard. Symbol count alone is not a sufficient safety
 model: 39 globals/0 locals passed while 39 globals/1 or more failed. Final
 capacity decisions wait for Stage 4D's actual integrated architecture.
+
+## D0022 — The PDP-7 UNIX migration corpus defines the destination workload
+
+**Status:** accepted
+
+The surviving/restored PDP-7 UNIX system is the principal source base for the
+late-1970 PDP-11 UNIX migration. `as11`, threaded B, `b11`, tape transport,
+and `dc` remain essential bootstrap scaffolding, not the definition of the
+destination system. Bootstrap and UNIX-migration tracks may advance in
+parallel where dependencies allow and converge on the PDP-11. Once useful
+development can move to the PDP-11, capability should ratchet in that
+direction rather than expanding the PDP-7 into a permanent comprehensive
+cross-development environment.
+
+Before Stage 4D adds features, a planning gate will audit the selected local
+PDP-7 kernel/command corpus, its provenance, responsibilities, intended target
+semantics, omissions, and derived assembler requirements. Stage 4C's
+Stage-3-derived inventory remains a verified encoder nucleus and regression
+corpus, not the final `as11` specification. This reframing preserves all
+completed stage results and labels.
+
+## D0023 — Refine PDP-7 source provenance without replacing A/B/C/D/M
+
+**Status:** accepted
+
+Migration work uses the namespaced tags `P7-A-I` and `P7-A-II` for the two
+contemporary listing/source lineages, `P7-R` for restored or modified working
+derivatives, `P7-C` for required reconstruction/repair, and `P7-O` for other
+PDP-7 material whose origin must be stated separately. These refine, but do
+not replace, the repository-wide provenance classes. In particular, a file's
+presence in the restored source tree does not prove it is an untouched
+contemporary original. Detailed assignments wait for the migration-corpus
+audit.
