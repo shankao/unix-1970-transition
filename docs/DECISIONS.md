@@ -365,5 +365,43 @@ direct blocks limiting RAM-only files to 4096 bytes and no fixed filesystem/
 process partition. Block size is descendant-constrained reconstruction, not
 an attested RAM-disk geometry.
 
-The next gate derives and costs core-only filesystem and kernel data
-structures from selected PDP-7 algorithms before implementation.
+The filesystem/data-structure follow-on described here is now complete in
+provisional contract v1; D0028 records its result.
+
+## D0028 — Freeze provisional core-only filesystem/data contract v1
+
+**Status:** accepted as a conservative reconstruction; implementation not
+started
+
+The selected system preserves PDP-7 predecessor semantics that fit its
+cooperative scope: ten lowest-free, three-word descriptors copied per process;
+one current inode buffer rather than an inode cache; negative link counts; and
+a compact twelve-word inode plus inode-number `status` result. It deliberately
+has no global open-file table or shared open-file-description semantics.
+
+The PDP-11 inode remains twelve words but substitutes an eighth direct
+512-byte block pointer for the unused selected-path unique-number mechanism;
+uid, negative links, byte size, and relevant permission/type flags remain.
+The one directory uses 10-byte entries (16-bit inode and eight-byte NUL-padded
+name). First Edition independently corroborates that natural directory shape,
+but its richer 32-byte inode, timestamps, positive link counts, and 34-byte
+`stat` are descendant evidence and are not imported.
+
+RAM block 0 holds sixteen 24-byte inode slots, block 1 holds the fixed root,
+and blocks 2–15 form a common allocation arena for direct file data and compact
+process backing. Separate 16-bit block and inode maps, one 512-byte block
+buffer, two provisional 64-word process records, and separate tty input/output
+special-inode semantics complete v1. Direct files stop at 4096 bytes; there is
+no indirection, chained disk free list, inode cache, generalized device layer,
+or pathname hierarchy.
+
+The initial filesystem plus worst-case shell backing and writable-test
+headroom must fit the sixteen-block arena. Exact initial inode assignments,
+whether `sh` occupies a file, structure offsets, tty ring capacity, translated
+sizes, and filesystem/process allocation pressure remain empirical. RF11
+should preserve high-level algorithms and block I/O, but persistent metadata
+may evolve; it is not constrained to a zero-metadata-change backend swap.
+
+The next gate is a repository-aware planning pass for the first implementation
+slice. It inspects existing assembler and harness capabilities and produces a
+bounded plan before any separately authorized coding.

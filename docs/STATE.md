@@ -153,6 +153,11 @@ system envelope (`000000`–`027777`), 4 KB active-user window
 exact boundaries are design choices, not observed machine state or recovered
 historical layout.
 
+The associated provisional software structures are specified in
+[`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md). They describe
+future reconstructed state only; no PDP-11 memory image, filesystem, process
+record, or device state has been created by the research gates.
+
 The source machine remains at `../PDP-11` and was not modified or booted during
 this capture. Its static startup configuration has been copied unchanged to
 `machines/pdp11/pdp11.conf` so the repository does not depend on the sibling

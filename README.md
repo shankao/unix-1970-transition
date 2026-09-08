@@ -48,10 +48,10 @@ The surviving/restored PDP-7 UNIX system is the principal source base for the
 UNIX migration. Its provisional v1 kernel/command corpus, provenance layers,
 and intended semantics are now frozen in
 [`docs/UNIX-MIGRATION.md`](docs/UNIX-MIGRATION.md). The bare KA11 and
-provisional core-only execution/RAM contracts are complete; the next research
-gate defines the core-only filesystem and kernel data structures. The current
-`as11` encoder is a validated bootstrap nucleus, not the final specification
-of the assembler.
+provisional core-only execution/RAM and filesystem/data-structure contracts
+are complete. The next gate is a repository-aware planning pass for the first
+implementation slice. The current `as11` encoder is a validated bootstrap
+nucleus, not the final specification of the assembler.
 
 Two related tracks then advance: the `as11`/threaded-B/`b11`/`dc` bootstrap
 track and the migration of selected PDP-7 kernel and command responsibilities
@@ -107,6 +107,9 @@ claim about Bell Labs practice.
 - [`docs/PDP11-EXECUTION-CONTRACT.md`](docs/PDP11-EXECUTION-CONTRACT.md) —
   provisional core-only memory partition, executable/ABI, process-backing,
   and RAM-storage contract.
+- [`docs/PDP11-FILESYSTEM-CONTRACT.md`](docs/PDP11-FILESYSTEM-CONTRACT.md) —
+  provisional inode, directory, descriptor, process-record, allocation, and
+  resident-data contract.
 - [`docs/UNIX-MIGRATION.md`](docs/UNIX-MIGRATION.md) — migration corpus,
   provenance refinements, and workload-driven forward architecture.
 

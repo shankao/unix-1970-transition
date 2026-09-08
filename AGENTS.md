@@ -8,7 +8,8 @@ This repository reconstructs a historically documented 1970 PDP-7 -> PDP-11 tran
    `docs/STATUS.md`, `docs/METHOD.md`, `docs/PLAN.md`, `docs/STATE.md`, and
    `docs/UNIX-MIGRATION.md`. For PDP-11 machine or migration work, also read
    `docs/PDP11-MACHINE-CONTRACT.md` and
-   `docs/PDP11-EXECUTION-CONTRACT.md`. The migration documents define the
+   `docs/PDP11-EXECUTION-CONTRACT.md` and
+   `docs/PDP11-FILESYSTEM-CONTRACT.md`. The migration documents define the
    PDP-7-derived target and provenance discipline, the core-only PDP-11 UNIX
    concept, the bootstrap/UNIX-track relationship, and the rule that real
    workloads drive machine and assembler requirements.
@@ -72,9 +73,10 @@ Never describe B/C/M material as original Bell Labs code.
 - Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
 - Stages 4A–4C, the provisional v1 migration-corpus audit, the bare KA11
-  machine-layer contract, and provisional execution/RAM contract v1 are
-  complete. The next gate researches core-only filesystem and kernel data
-  structures. Do not implement them,
+  machine-layer contract, provisional execution/RAM contract v1, and
+  provisional filesystem/data-structure contract v1 are complete. The next
+  gate is a repository-aware implementation-planning pass; it does not itself
+  authorize coding. Do not implement structures,
   start kernel/command ports, or skip to `b11`, tape transport, `dc`, or later
   UNIX work before that contract is defined and passed.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural

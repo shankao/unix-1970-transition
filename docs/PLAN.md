@@ -333,24 +333,44 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Core-only filesystem and kernel data-structure contract
 
-**Status: NEXT — RESEARCH/DESIGN ONLY**
+**Status: RESEARCH COMPLETE; PROVISIONAL CONTRACT V1 FROZEN; IMPLEMENTATION NOT STARTED**
 
 - **Objective:** derive the smallest filesystem, process, and resident kernel
   structures needed by the frozen corpus inside the provisional execution/RAM
   budget.
 - **Evidence basis:** selected PDP-7 `s2`/`s4`/`s5`/`s6`/`s8`
   responsibilities first; First Edition layouts only as descendant evidence.
-- **Major unknowns:** inode/direct-address and directory layouts; console
-  special inode; initial image and table counts; process descriptor; allocation
-  between sixteen RAM blocks and compact process backing; `status` structure;
-  total resident-table cost.
+- **Questions resolved provisionally:** inode/direct-address and directory
+  layouts; console-special semantics; table limits; process-record envelope;
+  common RAM-block allocation; compact `status`; resident-data estimate.
+  Exact image assignments, structure offsets, queue size, translated sizes,
+  and filesystem/process capacity remain empirical or implementation choices.
 - **Dependencies:** completed migration, KA11-machine, and execution/RAM
   contracts.
-- **Gate:** a provenance-labelled, byte-costed structure contract fits the
-  12 KB system envelope and 8 KB shared arena, maps to selected PDP-7
-  algorithms, and identifies any genuinely required assembler operations.
+- **Gate result:**
+  [`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md) freezes ten
+  copied per-process descriptors, one current inode, a 12-word inode, 10-byte
+  directory entry, compact 13-word `status`, two 64-word process records,
+  sixteen inodes, shared block/inode bitmaps, one block buffer, and direct-only
+  4 KB files. It records under 1 KB of obvious mutable resident data and the
+  capacity invariant without claiming the kernel or initial image fits yet.
 - **Provenance:** surviving PDP-7 evidence A1/B; adaptations B; descendant
   comparisons clearly labelled; calculations M.
+
+### Repository-aware first implementation slice
+
+**Status: NEXT — INSPECTION/PLANNING ONLY**
+
+- **Objective:** inspect the actual repository and turn the three completed
+  contracts into the smallest evidence-backed implementation plan.
+- **Required inspection:** current Stage-4C syntax/features and oracle; Stage-3
+  load/execution harness; existing artifacts; dependency order among vectors,
+  traps, KL11 polling/interrupts, RAM/block abstraction, filesystem, process
+  control, and commands; tests; first meaningful PDP-11 snapshot point.
+- **Gate:** a repository-specific plan identifies the first target and its
+  bounded tests. Coding requires separate explicit authorization.
+- **Dependencies:** completed corpus, machine, execution/RAM, and
+  filesystem/data-structure contracts.
 
 ## UNIX migration milestone — core-only PDP-11 UNIX
 
@@ -368,8 +388,8 @@ when selected PDP-7 responsibilities run on the PDP-11.
   descendant evidence.
 - **Major unknowns:** exact kernel, layout, interfaces, commands, filesystem.
 - **Dependencies:** the corpus-definition, machine, execution/RAM, and
-  filesystem/data-structure contracts; required bootstrap support; and the
-  implemented bare-machine substrate.
+  filesystem/data-structure contracts; an approved implementation ordering;
+  required bootstrap support; and the implemented bare-machine substrate.
 - **Gate:** reproducible core-only system mapped through the predecessor /
   accounts / descendant evidence triangle with every inference exposed.
 - **Provenance:** mainly B, constrained by A and B/C; unknowns D; harness M.

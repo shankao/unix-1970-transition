@@ -48,8 +48,10 @@ Supports the practical cross-development workflow, including the B-written PDP-1
 Descendant evidence only for the execution contract: documents the later
 six-word `a.out` header and kernel `exec` environment, and the initial argument
 frame with SP at the count, followed by pointers, with strings high in user
-core. It does not recover the pre-disk executable format, syscall ABI, or date
-of their transition.
+core. For the filesystem contract it independently documents the later
+10-byte directory entry, richer 32-byte persistent inode, positive link count,
+timestamps, and 34-byte `stat` result. These constrain comparison but do not
+recover the pre-disk executable, syscall, inode, directory, or transition date.
 
 ## Surviving/reconstructed PDP-7 UNIX
 
@@ -86,6 +88,15 @@ evidence for fixed-address shell loading, inline syscall arguments and `-1`
 results, child-first `fork`, `smes`/wake/exit flow, swapping, and the
 filesystem/process abstractions. The corresponding listing ancestry and
 restoration qualifications remain those recorded in `UNIX-MIGRATION.md`.
+
+For the filesystem/data-structure contract, restored `src/sys/s2.s`, `s4.s`,
+`s5.s`, `s6.s`, and `s8.s`, plus `src/cmd/stat.s` and `ls.s`, are the principal
+local evidence. They establish ten per-process `fnode` records, lowest-free
+descriptor assignment, one current inode, the twelve-word predecessor inode,
+unique-number and negative-link behavior, compact thirteen-word `status`,
+fixed directory entries, and allocation/file-I/O responsibilities. The
+checked-in listing ancestry remains primary; restored source makes behavior
+inspectable but is not thereby untouched contemporary source.
 
 Reconstructed First Edition `u0.s`, `u1.s`, `u3.s`, and shell source are used
 only as descendant corroboration for natural PDP-11 TRAP dispatch,

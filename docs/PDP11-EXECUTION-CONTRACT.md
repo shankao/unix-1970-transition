@@ -394,9 +394,10 @@ PDP-7 UNIX
 The middle system is not called First Edition UNIX. Exact transition timing
 remains unknown.
 
-## Next gate: core-only filesystem and kernel data structures
+## Completed follow-on contract
 
-Before implementation, the next research gate must determine:
+The following questions are now provisionally resolved in
+[`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md):
 
 - a minimal PDP-11 inode and the PDP-7 inode semantics that survive;
 - exact direct-address count;
@@ -414,6 +415,7 @@ Before implementation, the next research gate must determine:
 - mapping to selected `s2`/`s4`/`s5`/`s6`/`s8` algorithms;
 - any resulting, workload-demonstrated assembler requirements.
 
-That gate continues to derive structures from PDP-7 source first and treats
-First Edition structures only as descendant evidence. No implementation has
-begun.
+That contract derives structures from PDP-7 source first and treats First
+Edition structures only as descendant evidence. No implementation has begun;
+the next gate is a repository-aware planning pass for the first implementation
+slice.

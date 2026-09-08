@@ -220,7 +220,10 @@ The minimum RAM-backed filesystem provides:
 - allocation and freeing of RAM-backed blocks.
 
 A single-directory namespace is acceptable for the first milestone. Full
-pathnames and `chdir` are not prerequisites. No RAM block size is frozen yet.
+pathnames and `chdir` are not prerequisites. The completed follow-on contracts
+now provisionally freeze 512-byte RAM blocks and the small structures described
+in `PDP11-FILESYSTEM-CONTRACT.md`; these are reconstruction, not recovered
+geometry.
 
 ## Workload-derived `as11` requirements
 
@@ -258,11 +261,14 @@ The corpus also justifies assembler-language support for:
 - raw word and raw byte emission;
 - reserved byte/word storage and even-address alignment;
 - character constants and sufficient string/data literals;
+- unary bitwise complement for natural KA11/BIC mask expressions;
 - eventually a `sys`-style pseudo-op after the syscall ABI is settled.
 
 Location-counter/origin control, assignment, and raw-word emission already
 exist in the Stage 4B/4C language. Raw bytes, reservation, alignment,
-characters/strings, and `sys` remain future requirements.
+characters/strings, unary complement, and `sys` remain future requirements.
+The current expression engine has unary minus and binary `+`/`-`, but no
+equivalent complement operation. This finding does not implement one.
 
 Macros, conditional assembly, convenience includes, relocatable objects,
 external-symbol records, a linker, libraries, and elaborate sections remain
@@ -309,13 +315,14 @@ gate:
 First Edition source is descendant evidence, not the specification for these
 items.
 
-## Completed machine and execution research
+## Completed machine, execution, and filesystem research
 
 The bare KA11 research result is authoritative in
 [`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md). It fixes hardware
 facts—most importantly the absence of hardware user/kernel modes, current-stack
-TRAP behavior, and KL11 interfaces—while leaving exact user/RAM boundaries and
-storage geometry unfrozen.
+TRAP behavior, and KL11 interfaces. That hardware gate left exact user/RAM
+boundaries and storage geometry unfrozen; the reconstruction contracts below
+now select provisional values.
 
 The provisional execution/memory contract v1 is authoritative in
 [`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md). It freezes a
@@ -325,6 +332,12 @@ cooperative execution, compact process backing, and a provisional 512-byte
 RAM-block geometry. These are reconstruction choices constrained by the
 evidence, not recovered pre-disk source.
 
-The next research gate defines core-only filesystem and kernel data
-structures, costs them against the frozen budgets, and maps them to the
-selected PDP-7 algorithms before implementation or assembler expansion.
+The provisional filesystem/data-structure contract v1 is authoritative in
+[`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md). It freezes
+small predecessor-derived structures and capacity invariants without importing
+First Edition's richer persistent filesystem. High-level algorithms and the
+block-I/O boundary should survive RF11 arrival, but persistent metadata may
+legitimately evolve; RF11 is not promised to be a metadata-free backend swap.
+
+The next gate inspects current repository implementation reality and produces
+a bounded first-slice plan. It does not authorize implementation automatically.

@@ -156,8 +156,10 @@ filesystem algorithms <-> block I/O abstraction     <-> RAM now / RF11 later
 Process images need not be ordinary filesystem files. Filesystem storage and
 inactive-process backing may be separate clients of one conceptual RAM arena.
 No block size, block count, inode geometry, RAM-disk start, or swap partition
-is fixed. RF11 arrival should be able to replace the storage backend without
-rewriting higher-level filesystem or process semantics.
+was fixed by this hardware gate. The follow-on contracts now select provisional
+geometry. RF11 arrival should preserve high-level filesystem algorithms and
+the block-I/O abstraction, but persistent metadata may evolve; it is not
+necessarily a metadata-free backend replacement.
 
 ## Evidence classification
 
@@ -231,5 +233,7 @@ The research items below are now provisionally frozen in
 - whether direct-block-only files suffice;
 - only then, a conservative RAM block geometry if one is needed.
 
-No machine-layer implementation has begun. The next gate concerns core-only
-filesystem and kernel data structures.
+No machine-layer implementation has begun. The filesystem/data-structure
+follow-on is now provisionally frozen in
+[`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md); the next gate
+is repository-aware planning for the first implementation slice.
