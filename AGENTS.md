@@ -5,7 +5,11 @@ This repository reconstructs a historically documented 1970 PDP-7 -> PDP-11 tran
 ## Before changing code
 
 1. Treat documentation at `HEAD` as authoritative. Read `README.md`,
-   `docs/STATUS.md`, `docs/METHOD.md`, `docs/PLAN.md`, and `docs/STATE.md`.
+   `docs/STATUS.md`, `docs/METHOD.md`, `docs/PLAN.md`, `docs/STATE.md`, and
+   `docs/UNIX-MIGRATION.md`. The migration document defines the PDP-7-derived
+   target and provenance discipline, the core-only PDP-11 UNIX concept, the
+   relationship between the bootstrap and UNIX tracks, and the rule that real
+   migration workloads drive assembler requirements.
 2. Identify the current roadmap stage and its gate.
 3. Check whether the requested change relies on a historical assertion. If so, verify/add the source in `docs/SOURCES.md` or `evidence/` before encoding the assertion in code.
 4. Do not import third-party source until licensing/provenance is recorded.
@@ -66,7 +70,7 @@ Never describe B/C/M material as original Bell Labs code.
 - Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
 - Stages 4A–4C are complete. The next gate is to define and provenance-audit
-  the selected PDP-7 UNIX migration corpus before Stage 4D implementation.
+  the selected PDP-7 UNIX migration corpus before further `as11` implementation.
   Do not start kernel/command ports or skip to `b11`, tape transport, `dc`, or
   later UNIX work.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural

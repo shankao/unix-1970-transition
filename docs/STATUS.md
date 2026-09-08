@@ -27,13 +27,11 @@ Stage 0  COMPLETE
 Stage 1  COMPLETE
 Stage 2  COMPLETE
 Stage 3  COMPLETE (3A and 3B)
-Stage 4  IN PROGRESS
 Stage 4A COMPLETE
 Stage 4B COMPLETE
 Stage 4C COMPLETE
-Stages 4D–4E NOT STARTED
-Stages 5–12 NOT STARTED
 UNIX migration corpus definition NEXT
+All named future workstreams NOT STARTED
 ```
 
 Completion commits verified in Git:
@@ -108,8 +106,8 @@ Completion commits verified in Git:
   10-local Stage 4B substantial fixture fails with an empty result because
   the 3,696-word executable and maximum-capacity symbol arena leave only
   five PDP-7 words between the upward-growing B stack and live symbol data.
-  This remains a documented capacity finding for Stage 4D, not a loss of
-  Stage 4B language semantics. See `evidence/stage4c/`.
+  This remains a documented capacity finding for the final `as11` integration
+  gate, not a loss of Stage 4B language semantics. See `evidence/stage4c/`.
   This inventory is a validated encoder nucleus and B-bootstrap test corpus,
   not the final historically derived `as11` or UNIX-migration requirement.
 
@@ -129,7 +127,8 @@ required encodings with 160 words between the B stack label and global arena,
 105 more than the 38/10 case. The 48/10 failure is a capacity regression, not
 loss of Stage 4B semantics. Stage 4C therefore passes its encoder and current
 bootstrap-feasibility contract. No capacity reduction has been accepted;
-final capacity and clean exhaustion behavior belong to Stage 4D.
+final capacity and clean exhaustion behavior belong to the Unix-driven
+`as11` completion gate.
 
 The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
 `fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
@@ -231,8 +230,8 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 - Do not port `s1`–`s8` or commands before the migration corpus and provenance
   matrix has been reviewed.
 - Do not add assembler instructions/directives merely to broaden Stage 4C;
-  derive Stage 4D requirements from selected migration workloads.
-- Do not start Stage 4E execution before Stage 4D's integrated assembler gate.
+  derive final `as11` requirements from selected migration workloads.
+- Do not start the Stage-3 gold round trip before the integrated assembler gate.
 - Do not merge assembler, compiler, and paper-tape responsibilities.
 - Do not enable KE11/EIS, attach disk/tape, or substitute a later UNIX system.
 - Do not modify either reference tree; use authoritative `machines/pdp7` as
@@ -247,7 +246,7 @@ implementation**. Start from the provisional `s1`–`s8` responsibility
 selection and `sh`, `cat`, `ls`, `rm`, and `stat` in
 [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). Produce a file/component,
 responsibility, provenance, target-semantics, omission, and required
-instruction/directive matrix. Use that result to finalize Stage 4D's
-bootstrap-sufficient output/resource design. Do not yet port code, add
-assembler features, fix capacity, or start Stage 4E, `b11`, tape, `dc`, or
-UNIX.
+instruction/directive matrix. Use that result to finalize the Unix-driven
+`as11` bootstrap-sufficient output/resource design. Do not yet port code, add
+assembler features, fix capacity, or start the gold round trip, `b11`, tape,
+`dc`, or UNIX.

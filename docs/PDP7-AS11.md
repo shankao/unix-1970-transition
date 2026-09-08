@@ -279,28 +279,30 @@ guarantees its language/parser/symbol semantics and records that standalone
 implementation's 48/10 stress result; it does not promise that every larger
 successor executable retains the same maximum. Stage 4C guarantees those
 semantics remain available, the KA11 encoder is correct, and the current
-Stage-3-shaped 17/5 bootstrap workload fits with substantial margin. Stage 4D
-owns the final textual object map, combined bootstrap-sufficient capacity,
-clean exhaustion behavior, and documented safety margin. This preserves the
+Stage-3-shaped 17/5 bootstrap workload fits with substantial margin. The
+Unix-driven `as11` completion gate owns the final textual object map, combined
+bootstrap-sufficient capacity, clean exhaustion behavior, and documented
+safety margin. This preserves the
 48/10 evidence without turning it into the wrong substage gate. Stage 4C is
 therefore **COMPLETE/PASS**; the allocator, capacities, encoder, and trace were
 not changed to close it.
 
-## Remaining Stage 4 gates
+## Completed labels and remaining named gates
 
 - **4B: complete.** Language, tokenizer/parser, and two-pass symbol/local-label
   engine; no target encoding.
 - **4C: complete.** KA11 encoding and current bootstrap-shaped feasibility are
   independently verified; the measured capacity frontier remains evidence.
-- **4D:** finalize the textual map and establish guarded, bootstrap-sufficient
-  integrated capacity and safety margin.
-- **4E:** reproduce and execute the Stage 3 nested-call gold program from
-  PDP-7-produced words using class-M loading.
+- **Unix-driven `as11` completion:** finalize the textual map and establish
+  guarded, bootstrap-sufficient integrated capacity and safety margin.
+- **Stage-3 gold round trip:** reproduce and execute the nested-call gold
+  program from PDP-7-produced words using class-M loading.
 
-Stage 4C is complete; Stage 4D has not started. Its implemented mnemonic set
-is a validated encoder nucleus and B-bootstrap test corpus derived from Stage
-3, not the final historical requirement for `as11`. Before Stage 4D chooses
-additional instructions or directives, the project will define and
+Stage 4C is complete; the Unix-driven `as11` completion gate has not started.
+Its implemented mnemonic set is a validated encoder nucleus and B-bootstrap
+test corpus derived from Stage 3, not the final historical requirement for
+`as11`. Before that gate chooses additional instructions or directives, the
+project will define and
 provenance-audit the actual PDP-7 UNIX migration corpus described in
 [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). Final capacity will then be judged
 against real selected bootstrap/migration workloads rather than assembler

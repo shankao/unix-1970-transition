@@ -259,3 +259,24 @@ not replace, the repository-wide provenance classes. In particular, a file's
 presence in the restored source tree does not prove it is an untouched
 contemporary original. Detailed assignments wait for the migration-corpus
 audit.
+
+## D0024 — Future work uses named, converging milestones
+
+**Status:** accepted; supersedes prospective Stage 4D–12 numbering, not
+completed Stage 0–4C labels
+
+Completed Stage 0, 1, 2, 3, 4A, 4B, and 4C labels remain stable historical
+identifiers. Prospective work is organized as named gates and workstreams so
+numbering cannot imply that the bootstrap/B path must finish before UNIX
+migration begins. Earlier decisions that mention prospective Stage 4D–12
+numbers retain their historical meaning, but their dependencies and current
+names are governed by `PLAN.md`.
+
+The bootstrap track contains Unix-driven `as11` completion, the Stage-3 gold
+round trip, `b11`, modern-load integration, paper-tape transport, “Across the
+Floor,” calculator work, and `dc0`. The migration track contains corpus
+definition, the bare KA11 substrate, core-only PDP-11 UNIX, and the RF11/RS11
+transition. Neither `b11`, the calculator, nor `dc0` is a prerequisite for
+core-only UNIX unless a later workload-specific dependency proves otherwise.
+Both tracks consume the provenance-audited migration corpus where relevant
+and converge on useful PDP-11 capability.

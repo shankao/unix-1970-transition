@@ -69,14 +69,15 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 - **Provenance:** the specification is M documentation over A/P7-* evidence;
   future translated code will normally be B.
 
-This gate selects work; it does not port code. It is a prerequisite to
-Stage 4D feature decisions and to the core-only UNIX implementation track.
+This gate selects work; it does not port code. It is a prerequisite to final
+`as11` feature decisions and to the core-only UNIX implementation track.
 
-## Phase II-A — PDP-11 bootstrap substrate (Ritchie-oriented track)
+## Bootstrap track — PDP-11 bootstrap substrate
 
-### Stage 4 — `as11`
+### `as11` historical workstream
 
-**Status: IN PROGRESS — Stages 4A–4C COMPLETE; Stage 4D awaits the migration-corpus gate**
+**Status: Stages 4A–4C COMPLETE; future work continues through named
+gates**
 
 - **Objective:** reconstruct the attested simple PDP-11 assembler in B and run
   it on `machines/pdp7` as `shankao`. It assembles PDP-11 code; it does not own
@@ -91,8 +92,9 @@ Stage 4D feature decisions and to the core-only UNIX implementation track.
   the bootstrap-sufficient subset derived from selected migration workloads.
 - **Provenance:** assembler B; oracle and host harness M.
 
-Parent Stage 4 is complete only when all five dependency gates below pass.
-Each passing PDP-7 substage checkpoints the authoritative filesystem image and
+The completed 4A–4C labels remain the historical record. Prospective work is
+named rather than extended into a false numerical sequence. Each passing
+PDP-7 development gate checkpoints the authoritative filesystem image and
 useful native artifacts unless that gate explicitly made no PDP-7 state change.
 The cross-tools are bootstrap scaffolding: each gate implements what is needed
 to reach the next useful PDP-11 capability, not completeness for its own sake.
@@ -139,7 +141,7 @@ Stage 4C is also the first checkpoint expected to maintain a short native
   and B-bootstrap test corpus, not the final historically derived assembler
   requirement.
 
-#### Stage 4D — Complete usable `as11`
+#### Unix-driven `as11` completion gate
 
 **Status: NOT STARTED**
 
@@ -152,7 +154,7 @@ Stage 4C is also the first checkpoint expected to maintain a short native
   clean memory-exhaustion behavior, realistic bootstrap capacity, and a
   documented safety margin and final limits.
 
-#### Stage 4E — Stage 3 gold round trip
+#### Stage-3 gold round-trip gate
 
 **Status: NOT STARTED**
 
@@ -162,10 +164,11 @@ Stage 4C is also the first checkpoint expected to maintain a short native
 - **Gate:** the verified map reproduces the known Stage 3 nested-call result
   with no host-created replacement words and no paper-tape claim.
 
-Stage 4E remains an important bootstrap regression and target-execution proof;
-it is not a claim that the Stage 3 program is the UNIX migration workload.
+The gold round trip remains an important bootstrap regression and
+target-execution proof; it is not a claim that the Stage 3 program is the UNIX
+migration workload.
 
-### Stage 5 — `b11`
+### B cross-compiler workstream — `b11`
 
 **Status: NOT STARTED**
 
@@ -176,12 +179,13 @@ it is not a claim that the Stage 3 program is the UNIX migration workload.
   supports comparison.
 - **Major unknowns:** original source, structure, emitted syntax, and complete
   operator mapping are lost.
-- **Dependencies:** Stage 4 and the Stage 1/3 contracts.
+- **Dependencies:** the Stage 1/3 contracts and enough verified `as11`
+  capability for the compiler's actual output.
 - **Gate:** representative B constructs compiled on PDP-7 produce `as11`
   input and words compatible with the demonstrated runtime.
 - **Provenance:** compiler B; descendant evidence B/C; verification M.
 
-### Stage 6 — Toolchain integration with modern loading
+### B toolchain integration gate — modern loading
 
 **Status: NOT STARTED**
 
@@ -190,12 +194,13 @@ it is not a claim that the Stage 3 program is the UNIX migration workload.
 - **Evidence basis:** compiler/assembler architecture is historical; loading
   is explicitly diagnostic.
 - **Major unknowns:** compiler-output/runtime-ABI integration.
-- **Dependencies:** Stages 4–5 and Stage 3 regressions.
+- **Dependencies:** working `b11`, its required `as11` subset, and Stage 3
+  runtime regressions.
 - **Gate:** a nontrivial B program is compiled and assembled on the PDP-7 and
   runs on the PDP-11 using class-M loading.
 - **Provenance:** tools/runtime B; deposits and coordination M.
 
-### Stage 7 — Real paper-tape transport
+### Paper-tape transport milestone
 
 **Status: NOT STARTED**
 
@@ -206,13 +211,14 @@ it is not a claim that the Stage 3 program is the UNIX migration workload.
   DEC loading documentation supplies a possible fallback.
 - **Major unknowns:** exact Bell Labs record and loader convention. DEC
   Absolute Binary must not be attributed to Bell Labs without evidence.
-- **Dependencies:** Stage 6, PDP-7 PTP, and PDP-11 PTR.
+- **Dependencies:** a stable PDP-7-produced payload/map, a selected loader,
+  PDP-7 PTP, and PDP-11 PTR. It need not wait for unrelated B or UNIX work.
 - **Gate:** exact bytes produced through PDP-7 execution/PTP are attached
   unchanged to PTR, loaded, and executed. A host replacement tape fails it.
 - **Provenance:** transfer A; exact format D; DEC fallback C if selected;
   host coordination M.
 
-### Stage 8 — Complete “Across the Floor” loop
+### Complete “Across the Floor” milestone
 
 **Status: NOT STARTED**
 
@@ -221,7 +227,8 @@ it is not a claim that the Stage 3 program is the UNIX migration workload.
   manual memory dumps.
 - **Evidence basis:** primary participant descriptions of the workflow.
 - **Major unknowns:** robustness across all reconstructed boundaries.
-- **Dependencies:** Stages 0–7.
+- **Dependencies:** the required `b11`/`as11` path, standalone B runtime, and
+  proven paper-tape transport—not the Unix migration track.
 - **Gate:** editing PDP-7 source and repeating the unchanged-tape path changes
   observed PDP-11 behavior.
 - **Provenance:** workflow A; lost tools/runtime B; loader fallback C;
@@ -230,9 +237,9 @@ it is not a claim that the Stage 3 program is the UNIX migration workload.
 This is the central reconstruction milestone and an independent success even
 if later UNIX reconstruction proves infeasible.
 
-## Phase II-B — Use the reconstructed B environment
+## Bootstrap track — use the reconstructed B environment
 
-### Stage 9 — Small machine-word RPN calculator
+### Small machine-word RPN calculator probe
 
 **Status: NOT STARTED**
 
@@ -241,12 +248,13 @@ if later UNIX reconstruction proves infeasible.
   arithmetic where needed.
 - **Evidence basis:** a technical systems test, not a historical program.
 - **Major unknowns:** runtime/library breadth, I/O robustness, arithmetic cost.
-- **Dependencies:** Stage 8.
+- **Dependencies:** sufficient standalone B runtime, cross tools, and the
+  intended transfer path.
 - **Gate:** examples such as `2 3 + p -> 5` and `6 7 * p -> 42` work through
   the full PDP-7/tape/PDP-11 chain.
 - **Provenance:** B/M project test, not claimed original.
 
-### Stage 10 — `dc0`
+### Historically constrained standalone `dc0`
 
 **Status: NOT STARTED**
 
@@ -257,12 +265,14 @@ if later UNIX reconstruction proves infeasible.
   attested; exact source and feature set are lost. Later V1 is comparison.
 - **Major unknowns:** representation, commands, implementation, diskless
   behavior.
-- **Dependencies:** Stage 9 and focused feature research.
+- **Dependencies:** focused feature research and the B/runtime/tool subset its
+  evidenced behavior actually requires. The calculator is a useful confidence
+  probe, not a historical dependency of UNIX or necessarily of `dc0`.
 - **Gate:** documented behavior/provenance matrix and useful multi-precision
   execution on bare PDP-11 through the full development/transfer path.
 - **Provenance:** B constrained by A; inference and later evidence separated.
 
-## Phase III — PDP-7 UNIX migration (Thompson-oriented track)
+## UNIX migration track — PDP-7 responsibilities on the PDP-11
 
 This track is derived from the migration corpus rather than from V1 source.
 It may advance alongside bootstrap work when dependencies permit, but no
@@ -286,9 +296,9 @@ when selected PDP-7 responsibilities run on the PDP-11.
   is demonstrated on the diskless 24 KB PDP-11 without importing later UNIX.
 - **Provenance:** primarily B, with A documentation and M verification.
 
-## Phase IV — Core-only PDP-11 UNIX
+## UNIX migration milestone — core-only PDP-11 UNIX
 
-### Stage 11 — Core-only / RAM-filesystem UNIX
+### Core-only / RAM-filesystem PDP-11 UNIX milestone
 
 **Status: NOT STARTED — VERY HIGH RISK**
 
@@ -307,11 +317,12 @@ when selected PDP-7 responsibilities run on the PDP-11.
   accounts / descendant evidence triangle with every inference exposed.
 - **Provenance:** mainly B, constrained by A and B/C; unknowns D; harness M.
 
-Failure here does not invalidate Stages 0–10.
+Failure here does not invalidate the completed stages or independent bootstrap
+milestones.
 
-## Phase V — December 1970 disk transition
+## UNIX migration milestone — December 1970 disk transition
 
-### Stage 12 — RF11/RS11 arrival and first disk-backed UNIX
+### RF11/RS11 arrival and first disk-backed UNIX milestone
 
 **Status: NOT STARTED**
 
@@ -322,15 +333,17 @@ Failure here does not invalidate Stages 0–10.
   256K 16-bit words (512 KB; 1024 blocks of 256 words).
 - **Major unknowns:** exact physical unit, migration, source, and first-disk
   behavior.
-- **Dependencies:** Stage 11 and a focused hardware/filesystem evidence gate.
+- **Dependencies:** a demonstrated core-only system and a focused
+  hardware/filesystem evidence gate.
 - **Gate:** reproducible first disk-backed PDP-11 UNIX consistent with the
   December-1970 evidence and supported early memory, residency, pathname,
   `exec`, and `wait` constraints.
 - **Provenance:** hardware identification is strong reconstruction evidence,
   not proof; reconstructed system B; authentic documentation A; harness M.
 
-**This Stage 12 gate is the completion criterion for this repository.** Later
-1971 work and the approach to First Edition are outside required scope.
+**This disk-backed-system gate is the completion criterion for this
+repository.** Later 1971 work and the approach to First Edition are outside
+required scope.
 
 ## Development ratchet and later expansion
 
@@ -357,9 +370,9 @@ and other 1971 expansion is outside this repository's completion criteria.
 | first disk-backed UNIX | high | medium–high |
 
 Project value is incremental: Stage 3 already proves a grounded execution
-architecture; Stage 8 is a major standalone success; and `dc0` is another
-independent milestone. The core-only system is a high-risk extension, not a
-condition for those earlier results to count.
+architecture; the “Across the Floor” loop is a major standalone success; and
+`dc0` is another independent milestone. The core-only system is a high-risk
+extension, not a condition for those earlier results to count.
 
 ## Durable deliverables
 
