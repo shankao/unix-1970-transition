@@ -145,8 +145,13 @@ The hardware contract is documented in
 hardware user/kernel protection modes or automatic kernel-stack switch.
 Installed 24 KB core occupies byte addresses `000000`–`057777`; the I/O page
 is `160000`–`177777`, with nonexistent memory between those ranges in this
-configuration. Exact pre-disk system, active-user, and RAM-storage boundaries
-remain deliberately unfrozen.
+configuration. Hardware does not fix the pre-disk partition. The provisional
+reconstruction in
+[`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md) selects a 12 KB
+system envelope (`000000`–`027777`), 4 KB active-user window
+(`030000`–`037777`), and 8 KB shared RAM arena (`040000`–`057777`). These
+exact boundaries are design choices, not observed machine state or recovered
+historical layout.
 
 The source machine remains at `../PDP-11` and was not modified or booted during
 this capture. Its static startup configuration has been copied unchanged to

@@ -330,3 +330,40 @@ boundaries. No RAM block/inode geometry or process-swap partition is selected.
 The later V1 16 KB / 8 KB layout is descendant evidence only. The next gate
 must derive the active-user size and complete execution/RAM layout from the
 provisional command workload before implementation.
+
+## D0027 — Freeze provisional core-only execution/memory contract v1
+
+**Status:** accepted as a conservative reconstruction; implementation not
+started
+
+The historically attested 24 KB target and approximate 12 KB OS/tiny-user/
+remaining-RAM-storage account constrain, but do not recover, the exact memory
+layout. Version 1 selects byte boundaries `SYS_LIMIT=030000`,
+`USR_BASE=030000`, `USR_TOP=040000`, and `RAM_BASE=040000` through
+`RAM_TOP=060000`: a 12 KB system envelope, 4 KB fixed user window, and 8 KB
+shared RAM arena. `USR_STATIC_LIMIT=036000` is only a soft 3 KB image/1 KB
+stack-and-staging budget. Actual kernel, command, stack, and argument sizes
+remain empirical gates.
+
+Pre-disk commands are raw absolute images loaded and entered at `030000` by a
+shell-controlled high-memory stub. They have no `a.out` header, relocation,
+target symbols, or kernel `exec`. The command argument frame uses the later
+natural argc/argv/NUL-byte-string convention as descendant-constrained
+reconstruction, not recovered pre-disk behavior.
+
+The syscall ABI retains PDP-7-shaped symbolic `sys name`, inline argument
+words, R0 accumulator/result semantics, and R0=`-1` errors over the KA11 TRAP
+mechanism. Exact call numbers remain unfrozen; the later carry-error convention
+is not adopted. PDP-7 source establishes child-first `fork` with two return
+continuations and supports a cooperative, single-resident shell/child model
+with minimal `smes`, without a clock scheduler.
+
+Process backing compactly saves the lower live image and upper live stack,
+not the empty gap. First Edition stack packing is compatibility evidence only.
+The shared RAM arena provisionally has sixteen 512-byte blocks, with eight
+direct blocks limiting RAM-only files to 4096 bytes and no fixed filesystem/
+process partition. Block size is descendant-constrained reconstruction, not
+an attested RAM-disk geometry.
+
+The next gate derives and costs core-only filesystem and kernel data
+structures from selected PDP-7 algorithms before implementation.

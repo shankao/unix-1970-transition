@@ -43,6 +43,14 @@ https://www.tuhs.org/Archive/Documentation/OralHistory/transcripts/thompson.htm
 
 Supports the practical cross-development workflow, including the B-written PDP-11 assembler running on the PDP-7 and paper tape being moved from the PDP-7 to the PDP-11.
 
+### First Edition UNIX Programmer's Manual — 3 November 1971
+
+Descendant evidence only for the execution contract: documents the later
+six-word `a.out` header and kernel `exec` environment, and the initial argument
+frame with SP at the count, followed by pointers, with strings high in user
+core. It does not recover the pre-disk executable format, syscall ABI, or date
+of their transition.
+
 ## Surviving/reconstructed PDP-7 UNIX
 
 ### DoctorWkt/pdp7-unix
@@ -71,6 +79,21 @@ source-level audit of `s1.s`–`s9.s`, `cat.s`, `ls.s`, `rm.s`, `sh.s`, and
 `stat.s`. [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) records responsibility-level
 selection and deferral; neither file presence nor runnable status proves that
 the working file is an unmodified contemporary original.
+
+For the execution/RAM contract, restored `src/cmd/sh.s` and kernel
+`src/sys/s2.s`, `s3.s`, `s5.s`, `s6.s`, and `s8.s` are the local source
+evidence for fixed-address shell loading, inline syscall arguments and `-1`
+results, child-first `fork`, `smes`/wake/exit flow, swapping, and the
+filesystem/process abstractions. The corresponding listing ancestry and
+restoration qualifications remain those recorded in `UNIX-MIGRATION.md`.
+
+Reconstructed First Edition `u0.s`, `u1.s`, `u3.s`, and shell source are used
+only as descendant corroboration for natural PDP-11 TRAP dispatch,
+skip/branch fork returns, and compact live-stack swap representation. No such
+source is imported or promoted to the pre-disk specification by this gate.
+Likewise, approximate `sh`/`ls`/`rm`/`stat`/`cat` sizes from surviving/restored
+early-1972 PDP-11 media are sanity evidence only; they are not reconstructed
+1970 binary sizes or acceptance limits.
 
 For Stage 4A, the checked-in local copies
 `machines/pdp7/pdp7-unix/src/cmd/bl.s`, `src/sys/s2.s`, and `src/cmd/as.s`

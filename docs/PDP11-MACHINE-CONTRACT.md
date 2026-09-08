@@ -206,18 +206,19 @@ memory       low system, small active-user window, remaining RAM backing;
 storage      abstract filesystem/process backing, RAM initially, RF11 later
 ```
 
-## Major unresolved layout question
+## Layout question handed to the follow-on contract
 
-The major unresolved question is the necessary size of the active pre-disk
-user execution area. It cannot be selected as an arbitrary historical number.
-The next phase must derive it from the minimal commands, executable loading,
-shell/manual replacement, stack/data demand, process-image backing, estimated
-kernel size, and RAM filesystem needs. Remaining RAM then defines the storage
-budget.
+This hardware gate left the necessary active pre-disk user size unresolved; it
+could not select an arbitrary historical number. The completed follow-on
+contract now chooses a provisional 4 KB window from the minimal commands,
+loader, stack/data, backing, kernel-budget, and RAM-storage constraints. That
+choice remains reconstruction subject to translated-size measurements, not a
+new hardware fact.
 
-## Next gate: core-only execution and RAM-layout contract
+## Completed follow-on contract
 
-Before implementation, research and freeze:
+The research items below are now provisionally frozen in
+[`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md):
 
 - initial PDP-11 executable-image representation and command load address;
 - active-user window size and stack placement;
@@ -230,5 +231,5 @@ Before implementation, research and freeze:
 - whether direct-block-only files suffice;
 - only then, a conservative RAM block geometry if one is needed.
 
-This next gate is research/design only. No machine-layer implementation has
-begun.
+No machine-layer implementation has begun. The next gate concerns core-only
+filesystem and kernel data structures.

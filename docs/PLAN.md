@@ -308,22 +308,49 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Core-only execution and RAM-layout contract
 
-**Status: NEXT — RESEARCH/DESIGN ONLY**
+**Status: RESEARCH COMPLETE; PROVISIONAL CONTRACT V1 FROZEN; IMPLEMENTATION NOT STARTED**
 
 - **Objective:** turn the physical KA11 contract and provisional migration
   corpus into a feasible, still non-implemented execution/memory design.
 - **Evidence basis:** the completed machine contract, provisional v1 command
   corpus, approximate historical 12 KB system envelope, and PDP-7 process and
   filesystem semantics.
-- **Major unknowns:** executable image and load address; active-user and stack
-  sizes; manual command loading; process save/restore layout; syscall ABI;
-  command/kernel estimates; available RAM backing; direct-block sufficiency;
-  eventual RAM block geometry.
+- **Questions resolved provisionally:** executable image and load address;
+  active-user and stack budgets; manual command loading; compact process
+  save/restore; syscall ABI shape; available RAM backing; direct-block
+  sufficiency; RAM block geometry. Exact call numbers, translated sizes, and
+  structure encodings remain unresolved.
 - **Dependencies:** completed corpus and bare KA11 machine-layer research.
-- **Gate:** a quantified layout and interface contract resolves those unknowns
-  without yet writing machine, kernel, command, or assembler code.
+- **Gate result:**
+  [`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md) freezes a
+  conservative 12/4/8 KB system/user/RAM partition, raw fixed-address command
+  images, shell-controlled loading, a PDP-7-shaped symbolic TRAP ABI,
+  child-first cooperative residency, compact process backing, and provisional
+  512-byte RAM blocks. Exact historical boundaries and syscall numbers remain
+  unknown, and all translated sizes remain empirical gates.
 - **Provenance:** historical constraints A; PDP-7 predecessor and descendant
   evidence explicitly separated; design choices B; calculations M.
+
+### Core-only filesystem and kernel data-structure contract
+
+**Status: NEXT — RESEARCH/DESIGN ONLY**
+
+- **Objective:** derive the smallest filesystem, process, and resident kernel
+  structures needed by the frozen corpus inside the provisional execution/RAM
+  budget.
+- **Evidence basis:** selected PDP-7 `s2`/`s4`/`s5`/`s6`/`s8`
+  responsibilities first; First Edition layouts only as descendant evidence.
+- **Major unknowns:** inode/direct-address and directory layouts; console
+  special inode; initial image and table counts; process descriptor; allocation
+  between sixteen RAM blocks and compact process backing; `status` structure;
+  total resident-table cost.
+- **Dependencies:** completed migration, KA11-machine, and execution/RAM
+  contracts.
+- **Gate:** a provenance-labelled, byte-costed structure contract fits the
+  12 KB system envelope and 8 KB shared arena, maps to selected PDP-7
+  algorithms, and identifies any genuinely required assembler operations.
+- **Provenance:** surviving PDP-7 evidence A1/B; adaptations B; descendant
+  comparisons clearly labelled; calculations M.
 
 ## UNIX migration milestone — core-only PDP-11 UNIX
 
@@ -340,8 +367,9 @@ when selected PDP-7 responsibilities run on the PDP-11.
   filesystem); PDP-7 UNIX is predecessor evidence and earliest PDP-11 UNIX is
   descendant evidence.
 - **Major unknowns:** exact kernel, layout, interfaces, commands, filesystem.
-- **Dependencies:** the corpus-definition gate, core-only execution/RAM-layout
-  contract, required bootstrap support, and implemented bare-machine substrate.
+- **Dependencies:** the corpus-definition, machine, execution/RAM, and
+  filesystem/data-structure contracts; required bootstrap support; and the
+  implemented bare-machine substrate.
 - **Gate:** reproducible core-only system mapped through the predecessor /
   accounts / descendant evidence triangle with every inference exposed.
 - **Provenance:** mainly B, constrained by A and B/C; unknowns D; harness M.

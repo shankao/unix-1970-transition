@@ -309,7 +309,7 @@ gate:
 First Edition source is descendant evidence, not the specification for these
 items.
 
-## Completed machine research and next gate
+## Completed machine and execution research
 
 The bare KA11 research result is authoritative in
 [`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md). It fixes hardware
@@ -317,7 +317,14 @@ facts—most importantly the absence of hardware user/kernel modes, current-stac
 TRAP behavior, and KL11 interfaces—while leaving exact user/RAM boundaries and
 storage geometry unfrozen.
 
-The next research gate is the core-only execution and RAM-layout contract. It
-must quantify executable loading, user and stack space, process-image backing,
-syscall ABI, corpus command/kernel sizes, and remaining storage before any
-implementation or assembler expansion begins.
+The provisional execution/memory contract v1 is authoritative in
+[`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md). It freezes a
+conservative 12/4/8 KB system/user/RAM layout, raw absolute command images,
+shell-controlled replacement, PDP-7-shaped syscall semantics, child-first
+cooperative execution, compact process backing, and a provisional 512-byte
+RAM-block geometry. These are reconstruction choices constrained by the
+evidence, not recovered pre-disk source.
+
+The next research gate defines core-only filesystem and kernel data
+structures, costs them against the frozen budgets, and maps them to the
+selected PDP-7 algorithms before implementation or assembler expansion.
