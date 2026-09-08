@@ -159,7 +159,7 @@ Stage 4C is also the first checkpoint expected to maintain a short native
 
 #### Stage-3 gold round-trip gate
 
-**Status: NOT STARTED**
+**Status: COMPLETE**
 
 - **Objective:** assemble the Stage 3 nested-call program with PDP-7 `as11`,
   verify its word map independently, then use class-M loading to run those
@@ -167,9 +167,11 @@ Stage 4C is also the first checkpoint expected to maintain a short native
 - **Gate:** the verified map reproduces the known Stage 3 nested-call result
   with no host-created replacement words and no paper-tape claim.
 
-The gold round trip remains an important bootstrap regression and
-target-execution proof; it is not a claim that the Stage 3 program is the UNIX
-migration workload.
+The gold round trip is an important bootstrap regression and target-execution
+proof, not a claim that the Stage 3 program is the UNIX migration workload.
+The checked-in test-L fixture produces 110 words through native PDP-7 `as11`;
+class-M code only parses and validates `i`/`x`/`w` records, and the PDP-11
+executes those exact records to print `D`.
 
 ### B cross-compiler workstream — `b11`
 
@@ -359,7 +361,7 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Repository-aware first implementation slice
 
-**Status: NEXT — INSPECTION/PLANNING ONLY**
+**Status: COMPLETE**
 
 - **Objective:** inspect the actual repository and turn the three completed
   contracts into the smallest evidence-backed implementation plan.
@@ -371,6 +373,11 @@ when selected PDP-7 responsibilities run on the PDP-11.
   bounded tests. Coding requires separate explicit authorization.
 - **Dependencies:** completed corpus, machine, execution/RAM, and
   filesystem/data-structure contracts.
+
+The inspection selected the bounded next implementation order: KL11 polling
+input/output diagnostic, then low-core vectors and RTI, then interrupt-driven
+console. The gold round trip was closed first so future PDP-11 machine words
+have a proven PDP-7 `as11` integration path.
 
 ## UNIX migration milestone — core-only PDP-11 UNIX
 

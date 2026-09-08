@@ -34,7 +34,9 @@ Migration corpus provisional v1 COMPLETE
 Bare KA11 machine-layer research COMPLETE
 Core-only execution/RAM-layout contract v1 COMPLETE (provisional)
 Core-only filesystem/kernel data-structure contract v1 COMPLETE (provisional)
-Repository-aware first implementation slice NEXT (inspection/planning only)
+Repository-aware first implementation slice COMPLETE
+Stage-3 gold round trip COMPLETE
+KL11 polling input/output diagnostic NEXT / NOT STARTED
 All named future workstreams NOT STARTED
 ```
 
@@ -133,6 +135,13 @@ loss of Stage 4B semantics. Stage 4C therefore passes its encoder and current
 bootstrap-feasibility contract. No capacity reduction has been accepted;
 final capacity and clean exhaustion behavior belong to the Unix-driven
 `as11` completion gate.
+
+The subsequent Stage-3 gold integration checkpoint evolves the authoritative
+image to SHA-256
+`5ce0c014a19f25242893dcc3f0ab7a654a819d263732b50253332dbaf4e7c3f2`.
+It retains native `gold.s` and `gold.o`; no preserved era image changed.
+Read-only `fsck7` still exits 0 with only the known inode-38/block-2987
+self-revisit.
 
 The provisional v1 migration corpus is now frozen in
 [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). It selects responsibilities rather
@@ -286,9 +295,8 @@ unknown; it is not established Bell Labs practice.
 ## Remaining roadmap and risk boundary
 
 The migration corpus and provisional machine, execution/RAM, and
-filesystem/data-structure contracts are complete. The next gate inspects the
-actual repository and produces a bounded plan for the first implementation
-slice; it does not authorize coding automatically. After that, two dependency
+filesystem/data-structure contracts are complete. Repository-aware inspection
+and the Stage-3 gold integration proof are complete. Two dependency
 tracks can advance: bootstrap work (`as11`, threaded B, `b11`, paper tape,
 calculator, and `dc0`) and
 migration of selected PDP-7 kernel and command responsibilities through a
@@ -305,32 +313,30 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 ## Do not do yet
 
 - Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
-- Do not port `s1`–`s8` responsibilities or commands during the
-  repository-aware planning gate.
+- Do not port `s1`–`s8` responsibilities or commands during the initial
+  bare-machine slices.
 - Do not treat the provisional memory boundaries or RAM-block geometry as
   recovered history, or mistake the common dynamic arena for a historically
   attested fixed filesystem/process partition.
 - Do not add assembler instructions/directives merely to broaden Stage 4C;
   derive final `as11` requirements from selected migration workloads.
-- Do not start the Stage-3 gold round trip before the integrated assembler gate.
+- Do not mistake the completed Stage-3 gold round trip for final `as11`, tape,
+  or UNIX integration.
 - Do not merge assembler, compiler, and paper-tape responsibilities.
 - Do not enable KE11/EIS, attach disk/tape, or substitute a later UNIX system.
-- Do not modify either reference tree; use authoritative `machines/pdp7` as
-  `shankao` for authorized Stage 4 development and preserve shared originals.
+- Use authoritative `machines/pdp7` as `shankao` for authorized PDP-7
+  development and preserve shared originals.
 - Do not repeat broad historical research already recorded here and in
   SOURCES; investigate only a newly identified unresolved question.
 
 ## Resume here
 
-Perform the **repository-aware first implementation-slice** inspection and
-produce a plan before coding. Establish the exact current Stage-4C syntax and
-features, Stage-3 PDP-11 loading/execution harness, artifacts and oracle
-integration, then order vectors, trap entry, KL11 polling/interrupts,
-RAM/block abstraction, filesystem nucleus, process control, and commands.
-Identify bounded non-speculative tests and when a persistent PDP-11 era first
-becomes meaningful. Use [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md),
+Begin the bounded **KL11 polling input/output diagnostic** slice, then use its
+observations to design the low-core vector/RTI framework and interrupt-driven
+console. Use the completed native-`as11` Stage-3 gold transport as the target
+word path. Use [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md),
 [`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md),
 [`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md), and
 [`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md) as fixed
-inputs. Do not automatically begin implementation, add assembler features,
-assign syscall numbers, fix capacity, or start `b11`, tape, `dc`, or UNIX.
+inputs. Do not add unrelated assembler features, assign syscall numbers, fix
+capacity, or start `b11`, tape, `dc`, filesystem, process, or command work.

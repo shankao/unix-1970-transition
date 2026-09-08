@@ -72,7 +72,8 @@ def matches(observed: str, expected: str) -> bool:
     return hashlib.sha256(observed.encode("ascii")).hexdigest() == expected
 
 
-def run(record: bool, build_only: bool, reuse_source: bool) -> None:
+def run(record: bool, build_only: bool, reuse_source: bool,
+        functional_only: bool = False) -> None:
     pre_status = git_status()
     pre_hash = sha256(IMAGE)
     transcript = io.StringIO()
@@ -111,7 +112,13 @@ def run(record: bool, build_only: bool, reuse_source: bool) -> None:
             raise RuntimeError("native assembly/link failed: " + repr(link_output))
         stats = session.command("stat as11.b as11.s a.out", timeout=180)
         if not build_only:
-            for native, (host, expected) in CASES.items():
+            cases = CASES.items()
+            if functional_only:
+                # The 48/10 fixture is retained capacity evidence, not a
+                # Stage-4C functional regression after the documented memory
+                # frontier was characterized.
+                cases = ((name, case) for name, case in cases if name != "large.s")
+            for native, (host, expected) in cases:
                 session.command(f"rm {native}")
                 session.install(native, host.read_text(encoding="ascii"))
                 out = native.split(".")[0] + ".o"
@@ -185,12 +192,13 @@ def main() -> None:
     parser.add_argument("--record", action="store_true")
     parser.add_argument("--build-only", action="store_true")
     parser.add_argument("--reuse-source", action="store_true")
+    parser.add_argument("--functional-only", action="store_true")
     parser.add_argument("--install-readme-only", action="store_true")
     args = parser.parse_args()
     if args.install_readme_only:
         install_readme()
     else:
-        run(args.record, args.build_only, args.reuse_source)
+        run(args.record, args.build_only, args.reuse_source, args.functional_only)
 
 
 if __name__ == "__main__":

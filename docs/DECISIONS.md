@@ -402,6 +402,24 @@ sizes, and filesystem/process allocation pressure remain empirical. RF11
 should preserve high-level algorithms and block I/O, but persistent metadata
 may evolve; it is not constrained to a zero-metadata-change backend swap.
 
-The next gate is a repository-aware planning pass for the first implementation
-slice. It inspects existing assembler and harness capabilities and produces a
-bounded plan before any separately authorized coding.
+At acceptance, the next gate was a repository-aware planning pass for the
+first implementation slice. D0029 records its completed integration result.
+
+## D0029 — Close native-as11 Stage-3 gold transport and streamline development host
+
+**Status:** accepted and demonstrated
+
+The active PDP-7 development configuration runs unthrottled, while every
+preserved era config retains `set throttle 400K`; the established 80 ms
+terminal-transfer pacing is unchanged. The older `pdp7-unix-copy` import was
+audited as an unused subset with no unique tracked project paths and removed,
+with its provenance retained in Git and the immutable import manifest.
+
+Stage-3B test L is now readable `as11` input assembled natively on the PDP-7.
+Class-M transport accepts only deterministic `i`/`x`/`w` records, rejects
+malformed or duplicate addresses, verifies instruction records with the
+independent Stage-2-backed Stage-3 manifest, and deposits the exact native
+map without encoding or substitution. The PDP-11/20 prints `D`. This closes
+the gold integration proof but does not make Stage 4C a target-complete
+assembler. The next bounded implementation slice is KL11 polling I/O, then
+low-core vectors/RTI and interrupt-driven console.

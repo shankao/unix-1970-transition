@@ -49,9 +49,13 @@ UNIX migration. Its provisional v1 kernel/command corpus, provenance layers,
 and intended semantics are now frozen in
 [`docs/UNIX-MIGRATION.md`](docs/UNIX-MIGRATION.md). The bare KA11 and
 provisional core-only execution/RAM and filesystem/data-structure contracts
-are complete. The next gate is a repository-aware planning pass for the first
-implementation slice. The current `as11` encoder is a validated bootstrap
-nucleus, not the final specification of the assembler.
+are complete. Repository-aware integration has now closed the Stage-3 gold
+round trip: native PDP-7 `as11` output is transported without host encoding
+and executes as Stage-3B test L on the PDP-11/20. The next implementation
+slice is a bounded KL11 polling input/output diagnostic, followed by the
+low-core vector/RTI framework and interrupt-driven console. The current
+`as11` encoder remains a validated bootstrap nucleus, not the final
+specification of the assembler.
 
 Two related tracks then advance: the `as11`/threaded-B/`b11`/`dc` bootstrap
 track and the migration of selected PDP-7 kernel and command responsibilities

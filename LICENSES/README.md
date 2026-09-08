@@ -18,16 +18,20 @@ Before importing any external source, record:
 
 `machines/pdp7/` was copied from the local pre-transition/reference machine
 `../PDP-7/` on 2026-08-31. Nested Git metadata was intentionally omitted. The
-copy contains two DoctorWkt `pdp7-unix` working trees:
+import contained two DoctorWkt `pdp7-unix` working trees:
 
 - `pdp7-unix`, based on upstream commit
   `e3ebcef20488b33eba8a7479cbd98b64e8af438b` with retained local changes;
 - `pdp7-unix-copy`, based on upstream commit
   `555eb30fc76b8fa29095d32eca9a43e9b1638288` with retained local changes.
+  A later repository audit established that this was an unused older subset,
+  and it was removed; Git and the immutable import manifest preserve its
+  provenance and exact imported bytes.
 
 Upstream: <https://github.com/DoctorWkt/pdp7-unix>
 
-Each imported tree retains its upstream `LICENSE` (GPLv3) and `README.md`.
+The active imported tree retains its upstream `LICENSE` (GPLv3) and
+`README.md`; the removed duplicate retains those files in Git history.
 The upstream README separately states that code derived from scans is owned by
 Micro Focus and that material not derived from scans is GPLv3. Consequently,
 the import is not classified under one undifferentiated license: provenance of

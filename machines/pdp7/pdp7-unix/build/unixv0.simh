@@ -2,7 +2,7 @@ set cpu 8k
 set cpu eae
 set cpu history=100
 set cpu noidle
-set throttle 400K
+set nothrottle
 show cpu
 
 ; set up SIMH devices:

@@ -46,8 +46,10 @@ claimed here beyond the source-level ancestry recorded below.
 The checked-in audit basis is the paired material under
 `machines/pdp7/pdp7-unix/scans/`, `src/sys/`, and `src/cmd/`: contemporary
 transcriptions/listings for `s1.s`–`s9.s` and the five commands, alongside the
-working restored forms. The parallel `pdp7-unix-copy` tree is retained project
-state, not an independent provenance source.
+working restored forms. The formerly imported parallel `pdp7-unix-copy` tree
+was an older redundant subset, not an independent provenance source; its
+original import remains recorded in Git and the import manifest, while the
+active tree is the sole working copy.
 
 ## Two cooperating tracks
 

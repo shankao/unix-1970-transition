@@ -295,8 +295,11 @@ not changed to close it.
   independently verified; the measured capacity frontier remains evidence.
 - **Unix-driven `as11` completion:** finalize the textual map and establish
   guarded, bootstrap-sufficient integrated capacity and safety margin.
-- **Stage-3 gold round trip:** reproduce and execute the nested-call gold
-  program from PDP-7-produced words using class-M loading.
+- **Stage-3 gold round trip: complete.** The readable Stage-3B test-L fixture
+  is assembled by PDP-7 B `as11`; class-M tooling parses its 110 native
+  `i`/`x`/`w` words, verifies them against the Stage-2-backed Stage-3 manifest,
+  deposits those exact words, and observes `D` on the PDP-11/20. The host does
+  not encode or replace instructions.
 
 Stage 4C is complete; the Unix-driven `as11` completion gate has not started.
 Its implemented mnemonic set is a validated encoder nucleus and B-bootstrap

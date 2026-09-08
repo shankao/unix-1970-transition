@@ -458,11 +458,9 @@ allocation      16-bit block map + 16-bit inode map
 block buffer    one 512-byte kernel buffer
 ```
 
-## Next gate: repository-aware first implementation slice
+## Completed repository-aware integration and next slice
 
-The next step is not another broad historical research pass and does not
-authorize coding. It must inspect current repository reality and produce an
-implementation plan first:
+The repository-aware inspection is complete. It established:
 
 - exact Stage-4C assembler syntax/features, including complement and data
   directive status;
@@ -475,4 +473,7 @@ implementation plan first:
 - non-speculative tests available at each boundary;
 - the point where a first persistent PDP-11 era becomes meaningful.
 
-Implementation begins only after explicit authorization following that plan.
+The separately authorized Stage-3 gold integration now proves the PDP-7
+`as11` word path. The next bounded implementation slice is KL11 polling
+input/output, followed by low-core vectors/RTI and interrupt-driven console.
+Filesystem implementation remains unstarted.

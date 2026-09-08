@@ -233,7 +233,8 @@ The research items below are now provisionally frozen in
 - whether direct-block-only files suffice;
 - only then, a conservative RAM block geometry if one is needed.
 
-No machine-layer implementation has begun. The filesystem/data-structure
-follow-on is now provisionally frozen in
-[`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md); the next gate
-is repository-aware planning for the first implementation slice.
+The execution and filesystem/data-structure follow-ons are provisionally
+frozen, repository-aware integration is complete, and the Stage-3 gold path
+now proves native PDP-7 `as11` words execute on the PDP-11. The next bounded
+machine-layer slice is a KL11 polling input/output diagnostic; no kernel
+implementation has begun.

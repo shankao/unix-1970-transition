@@ -98,7 +98,7 @@ class Stage4CHostTests(unittest.TestCase):
         self.assertIn("stage 4c", text)
         self.assertIn("ka11 instruction encoding", text)
         self.assertIn("final as11 memory capacity is not fixed yet", text)
-        self.assertIn("stage 4d", text)
+        self.assertIn("unix-driven as11 completion gate", text)
 
     def test_later_instructions_are_not_mnemonics(self):
         for name in ("mul", "div", "ash", "ashc", "xor", "sob", "mark"):
@@ -110,6 +110,7 @@ class Stage4CHostTests(unittest.TestCase):
         self.assertNotIn("def encode", runner)
         self.assertIn('session.command("b as11.b as11.s"', runner)
         self.assertIn('session.command(f"a.out {native} {out}"', runner)
+        self.assertIn('name != "large.s"', runner)
 
 
 if __name__ == "__main__":

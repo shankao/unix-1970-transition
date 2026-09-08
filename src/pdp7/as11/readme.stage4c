@@ -11,7 +11,7 @@ ka11 instruction encoding
 known limit:
 final as11 memory capacity is not fixed yet.
 high symbol loads can exhaust ordinary b memory.
-stage 4d will finish the object map and capacity handling.
+the unix-driven as11 completion gate will finish the object map and capacity handling.
 
 not yet working:
 final as11 object map

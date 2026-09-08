@@ -1,0 +1,314 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+CPU     idle disabled
+        8KW, EAE
+./unixv0.simh-19> att rb image-shankao.fs
+%SIM-INFO: RB: buffering file in memory
+./unixv0.simh-23> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+PDP-7 simulator configuration
+
+CPU     idle disabled
+CLK     60Hz, devno=00
+PTR     devno=01
+PTP     devno=02
+TTI     devno=03
+TTO     devno=04
+LPT     disabled
+DRM     disabled
+RB      devno=71
+DT      disabled
+G2OUT   devno=05
+G2IN    devno=43-44
+
+login: shankao
+password: shankao
+@ rm gold.s
+gold.s   ?
+@ ed
+edit
+a
+/ stage 3b test l: nested threaded-b call, expected console output d
+/ all addresses are pdp11 byte addresses; assembled natively by pdp7 as11
+.=001000
+start:
+mov $stream,r3
+mov $004000,r4
+mov $005000,r5
+jmp *(r3)+
+
+.=001100
+c:;mov (r3)+,(r5)+;jmp *(r3)+
+
+.=001120
+x:;mov *(r3)+,(r5)+;jmp *(r3)+
+
+.=001140
+va:;mov (r3)+,r0;add r4,r0;asr r0;mov r0,(r5)+;jmp *(r3)+
+
+.=001160
+b12:;add -(r5),-2(r5);jmp *(r3)+
+
+.=001200
+b1:;mov -(r5),r0;mov -(r5),r1;asl r1;mov r0,(r1);mov r0,(r5)+;jmp *(r3)+
+
+.=001240
+emit:
+mov -(r5),r0
+1:;tstb *$177564;bpl 1b
+movb r0,*$177566
+2:;tstb *$177564;bpl 2b
+jmp *(r3)+
+
+.=001300
+stop:;halt
+
+.=001320
+f:
+tst -(r5)
+bne 1f
+mov (r3),r3
+jmp *(r3)+
+1:;add $2,r3;jmp *(r3)+
+
+.=001360
+tra:;mov (r3),r3;jmp *(r3)+
+
+.=001400
+b4:
+mov -(r5),r0
+cmp -(r5),r0
+bne 3f
+mov $1,r0
+br 4f
+3:;clr r0
+4:;mov r0,(r5)+;jmp *(r3)+
+
+.=001440
+mark:
+mov -(r5),r0
+mov r5,r2
+mov r4,(r5)+
+mov r0,(r5)+
+jmp *(r3)+
+
+.=001500
+call:
+mov 2(r2),r0
+mov r3,2(r2)
+mov r2,r4
+mov r0,r3
+jmp *(r3)+
+
+.=001540
+set:
+mov (r3)+,r0
+asl r0
+add r4,r0
+mov r0,r5
+jmp *(r3)+
+
+.=001560
+a:
+mov (r3)+,r0
+add r4,r0
+mov (r0),(r5)+
+jmp *(r3)+
+
+.=001600
+n11:
+mov r4,r5
+mov (r5)+,r4
+mov (r5),r3
+jmp *(r3)+
+
+.=001620
+retv:
+mov -(r5),r0
+mov r4,r5
+mov (r5)+,r4
+mov (r5),r3
+mov r0,(r5)+
+jmp *(r3)+
+
+.=002540
+stream:
+c
+fnouter
+mark
+c
+0103
+call
+emit
+stop
+
+.=003240
+fnouter:
+set
+3
+c
+fninner
+mark
+a
+4
+call
+c
+1
+b12
+retv
+
+.=003300
+fninner:
+set
+3
+a
+4
+retv
+.
+w gold.s
+1408
+q
+@ rm gold.o
+gold.o   ?
+@ a.out gold.s gold.o
+@ cat gold.o
+l start 001000
+i 001000 012703
+x 001002 002540
+i 001004 012704
+x 001006 004000
+i 001010 012705
+x 001012 005000
+i 001014 000133
+l c 001100
+i 001100 012325
+i 001102 000133
+l x 001120
+i 001120 013325
+i 001122 000133
+l va 001140
+i 001140 012300
+i 001142 060400
+i 001144 006200
+i 001146 010025
+i 001150 000133
+l b12 001160
+i 001160 064565
+x 001162 177776
+i 001164 000133
+l b1 001200
+i 001200 014500
+i 001202 014501
+i 001204 006301
+i 001206 010011
+i 001210 010025
+i 001212 000133
+l emit 001240
+i 001240 014500
+n 1 001242
+i 001242 105737
+x 001244 177564
+i 001246 100375
+i 001250 110037
+x 001252 177566
+n 2 001254
+i 001254 105737
+x 001256 177564
+i 001260 100375
+i 001262 000133
+l stop 001300
+i 001300 000000
+l f 001320
+i 001320 005745
+i 001322 001002
+i 001324 011303
+i 001326 000133
+n 1 001330
+i 001330 062703
+x 001332 000002
+i 001334 000133
+l tra 001360
+i 001360 011303
+i 001362 000133
+l b4 001400
+i 001400 014500
+i 001402 024500
+i 001404 001003
+i 001406 012700
+x 001410 000001
+i 001412 000401
+n 3 001414
+i 001414 005000
+n 4 001416
+i 001416 010025
+i 001420 000133
+l mark 001440
+i 001440 014500
+i 001442 010502
+i 001444 010425
+i 001446 010025
+i 001450 000133
+l call 001500
+i 001500 016200
+x 001502 000002
+i 001504 010362
+x 001506 000002
+i 001510 010204
+i 001512 010003
+i 001514 000133
+l set 001540
+i 001540 012300
+i 001542 006300
+i 001544 060400
+i 001546 010005
+i 001550 000133
+l a 001560
+i 001560 012300
+i 001562 060400
+i 001564 011025
+i 001566 000133
+l n11 001600
+i 001600 010405
+i 001602 012504
+i 001604 011503
+i 001606 000133
+l retv 001620
+i 001620 014500
+i 001622 010405
+i 001624 012504
+i 001626 011503
+i 001630 010025
+i 001632 000133
+l stream 002540
+w 002540 001100
+w 002542 003240
+w 002544 001440
+w 002546 001100
+w 002550 000103
+w 002552 001500
+w 002554 001240
+w 002556 001300
+l fnouter 003240
+w 003240 001540
+w 003242 000003
+w 003244 001100
+w 003246 003300
+w 003250 001440
+w 003252 001560
+w 003254 000004
+w 003256 001500
+w 003260 001100
+w 003262 000001
+w 003264 001160
+w 003266 001620
+l fninner 003300
+w 003300 001540
+w 003302 000003
+w 003304 001560
+w 003306 000004
+w 003310 001620
+@ 
+Simulation stopped, PC: 01057 (DAC 5525)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs

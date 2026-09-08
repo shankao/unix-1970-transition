@@ -52,14 +52,18 @@ pre-transition development state, not claims of original Bell Labs material.
   `add-user-directory-tool`. At import, `Makefile` and
   `build/unixv0.simh` were modified, and `Containerfile.simh`,
   `build/image-shankao.fs`, `build/pdp7`, `notes`, and `pr` were untracked.
-- Retained reference tree: `machines/pdp7/pdp7-unix-copy`, based on Git commit
-  `555eb30fc76b8fa29095d32eca9a43e9b1638288` on `master`. At import,
-  `Makefile` was modified, and `Containerfile.simh` and `build/pdp7` were
-  untracked.
+- The import also contained `machines/pdp7/pdp7-unix-copy`, based on Git
+  commit `555eb30fc76b8fa29095d32eca9a43e9b1638288` on `master`. Audit found it
+  to be an unused older subset with no unique tracked project paths, so it was
+  removed after the active tree became authoritative. Its exact imported
+  bytes remain available in Git and `evidence/pdp7-import-manifest.tsv`.
 - The active startup file is `machines/pdp7/pdp7-unix/build/unixv0.simh`.
   It configures an 8K PDP-7 with EAE, RB09, UNIX terminal translation,
   GRAPHICS-2 input on TCP port 12345, and attaches
   `build/image-shankao.fs`. It loads `build/boot.rim` at octal `010000`.
+  Development runs use `set nothrottle`; preserved era configurations retain
+  `set throttle 400K`. The verified terminal-transfer pacing remains 80 ms
+  per character.
 - A configuration-only query of the imported emulator (no startup file, image
   attachment, bootstrap load, or `go`) reported `PTR devno=01, not attached`
   and `PTP devno=02, not attached`. The active startup file now explicitly
@@ -78,9 +82,9 @@ Key imported files:
 | `machines/pdp7/pdp7-unix/build/boot.rim` | 69 | 0654 | `a69adf03a700058300501b2e4a74e732b344fd175e727c9a87c7c7b7132bd4f2` |
 | `machines/pdp7/pdp7-unix/build/unixv0.simh` | 533 | 0654 | `672c0f0bbe5be015e296285a207b91e746c2d50922f29666d489e2f12767ced6` |
 | `machines/pdp7/pdp7-unix/build/pdp7` | 1,370,160 | 0755 | `6470b2066fa2847361c6f7377cf739c16b3408e2c54a3da854daf6e72ce587e7` |
-| `machines/pdp7/pdp7-unix-copy/build/image.fs` | 4,096,000 | 0654 | `244b0876944fc60645f55ee9b5d3f293d0cca3d6267fc11d83c334286cacfd53` |
-| `machines/pdp7/pdp7-unix-copy/build/boot.rim` | 69 | 0654 | `a69adf03a700058300501b2e4a74e732b344fd175e727c9a87c7c7b7132bd4f2` |
-| `machines/pdp7/pdp7-unix-copy/build/unixv0.simh` | 492 | 0654 | `14ff89ea7ff0f457bb30c791bb082235a15e67d69d15856a041650fc054000c4` |
+
+The immutable import manifest also records the removed duplicate's historical
+files and hashes; those rows are intentionally not rewritten.
 
 The table and full manifest describe the immutable initial import in commit
 `5e9221ed27fc16acee98914472e7c48452933004`. Subsequent project configuration
@@ -135,6 +139,12 @@ SHA-256 `d9a40b9ca80b1f9fa6623947faba1e0097ff8042d12d8e75236eb9b9081de245`.
 Neither step changed the encoder or capacities. Read-only `fsck7` again exited
 0 with only the same inode-38/block-2987 self-revisit. The measured boundary
 and memory diagram are in `evidence/stage4c-capacity/`.
+
+The Stage-3 gold integration and unthrottled native regressions subsequently
+evolved the authoritative image to SHA-256
+`5ce0c014a19f25242893dcc3f0ab7a654a819d263732b50253332dbaf4e7c3f2`.
+The native `dd/shankao` directory retains `gold.s` and `gold.o`. `fsck7`
+continues to exit 0 with only the known inode-38/block-2987 self-revisit.
 
 ## PDP-11/20
 

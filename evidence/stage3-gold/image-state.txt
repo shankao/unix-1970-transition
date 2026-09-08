@@ -1,0 +1,20 @@
+pre_sha256=0f8ed0e03ce487d08a1ff758a64eabda356e76e809b8d6d10eff78564008ce71
+post_sha256=2dfbe3abf9a36ae80e6287448f9c1f2a8f5108aa415e836196df419c894fb1f8
+pre_git_status:
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+ M machines/pdp7/pdp7-unix/build/unixv0.simh
+ M src/pdp7/as11/readme.stage4c
+ M tests/test_stage4c.py
+?? tests/pdp7-as11/stage3b-gold.s
+?? tests/test_stage3_gold.py
+?? tools/__pycache__/
+?? tools/run_stage3_gold.py
+post_git_status:
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+ M machines/pdp7/pdp7-unix/build/unixv0.simh
+ M src/pdp7/as11/readme.stage4c
+ M tests/test_stage4c.py
+?? tests/pdp7-as11/stage3b-gold.s
+?? tests/test_stage3_gold.py
+?? tools/__pycache__/
+?? tools/run_stage3_gold.py
