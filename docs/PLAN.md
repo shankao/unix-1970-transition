@@ -49,9 +49,9 @@ Gate: A–M machine tests, including loop and nested frames, pass using only
 KA11 instructions and no disk, UNIX, tape, or KE11. The exact 1970 source is
 lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
 
-## Next planning gate — define the UNIX migration corpus
+## Migration corpus definition
 
-**Status: NEXT — DOCUMENTATION/DESIGN ONLY**
+**Status: COMPLETE — provisional v1 workload frozen**
 
 - **Objective:** inventory the selected local PDP-7 kernel and command sources,
   assign source-level provenance, map responsibilities and intended PDP-11
@@ -59,18 +59,21 @@ lost; this is class B. See [`PDP11-B-RUNTIME.md`](PDP11-B-RUNTIME.md).
   assembler-directive requirements.
 - **Evidence basis:** surviving contemporary PDP-7 listing/source lineages,
   their restored working forms, and primary accounts of the migration.
-- **Major unknowns:** exact lineage and restoration status of individual local
-  files; responsibility boundaries; lost 1970 PDP-11 implementation details.
+- **Major unknowns:** detailed line-level restoration provenance and the lost
+  1970 PDP-11 implementation remain unresolved.
 - **Dependencies:** completed Stages 0–4C and the source/provenance method in
   [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
-- **Gate:** a reviewable component matrix covers the provisional `s1`–`s8`
-  selections and `sh`, `cat`, `ls`, `rm`, and `stat`, distinguishing attested,
-  surviving, restored, reconstructed, descendant, and unknown material.
-- **Provenance:** the specification is M documentation over A/P7-* evidence;
-  future translated code will normally be B.
+- **Gate result:** [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) freezes selected
+  responsibilities from `s1`–`s8`, explicitly defers `s9`, selects `sh`,
+  `cat`, `ls`, `rm`, and `stat`, records layered provenance and core-only
+  semantics, and derives provisional assembler requirements.
+- **Provenance:** the specification is M documentation over layered A1/A2
+  listing evidence and restored B/local C forms; future translated PDP-11 code
+  will normally be project-wide class B.
 
-This gate selects work; it does not port code. It is a prerequisite to final
-`as11` feature decisions and to the core-only UNIX implementation track.
+This freeze selects work; it does not prove the exact December-1970 corpus or
+port code. It now constrains final `as11` feature decisions and the core-only
+UNIX implementation track.
 
 ## Bootstrap track — PDP-11 bootstrap substrate
 
@@ -281,7 +284,7 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Bare PDP-11/20 machine substrate
 
-**Status: NOT STARTED**
+**Status: NEXT — RESEARCH/DESIGN ONLY**
 
 - **Objective:** establish only the machine services required by the selected
   core-only workload: vectors, stack, console, trap/syscall entry, and a
@@ -292,8 +295,12 @@ when selected PDP-7 responsibilities run on the PDP-11.
   RAM-storage implementation.
 - **Dependencies:** migration-corpus definition and independently verified
   encoding/build support for each selected fragment.
-- **Gate:** each substrate interface has an evidence/provenance rationale and
-  is demonstrated on the diskless 24 KB PDP-11 without importing later UNIX.
+- **Research gate:** document the 24 KB layout, vectors, trap/syscall entry and
+  return implications, processor stack/state, KL11 registers/vectors/interrupt
+  behavior, minimum initialization, and conservative RAM user/backing-store
+  organization, with evidence and uncertainties explicit.
+- **Later implementation gate:** each selected substrate interface is
+  demonstrated on the diskless 24 KB PDP-11 without importing later UNIX.
 - **Provenance:** primarily B, with A documentation and M verification.
 
 ## UNIX migration milestone — core-only PDP-11 UNIX
@@ -336,8 +343,8 @@ milestones.
 - **Dependencies:** a demonstrated core-only system and a focused
   hardware/filesystem evidence gate.
 - **Gate:** reproducible first disk-backed PDP-11 UNIX consistent with the
-  December-1970 evidence and supported early memory, residency, pathname,
-  `exec`, and `wait` constraints.
+  December-1970 evidence and the focused findings on early memory, residency,
+  pathname traversal, and introduction of `exec` and `wait`.
 - **Provenance:** hardware identification is strong reconstruction evidence,
   not proof; reconstructed system B; authentic documentation A; harness M.
 

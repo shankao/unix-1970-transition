@@ -159,9 +159,10 @@ omissions, and only then derive missing assembler or machine requirements.
 This keeps `as11`, threaded B, and `b11` in their evidenced role as bootstrap
 scaffolding rather than allowing them to define the destination system.
 
-Use the namespaced `P7-A-I`, `P7-A-II`, `P7-R`, `P7-C`, and `P7-O` refinements
-defined in [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). They supplement rather
-than replace A/B/C/D/M. In particular, do not infer that a working file in a
-restored source tree is an untouched contemporary original. Descendant V1 or
-later material may constrain a reconstruction but does not become the 1970
-target.
+Use the layered A1/A2/B/C/D source-lineage categories defined in
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). They supplement rather than replace
+the repository-wide A/B/C/D/M confidence labels and may overlap within one
+file or routine. In particular, do not infer that a working file in a restored
+source tree is an untouched contemporary original, or classify a whole file as
+reconstruction because one local correction exists. Descendant V1 or later
+material may constrain a reconstruction but does not become the 1970 target.

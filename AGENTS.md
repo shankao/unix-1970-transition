@@ -69,10 +69,10 @@ Never describe B/C/M material as original Bell Labs code.
 - Modern tools may verify output, but the final historical demonstration must make the program bytes on the PDP-7 side and transfer them through the paper-tape path.
 - Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
-- Stages 4A–4C are complete. The next gate is to define and provenance-audit
-  the selected PDP-7 UNIX migration corpus before further `as11` implementation.
-  Do not start kernel/command ports or skip to `b11`, tape transport, `dc`, or
-  later UNIX work.
+- Stages 4A–4C and the provisional v1 migration-corpus audit are complete. The
+  next gate is research/design of the bare KA11 machine-layer contract. Do not
+  implement that contract, start kernel/command ports, or skip to `b11`, tape
+  transport, `dc`, or later UNIX work before its gate is defined and passed.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
 - Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the

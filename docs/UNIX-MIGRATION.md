@@ -1,22 +1,55 @@
-# PDP-7 to PDP-11 UNIX migration plan
+# PDP-7 to PDP-11 UNIX migration
 
-## Purpose
+## Provisional corpus freeze v1
 
-The destination is not defined by how much of `as11` or `b11` can be built.
-It is defined by the late-1970 PDP-7 UNIX responsibilities that must be moved
-to the diskless PDP-11/20. The surviving/restored PDP-7 system is therefore
-the principal source base for the UNIX migration. Cross-development tools,
-the threaded-B runtime, and standalone B programs are essential bootstrap
-scaffolding, but they are not the PDP-11 UNIX specification.
+This is the first source-level freeze of the PDP-7 to PDP-11 migration
+workload. “Frozen” means that immediate PDP-11 UNIX design and further
+cross-assembler requirements are derived from this corpus until evidence or
+implementation findings justify a recorded revision. It does **not** mean
+that this is the historically proven, exact December-1970 source set.
 
-This document is a planning boundary, not a completed source audit or an
-authorization to port anything. Exact 1970 PDP-11 kernel and command sources
-are not known to survive. The result will be a conservative reconstruction,
-not First Edition UNIX.
+The destination is defined by selected late-1970 PDP-7 UNIX responsibilities,
+not by how much of `as11` or `b11` can be built. The surviving/restored PDP-7
+system is the principal source base. Cross-development tools, threaded B, and
+standalone B programs are bootstrap scaffolding rather than the PDP-11 UNIX
+specification. Exact 1970 PDP-11 kernel and command sources are not known to
+survive; the target is a conservative reconstruction, not First Edition UNIX.
+
+## Evidence and provenance layers
+
+Repository-wide A/B/C/D/M confidence labels remain authoritative. For this
+migration audit, the following layered source-lineage categories refine them:
+
+- **A1** — contemporary listing in the Norman Wilson / companion-binder scan
+  corpus, probably the hypothetical “Unix Book I” lineage;
+- **A2** — contemporary listing in Dennis Ritchie's identified “Unix Book
+  II” corpus;
+- **B** — working restored or modified source derived from an A1/A2 listing;
+- **C** — local repair, reconstruction, or interpretation where contemporary
+  material is broken, ambiguous, annotated, incomplete, or insufficient
+  as-is;
+- **D** — other PDP-7 material not directly derived from a surviving
+  contemporary listing.
+
+These source layers may overlap hierarchically: a routine may have A1
+ancestry, an A1-derived working B form, and a narrow C correction. A local
+repair does not make the entire file reconstruction, and a runnable restored
+file is not thereby an untouched contemporary source. In project-wide usage,
+A1/A2 are authentic evidence; source-layer B/C must still receive the
+appropriate project-wide reconstruction/restoration classification in the
+specific claim. Source-layer D is an origin category, not a confidence grade.
+
+The earlier provisional `P7-A-I`/`P7-A-II`/`P7-R`/`P7-C`/`P7-O` names are
+superseded by this audit vocabulary. No detailed scan-to-source line audit is
+claimed here beyond the source-level ancestry recorded below.
+
+The checked-in audit basis is the paired material under
+`machines/pdp7/pdp7-unix/scans/`, `src/sys/`, and `src/cmd/`: contemporary
+transcriptions/listings for `s1.s`–`s9.s` and the five commands, alongside the
+working restored forms. The parallel `pdp7-unix-copy` tree is retained project
+state, not an independent provenance source.
 
 ## Two cooperating tracks
-
-The historical work is usefully modeled as two parallel tracks:
 
 ```text
 Ritchie-oriented bootstrap                 Thompson-oriented UNIX migration
@@ -25,112 +58,271 @@ as11 -> threaded B -> b11 -> dc            PDP-7 kernel/commands -> PDP-11
                      useful PDP-11 system
 ```
 
-The labels describe responsibilities, not exclusive authorship claims. The
-tracks can advance independently where their dependencies allow and converge
-on the PDP-11. Once useful development can run there, capability should
-ratchet toward the PDP-11 rather than turning the PDP-7 cross environment into
-a permanent, comprehensive toolchain.
+These labels describe responsibilities, not exclusive authorship claims. The
+tracks may proceed independently where their real dependencies allow. In
+particular, `b11`, the calculator, and `dc0` are not prerequisites for the
+core-only UNIX milestone unless a selected workload later proves otherwise.
+Once useful development can run on the PDP-11, capability should ratchet
+toward it rather than making the PDP-7 a permanent comprehensive toolchain.
 
-## Provisional first migration corpus
+## Kernel responsibility corpus
 
-The first corpus to audit is derived primarily from the local PDP-7 UNIX
-sources:
+All `s1.s` through `s8.s` have strong contemporary A1 listing ancestry and
+working source-layer B derivatives. Whole files are not migration units: the
+selected responsibilities below are. Machine-specific PDP-7 mechanisms
+constrain semantics but are not translated literally.
 
-- kernel/system responsibilities in `s1`, `s2`, and `s3`;
-- selected responsibilities from `s4`, `s5`, and `s6`;
-- console-relevant parts of `s7`;
-- structures, constants, and cold-start material from `s8` as required;
-- an initial command set of `sh`, `cat`, `ls`, `rm`, and `stat`.
+### `s1.s` — A1 -> B
 
-These names are selection candidates, not a statement that every line should
-be transliterated or that their current restored files share one provenance.
-Before implementation, the corpus-definition gate must inventory the actual
-local files and variants, identify each selected responsibility, record its
-provenance and intended PDP-11 semantics, state omissions, and derive the
-PDP-11 instruction/directive requirements it introduces.
+Retain as evidence for syscall entry/dispatch responsibility, saved
+user/process state, process selection and backing-store interaction, and
+syscall return. Do not mechanically translate PDP-7 CAL entry,
+AC/MQ/auto-index save conventions, PDP-7 interrupt machinery, or RB disk
+operations. PDP-11 traps, vectors, registers, and processor-stack handling are
+new machine-specific reconstruction.
 
-The first destination milestone is a single-console PDP-11/20 test system
-with a RAM-backed filesystem or storage area, a small active user area,
-process creation and program execution, basic file I/O, and a tiny interactive
-shell environment. A 24 KB machine, a pre-disk system, and a rough division
-among operating system, small user area, and RAM-backed storage are
-historically attested in retrospective accounts. The exact late-1970 memory
-partition and implementation are unknown and remain reconstruction choices.
+### `s2.s` — A1 -> B
 
-## PDP-7 source provenance tags
+Initial syscall responsibilities: `status`, `open`, `creat`, `close`, `read`,
+`write`, and `unlink`.
 
-The repository-wide A/B/C/D/M labels remain authoritative. Migration work may
-refine PDP-7 source provenance with these namespaced tags:
+Initially defer seek/tell, link, rename, chmod/chown, uid operations, time,
+`capt`/`rele`, and calls not demanded by the first corpus.
 
-- **P7-A-I** — contemporary PDP-7 material in the original surviving
-  listing/source (“Book I”) lineage;
-- **P7-A-II** — contemporary PDP-7 material in the later-discovered Ritchie
-  “Unix Book II” corpus;
-- **P7-R** — working restored or modified source derived from contemporary
-  listings; authentic ancestry does not make the working file untouched;
-- **P7-C** — reconstruction or repair needed where surviving material is
-  incomplete, ambiguous, or insufficient to run;
-- **P7-O** — other PDP-7 material not directly tied to those listing corpora;
-  its origin must be recorded separately.
+### `s3.s` — A1 -> B
 
-`P7-A-I` and `P7-A-II` refine class A. `P7-R` records transformation history
-and must be classified A/B at the claim or code level as appropriate. `P7-C`
-is normally class B. `P7-O` is deliberately not a confidence claim. These
-names avoid overloading the established repository-wide B and C labels.
+Select process lookup/table responsibilities, `fork`, `exit`, the minimum
+`smes`/wake-up behavior required by the shell, and special-file/tty dispatch
+concepts. General message IPC is not initially required.
 
-No blanket tag is assigned here to all files under restored `src/sys` or
-`src/cmd`. That requires a file-by-file local provenance audit before a
-migration component is selected.
+### `s4.s` — A1 -> B, with possible local C interpretation
 
-## Workload-driven assembler growth
+Select allocation/freeing semantics, copy/zero helpers, and character-queue
+responsibility if needed by the tty implementation. Do not translate
+RB-specific caching, PDP-7 self-modifying tricks, or the exact interrupt-safe
+queue implementation merely because they survive.
 
-Stage 4C's mnemonic inventory came from the proven threaded-B runtime. It is a
-validated KA11 encoder nucleus and B-bootstrap test corpus, not the final
-historically derived `as11` requirement. Future growth follows:
+### `s5.s` — A1 -> B
+
+Select process backing-store responsibility; file/fnode assignment and
+get/put responsibilities; required access checks; required sleep/wakeup
+concepts; `dslot`; and `icreat`. PDP-7 disk swap is evidence for the
+abstraction, while the core-only PDP-11 will use RAM backing. PDP-7
+packed-character machinery need not survive where PDP-11 bytes replace it
+naturally.
+
+### `s6.s` — A1 -> B
+
+This is the principal filesystem-algorithm source. Select `itrunc`, name
+lookup, inode acquire/release, directory get/put, block mapping/allocation
+interaction, and inode read/write. Large/indirect-file support remains
+conditional until RAM-filesystem requirements establish a need before RF11.
+
+### `s7.s` — A1 -> B
+
+Use as semantic evidence for console input/output completion, blocked-process
+wakeup, and character queues. PDP-7 device instructions are not translated
+literally; the KL11 layer is new machine-specific code.
+
+### `s8.s` — A1 -> B
+
+Use as structural evidence for process state, per-process file state,
+current-directory state if needed, in-core inode and directory representation,
+filesystem globals, character queues, and cold-start responsibilities. Do not
+preserve PDP-7 offsets or 18-bit layouts. Core-only cold start initializes
+RAM-backed storage and enters the shell environment rather than literally
+reproducing disk-oriented PDP-7 startup.
+
+### `s9.s` — deferred
+
+Installation, filesystem creation, and persistent-media work belong with the
+RF11 transition. `s9.s` does not drive the core-only system.
+
+## Initial command corpus
+
+| Command | Source layer | Initial role |
+| --- | --- | --- |
+| `cat` | A1 -> B | strong semantic migration candidate |
+| `ls` | A2 -> B | minimal namespace inspection |
+| `rm` | A2 -> B | near-semantic transliteration candidate |
+| `sh` | A2 -> B | command loading and parent/child control |
+| `stat` | A2 -> B | second-tier metadata validation |
+
+Contemporary listing evidence exists for all five, while runnable forms may
+contain restoration changes.
+
+### `sh`
+
+Retain command input, simple parsing, `fork`, manual loading/replacement of
+the child image, I/O redirection, and foreground parent/child synchronization.
+Background `&`, system-directory search/link tricks, login/logout integration,
+and other conveniences may be deferred if unnecessary.
+
+### `cat`, `rm`, `ls`, and `stat`
+
+`cat` exercises `open`, `read`, `write`, and `close`; replace PDP-7 packed
+characters naturally with PDP-11 byte handling. `rm` iterates arguments,
+calls `unlink`, and reports failure. The first `ls` may read the directory
+sequentially and print names without sorting or long format; that is a
+resource adaptation, not a claim about lost PDP-11 behavior. `stat` validates
+metadata/status but need not block the earliest shell prompt.
+
+## Core-only process and syscall contract
+
+Do not introduce modern `exec` and `wait` merely because later PDP-11 UNIX has
+them. The strongest surviving PDP-7 model is:
 
 ```text
-select a migration responsibility
-    -> establish source provenance and target semantics
-    -> translate it conservatively
-    -> identify a missing instruction or directive
-    -> extend as11 only when that requirement is real
+fork
+    -> child manually loads/replaces its image
+    -> parent synchronizes through minimum smes-like semantics
+    -> child exits
 ```
 
-The Stage 4C capacity frontier remains valid evidence. Its practical impact
-must be measured against the selected migration workload and the final Stage
-4D output path; it is not resolved by this planning document.
+Ritchie's retrospective associates modern `exec`, modern `wait`, and full
+pathnames with the first completed PDP-11 system after disk arrival, but does
+not establish their exact point of introduction during the pre-disk interval.
+The provisional chronology is therefore PDP-7-shaped
+fork/exit/manual-load/`smes` for core-only operation, followed by focused
+investigation of `exec`, `wait`, and full pathnames during RF11 convergence.
+This is conservative reconstruction from predecessor and later historical
+evidence, not recovered 1970 PDP-11 source.
 
-## Destination layers
+The provisional core-only syscall surface is:
 
-After the corpus-definition gate, work is dependency-driven rather than a
-single toolchain ladder:
+```text
+fork  exit  smes
+open  creat close read write unlink status
+```
 
-1. finish bootstrap-sufficient cross tools against real selected workloads;
-2. establish the bare PDP-11 substrate: vectors, stack, console, trap/syscall
-   entry, and a RAM-backed block/storage layer;
-3. migrate the selected kernel responsibilities and tiny command corpus into
-   a core-only PDP-11 UNIX test system;
-4. replace RAM-backed storage with RF11/RS11 persistent disk support around
-   the December 1970 transition;
-5. move development capability onto the PDP-11 when evidence and practical
-   capability justify it.
+Only synchronization needed by the foreground shell is required from `smes`.
+Console I/O uses ordinary `read`/`write` special-file semantics. Initially
+deferred are `exec`, `wait`, `rmes`, link, rename, seek, tell, `chdir`, chmod,
+chown, setuid/getuid, time, and any other call not demanded by this corpus.
+Actual migration may promote an operation if it proves indispensable.
 
-The repository ends with a reproducible first disk-backed PDP-11 UNIX
-environment consistent with the surviving December-1970 evidence. Editor,
-text-processing, and broader 1971 expansion are outside the required endpoint
-and belong to a possible continuation.
+A conservative first process model may keep a resident shell, preserve its
+image/state in RAM backing at `fork`, run a manually loaded child in the user
+area, and restore/wake the shell when the child exits. A two-process
+parent/child model may suffice. This is a simplification, not an assertion
+that the lost system had exactly two process slots. Clock preemption, fair
+scheduling, useful background execution, and multiple interactive terminals
+are not initial requirements.
 
-## Questions the corpus-definition gate must answer
+## Core-only filesystem contract
 
-- Which local source version represents each selected responsibility?
-- What is its `P7-*` provenance, and where are restoration changes recorded?
-- Which semantics should be preserved, adapted, omitted, or reconstructed?
-- Which details are attested, descendant evidence, or unknown?
-- What KA11 instructions and assembler directives does the selected material
-  actually require?
-- What minimal machine interfaces must exist before each component can run?
-- Which dependencies can advance on the bootstrap and UNIX tracks in
-  parallel, and where must they converge?
+The minimum RAM-backed filesystem provides:
 
-Until those answers are recorded, do not infer the final assembler catalogue
-from Stage 3 alone and do not begin kernel or command translation.
+- inode/file identity and directory entries;
+- ordinary files and a console special file;
+- per-process descriptor and per-open offset state;
+- open/create/read/write/close, unlink, and status;
+- allocation and freeing of RAM-backed blocks.
+
+A single-directory namespace is acceptable for the first milestone. Full
+pathnames and `chdir` are not prerequisites. No RAM block size is frozen yet.
+
+## Workload-derived `as11` requirements
+
+Stage 4C remains the validated B-bootstrap encoder nucleus:
+
+```text
+add asl asr bne bpl br clr cmp halt jmp mov movb tst tstb
+```
+
+Its implementation is unchanged. The provisional migration corpus clearly
+justifies this instruction requirement set:
+
+```text
+jsr rts inc dec sub beq bmi bit bic bis cmpb clrb rti
+```
+
+`jsr` and `rts` are already implemented Stage 4C control-class extensions;
+the remaining entries are future requirements, not current encoder claims.
+
+The KA11 TRAP family is required for a system-call mechanism, likely exposed
+eventually through a `sys`-style pseudo-operation after the ABI is settled.
+Likely but not yet demonstrated by translated source are signed-comparison
+branches, unsigned/carry branches, `com`, `neg`, byte forms such as
+`bitb`/`bicb`/`bisb`/`incb`/`decb`, `wait`, and `reset`. An item moves from
+likely to required only when actual translated workload or a settled machine
+contract demonstrates the need.
+
+Do not leak descendant-machine facilities into the KA11 target. `sob`, `sxt`,
+and later multiply/divide/shift machinery are examples that must not be
+assumed available.
+
+The corpus also justifies assembler-language support for:
+
+- origin/location-counter control and symbol/equate assignment;
+- raw word and raw byte emission;
+- reserved byte/word storage and even-address alignment;
+- character constants and sufficient string/data literals;
+- eventually a `sys`-style pseudo-op after the syscall ABI is settled.
+
+Location-counter/origin control, assignment, and raw-word emission already
+exist in the Stage 4B/4C language. Raw bytes, reservation, alignment,
+characters/strings, and `sys` remain future requirements.
+
+Macros, conditional assembly, convenience includes, relocatable objects,
+external-symbol records, a linker, libraries, and elaborate sections remain
+out of scope unless a real workload establishes a need. The intended cross
+assembler remains a small whole-program bootstrap tool. None of the future
+instructions or language features listed here has been implemented by this
+audit.
+
+## Core-only success criterion
+
+A conceptual validation sequence is:
+
+```text
+boot or deposit core-only PDP-11 UNIX
+    -> initialize machine, console, and RAM storage
+    -> enter sh
+    -> ls
+    -> cat existing-file
+    -> ls >newfile
+    -> cat newfile
+    -> stat newfile
+    -> rm newfile
+    -> ls
+```
+
+Fixture names and output are not historical claims. The sequence proves
+syscall entry/return, process creation/restoration, command loading, console
+and special-file I/O, namespace operation, create/read/write/close,
+metadata/status, unlink, and shell redirection.
+
+## RF11-era deferrals
+
+The following remain outside the core-only freeze pending the RF11 research
+gate:
+
+- real RF11/RS11 block devices and persistent disk filesystem;
+- disk-backed process swapping;
+- exact introduction of modern `exec` and `wait`;
+- full pathname traversal;
+- normal `init`/login environment and a larger completed-system user area;
+- additional terminal conveniences;
+- disk recovery, installation, and filesystem-creation machinery.
+
+First Edition source is descendant evidence, not the specification for these
+items.
+
+## Next research gate: bare KA11 machine-layer contract
+
+The provisional corpus-definition gate is complete. Before porting any
+routine or adding assembler features, establish a documented machine contract
+for:
+
+- the 24 KB address and memory layout;
+- trap and interrupt vector behavior;
+- syscall/trap entry and return implications;
+- processor stack and saved-state handling;
+- KL11 console registers, vectors, and interrupt behavior;
+- minimum machine initialization;
+- conservative RAM user-image and backing-store organization.
+
+This is research/design work first. It must distinguish KA11 documentation,
+PDP-7 predecessor semantics, descendant evidence, and conservative choices.
+No implementation is authorized by this corpus freeze.

@@ -45,10 +45,11 @@ instrumentation, not the final historical workflow.
 ## Where the project is going
 
 The surviving/restored PDP-7 UNIX system is the principal source base for the
-UNIX migration. The immediate planning gate is to define the first kernel and
-command migration corpus, record its provenance and intended semantics, and
-derive its real PDP-11 assembler requirements. The current `as11` encoder is
-a validated bootstrap nucleus, not the final specification of the assembler.
+UNIX migration. Its provisional v1 kernel/command corpus, provenance layers,
+and intended semantics are now frozen in
+[`docs/UNIX-MIGRATION.md`](docs/UNIX-MIGRATION.md). The next research gate
+defines the bare KA11 machine-layer contract. The current `as11` encoder is a
+validated bootstrap nucleus, not the final specification of the assembler.
 
 Two related tracks then advance: the `as11`/threaded-B/`b11`/`dc` bootstrap
 track and the migration of selected PDP-7 kernel and command responsibilities

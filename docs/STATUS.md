@@ -30,7 +30,8 @@ Stage 3  COMPLETE (3A and 3B)
 Stage 4A COMPLETE
 Stage 4B COMPLETE
 Stage 4C COMPLETE
-UNIX migration corpus definition NEXT
+Migration corpus provisional v1 COMPLETE
+Bare KA11 machine-layer contract NEXT (research/design)
 All named future workstreams NOT STARTED
 ```
 
@@ -130,6 +131,21 @@ bootstrap-feasibility contract. No capacity reduction has been accepted;
 final capacity and clean exhaustion behavior belong to the Unix-driven
 `as11` completion gate.
 
+The provisional v1 migration corpus is now frozen in
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). It selects responsibilities rather
+than whole-file transliteration from A1-derived `s1.s`–`s8.s`, defers `s9.s`,
+and selects `cat` (A1-derived) plus `ls`, `rm`, `sh`, and `stat` (A2-derived)
+in their restored B forms, with local C interpretation recorded where needed.
+This is the immediate workload for machine-contract and later assembler
+requirements, not a claim that the exact December-1970 source set survives.
+
+The core-only contract is deliberately PDP-7-shaped: `fork`, `exit`, minimum
+`smes` synchronization, manual child-image loading, six selected file
+operations plus `status`, a single-directory RAM-backed filesystem, console
+special file, and a possible two-process shell/child execution model. Modern `exec`,
+`wait`, full pathnames, persistent RF11 storage, and broader scheduling remain
+deferred pending their own evidence gates.
+
 The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
 `fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
 bytes with SHA-256
@@ -210,11 +226,12 @@ unknown; it is not established Bell Labs practice.
 
 ## Remaining roadmap and risk boundary
 
-The next gate defines and provenance-audits the actual PDP-7 UNIX migration
-corpus before further assembler or UNIX implementation. After that, two
-dependency tracks can advance: bootstrap work (`as11`, threaded B, `b11`,
-paper tape, calculator, and `dc0`) and migration of selected PDP-7 kernel and
-command responsibilities through a bare-machine substrate into core-only
+The migration corpus is provisionally frozen. The next research gate defines
+the bare PDP-11/20 KA11 machine-layer contract before further assembler or
+UNIX implementation. After that, two dependency tracks can advance: bootstrap
+work (`as11`, threaded B, `b11`, paper tape, calculator, and `dc0`) and
+migration of selected PDP-7 kernel and command responsibilities through a
+bare-machine substrate into core-only
 PDP-11 UNIX. They converge on the PDP-11 and then on the December 1970 disk
 transition. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 
@@ -227,8 +244,8 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 ## Do not do yet
 
 - Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
-- Do not port `s1`–`s8` or commands before the migration corpus and provenance
-  matrix has been reviewed.
+- Do not port `s1`–`s8` responsibilities or commands during the machine-layer
+  research gate.
 - Do not add assembler instructions/directives merely to broaden Stage 4C;
   derive final `as11` requirements from selected migration workloads.
 - Do not start the Stage-3 gold round trip before the integrated assembler gate.
@@ -241,12 +258,11 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Define and provenance-audit the **PDP-7 UNIX migration corpus before any new
-implementation**. Start from the provisional `s1`–`s8` responsibility
-selection and `sh`, `cat`, `ls`, `rm`, and `stat` in
-[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). Produce a file/component,
-responsibility, provenance, target-semantics, omission, and required
-instruction/directive matrix. Use that result to finalize the Unix-driven
-`as11` bootstrap-sufficient output/resource design. Do not yet port code, add
-assembler features, fix capacity, or start the gold round trip, `b11`, tape,
-`dc`, or UNIX.
+Research and document the **bare PDP-11/20 KA11 machine-layer contract**:
+24 KB layout; trap and interrupt vectors; syscall/trap entry and return;
+processor stack and saved state; KL11 registers, vectors, and interrupts;
+minimum initialization; and conservative RAM user/backing-store organization.
+Use the frozen provisional v1 corpus in
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) as the workload boundary. Do not yet
+implement the machine layer, port code, add assembler features, fix capacity,
+or start the gold round trip, `b11`, tape, `dc`, or UNIX.

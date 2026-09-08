@@ -280,3 +280,29 @@ transition. Neither `b11`, the calculator, nor `dc0` is a prerequisite for
 core-only UNIX unless a later workload-specific dependency proves otherwise.
 Both tracks consume the provenance-audited migration corpus where relevant
 and converge on useful PDP-11 capability.
+
+## D0025 — Freeze provisional PDP-7 migration corpus v1
+
+**Status:** accepted; supersedes D0023's provisional `P7-*` tag names
+
+Immediate machine-contract and later cross-assembler requirements derive from
+the responsibility-level corpus frozen in `UNIX-MIGRATION.md`: selected
+responsibilities from A1-derived `s1.s`–`s8.s`, with `s9.s` deferred, plus
+`cat` from A1 and `ls`, `rm`, `sh`, and `stat` from A2, all through their
+restored B forms and any narrow local C interpretation. A1/A2/B/C/D are
+layered source-lineage categories under the repository-wide A/B/C/D/M
+confidence policy. The freeze is provisional workload control, not proof of
+the exact December-1970 source set.
+
+The core-only process interface follows the strongest surviving PDP-7 model:
+`fork`, manual child-image replacement, minimum `smes`-like foreground
+synchronization, and `exit`. Modern `exec`, `wait`, and full pathname
+semantics are not assumed for the pre-disk interval; their introduction is an
+RF11-transition research question. A two-process shell/child model and a
+single-directory RAM-backed filesystem are acceptable conservative first
+milestones, not claims about the lost kernel's exact limits.
+
+The next gate is research/design of the bare KA11 machine-layer contract.
+Future instructions and assembler features listed by the corpus are
+requirements candidates only; no encoder or target implementation is changed
+by this decision.

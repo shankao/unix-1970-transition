@@ -18,7 +18,10 @@ Supports, among other points:
   system;
 - the first disk arrived around December 1970, which supports this
   repository's endpoint without implying later First Edition work was already
-  complete.
+  complete;
+- modern `exec`, modern `wait`, and full pathnames are described with the
+  first completed PDP-11 system after disk arrival; the account does not fix
+  their exact introduction within the earlier pre-disk interval.
 
 ### Dennis M. Ritchie — *The Development of the C Language*
 
@@ -54,14 +57,20 @@ Important provenance note from upstream:
 
 This repository must preserve that distinction if any material is imported.
 
-For future UNIX migration work, the restored tree is the principal local
-source base but is not one uniform provenance class. The namespaced
-`P7-A-I`/`P7-A-II`/`P7-R`/`P7-C`/`P7-O` model in
-[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) distinguishes the two contemporary
-listing/source lineages, restored working derivatives, necessary repair, and
-other material. No file-by-file assignment has yet been completed, so the
-presence of a file under restored `src/sys` or `src/cmd` does not by itself
-establish that it is untouched contemporary source.
+For UNIX migration work, the restored tree is the principal local source base
+but is not one uniform provenance class. The layered A1/A2/B/C/D source model
+and provisional v1 audit in [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md)
+distinguish the Norman Wilson/companion-binder and Ritchie Book II listing
+lineages, restored working derivatives, local repair/interpretation, and other
+material. The audit records strong source-level ancestry; it does not claim a
+complete line-by-line provenance map or that every restored file is untouched
+contemporary source.
+
+The checked-in `scans/` and restored `src/` pairs support the provisional v1
+source-level audit of `s1.s`–`s9.s`, `cat.s`, `ls.s`, `rm.s`, `sh.s`, and
+`stat.s`. [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) records responsibility-level
+selection and deferral; neither file presence nor runnable status proves that
+the working file is an unmodified contemporary original.
 
 For Stage 4A, the checked-in local copies
 `machines/pdp7/pdp7-unix/src/cmd/bl.s`, `src/sys/s2.s`, and `src/cmd/as.s`
