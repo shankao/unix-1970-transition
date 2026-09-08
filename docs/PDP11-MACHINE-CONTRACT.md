@@ -235,6 +235,7 @@ The research items below are now provisionally frozen in
 
 The execution and filesystem/data-structure follow-ons are provisionally
 frozen, repository-aware integration is complete, and the Stage-3 gold path
-now proves native PDP-7 `as11` words execute on the PDP-11. The next bounded
-machine-layer slice is a KL11 polling input/output diagnostic; no kernel
-implementation has begun.
+proves native PDP-7 `as11` words execute on the PDP-11. The KL11 polling
+diagnostic now proves two successive receiver and transmitter operations at
+`177560`–`177566` without interrupt enable. The next bounded slice is the
+low-core vector framework and RTI; no kernel implementation has begun.

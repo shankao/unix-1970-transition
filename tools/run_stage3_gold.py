@@ -122,7 +122,11 @@ def simh_script(records: tuple[TraceWord, ...], log_path: Path) -> str:
     return "\n".join(lines)
 
 
-def assemble_on_pdp7(record: bool) -> tuple[str, str]:
+def assemble_source_on_pdp7(source: Path, native_stem: str,
+                            evidence: Path, record: bool) -> tuple[str, str]:
+    """Install and assemble one source using the resident native PDP-7 as11."""
+    if not re.fullmatch(r"[a-z0-9]{1,6}", native_stem):
+        raise ValueError("native stem must leave room for a PDP-7 .s/.o suffix")
     pre_status, pre_hash = git_status(), sha256(IMAGE)
     transcript = io.StringIO()
     child = pexpect.spawn(
@@ -137,13 +141,17 @@ def assemble_on_pdp7(record: bool) -> tuple[str, str]:
         child.expect_exact("password:")
         session.line("shankao")
         child.expect_exact("@ ")
-        session.command("rm gold.s")
-        session.install("gold.s", SOURCE.read_text(encoding="ascii"))
-        session.command("rm gold.o")
-        result = session.command("a.out gold.s gold.o", timeout=900)
+        native_source = native_stem + ".s"
+        native_output = native_stem + ".o"
+        session.command(f"rm {native_source}")
+        session.install(native_source, source.read_text(encoding="ascii"))
+        session.command(f"rm {native_output}")
+        result = session.command(
+            f"a.out {native_source} {native_output}", timeout=900
+        )
         if "?" in result:
             raise RuntimeError("native as11 execution failed: " + repr(result))
-        trace = clean_cat(session.command("cat gold.o", timeout=300))
+        trace = clean_cat(session.command(f"cat {native_output}", timeout=300))
     finally:
         child.sendcontrol("e")
         child.expect_exact("sim>", timeout=10)
@@ -154,12 +162,16 @@ def assemble_on_pdp7(record: bool) -> tuple[str, str]:
         "pre_git_status:\n" + pre_status + "post_git_status:\n" + git_status()
     )
     if record:
-        EVIDENCE.mkdir(parents=True, exist_ok=True)
-        (EVIDENCE / "pdp7-session.transcript.txt").write_text(
+        evidence.mkdir(parents=True, exist_ok=True)
+        (evidence / "pdp7-session.transcript.txt").write_text(
             transcript.getvalue(), encoding="latin1"
         )
-        (EVIDENCE / "image-state.txt").write_text(state, encoding="utf-8")
+        (evidence / "image-state.txt").write_text(state, encoding="utf-8")
     return trace, transcript.getvalue()
+
+
+def assemble_on_pdp7(record: bool) -> tuple[str, str]:
+    return assemble_source_on_pdp7(SOURCE, "gold", EVIDENCE, record)
 
 
 def run(record: bool, reuse_trace: bool) -> None:

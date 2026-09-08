@@ -146,6 +146,12 @@ evolved the authoritative image to SHA-256
 The native `dd/shankao` directory retains `gold.s` and `gold.o`. `fsck7`
 continues to exit 0 with only the known inode-38/block-2987 self-revisit.
 
+The following KL11 polling diagnostic retains native `dd/shankao/klpoll.s`
+and `klpoll.o`, evolving the authoritative image to SHA-256
+`fa9294110e6e66eb5450aa600a5d52b0aba1e9d3d4f25223da67be582181b926`.
+No era image changed. `fsck7` still exits 0 with only the same checker
+self-revisit.
+
 ## PDP-11/20
 
 Role: new diskless target machine.

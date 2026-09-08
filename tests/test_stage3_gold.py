@@ -45,8 +45,9 @@ class Stage3GoldTests(unittest.TestCase):
         runner = (ROOT / "tools/run_stage3_gold.py").read_text(encoding="utf-8")
         self.assertNotIn("from pdp11_oracle import encode", runner)
         self.assertNotIn("def encode", runner)
-        self.assertIn('session.command("a.out gold.s gold.o"', runner)
-        self.assertIn('trace = clean_cat(session.command("cat gold.o"', runner)
+        self.assertIn('f"a.out {native_source} {native_output}"', runner)
+        self.assertIn('session.command(f"cat {native_output}"', runner)
+        self.assertIn('assemble_source_on_pdp7(SOURCE, "gold"', runner)
 
     def test_recorded_native_trace_is_complete_and_oracle_validated(self):
         path = ROOT / "evidence/stage3-gold/native-trace.txt"

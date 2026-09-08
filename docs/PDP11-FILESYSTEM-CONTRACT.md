@@ -474,6 +474,6 @@ The repository-aware inspection is complete. It established:
 - the point where a first persistent PDP-11 era becomes meaningful.
 
 The separately authorized Stage-3 gold integration now proves the PDP-7
-`as11` word path. The next bounded implementation slice is KL11 polling
-input/output, followed by low-core vectors/RTI and interrupt-driven console.
-Filesystem implementation remains unstarted.
+`as11` word path, and the KL11 polling input/output diagnostic is complete.
+The next bounded implementation slice is low-core vectors/RTI, followed by
+interrupt-driven console. Filesystem implementation remains unstarted.

@@ -52,8 +52,10 @@ provisional core-only execution/RAM and filesystem/data-structure contracts
 are complete. Repository-aware integration has now closed the Stage-3 gold
 round trip: native PDP-7 `as11` output is transported without host encoding
 and executes as Stage-3B test L on the PDP-11/20. The next implementation
-slice is a bounded KL11 polling input/output diagnostic, followed by the
-low-core vector/RTI framework and interrupt-driven console. The current
+KL11 polling input/output diagnostic is now complete: two independently
+injected bytes were received, saved, and echoed by native-`as11`-produced
+machine code. The next slice is the low-core vector/RTI framework, followed
+by interrupt-driven console. The current
 `as11` encoder remains a validated bootstrap nucleus, not the final
 specification of the assembler.
 

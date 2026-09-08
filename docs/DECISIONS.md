@@ -421,5 +421,18 @@ malformed or duplicate addresses, verifies instruction records with the
 independent Stage-2-backed Stage-3 manifest, and deposits the exact native
 map without encoding or substitution. The PDP-11/20 prints `D`. This closes
 the gold integration proof but does not make Stage 4C a target-complete
-assembler. The next bounded implementation slice is KL11 polling I/O, then
-low-core vectors/RTI and interrupt-driven console.
+assembler. At that checkpoint the next bounded slice was KL11 polling I/O;
+D0030 records its completion and advances to low-core vectors/RTI.
+
+## D0030 — Prove KL11 polling before interrupt machinery
+
+**Status:** accepted and demonstrated
+
+A modern readable diagnostic uses only the existing Stage-4C instruction
+surface to poll receiver DONE and transmitter READY, read/write their data
+buffers, save two input bytes, and halt. Native PDP-7 `as11` produced all 33
+executed words; class-M code only parsed, oracle-checked, and deposited them.
+With PTY echo disabled, controlled `A` and `B` inputs produced `AB`, and RAM
+retained both bytes. No receiver/transmitter interrupt enable or vector was
+used. The next gate is low-core vector entry and RTI return, followed by
+interrupt-driven KL11 console.

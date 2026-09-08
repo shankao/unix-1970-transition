@@ -379,6 +379,29 @@ input/output diagnostic, then low-core vectors and RTI, then interrupt-driven
 console. The gold round trip was closed first so future PDP-11 machine words
 have a proven PDP-7 `as11` integration path.
 
+### KL11 polling input/output diagnostic
+
+**Status: COMPLETE**
+
+- **Objective:** prove two independent keyboard receives and transmitter
+  writes through KL11 registers without interrupts.
+- **Gate result:** native PDP-7 `as11` emitted 33 words / 19 instructions;
+  class-M transport deposited them unchanged; controlled input `A`, then `B`,
+  produced output `AB`, saved both bytes in RAM, and halted. The manual artifact
+  is `artifacts/kl11-poll.simh`.
+- **Scope:** bare-machine polling proof only. No vectors, interrupt enable,
+  tty queue, syscall, or Unix code is present.
+
+### Low-core vector framework + RTI
+
+**Status: NEXT / NOT STARTED**
+
+- **Objective:** prove low-core vector entry, current-stack PC/PS frame, and
+  RTI return independently before enabling KL11 interrupts.
+- **Dependency:** completed KA11 contract and KL11 polling diagnostic.
+
+Interrupt-driven KL11 console follows this gate; it is not yet started.
+
 ## UNIX migration milestone — core-only PDP-11 UNIX
 
 ### Core-only / RAM-filesystem PDP-11 UNIX milestone

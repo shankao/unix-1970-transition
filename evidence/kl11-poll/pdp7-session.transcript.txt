@@ -1,0 +1,113 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+CPU     idle disabled
+        8KW, EAE
+./unixv0.simh-19> att rb image-shankao.fs
+%SIM-INFO: RB: buffering file in memory
+./unixv0.simh-23> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+PDP-7 simulator configuration
+
+CPU     idle disabled
+CLK     60Hz, devno=00
+PTR     devno=01
+PTP     devno=02
+TTI     devno=03
+TTO     devno=04
+LPT     disabled
+DRM     disabled
+RB      devno=71
+DT      disabled
+G2OUT   devno=05
+G2IN    devno=43-44
+
+login: shankao
+password: shankao
+@ rm klpoll.s
+klpoll.s ?
+@ ed
+edit
+a
+/ modern machine diagnostic: poll and echo two independent kl11 bytes
+.=001000
+start:
+/ rx status bit 7 is the sign bit; tstb plus bpl waits for receiver done.
+1:;tstb *$177560;bpl 1b
+/ reading the receiver buffer consumes the first byte; save it in ram.
+movb *$177562,r0
+movb r0,first
+/ tx status bit 7 is ready; wait before writing the transmitter buffer.
+2:;tstb *$177564;bpl 2b
+movb r0,*$177566
+/ wait for completion so ready must clear and reassert before byte two.
+3:;tstb *$177564;bpl 3b
+
+/ repeat the complete receive/transmit path to prove a second input advances.
+4:;tstb *$177560;bpl 4b
+movb *$177562,r1
+movb r1,second
+5:;tstb *$177564;bpl 5b
+movb r1,*$177566
+6:;tstb *$177564;bpl 6b
+/ both characters have been consumed, echoed, and drained; stop cleanly.
+halt
+
+/ separate words make the received low bytes independently inspectable.
+.=001100
+first:;0
+second:;0
+.
+w klpoll.s
+874
+q
+@ rm klpoll.o
+klpoll.o ?
+@ a.out klpoll.s klpoll.o
+@ cat klpoll.o
+l start 001000
+n 1 001000
+i 001000 105737
+x 001002 177560
+i 001004 100375
+i 001006 113700
+x 001010 177562
+i 001012 110067
+x 001014 000062
+n 2 001016
+i 001016 105737
+x 001020 177564
+i 001022 100375
+i 001024 110037
+x 001026 177566
+n 3 001030
+i 001030 105737
+x 001032 177564
+i 001034 100375
+n 4 001036
+i 001036 105737
+x 001040 177560
+i 001042 100375
+i 001044 113701
+x 001046 177562
+i 001050 110167
+x 001052 000026
+n 5 001054
+i 001054 105737
+x 001056 177564
+i 001060 100375
+i 001062 110137
+x 001064 177566
+n 6 001066
+i 001066 105737
+x 001070 177564
+i 001072 100375
+i 001074 000000
+l first 001100
+w 001100 000000
+l second 001102
+w 001102 000000
+@ 
+Simulation stopped, PC: 01105 (AND 4136)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs

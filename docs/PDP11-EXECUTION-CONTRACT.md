@@ -416,6 +416,7 @@ The following questions are now provisionally resolved in
 - any resulting, workload-demonstrated assembler requirements.
 
 That contract derives structures from PDP-7 source first and treats First
-Edition structures only as descendant evidence. Repository-aware integration
-and the Stage-3 gold transport are now complete; the next bounded slice is a
-KL11 polling input/output diagnostic. No UNIX implementation has begun.
+Edition structures only as descendant evidence. Repository-aware integration,
+the Stage-3 gold transport, and KL11 polling input/output are complete; the
+next bounded slice is low-core vectors and RTI. No UNIX implementation has
+begun.

@@ -36,7 +36,8 @@ Core-only execution/RAM-layout contract v1 COMPLETE (provisional)
 Core-only filesystem/kernel data-structure contract v1 COMPLETE (provisional)
 Repository-aware first implementation slice COMPLETE
 Stage-3 gold round trip COMPLETE
-KL11 polling input/output diagnostic NEXT / NOT STARTED
+KL11 polling input/output diagnostic COMPLETE
+Low-core vector framework + RTI NEXT / NOT STARTED
 All named future workstreams NOT STARTED
 ```
 
@@ -142,6 +143,20 @@ image to SHA-256
 It retains native `gold.s` and `gold.o`; no preserved era image changed.
 Read-only `fsck7` still exits 0 with only the known inode-38/block-2987
 self-revisit.
+
+The KL11 polling diagnostic is assembled by that same native PDP-7 `as11`
+path. Its 33-word trace contains 19 oracle-verified instructions using
+absolute I/O-page addresses. Controlled, non-PTY-echoed input `A` then `B`
+produced device output `AB`; saved RAM words independently retained octal
+`000101` and `000102`, and the program halted at `001076`. The reproducible
+manual deposit artifact is `artifacts/kl11-poll.simh`. This proves polling
+only: interrupt enables and vectors 060/064 remain unused.
+
+The retained native `klpoll.s`/`klpoll.o` checkpoint evolves the authoritative
+PDP-7 image to SHA-256
+`fa9294110e6e66eb5450aa600a5d52b0aba1e9d3d4f25223da67be582181b926`.
+Read-only `fsck7` exits 0 with only the established inode-38/block-2987
+self-revisit. Preserved era images remain unchanged.
 
 The provisional v1 migration corpus is now frozen in
 [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). It selects responsibilities rather
@@ -331,10 +346,11 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Begin the bounded **KL11 polling input/output diagnostic** slice, then use its
-observations to design the low-core vector/RTI framework and interrupt-driven
-console. Use the completed native-`as11` Stage-3 gold transport as the target
-word path. Use [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md),
+Begin the bounded **low-core vector framework + RTI** slice, using the
+completed polling diagnostic as the KL11 baseline. Interrupt-driven console
+follows only after vector entry/return is independently proven. Use the
+completed native-`as11` transport as the target word path. Use
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md),
 [`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md),
 [`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md), and
 [`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md) as fixed

@@ -1,0 +1,19 @@
+pre_sha256=5ce0c014a19f25242893dcc3f0ab7a654a819d263732b50253332dbaf4e7c3f2
+post_sha256=fa9294110e6e66eb5450aa600a5d52b0aba1e9d3d4f25223da67be582181b926
+pre_git_status:
+ M artifacts/README.md
+ M tests/test_stage3_gold.py
+ M tools/run_stage3_gold.py
+?? tests/pdp7-as11/kl11-poll.s
+?? tests/test_kl11_poll.py
+?? tools/__pycache__/
+?? tools/run_kl11_poll.py
+post_git_status:
+ M artifacts/README.md
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+ M tests/test_stage3_gold.py
+ M tools/run_stage3_gold.py
+?? tests/pdp7-as11/kl11-poll.s
+?? tests/test_kl11_poll.py
+?? tools/__pycache__/
+?? tools/run_kl11_poll.py
