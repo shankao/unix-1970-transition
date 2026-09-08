@@ -6,10 +6,11 @@ This repository reconstructs a historically documented 1970 PDP-7 -> PDP-11 tran
 
 1. Treat documentation at `HEAD` as authoritative. Read `README.md`,
    `docs/STATUS.md`, `docs/METHOD.md`, `docs/PLAN.md`, `docs/STATE.md`, and
-   `docs/UNIX-MIGRATION.md`. The migration document defines the PDP-7-derived
-   target and provenance discipline, the core-only PDP-11 UNIX concept, the
-   relationship between the bootstrap and UNIX tracks, and the rule that real
-   migration workloads drive assembler requirements.
+   `docs/UNIX-MIGRATION.md`. For PDP-11 machine or migration work, also read
+   `docs/PDP11-MACHINE-CONTRACT.md`. The migration documents define the
+   PDP-7-derived target and provenance discipline, the core-only PDP-11 UNIX
+   concept, the bootstrap/UNIX-track relationship, and the rule that real
+   workloads drive machine and assembler requirements.
 2. Identify the current roadmap stage and its gate.
 3. Check whether the requested change relies on a historical assertion. If so, verify/add the source in `docs/SOURCES.md` or `evidence/` before encoding the assertion in code.
 4. Do not import third-party source until licensing/provenance is recorded.
@@ -69,10 +70,11 @@ Never describe B/C/M material as original Bell Labs code.
 - Modern tools may verify output, but the final historical demonstration must make the program bytes on the PDP-7 side and transfer them through the paper-tape path.
 - Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
-- Stages 4A–4C and the provisional v1 migration-corpus audit are complete. The
-  next gate is research/design of the bare KA11 machine-layer contract. Do not
-  implement that contract, start kernel/command ports, or skip to `b11`, tape
-  transport, `dc`, or later UNIX work before its gate is defined and passed.
+- Stages 4A–4C, the provisional v1 migration-corpus audit, and the bare KA11
+  machine-layer research gate are complete. The next gate is research/design
+  of the core-only execution and RAM-layout contract. Do not implement it,
+  start kernel/command ports, or skip to `b11`, tape transport, `dc`, or later
+  UNIX work before that contract is defined and passed.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
 - Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the

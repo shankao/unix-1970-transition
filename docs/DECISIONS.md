@@ -306,3 +306,27 @@ The next gate is research/design of the bare KA11 machine-layer contract.
 Future instructions and assembler features listed by the corpus are
 requirements candidates only; no encoder or target implementation is changed
 by this decision.
+
+## D0026 — Freeze the bare KA11 machine-layer research contract
+
+**Status:** accepted
+
+The PDP-11/20 KA11 has no hardware user/kernel protection modes, separate
+user/kernel register banks, or automatic kernel-stack switch. System and user
+code share one physical address space under software convention. TRAP saves
+PC/PS through the current R6 stack and vectors through 034/036; it transfers
+control without a privilege-mode transition. Software process state therefore
+conceptually preserves R0–R5, SP, PC, and PS.
+
+The initial core-only scope uses vectors 004, 034, 060, and 064; targets an
+interrupt-driven KL11 at `177560`–`177566` and BR4; and does not require a
+periodic scheduler. Polling is diagnostic scaffolding only. RAM-backed
+filesystem blocks and process images use replaceable abstractions so RF11 can
+later replace the backend without rewriting their higher-level semantics.
+
+Installed RAM is `000000`–`057777`, but the approximate historical 12 KB
+system envelope does not freeze exact system, user, stack, or storage
+boundaries. No RAM block/inode geometry or process-swap partition is selected.
+The later V1 16 KB / 8 KB layout is descendant evidence only. The next gate
+must derive the active-user size and complete execution/RAM layout from the
+provisional command workload before implementation.

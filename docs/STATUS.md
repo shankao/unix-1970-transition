@@ -31,7 +31,8 @@ Stage 4A COMPLETE
 Stage 4B COMPLETE
 Stage 4C COMPLETE
 Migration corpus provisional v1 COMPLETE
-Bare KA11 machine-layer contract NEXT (research/design)
+Bare KA11 machine-layer research COMPLETE
+Core-only execution/RAM-layout contract NEXT (research/design)
 All named future workstreams NOT STARTED
 ```
 
@@ -142,9 +143,27 @@ requirements, not a claim that the exact December-1970 source set survives.
 The core-only contract is deliberately PDP-7-shaped: `fork`, `exit`, minimum
 `smes` synchronization, manual child-image loading, six selected file
 operations plus `status`, a single-directory RAM-backed filesystem, console
-special file, and a possible two-process shell/child execution model. Modern `exec`,
-`wait`, full pathnames, persistent RF11 storage, and broader scheduling remain
-deferred pending their own evidence gates.
+special file, and a possible two-process shell/child execution model. Modern
+`exec`, `wait`, full pathnames, persistent RF11 storage, and broader scheduling
+remain deferred pending their own evidence gates.
+
+The bare KA11 machine-layer research gate is complete in
+[`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md). The PDP-11/20 has no
+hardware user/kernel protection modes: system and user code share one physical
+address space by software convention, and TRAP changes control flow without a
+privilege transition or automatic kernel-stack switch. Installed 24 KB RAM is
+`000000`–`057777`; the I/O page is `160000`–`177777`; intervening addresses are
+nonexistent on this configuration. The contract records R0–R5/SP/PC/PS process
+state, TRAP `104400`–`104777` at vector 034/036 with current-stack PC/PS save,
+RTI, and KL11 registers `177560`–`177566`, vectors 060/064, and BR4.
+
+Initial reconstruction scope uses vectors 004/034/060/064, targets
+interrupt-driven KL11 for UNIX while allowing polling diagnostics, and does
+not require a clock scheduler. Low system placement, one active user image,
+software state save, and replaceable RAM process/filesystem backing are
+conservative choices. Exact system/user/storage boundaries, RAM geometry, and
+the active user-window size remain deliberately unfrozen; the later V1 16 KB /
+8 KB split is descendant evidence only.
 
 The Stage 4A authoritative machine checkpoint is included at HEAD. Read-only
 `fsck7` completed with no consistency warning. `image-shankao.fs` is 4,096,000
@@ -226,10 +245,11 @@ unknown; it is not established Bell Labs practice.
 
 ## Remaining roadmap and risk boundary
 
-The migration corpus is provisionally frozen. The next research gate defines
-the bare PDP-11/20 KA11 machine-layer contract before further assembler or
-UNIX implementation. After that, two dependency tracks can advance: bootstrap
-work (`as11`, threaded B, `b11`, paper tape, calculator, and `dc0`) and
+The migration corpus and bare KA11 machine-layer research are complete. The
+next research gate defines the core-only execution and RAM-layout contract
+before further assembler or UNIX implementation. After that, two dependency
+tracks can advance: bootstrap work (`as11`, threaded B, `b11`, paper tape,
+calculator, and `dc0`) and
 migration of selected PDP-7 kernel and command responsibilities through a
 bare-machine substrate into core-only
 PDP-11 UNIX. They converge on the PDP-11 and then on the December 1970 disk
@@ -244,8 +264,10 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 ## Do not do yet
 
 - Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
-- Do not port `s1`–`s8` responsibilities or commands during the machine-layer
-  research gate.
+- Do not port `s1`–`s8` responsibilities or commands during the execution and
+  RAM-layout research gate.
+- Do not freeze a user-window size, RAM block geometry, or process/filesystem
+  split without the next gate's workload estimates.
 - Do not add assembler instructions/directives merely to broaden Stage 4C;
   derive final `as11` requirements from selected migration workloads.
 - Do not start the Stage-3 gold round trip before the integrated assembler gate.
@@ -258,11 +280,12 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Research and document the **bare PDP-11/20 KA11 machine-layer contract**:
-24 KB layout; trap and interrupt vectors; syscall/trap entry and return;
-processor stack and saved state; KL11 registers, vectors, and interrupts;
-minimum initialization; and conservative RAM user/backing-store organization.
-Use the frozen provisional v1 corpus in
-[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) as the workload boundary. Do not yet
-implement the machine layer, port code, add assembler features, fix capacity,
-or start the gold round trip, `b11`, tape, `dc`, or UNIX.
+Research and document the **core-only execution and RAM-layout contract**.
+Derive the executable representation/load address, active-user window and
+stack, shell/manual loader, process save/restore layout, syscall argument and
+result convention, command and kernel size estimates, remaining RAM backing,
+direct-block sufficiency, and only then any needed RAM block geometry. Use
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md) and
+[`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md) as fixed inputs. Do
+not yet implement the machine layer, port code, add assembler features, fix
+capacity, or start the gold round trip, `b11`, tape, `dc`, or UNIX.

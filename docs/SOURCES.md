@@ -113,10 +113,13 @@ interpreted-code design speculative. No `aap/b` code was imported in Stage 3.
 
 Primary authority for the base KA11/PDP-11/20 instruction formats, eight
 addressing modes, PC-special modes, branch displacements, little-endian word
-layout, console device addresses/vectors, and contemporary software-arithmetic
-examples. It constrains the class-M Stage 2 oracle and the Stage 3 instruction
-boundary. Use the exact 1970 second edition from the DEC PDP-11 handbook
-archive; the printed `CMPB @#177560,#301` example is retained as a gold vector.
+layout, 32K-word address space and I/O page, original processor-status model,
+TRAP/RTI behavior, console device addresses/vectors/priority, and contemporary
+software-arithmetic examples. It supports the hardware side of
+[`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md), constrains the
+class-M Stage 2 oracle, and fixes the Stage 3 instruction boundary. Use the
+exact 1970 second edition from the DEC PDP-11 handbook archive; the printed
+`CMPB @#177560,#301` example is retained as a gold vector.
 
 ### DEC — *PDP-11/20 Price List*, 1 November 1970
 

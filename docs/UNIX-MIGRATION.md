@@ -309,20 +309,15 @@ gate:
 First Edition source is descendant evidence, not the specification for these
 items.
 
-## Next research gate: bare KA11 machine-layer contract
+## Completed machine research and next gate
 
-The provisional corpus-definition gate is complete. Before porting any
-routine or adding assembler features, establish a documented machine contract
-for:
+The bare KA11 research result is authoritative in
+[`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md). It fixes hardware
+facts—most importantly the absence of hardware user/kernel modes, current-stack
+TRAP behavior, and KL11 interfaces—while leaving exact user/RAM boundaries and
+storage geometry unfrozen.
 
-- the 24 KB address and memory layout;
-- trap and interrupt vector behavior;
-- syscall/trap entry and return implications;
-- processor stack and saved-state handling;
-- KL11 console registers, vectors, and interrupt behavior;
-- minimum machine initialization;
-- conservative RAM user-image and backing-store organization.
-
-This is research/design work first. It must distinguish KA11 documentation,
-PDP-7 predecessor semantics, descendant evidence, and conservative choices.
-No implementation is authorized by this corpus freeze.
+The next research gate is the core-only execution and RAM-layout contract. It
+must quantify executable loading, user and stack space, process-image backing,
+syscall ABI, corpus command/kernel sizes, and remaining storage before any
+implementation or assembler expansion begins.

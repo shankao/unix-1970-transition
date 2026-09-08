@@ -284,24 +284,46 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Bare PDP-11/20 machine substrate
 
-**Status: NEXT — RESEARCH/DESIGN ONLY**
+**Status: MACHINE-LAYER RESEARCH COMPLETE; IMPLEMENTATION NOT STARTED**
 
 - **Objective:** establish only the machine services required by the selected
   core-only workload: vectors, stack, console, trap/syscall entry, and a
   RAM-backed block or storage layer.
 - **Evidence basis:** KA11/console documentation, primary accounts, and the
   audited interfaces of the selected PDP-7 system.
-- **Major unknowns:** exact diskless-1970 entry paths, memory allocation, and
-  RAM-storage implementation.
+- **Major unknowns:** exact diskless-1970 entry paths, active-user size, memory
+  allocation, and RAM-storage geometry remain reconstruction choices.
 - **Dependencies:** migration-corpus definition and independently verified
   encoding/build support for each selected fragment.
-- **Research gate:** document the 24 KB layout, vectors, trap/syscall entry and
-  return implications, processor stack/state, KL11 registers/vectors/interrupt
-  behavior, minimum initialization, and conservative RAM user/backing-store
-  organization, with evidence and uncertainties explicit.
+- **Research gate result:**
+  [`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md) documents the 24 KB
+  layout, absence of hardware user/kernel modes, vectors, trap/syscall entry
+  and return implications, processor stack/state, KL11
+  registers/vectors/interrupt behavior, minimum initialization, and
+  conservative RAM user/backing-store organization, with uncertainties
+  explicit.
 - **Later implementation gate:** each selected substrate interface is
   demonstrated on the diskless 24 KB PDP-11 without importing later UNIX.
 - **Provenance:** primarily B, with A documentation and M verification.
+
+### Core-only execution and RAM-layout contract
+
+**Status: NEXT — RESEARCH/DESIGN ONLY**
+
+- **Objective:** turn the physical KA11 contract and provisional migration
+  corpus into a feasible, still non-implemented execution/memory design.
+- **Evidence basis:** the completed machine contract, provisional v1 command
+  corpus, approximate historical 12 KB system envelope, and PDP-7 process and
+  filesystem semantics.
+- **Major unknowns:** executable image and load address; active-user and stack
+  sizes; manual command loading; process save/restore layout; syscall ABI;
+  command/kernel estimates; available RAM backing; direct-block sufficiency;
+  eventual RAM block geometry.
+- **Dependencies:** completed corpus and bare KA11 machine-layer research.
+- **Gate:** a quantified layout and interface contract resolves those unknowns
+  without yet writing machine, kernel, command, or assembler code.
+- **Provenance:** historical constraints A; PDP-7 predecessor and descendant
+  evidence explicitly separated; design choices B; calculations M.
 
 ## UNIX migration milestone — core-only PDP-11 UNIX
 
@@ -318,8 +340,8 @@ when selected PDP-7 responsibilities run on the PDP-11.
   filesystem); PDP-7 UNIX is predecessor evidence and earliest PDP-11 UNIX is
   descendant evidence.
 - **Major unknowns:** exact kernel, layout, interfaces, commands, filesystem.
-- **Dependencies:** the corpus-definition gate, required bootstrap support,
-  and the bare-machine substrate.
+- **Dependencies:** the corpus-definition gate, core-only execution/RAM-layout
+  contract, required bootstrap support, and implemented bare-machine substrate.
 - **Gate:** reproducible core-only system mapped through the predecessor /
   accounts / descendant evidence triangle with every inference exposed.
 - **Provenance:** mainly B, constrained by A and B/C; unknowns D; harness M.

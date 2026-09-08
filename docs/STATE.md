@@ -140,6 +140,14 @@ and memory diagram are in `evidence/stage4c-capacity/`.
 
 Role: new diskless target machine.
 
+The hardware contract is documented in
+[`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md). The KA11 has no
+hardware user/kernel protection modes or automatic kernel-stack switch.
+Installed 24 KB core occupies byte addresses `000000`–`057777`; the I/O page
+is `160000`–`177777`, with nonexistent memory between those ranges in this
+configuration. Exact pre-disk system, active-user, and RAM-storage boundaries
+remain deliberately unfrozen.
+
 The source machine remains at `../PDP-11` and was not modified or booted during
 this capture. Its static startup configuration has been copied unchanged to
 `machines/pdp11/pdp11.conf` so the repository does not depend on the sibling
