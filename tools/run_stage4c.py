@@ -10,7 +10,9 @@ import re
 
 import pexpect
 
-from run_stage4a import ROOT, BUILD, IMAGE, Session, git_status, sha256
+from run_stage4a import (
+    ROOT, IMAGE, PDP7, PDP7_CONFIG, Session, git_status, sha256,
+)
 from run_stage4b import assembler_failed, clean_cat, EXPECTED_SHA256 as S4B_SHA
 
 
@@ -82,7 +84,7 @@ def run(record: bool, build_only: bool, reuse_source: bool,
     stats = ""
     failure: Exception | None = None
     child = pexpect.spawn(
-        str(BUILD / "pdp7"), ["unixv0.simh"], cwd=str(BUILD),
+        str(PDP7), [str(PDP7_CONFIG)], cwd=str(ROOT),
         encoding="latin1", timeout=30,
     )
     child.logfile_read = transcript
@@ -167,7 +169,7 @@ def run(record: bool, build_only: bool, reuse_source: bool,
 def install_readme() -> None:
     """Install only the reviewed native Stage 4C checkpoint status file."""
     child = pexpect.spawn(
-        str(BUILD / "pdp7"), ["unixv0.simh"], cwd=str(BUILD),
+        str(PDP7), [str(PDP7_CONFIG)], cwd=str(ROOT),
         encoding="latin1", timeout=30,
     )
     session = Session(child)

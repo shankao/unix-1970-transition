@@ -69,14 +69,14 @@ def manual_script(records: tuple[TraceWord, ...]) -> str:
     lines = [
         "; Generated from native PDP-7 as11 output; no host-encoded words.",
         "; Type two characters after the READY message; each is echoed once.",
-        "do machines/pdp11/late-summer-1970.simh",
+        "do machines/pdp11/pdp11.simh",
     ]
     lines.extend(
         f"dep {item.address:06o} {item.word:06o}"
         for item in sorted(records, key=lambda value: value.address)
     )
     lines.extend((
-        "echo KL11-POLL READY EXPECT=AB",
+        "echo KL11-POLL READY - TYPE 2 CHARACTERS",
         f"go {ENTRY:06o}",
         "",
     ))
@@ -90,7 +90,7 @@ def execute_interactively(script: Path, record: bool) -> str:
     )
     child.logfile_read = transcript
     try:
-        child.expect_exact("KL11-POLL READY EXPECT=AB")
+        child.expect_exact("KL11-POLL READY - TYPE 2 CHARACTERS")
         child.setecho(False)
         child.send("A")
         child.expect_exact("A")

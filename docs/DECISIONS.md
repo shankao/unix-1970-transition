@@ -436,3 +436,21 @@ With PTY echo disabled, controlled `A` and `B` inputs produced `AB`, and RAM
 retained both bytes. No receiver/transmitter interrupt enable or vector was
 used. The next gate is low-core vector entry and RTI return, followed by
 interrupt-driven KL11 console.
+
+## D0031 — Canonicalize active configs and preserve cross-developed PDP-11 execution
+
+**Status:** accepted and demonstrated
+
+Active tools use `machines/pdp7/pdp7.simh` for the unthrottled authoritative
+PDP-7 development host and `machines/pdp11/pdp11.simh` for a clean 24 KB KA11
+baseline. The PDP-11 config deposits or runs no program and does not configure
+paper tape, storage, KE11, or the line clock. This SIMH build exposes CLK as
+inherent and refuses disabling it, so current diagnostics simply leave it
+untouched. The obsolete reconstructed volatile bootstrap config is retained by
+Git history, not as a duplicate active file.
+
+The first operationally justified PDP-11 era is `eras/pdp11-crossdev`: an
+era-local copy of the clean config plus the native-PDP-7-assembled KL11 polling
+deposit script. It preserves a cross-development execution state, not a
+self-hosted PDP-11, UNIX system, or precedent for later RAM/tape/disk era
+layouts. Existing PDP-7 era contents remain unchanged.

@@ -39,6 +39,21 @@ class KL11PollingTests(unittest.TestCase):
         }
         self.assertEqual({(item.address, item.word) for item in records}, deposits)
 
+    def test_crossdev_era_is_local_and_preserves_native_deposits(self):
+        era = ROOT / "eras/pdp11-crossdev"
+        self.assertEqual(
+            (ROOT / "machines/pdp11/pdp11.simh").read_bytes(),
+            (era / "pdp11.simh").read_bytes(),
+        )
+        canonical = ARTIFACT.read_text(encoding="ascii").splitlines()
+        preserved = (era / "kl11-poll.simh").read_text(
+            encoding="ascii"
+        ).splitlines()
+        self.assertEqual("do machines/pdp11/pdp11.simh", canonical[2])
+        self.assertEqual("do pdp11.simh", preserved[2])
+        self.assertEqual(canonical[:2] + canonical[3:], preserved[:2] + preserved[3:])
+        self.assertNotIn("machines/", "\n".join(preserved))
+
     def test_runner_has_no_host_encoder(self):
         runner = (ROOT / "tools/run_kl11_poll.py").read_text()
         self.assertNotIn("from pdp11_oracle import encode", runner)
@@ -52,7 +67,7 @@ class KL11PollingTests(unittest.TestCase):
         if not path.exists():
             self.skipTest("native KL11 execution evidence not recorded")
         text = path.read_text(encoding="latin1")
-        self.assertIn("KL11-POLL READY EXPECT=AB", text)
+        self.assertIn("KL11-POLL READY - TYPE 2 CHARACTERS", text)
         self.assertIn("AB\nHALT instruction", text.replace("\r", ""))
         self.assertIn("1100:\t000101", text)
         self.assertIn("1102:\t000102", text)

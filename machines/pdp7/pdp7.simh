@@ -1,0 +1,32 @@
+; Canonical active PDP-7 development configuration.
+set cpu 8k
+set cpu eae
+set cpu history=100
+set cpu noidle
+set nothrottle
+show cpu
+
+; UNIX character translations (CR to NL, ESC to ALTMODE).
+set tti unix
+
+; Paper-tape devices begin unattached.  Attach them only for a recorded
+; operation; this PDP-7 build rejects SET PTR/PTP ENABLED.
+
+; Authoritative evolving RB09 development filesystem.
+set rb ena
+att rb machines/pdp7/pdp7-unix/build/image-shankao.fs
+
+; GRAPHICS-2 keyboard/display terminal on TCP port 12345.
+set g2in ena
+att -U g2in 12345
+
+; Hardware not known by UNIX-7.
+set lpt disa
+set drm disa
+set dt disa
+
+show dev
+
+; Paper-tape bootstrap loads UNIX from the RB09 disk.
+load machines/pdp7/pdp7-unix/build/boot.rim 010000
+go

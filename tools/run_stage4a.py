@@ -17,6 +17,8 @@ import pexpect
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "machines/pdp7/pdp7-unix/build"
 IMAGE = BUILD / "image-shankao.fs"
+PDP7 = BUILD / "pdp7"
+PDP7_CONFIG = ROOT / "machines/pdp7/pdp7.simh"
 SOURCE_FILES = {
     "io.b": ROOT / "tests/pdp7-as11/io_probe.b",
     "rewind.s": ROOT / "src/pdp7/as11/rewind.s",
@@ -102,7 +104,7 @@ def run(record: bool) -> None:
     transcript = io.StringIO()
 
     child = pexpect.spawn(
-        str(BUILD / "pdp7"), ["unixv0.simh"], cwd=str(BUILD),
+        str(PDP7), [str(PDP7_CONFIG)], cwd=str(ROOT),
         encoding="latin1", timeout=30,
     )
     child.logfile_read = transcript

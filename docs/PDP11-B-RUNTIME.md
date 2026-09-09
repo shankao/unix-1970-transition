@@ -93,8 +93,8 @@ python3 tools/build_stage3a.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -v
 ```
 
-Each `evidence/stage3a/test-?.simh` starts with
-`machines/pdp11/late-summer-1970.simh`, deposits every listed word explicitly,
+Each `evidence/stage3a/test-?.simh` starts with the clean canonical baseline
+`machines/pdp11/pdp11.simh`, deposits every listed word explicitly,
 runs at `001000`, examines final registers/data, and writes a fresh transcript
 using SIMH's `SET LOG -N`. No `LOAD` or attachment is used.
 
@@ -105,11 +105,11 @@ using SIMH's `SET LOG -N`. No `LOAD` or attachment is used.
 | C | lvalue `003002/2`; `c;0103; b1; emit; stop` | printed `C`; `003002=000103`; HALT |
 | D | `va;4; c;0104; b1; emit; stop` | printed `D`; `004004=000104`; HALT |
 
-The canonical transcripts show an 11/20 with 24 KB, disabled disk/tape
-devices and KE, and unattached PTR. The baseline script also reports
-`Command not allowed` for redundant `set rha disa` and `set clk ena` commands;
-the immediately displayed actual configuration is RHA disabled and CLK
-enabled. Stage 3A did not alter that baseline to suppress the diagnostics.
+The canonical configuration is an 11/20 with 24 KB, disabled disk/tape
+devices and KE, and console I/O. This SIMH build exposes CLK as an inherent
+non-disableable device; the project baseline neither programs nor explicitly
+enables it. The old volatile-bootstrap reconstruction remains in Git history
+but is no longer an active test dependency.
 
 At the Stage 3A checkpoint this proved only the nucleus; the conditional,
 call, return, frame, and argument work was deliberately deferred to Stage 3B

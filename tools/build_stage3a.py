@@ -161,7 +161,7 @@ def simh_script(image: TestImage) -> str:
     lines = ["; Stage 3A M-class deterministic deposit/run harness.",
              "; Uses baseline; no disk, tape attachment, UNIX, or KE11.",
              f"set log -n evidence/stage3a/test-{image.name}.transcript.txt",
-             "do machines/pdp11/late-summer-1970.simh"]
+             "do machines/pdp11/pdp11.simh"]
     lines.extend(f"dep {item.address:06o} {item.word:06o}" for item in image.words)
     lines.extend((f"echo STAGE3A-{image.name.upper()} START={LABELS['start']:06o} EXPECT={image.expected}",
                   f"go {LABELS['start']:06o}", "echo", f"echo STAGE3A-{image.name.upper()} HALTED",

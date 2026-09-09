@@ -1,20 +1,88 @@
-pre_sha256=0f8ed0e03ce487d08a1ff758a64eabda356e76e809b8d6d10eff78564008ce71
-post_sha256=2dfbe3abf9a36ae80e6287448f9c1f2a8f5108aa415e836196df419c894fb1f8
+pre_sha256=23fdb22abd76aed69e116c02b1ce4285c14ec38dffee44e6065e31ab4b0571e9
+post_sha256=30adada937beaebdf296ec807cbb96871dbe09edde29367745e520e2ed60b64c
 pre_git_status:
+ M AGENTS.md
+ M README.md
+ M artifacts/kl11-poll.simh
+ M docs/DECISIONS.md
+ M docs/PDP11-B-RUNTIME.md
+ M docs/PLAN.md
+ M docs/STATE.md
+ M docs/STATUS.md
+ M eras/README.md
+ M evidence/kl11-poll/pdp11-session.transcript.txt
+ M evidence/stage3-gold/pdp11-session.transcript.txt
+ M evidence/stage3-gold/pdp11-stdout.txt
+ M evidence/stage3-gold/test-l.simh
+ M evidence/stage3a/test-a.simh
+ M evidence/stage3a/test-b.simh
+ M evidence/stage3a/test-c.simh
+ M evidence/stage3a/test-d.simh
+ M evidence/stage3b/test-e.simh
+ M evidence/stage3b/test-f.simh
+ M evidence/stage3b/test-g.simh
+ M evidence/stage3b/test-h.simh
+ M evidence/stage3b/test-i.simh
+ M evidence/stage3b/test-j.simh
+ M evidence/stage3b/test-k.simh
+ M evidence/stage3b/test-l.simh
+ M evidence/stage3b/test-m.simh
+ D machines/pdp11/late-summer-1970.simh
  M machines/pdp7/pdp7-unix/build/image-shankao.fs
- M machines/pdp7/pdp7-unix/build/unixv0.simh
- M src/pdp7/as11/readme.stage4c
- M tests/test_stage4c.py
-?? tests/pdp7-as11/stage3b-gold.s
-?? tests/test_stage3_gold.py
+ M tests/test_kl11_poll.py
+ M tests/test_stage3_gold.py
+ M tools/build_stage3a.py
+ M tools/build_stage3b.py
+ M tools/run_kl11_poll.py
+ M tools/run_stage3_gold.py
+ M tools/run_stage4a.py
+ M tools/run_stage4b.py
+ M tools/run_stage4c.py
+ M tools/run_stage4c_capacity.py
+?? eras/pdp11-crossdev/
+?? machines/pdp11/pdp11.simh
+?? machines/pdp7/pdp7.simh
 ?? tools/__pycache__/
-?? tools/run_stage3_gold.py
 post_git_status:
+ M AGENTS.md
+ M README.md
+ M artifacts/kl11-poll.simh
+ M docs/DECISIONS.md
+ M docs/PDP11-B-RUNTIME.md
+ M docs/PLAN.md
+ M docs/STATE.md
+ M docs/STATUS.md
+ M eras/README.md
+ M evidence/kl11-poll/pdp11-session.transcript.txt
+ M evidence/stage3-gold/pdp11-session.transcript.txt
+ M evidence/stage3-gold/pdp11-stdout.txt
+ M evidence/stage3-gold/test-l.simh
+ M evidence/stage3a/test-a.simh
+ M evidence/stage3a/test-b.simh
+ M evidence/stage3a/test-c.simh
+ M evidence/stage3a/test-d.simh
+ M evidence/stage3b/test-e.simh
+ M evidence/stage3b/test-f.simh
+ M evidence/stage3b/test-g.simh
+ M evidence/stage3b/test-h.simh
+ M evidence/stage3b/test-i.simh
+ M evidence/stage3b/test-j.simh
+ M evidence/stage3b/test-k.simh
+ M evidence/stage3b/test-l.simh
+ M evidence/stage3b/test-m.simh
+ D machines/pdp11/late-summer-1970.simh
  M machines/pdp7/pdp7-unix/build/image-shankao.fs
- M machines/pdp7/pdp7-unix/build/unixv0.simh
- M src/pdp7/as11/readme.stage4c
- M tests/test_stage4c.py
-?? tests/pdp7-as11/stage3b-gold.s
-?? tests/test_stage3_gold.py
+ M tests/test_kl11_poll.py
+ M tests/test_stage3_gold.py
+ M tools/build_stage3a.py
+ M tools/build_stage3b.py
+ M tools/run_kl11_poll.py
+ M tools/run_stage3_gold.py
+ M tools/run_stage4a.py
+ M tools/run_stage4b.py
+ M tools/run_stage4c.py
+ M tools/run_stage4c_capacity.py
+?? eras/pdp11-crossdev/
+?? machines/pdp11/pdp11.simh
+?? machines/pdp7/pdp7.simh
 ?? tools/__pycache__/
-?? tools/run_stage3_gold.py

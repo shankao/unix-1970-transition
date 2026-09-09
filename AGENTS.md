@@ -55,8 +55,9 @@ Never describe B/C/M material as original Bell Labs code.
 - Development checkpoints and experiential snapshots are distinct. Every
   passing PDP-7 development gate normally checkpoints `machines/pdp7`; selected
   states that meaningfully show the development journey are also preserved as
-  ordinary physical images under `eras/`. Do not invent an era manager or
-  assume a PDP-11-era layout before operational requirements establish one.
+  ordinary physical files under `eras/`. Do not invent an era manager. The
+  first established PDP-11 form is the small `pdp11-crossdev` config plus
+  runnable diagnostic; do not extrapolate it into future RAM/tape/disk layouts.
 - While PDP-7-only state is sufficient, a selected experiential era is a
   self-contained directory containing `README.md`, `boot.rim`, `pdp7.fs`, and
   `pdp7.simh`, bootable from that directory without a wrapper. Small duplicated
@@ -74,9 +75,10 @@ Never describe B/C/M material as original Bell Labs code.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
 - Stages 4A–4C, the provisional v1 migration-corpus audit, the bare KA11
   machine-layer contract, provisional execution/RAM contract v1, and
-  provisional filesystem/data-structure contract v1 are complete. The next
-  gate is a repository-aware implementation-planning pass; it does not itself
-  authorize coding. Do not implement structures,
+  provisional filesystem/data-structure contract v1 are complete. The
+  Stage-3 gold round trip and KL11 polling diagnostic are also complete. The
+  next bounded gate is low-core vector entry and RTI return. Do not implement
+  structures,
   start kernel/command ports, or skip to `b11`, tape transport, `dc`, or later
   UNIX work before that contract is defined and passed.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural

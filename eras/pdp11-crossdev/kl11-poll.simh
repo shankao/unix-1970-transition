@@ -1,6 +1,6 @@
 ; Generated from native PDP-7 as11 output; no host-encoded words.
 ; Type two characters after the READY message; each is echoed once.
-do machines/pdp11/pdp11.simh
+do pdp11.simh
 dep 001000 105737
 dep 001002 177560
 dep 001004 100375

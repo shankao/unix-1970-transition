@@ -1,0 +1,26 @@
+; Canonical clean PDP-11/20 development baseline: 24 KB and console only.
+; This file deposits and runs no software.
+set cpu 11/20
+set cpu 24K
+set cpu history=100
+set cpu noidle
+
+; Disable default peripherals not present in the diskless KA11 baseline.
+; CLK is an always-present, non-disableable device in this SIMH build; this
+; configuration does not program or enable it, and current diagnostics ignore it.
+set ptr disabled
+set ptp disabled
+set lpt disabled
+set dz disabled
+set rk disabled
+set rl disabled
+set hk disabled
+set rx disabled
+set rp disabled
+set rq disabled
+set tm disabled
+set tq disabled
+set rom disabled
+
+show cpu
+show dev

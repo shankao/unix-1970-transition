@@ -11,7 +11,7 @@ from run_stage3_gold import parse_trace, simh_script, validate_stage3b_l
 
 class Stage3GoldTests(unittest.TestCase):
     def test_only_development_pdp7_is_unthrottled(self):
-        active = (ROOT / "machines/pdp7/pdp7-unix/build/unixv0.simh").read_text()
+        active = (ROOT / "machines/pdp7/pdp7.simh").read_text()
         self.assertIn("set nothrottle", active)
         self.assertNotIn("set throttle 400K", active)
         expected = "c6c9f0368073c43056e3b4ed0359889ef080c908c842e9f8d7e709748a51dbe6"
@@ -19,6 +19,26 @@ class Stage3GoldTests(unittest.TestCase):
             with self.subTest(config=config):
                 self.assertEqual(expected, hashlib.sha256(config.read_bytes()).hexdigest())
                 self.assertIn("set throttle 400K", config.read_text())
+
+    def test_active_tools_use_canonical_machine_configs(self):
+        for name in ("build_stage3a.py", "build_stage3b.py",
+                     "run_stage4a.py", "run_stage4b.py", "run_stage4c.py",
+                     "run_stage4c_capacity.py", "run_stage3_gold.py",
+                     "run_kl11_poll.py"):
+            with self.subTest(name=name):
+                text = (ROOT / "tools" / name).read_text()
+                self.assertNotIn("late-summer-1970.simh", text)
+                self.assertNotIn('["unixv0.simh"]', text)
+
+    def test_pdp11_baseline_is_clean_and_does_not_run_software(self):
+        text = (ROOT / "machines/pdp11/pdp11.simh").read_text().lower()
+        self.assertIn("set cpu 11/20", text)
+        self.assertIn("set cpu 24k", text)
+        for forbidden in ("dep ", "load ", " go", "set clk ",
+                          "set ptr enabled", "attach "):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, text)
+        self.assertFalse((ROOT / "machines/pdp11/late-summer-1970.simh").exists())
 
     def test_terminal_transfer_pacing_is_unchanged(self):
         runner = (ROOT / "tools/run_stage4a.py").read_text(encoding="utf-8")
@@ -39,6 +59,7 @@ class Stage3GoldTests(unittest.TestCase):
         script = simh_script(records, Path("transcript.txt"))
         self.assertIn("dep 001000 000000", script)
         self.assertIn("dep 001002 177777", script)
+        self.assertIn("do machines/pdp11/pdp11.simh", script)
         self.assertNotIn("encode(", script)
 
     def test_runner_has_no_encoder_and_invokes_native_as11(self):

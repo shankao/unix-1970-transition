@@ -20,7 +20,9 @@ import pexpect
 
 from build_stage3b import L, build_images
 from pdp11_oracle import decode_one
-from run_stage4a import BUILD, IMAGE, ROOT, Session, git_status, sha256
+from run_stage4a import (
+    IMAGE, PDP7, PDP7_CONFIG, ROOT, Session, git_status, sha256,
+)
 from run_stage4b import clean_cat
 
 
@@ -100,7 +102,7 @@ def simh_script(records: tuple[TraceWord, ...], log_path: Path) -> str:
     lines = [
         "; Stage-3 gold transport: every dep value came from PDP-7 as11.",
         f"set log -n {log_path}",
-        "do machines/pdp11/late-summer-1970.simh",
+        "do machines/pdp11/pdp11.simh",
     ]
     lines.extend(
         f"dep {item.address:06o} {item.word:06o}"
@@ -130,7 +132,7 @@ def assemble_source_on_pdp7(source: Path, native_stem: str,
     pre_status, pre_hash = git_status(), sha256(IMAGE)
     transcript = io.StringIO()
     child = pexpect.spawn(
-        str(BUILD / "pdp7"), ["unixv0.simh"], cwd=str(BUILD),
+        str(PDP7), [str(PDP7_CONFIG)], cwd=str(ROOT),
         encoding="latin1", timeout=30,
     )
     child.logfile_read = transcript

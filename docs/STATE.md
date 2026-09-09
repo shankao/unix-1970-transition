@@ -57,10 +57,12 @@ pre-transition development state, not claims of original Bell Labs material.
   to be an unused older subset with no unique tracked project paths, so it was
   removed after the active tree became authoritative. Its exact imported
   bytes remain available in Git and `evidence/pdp7-import-manifest.tsv`.
-- The active startup file is `machines/pdp7/pdp7-unix/build/unixv0.simh`.
-  It configures an 8K PDP-7 with EAE, RB09, UNIX terminal translation,
-  GRAPHICS-2 input on TCP port 12345, and attaches
-  `build/image-shankao.fs`. It loads `build/boot.rim` at octal `010000`.
+- The canonical active startup file is `machines/pdp7/pdp7.simh`. It
+  configures an 8K PDP-7 with EAE, RB09, UNIX terminal translation,
+  GRAPHICS-2 input on TCP port 12345, attaches the authoritative
+  `build/image-shankao.fs`, and loads `build/boot.rim` at octal `010000`.
+  The restoration tree's internal `build/unixv0.simh` remains for its own
+  upstream-style build targets, but active project tools do not use it.
   Development runs use `set nothrottle`; preserved era configurations retain
   `set throttle 400K`. The verified terminal-transfer pacing remains 80 ms
   per character.
@@ -152,6 +154,13 @@ and `klpoll.o`, evolving the authoritative image to SHA-256
 No era image changed. `fsck7` still exits 0 with only the same checker
 self-revisit.
 
+The canonical-config validation reran Stage 4A, the Stage 4B/4C functional
+sets, and fresh native Stage-3 gold/KL11 assembly. Those retained artifacts
+evolved the authoritative image to SHA-256
+`40905562d9feb63b2a5e95f542098e052c12da7fc9af136098e907c3cb781968`.
+Read-only `fsck7` again exited 0 with only the established inode-38/block-2987
+self-revisit. No preserved PDP-7 era image was changed.
+
 ## PDP-11/20
 
 Role: new diskless target machine.
@@ -232,16 +241,21 @@ the exited session, not a claim about present RAM. The captured
 `machines/pdp11/pdp11.conf` does not recreate them and remains an unchanged
 copy of the earlier static configuration.
 
-The verified listing above is sufficient to recreate the words
-deterministically later. `machines/pdp11/late-summer-1970.simh` encodes a fresh
-PDP-11/20 with 24 KB, CLK enabled, PTR enabled and unattached in a fresh SIMH
-process, all later storage/tape/network devices disabled, and the 14 deposits.
-It stops after displaying the configuration and memory; it contains no `go` or
-boot command. The reconstruction script has deliberately not been run merely
-to reproduce the former volatile evidence. It is 846 bytes, repository mode
-0644,
-SHA-256
-`33402b10a72a613ecb36955379f4db8b5edf759589a9fdbfd0c7be9116d91a1d`.
+The verified listing above remains sufficient to recreate the words
+deterministically. The former `late-summer-1970.simh` reconstructed those
+volatile deposits, paper-tape reader, and clock setup, but it was not a neutral
+development baseline and has been removed from the active tree; its exact
+content remains in Git history. The canonical `machines/pdp11/pdp11.simh`
+instead establishes only a 24 KB PDP-11/20 console baseline and deposits or
+runs no software. It disables default paper-tape, storage, and later peripheral
+devices. The installed SIMH exposes CLK as inherent and refuses disabling it;
+the canonical file neither programs nor explicitly enables it.
+
+The first preserved PDP-11 era is `eras/pdp11-crossdev/`. Its local copy of
+that neutral config and its native-PDP-7-assembled KL11 deposit program are
+self-contained at runtime. This is a cross-development checkpoint, not a
+self-hosted or UNIX machine state; future RAM, paper-tape, disk, and paired
+machine era layouts remain unresolved.
 
 ## Stage 0 closure
 

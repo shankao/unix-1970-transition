@@ -2,9 +2,9 @@
 PDP-7 simulator V4.0-0 Current        git commit id: aad53510
 CPU     idle disabled
         8KW, EAE
-./unixv0.simh-19> att rb image-shankao.fs
+./machines/pdp7/pdp7.simh-17> att rb machines/pdp7/pdp7-unix/build/image-shankao.fs
 %SIM-INFO: RB: buffering file in memory
-./unixv0.simh-23> att -U g2in 12345
+./machines/pdp7/pdp7.simh-21> att -U g2in 12345
 %SIM-INFO: Listening on port 12345
 PDP-7 simulator configuration
 
@@ -24,7 +24,6 @@ G2IN    devno=43-44
 login: shankao
 password: shankao
 @ rm klpoll.s
-klpoll.s ?
 @ ed
 edit
 a
@@ -61,7 +60,6 @@ G2IN    devno=43-44
 874
 q
 @ rm klpoll.o
-klpoll.o ?
 @ a.out klpoll.s klpoll.o
 @ cat klpoll.o
 l start 001000
@@ -107,7 +105,7 @@ G2IN    devno=43-44
 l second 001102
 w 001102 000000
 @ 
-Simulation stopped, PC: 01105 (AND 4136)
+Simulation stopped, PC: 01067 (ISZ 4217)
 sim> quit
 Goodbye
-%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs
+%SIM-INFO: RB: writing buffer to file: ./machines/pdp7/pdp7-unix/build/image-shankao.fs

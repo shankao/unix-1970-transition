@@ -491,5 +491,7 @@ evidence rather than being erased by later success.
 Selected PDP-7 checkpoints that meaningfully expose a distinct development
 state are also materialized as ordinary exact images under `eras/`. This
 experiential layer supplements rather than replaces per-gate checkpoints. A
-layout for future PDP-11 RAM/tape/disk or paired-machine eras remains deferred
-until those artifacts acquire concrete operating requirements.
+first small PDP-11 form is now established for cross-developed runnable
+diagnostics: an era-local clean machine config plus a native-`as11`-derived
+deposit script. Layouts for future persistent RAM, tape, disk, or paired-machine
+states remain deferred until those artifacts acquire concrete requirements.

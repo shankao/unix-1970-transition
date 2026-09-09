@@ -37,6 +37,8 @@ Core-only filesystem/kernel data-structure contract v1 COMPLETE (provisional)
 Repository-aware first implementation slice COMPLETE
 Stage-3 gold round trip COMPLETE
 KL11 polling input/output diagnostic COMPLETE
+Canonical active machine configs COMPLETE
+First PDP-11 cross-development era PRESERVED
 Low-core vector framework + RTI NEXT / NOT STARTED
 All named future workstreams NOT STARTED
 ```
@@ -157,6 +159,26 @@ PDP-7 image to SHA-256
 `fa9294110e6e66eb5450aa600a5d52b0aba1e9d3d4f25223da67be582181b926`.
 Read-only `fsck7` exits 0 with only the established inode-38/block-2987
 self-revisit. Preserved era images remain unchanged.
+
+Active tools now use `machines/pdp7/pdp7.simh` for the unthrottled evolving
+PDP-7 host and `machines/pdp11/pdp11.simh` for a clean 24 KB KA11 baseline.
+The latter deposits or runs no software, attaches no storage or paper tape,
+and does not explicitly enable the clock; this SIMH build exposes CLK as an
+inherent non-disableable device. The obsolete volatile-bootstrap setup is no
+longer an active configuration. Existing PDP-7 era files remain unchanged.
+
+`eras/pdp11-crossdev/` is the first preserved PDP-11 era. Its era-local clean
+config and KL11 deposit script reproduce the native-PDP-7-assembled polling
+diagnostic without depending on mutable `machines/` paths. This state targets
+and executes on the PDP-11 while development tools remain hosted on the PDP-7;
+it is neither self-hosted nor UNIX.
+
+Canonical-config regression runs retained the same useful native sources and
+outputs and advanced the evolving authoritative image to SHA-256
+`40905562d9feb63b2a5e95f542098e052c12da7fc9af136098e907c3cb781968`.
+Stage 4A, the Stage 4B semantic set below its documented capacity boundary,
+Stage 4C encoding/rejection tests, fresh Stage-3 gold `D`, and fresh KL11 `AB`
+all passed. Read-only `fsck7` again exited 0 with only the known self-revisit.
 
 The provisional v1 migration corpus is now frozen in
 [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). It selects responsibilities rather

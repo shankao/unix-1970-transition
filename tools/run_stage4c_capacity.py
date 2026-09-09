@@ -10,7 +10,9 @@ from pathlib import Path
 
 import pexpect
 
-from run_stage4a import ROOT, BUILD, IMAGE, Session, git_status, sha256
+from run_stage4a import (
+    ROOT, IMAGE, PDP7, PDP7_CONFIG, Session, git_status, sha256,
+)
 from run_stage4b import clean_cat
 
 
@@ -69,7 +71,7 @@ def run(record: bool, start: int, stop: int | None, stage3_only: bool) -> None:
     transcript = io.StringIO()
     rows = []
     child = pexpect.spawn(
-        str(BUILD / "pdp7"), ["unixv0.simh"], cwd=str(BUILD),
+        str(PDP7), [str(PDP7_CONFIG)], cwd=str(ROOT),
         encoding="latin1", timeout=30,
     )
     child.logfile_read = transcript

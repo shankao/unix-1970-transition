@@ -1,7 +1,7 @@
 ; Stage 3B M-class deterministic deposit/run harness.
 ; Baseline only: no disk/tape attachment, UNIX, KE11, or EIS.
 set log -n evidence/stage3b/test-m.transcript.txt
-do machines/pdp11/late-summer-1970.simh
+do machines/pdp11/pdp11.simh
 dep 001000 012703
 dep 001002 002600
 dep 001004 012704

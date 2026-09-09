@@ -59,6 +59,12 @@ by interrupt-driven console. The current
 `as11` encoder remains a validated bootstrap nucleus, not the final
 specification of the assembler.
 
+Active development enters the machines through the plain canonical
+configurations `machines/pdp7/pdp7.simh` and `machines/pdp11/pdp11.simh`.
+The first preserved PDP-11 era, `eras/pdp11-crossdev`, freezes the clean KA11
+baseline and the native-`as11`-produced KL11 polling program. It records
+cross-developed PDP-11 execution, not self-hosting or UNIX.
+
 Two related tracks then advance: the `as11`/threaded-B/`b11`/`dc` bootstrap
 track and the migration of selected PDP-7 kernel and command responsibilities
 to a minimal PDP-11 system. They converge on the destination machine. Cross
@@ -118,6 +124,8 @@ claim about Bell Labs practice.
   resident-data contract.
 - [`docs/UNIX-MIGRATION.md`](docs/UNIX-MIGRATION.md) — migration corpus,
   provenance refinements, and workload-driven forward architecture.
+- [`eras/README.md`](eras/README.md) — directly runnable preserved machine
+  states, including the first PDP-11 cross-development era.
 
 The repository layout separates historical/reconstructed target code in
 `src/`, modern host tooling in `tools/`, regression tests in `tests/`, and

@@ -2,9 +2,9 @@
 PDP-7 simulator V4.0-0 Current        git commit id: aad53510
 CPU     idle disabled
         8KW, EAE
-./unixv0.simh-19> att rb image-shankao.fs
+./machines/pdp7/pdp7.simh-17> att rb machines/pdp7/pdp7-unix/build/image-shankao.fs
 %SIM-INFO: RB: buffering file in memory
-./unixv0.simh-23> att -U g2in 12345
+./machines/pdp7/pdp7.simh-21> att -U g2in 12345
 %SIM-INFO: Listening on port 12345
 PDP-7 simulator configuration
 
@@ -24,7 +24,6 @@ G2IN    devno=43-44
 login: shankao
 password: shankao
 @ rm gold.s
-gold.s   ?
 @ ed
 edit
 a
@@ -43,7 +42,7 @@ G2IN    devno=43-44
 .=001120
 x:;mov *(r3)+,(r5)+;jmp *(r3)+
 
-.=001140
+.=001140
 va:;mov (r3)+,r0;add r4,r0;asr r0;mov r0,(r5)+;jmp *(r3)+
 
 .=001160
@@ -74,7 +73,7 @@ G2IN    devno=43-44
 .=001360
 tra:;mov (r3),r3;jmp *(r3)+
 
-.=001400
+.=001400
 b4:
 mov -(r5),r0
 cmp -(r5),r0
@@ -84,7 +83,7 @@ G2IN    devno=43-44
 3:;clr r0
 4:;mov r0,(r5)+;jmp *(r3)+
 
-.=001440
+.=001440
 mark:
 mov -(r5),r0
 mov r5,r2
@@ -169,7 +168,6 @@ G2IN    devno=43-44
 1408
 q
 @ rm gold.o
-gold.o   ?
 @ a.out gold.s gold.o
 @ cat gold.o
 l start 001000
@@ -308,7 +306,7 @@ G2IN    devno=43-44
 w 003306 000004
 w 003310 001620
 @ 
-Simulation stopped, PC: 01057 (DAC 5525)
+Simulation stopped, PC: 01106 (SAD I 1073)
 sim> quit
 Goodbye
-%SIM-INFO: RB: writing buffer to file: ./image-shankao.fs
+%SIM-INFO: RB: writing buffer to file: ./machines/pdp7/pdp7-unix/build/image-shankao.fs

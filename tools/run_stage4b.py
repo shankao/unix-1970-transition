@@ -11,7 +11,9 @@ import re
 
 import pexpect
 
-from run_stage4a import ROOT, BUILD, IMAGE, Session, git_status, sha256
+from run_stage4a import (
+    ROOT, IMAGE, PDP7, PDP7_CONFIG, Session, git_status, sha256,
+)
 
 
 AS11_B = ROOT / "src/pdp7/as11/as11.b"
@@ -80,7 +82,7 @@ def run(record: bool, build_only: bool, reuse_source: bool,
     evidence = ROOT / "evidence/stage4b"
     evidence.mkdir(parents=True, exist_ok=True)
     child = pexpect.spawn(
-        str(BUILD / "pdp7"), ["unixv0.simh"], cwd=str(BUILD),
+        str(PDP7), [str(PDP7_CONFIG)], cwd=str(ROOT),
         encoding="latin1", timeout=30,
     )
     child.logfile_read = transcript

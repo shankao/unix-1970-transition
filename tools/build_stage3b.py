@@ -171,7 +171,7 @@ def manifest(images:dict[str,Image])->str:
 
 
 def simh_script(image:Image)->str:
-    lines=["; Stage 3B M-class deterministic deposit/run harness.","; Baseline only: no disk/tape attachment, UNIX, KE11, or EIS.",f"set log -n evidence/stage3b/test-{image.name}.transcript.txt","do machines/pdp11/late-summer-1970.simh"]
+    lines=["; Stage 3B M-class deterministic deposit/run harness.","; Baseline only: no disk/tape attachment, UNIX, KE11, or EIS.",f"set log -n evidence/stage3b/test-{image.name}.transcript.txt","do machines/pdp11/pdp11.simh"]
     lines.extend(f"dep {w.address:06o} {w.word:06o}" for w in image.words)
     if image.name=="h":
         lines.extend((f"dep r3 {image.stream:06o}",f"dep r4 {L['synthetic']:06o}",f"dep r5 {L['synthetic']+4:06o}"))
