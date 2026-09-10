@@ -39,7 +39,11 @@ Stage-3 gold round trip COMPLETE
 KL11 polling input/output diagnostic COMPLETE
 Canonical active machine configs COMPLETE
 First PDP-11 cross-development era PRESERVED
-Low-core vector framework + RTI NEXT / NOT STARTED
+Stable forward hierarchy R1-R5 / B1-B7 / U1-U7 FROZEN
+U1 bare PDP-11 machine-substrate sweep CURRENT
+U1.1 Stage-3 gold round trip DONE
+U1.2 KL11 polling input/output DONE
+U1.3-U1.6 implementation sweep IN PROGRESS
 All named future workstreams NOT STARTED
 ```
 
