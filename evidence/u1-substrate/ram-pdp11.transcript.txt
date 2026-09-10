@@ -1,0 +1,119 @@
+
+PDP-11 simulator V4.0-0 Current        simh git commit id: 8a4b3752
+./machines/pdp11/pdp11.simh-3> set cpu 11/20
+%SIM-INFO: Disabling XQ which never existed on a Unibus system
+%SIM-INFO: RQ: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQB: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQC: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQD: RQDX3 controller not valid on a Unibus system, changing to UDA50
+CPU     11/20, autoconfiguration enabled, idle disabled
+        24KB
+PDP-11 simulator configuration
+
+CPU     11/20, autoconfiguration enabled, idle disabled
+SYSTEM  PDP-11 model options
+RHA     disabled
+RHB     disabled
+RHC     disabled
+RHD     disabled
+CLK     60Hz, address=17777546-17777547, vector=100, BR6
+PCLK    disabled
+PTR     disabled
+PTP     disabled
+TTI     7p, address=17777560-17777563, vector=60, BR4
+TTO     7p, address=17777564-17777567, vector=64, BR4
+TDC     disabled
+CR      disabled
+LPT     disabled
+DLI     disabled
+DLO     disabled
+DLCJI   disabled
+DLCJO   disabled
+DCI     disabled
+DCO     disabled
+DZ      disabled
+VH      disabled
+DH      disabled
+RC      disabled
+RF      disabled
+RK      disabled
+RL      disabled
+HK      disabled
+RX      disabled
+RY      disabled
+RP      disabled
+RPB     disabled
+RR      disabled
+RS      disabled
+RQ      disabled
+RQB     disabled
+RQC     disabled
+RQD     disabled
+TC      disabled
+TM      disabled
+TS      disabled
+TQ      disabled
+TU      disabled
+TA      disabled
+XQ      disabled
+XQB     disabled
+XU      disabled
+XUB     disabled
+KG      disabled
+DMC     disabled
+DUP     disabled
+DPV     disabled
+KDP     disabled
+KE      disabled
+ROM     disabled
+CH      disabled
+MB      disabled
+U1 RAM STORAGE START
+
+HALT instruction, PC: 001330 (MOV #177777,3042)
+sim> examine 003036
+3036:	177777
+sim> examine 003040
+3040:	000002
+sim> examine 003000
+3000:	000000
+sim> examine 003042
+3042:	000001
+sim> examine 043000
+43000:	065432
+sim> examine 042000
+42000:	000000
+sim> examine 042002
+42002:	000001
+sim> examine 042776
+42776:	000377
+sim> examine 003002
+3002:	000002
+sim> examine 003004
+3004:	000003
+sim> examine 003006
+3006:	000004
+sim> examine 003010
+3010:	000005
+sim> examine 003012
+3012:	000006
+sim> examine 003014
+3014:	000007
+sim> examine 003016
+3016:	000010
+sim> examine 003020
+3020:	000011
+sim> examine 003022
+3022:	000012
+sim> examine 003024
+3024:	000013
+sim> examine 003026
+3026:	000014
+sim> examine 003030
+3030:	000015
+sim> examine 003032
+3032:	000016
+sim> examine 003034
+3034:	000017
+sim> quit
+Goodbye

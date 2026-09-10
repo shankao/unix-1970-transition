@@ -22,30 +22,33 @@ with the December 1970 disk arrival—not the rest of 1971 or First Edition.
 
 ## Current stage
 
-```text
-Stage 0  COMPLETE
-Stage 1  COMPLETE
-Stage 2  COMPLETE
-Stage 3  COMPLETE (3A and 3B)
-Stage 4A COMPLETE
-Stage 4B COMPLETE
-Stage 4C COMPLETE
-Migration corpus provisional v1 COMPLETE
-Bare KA11 machine-layer research COMPLETE
-Core-only execution/RAM-layout contract v1 COMPLETE (provisional)
-Core-only filesystem/kernel data-structure contract v1 COMPLETE (provisional)
-Repository-aware first implementation slice COMPLETE
-Stage-3 gold round trip COMPLETE
-KL11 polling input/output diagnostic COMPLETE
-Canonical active machine configs COMPLETE
-First PDP-11 cross-development era PRESERVED
-Stable forward hierarchy R1-R5 / B1-B7 / U1-U7 FROZEN
-U1 bare PDP-11 machine-substrate sweep CURRENT
-U1.1 Stage-3 gold round trip DONE
-U1.2 KL11 polling input/output DONE
-U1.3-U1.6 implementation sweep IN PROGRESS
-All named future workstreams NOT STARTED
-```
+- [x] **Historical/bootstrap foundation**
+  - [x] Stage 0 — machine reproducibility
+  - [x] Stage 1 — PDP-7 B characterization
+  - [x] Stage 2 — independent KA11 oracle
+  - [x] Stage 3 — standalone threaded-B PDP-11 execution (3A/3B)
+  - [x] Stage 4A — B I/O/two-pass substrate
+  - [x] Stage 4B — scanner/parser/symbol/expression engine
+  - [x] Stage 4C — KA11 encoder nucleus
+- [x] **R1–R5 migration research/contracts**
+  - [x] Provisional migration corpus v1
+  - [x] Bare KA11 machine-layer contract
+  - [x] Provisional core-only execution/RAM-layout contract v1
+  - [x] Provisional filesystem/kernel data-structure contract v1
+  - [x] Repository-aware implementation inspection
+- [ ] **B1–B7 bootstrap track** — future work remains open.
+- [x] **U1 — Bare PDP-11 machine substrate**
+  - [x] U1.1 — Stage-3 gold round trip
+  - [x] U1.2 — KL11 polling input/output
+  - [x] U1.3 — Low-core vectors + RTI
+  - [x] U1.4 — Interrupt-driven KL11 console
+  - [x] U1.5 — TRAP/syscall entry and return
+  - [x] U1.6 — RAM storage primitive
+- [ ] **U2 — Filesystem nucleus** — next; not started.
+- [ ] **U3–U7 Unix migration track** — future work remains open.
+- [x] Canonical active machine configs
+- [x] First PDP-11 cross-development era preserved
+- [x] Stable R1–R5 / B1–B7 / U1–U7 hierarchy recorded
 
 Completion commits verified in Git:
 
@@ -177,8 +180,30 @@ diagnostic without depending on mutable `machines/` paths. This state targets
 and executes on the PDP-11 while development tools remain hosted on the PDP-7;
 it is neither self-hosted nor UNIX.
 
-Canonical-config regression runs retained the same useful native sources and
-outputs and advanced the evolving authoritative image to SHA-256
+**U1 bare-machine substrate:** two focused class-B/M fixtures produced 342
+native PDP-7 `as11` words containing 178 Stage-2-decoded instructions. Real
+KL11 RX/TX interrupts accepted and echoed `A` then `B`; vectors 060/064 saved
+PC/PS on the current stack and three `RTI` sites restored execution. Diagnostic
+`TRAP 7` entered vector 034, decoded call 7, consumed inline octal `12345`,
+returned octal `12354` in R0, preserved R1/R2, resumed after the inline word,
+and restored SP `027000`. This freezes no Unix syscall-number table.
+
+The RAM fixture addressed sixteen 512-byte blocks at `040000`–`057777`, kept
+blocks 0–1 reserved from allocation, returned distinct blocks 2–15, failed
+cleanly on exhaustion, reused freed block 2 for a process-backing claimant,
+and round-tripped all 256 words of a block without changing the next-block
+sentinel. It introduces no filesystem or process semantics. Native `as11.b`,
+generated `as11.s`, and linked `a.out` are 5,803, 8,454, and 3,779 PDP-7 words;
+the 317-word static remainder is not a final capacity claim.
+
+The final authoritative PDP-7 image for U1 is 4,096,000 bytes with SHA-256
+`31498835013c176d3015128fdc4d7f3e2586a467918388625615d9d376f93620`.
+Read-only `fsck7` exits 0 with only the established inode-38/block-2987
+self-revisit. Useful native `u1int.s/.o` and `u1ram.s/.o` remain; the abandoned
+oversized `u1diag.s/.o` pair was removed. No preserved era was changed.
+
+Earlier canonical-config regression runs retained the same useful native
+sources and outputs and had advanced the evolving authoritative image to SHA-256
 `40905562d9feb63b2a5e95f542098e052c12da7fc9af136098e907c3cb781968`.
 Stage 4A, the Stage 4B semantic set below its documented capacity boundary,
 Stage 4C encoding/rejection tests, fresh Stage-3 gold `D`, and fresh KL11 `AB`
@@ -372,13 +397,14 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Begin the bounded **low-core vector framework + RTI** slice, using the
-completed polling diagnostic as the KL11 baseline. Interrupt-driven console
-follows only after vector entry/return is independently proven. Use the
-completed native-`as11` transport as the target word path. Use
+Plan the first bounded **U2 filesystem nucleus** implementation slice from the
+completed U1 machine substrate and the provisional filesystem/data-structure
+contract. Use the completed native-`as11` transport as the target word path. Use
 [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md),
 [`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md),
 [`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md), and
 [`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md) as fixed
-inputs. Do not add unrelated assembler features, assign syscall numbers, fix
-capacity, or start `b11`, tape, `dc`, filesystem, process, or command work.
+inputs. Do not add unrelated assembler features, assign the Unix syscall
+number table, fix Stage-4C capacity, or start `b11`, tape, `dc`, U3 process,
+U4 command, or RF11 work. U2 implementation itself requires explicit
+authorization after that repository-aware plan.

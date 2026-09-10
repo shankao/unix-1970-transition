@@ -212,6 +212,22 @@ matches the Stage 2 vectors across all eight modes, PC-special modes, dual
 extensions, bytes, branches, JMP, JSR, RTS, and every Stage 3 mnemonic. All 18
 new negative fixtures pass, as does the normal Stage 4B positive fixture.
 
+The completed U1 machine-substrate workload subsequently forced five compact
+table-driven additions: exact `rti`, numeric `trap`, and double-operand `bit`,
+`bic`, and `bis`. They respectively support current-stack interrupt/TRAP
+return, KA11 TRAP-family entry, bitmap tests/clear/set, and TRAP call-number
+masking. No other predicted Unix instruction or directive was added. Both U1
+native traces decode completely through the independent Stage-2 oracle; the
+host does not generate execution words. This grows the validated bootstrap
+nucleus without redefining Stage 4C as a complete assembler or resolving its
+capacity limit.
+
+The resulting native files measure 5,803 PDP-7 words for `as11.b`, 8,454 for
+generated `as11.s`, and 3,779 for linked `a.out`. The linked-size estimate
+therefore leaves 317 words below the ordinary 4,096-word user limit before
+dynamic stack/symbol demand. This is not a newly accepted capacity envelope;
+the final workload-derived capacity and clean-exhaustion gate remains B1.
+
 ### Ordinary-B capacity finding
 
 The linked artifact is 3,696 words (`007160`),

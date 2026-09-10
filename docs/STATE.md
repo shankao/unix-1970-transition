@@ -257,6 +257,23 @@ self-contained at runtime. This is a cross-development checkpoint, not a
 self-hosted or UNIX machine state; future RAM, paper-tape, disk, and paired
 machine era layouts remain unresolved.
 
+## U1 bare-machine substrate
+
+U1.3–U1.6 run on fresh canonical 24 KB KA11 processes from exact native
+PDP-7 `as11` traces. `artifacts/u1-interrupt.simh` installs vectors 034, 060,
+and 064, receives and transmits `A`/`B` through real KL11 interrupts, records
+the current-stack interrupt frame, returns through three `RTI` sites, and
+proves diagnostic `TRAP 7` inline-argument/result return. The captured
+interrupted PS is `000004`, reflecting the mainline wait-loop Z condition;
+the stack returns to `027000`.
+
+`artifacts/u1-ram.simh` exercises RAM `040000`–`057777` as sixteen logical
+512-byte blocks. Blocks 0 and 1 remain addressable for future metadata I/O but
+are never returned by the common allocator. Blocks 2–15 allocate distinctly;
+exhaustion returns `-1`; free/reuse returns block 2; and a full block-2 copy
+preserves words 0, 1, and 377 while the block-3 sentinel remains unchanged.
+This is volatile machine-substrate evidence only. No preserved era changed.
+
 ## Stage 0 closure
 
 Captured host/tool baseline: Ubuntu 26.04.1 LTS, Linux

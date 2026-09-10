@@ -454,3 +454,30 @@ era-local copy of the clean config plus the native-PDP-7-assembled KL11 polling
 deposit script. It preserves a cross-development execution state, not a
 self-hosted PDP-11, UNIX system, or precedent for later RAM/tape/disk era
 layouts. Existing PDP-7 era contents remain unchanged.
+
+## D0032 — Complete U1 as one bare-machine substrate sweep
+
+**Status:** accepted and demonstrated
+
+U1.3–U1.6 are capability checkboxes within U1, not new project stages. Two
+focused class-B/M fixtures keep each native assembly below the characterized
+ordinary-B symbol-pressure boundary while one class-M harness validates the
+whole milestone. Native PDP-7 `as11` gained only workload-forced KA11 entries:
+exact `RTI`, numeric `TRAP`, and double-operand `BIT`, `BIC`, and `BIS`. The
+Stage-2 oracle verifies every instruction; its words are never execution
+substitutes.
+
+Real KL11 RX/TX interrupts prove vector 060/064 entry, current-stack PC/PS
+frames, repeated input, interrupt-driven output completion, and `RTI` return.
+Diagnostic `TRAP 7` proves vector 034 dispatch, low-byte call identification,
+one inline argument, R0 result, preserved working registers, adjusted saved
+PC, and `RTI` resumption. This does not freeze Unix syscall numbers or add a
+Unix syscall surface.
+
+The RAM primitive uses one sixteen-bit availability map for sixteen 512-byte
+blocks, reserves blocks 0–1 from dynamic allocation, and proves distinct
+allocation, clean exhaustion, free/reuse, address bounds, and full-block copy
+integrity. It has no inode, directory, descriptor, process, or filesystem
+semantics. U1 is complete and U2 is next; no new era is created because this
+remains bare cross-developed substrate rather than a persistent Unix
+environment.

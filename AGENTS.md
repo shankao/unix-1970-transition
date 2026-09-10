@@ -67,6 +67,9 @@ Never describe B/C/M material as original Bell Labs code.
   does not yet exist. Update it as part of normal native development; never
   alter an older snapshot retroactively to insert it.
 - Prefer a small verified implementation over a broad speculative one.
+- Keep repository Python runners non-executable and invoke them explicitly as
+  `python3 tools/<runner>.py`; do not add executable bits merely for
+  convenience unless a specific existing convention documents the exception.
 - Add automated regression vectors for reconstructed instruction encoders, runtime operators, tape formats, and compiler output.
 - Isolate failures at boundaries; do not compensate by silently adding later hardware/software.
 - The PDP-11 target remains 11/20, 24 KB, diskless, without KE11 until a recorded decision changes that.

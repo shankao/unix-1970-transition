@@ -54,8 +54,9 @@ round trip: native PDP-7 `as11` output is transported without host encoding
 and executes as Stage-3B test L on the PDP-11/20. The next implementation
 KL11 polling input/output diagnostic is now complete: two independently
 injected bytes were received, saved, and echoed by native-`as11`-produced
-machine code. The next slice is the low-core vector/RTI framework, followed
-by interrupt-driven console. The current
+machine code. U1 now also proves low-core vector/RTI behavior, interrupt-driven
+KL11 receive/transmit, diagnostic TRAP entry/return, and a sixteen-block RAM
+storage primitive. The next milestone is the U2 filesystem nucleus. The current
 `as11` encoder remains a validated bootstrap nucleus, not the final
 specification of the assembler.
 

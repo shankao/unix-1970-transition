@@ -28,89 +28,93 @@ debugging tasks remain beneath their existing checkbox. If evidence requires a
 genuinely new plan-level boundary, this file must define and justify it before
 implementation rather than inventing a new apparent stage afterward.
 
-```text
-unix-1970-transition
-|
-+-- Historical / bootstrap foundation
-|   +-- Stage 0  Machine reproducibility                         DONE
-|   +-- Stage 1  PDP-7 B characterization                       DONE
-|   +-- Stage 2  Independent KA11 verification oracle           DONE
-|   +-- Stage 3  Standalone threaded-B PDP-11 execution         DONE
-|   |   +-- Stage 3A  Runtime nucleus                           DONE
-|   |   `-- Stage 3B  Control, frames, calls, nesting           DONE
-|   `-- Stage 4  PDP-7-hosted PDP-11 assembler bootstrap
-|       +-- Stage 4A  B I/O / two-pass substrate                DONE
-|       +-- Stage 4B  Scanner/parser/symbol/expression engine    DONE
-|       `-- Stage 4C  KA11 encoder nucleus                      DONE
-|
-+-- Common migration research / contracts
-|   +-- R1  PDP-7 UNIX migration corpus                         DONE
-|   +-- R2  Bare KA11 machine contract                          DONE
-|   +-- R3  Core-only execution/RAM contract                    DONE
-|   +-- R4  Filesystem/kernel-structure contract                DONE
-|   `-- R5  Repository-aware implementation inspection          DONE
-|
-+-- Bootstrap / Ritchie-oriented track (parallel, not a UNIX prerequisite)
-|   +-- B1  UNIX-driven as11 completion
-|   |   +-- workload-required instructions and directives only
-|   |   `-- realistic workload capacity and clean exhaustion
-|   +-- B2  PDP-7-hosted b11 cross-compiler
-|   +-- B3  B -> b11 -> as11 -> PDP-11 integration
-|   +-- B4  Paper-tape transport
-|   +-- B5  Across the Floor
-|   +-- B6  Small B calculator probe
-|   `-- B7  Historically constrained dc0
-|
-`-- UNIX / Thompson-oriented migration track
-    +-- U1  Bare PDP-11 machine substrate
-    |   +-- U1.1  Stage-3 gold round trip                       DONE
-    |   +-- U1.2  KL11 polling input/output                     DONE
-    |   +-- U1.3  Low-core vectors + RTI                        CHECKBOX
-    |   +-- U1.4  Interrupt-driven KL11 console                 CHECKBOX
-    |   +-- U1.5  TRAP/syscall entry and return                 CHECKBOX
-    |   `-- U1.6  RAM storage primitive                         CHECKBOX
-    +-- U2  Filesystem nucleus
-    |   +-- U2.1  RAM filesystem initialization
-    |   |           inode bitmap; inode block; root block
-    |   +-- U2.2  Inode/direct-block layer
-    |   |           iget; iput; pget; itrunc
-    |   +-- U2.3  Directory/name layer
-    |   |           dget; dput; namei; dslot; icreat
-    |   +-- U2.4  Descriptor/file-I/O layer
-    |   |           descriptor allocation; open; creat; close; read; write
-    |   `-- U2.5  Remaining core filesystem semantics
-    |               unlink; status; ttyin/ttyout special files
-    +-- U3  Process/execution nucleus
-    |   +-- U3.1  Process record + user-image save/restore
-    |   +-- U3.2  PDP-7-shaped child-first fork
-    |   +-- U3.3  exit + resident/backed process selection
-    |   +-- U3.4  minimal smes + wakeup/blocking interaction
-    |   `-- U3.5  shell-controlled raw-image loader at 030000
-    |               high-core argv and initial stack
-    +-- U4  Minimal userland
-    |   +-- U4.1 cat  +-- U4.2 rm  +-- U4.3 stat
-    |   +-- U4.4 reduced streaming ls
-    |   `-- U4.5 sh
-    +-- U5  Core-only UNIX integration
-    |   +-- U5.1  Initial RAM filesystem image
-    |   +-- U5.2  24 KB capacity validation
-    |   `-- U5.3  Core-only acceptance demonstration
-    |               CORE-ONLY UNIX MILESTONE
-    +-- U6  RF11/RS11 transition
-    |   +-- U6.0  Focused RF11 / first-disk research gate
-    |   +-- U6.1  RF11/RS11 raw block-I/O diagnostic
-    |   +-- U6.2  Persistent filesystem backend
-    |   +-- U6.3  Disk-backed process storage
-    |   +-- U6.4  Full pathname traversal
-    |   +-- U6.5  exec + wait transition
-    |   `-- U6.6  Disk-backed integration
-    `-- U7  First disk-backed PDP-11 UNIX acceptance
-```
+### Historical / bootstrap foundation
 
-U1.3 through U1.6 are the remaining checklist for one already-defined U1
-milestone. Technical dependencies may determine coding order, but they are not
-four successive project stages. U1 completes only when all six checkboxes pass;
-otherwise it remains in progress and later work refines the failed checkbox.
+- [x] **Stage 0 — Machine reproducibility**
+- [x] **Stage 1 — PDP-7 B characterization**
+- [x] **Stage 2 — Independent KA11 verification oracle**
+- [x] **Stage 3 — Standalone threaded-B PDP-11 execution**
+  - [x] **Stage 3A — Runtime nucleus**
+  - [x] **Stage 3B — Control, frames, calls, nesting**
+- [x] **Stage 4 — PDP-7-hosted PDP-11 assembler bootstrap**
+  - [x] **Stage 4A — B I/O / two-pass substrate**
+  - [x] **Stage 4B — Scanner/parser/symbol/expression engine**
+  - [x] **Stage 4C — KA11 encoder nucleus**
+
+### Common migration research / contracts
+
+- [x] **R1 — PDP-7 UNIX migration corpus**
+- [x] **R2 — Bare KA11 machine contract**
+- [x] **R3 — Core-only execution/RAM contract**
+- [x] **R4 — Filesystem/kernel-structure contract**
+- [x] **R5 — Repository-aware implementation inspection**
+
+### Bootstrap / Ritchie-oriented track
+
+- [ ] **B1 — UNIX-driven as11 completion**
+  - [ ] Add workload-required instructions and directives only.
+  - [ ] Establish realistic workload capacity and clean exhaustion.
+- [ ] **B2 — PDP-7-hosted b11 cross-compiler**
+- [ ] **B3 — B -> b11 -> as11 -> PDP-11 integration**
+- [ ] **B4 — Paper-tape transport**
+- [ ] **B5 — Across the Floor**
+- [ ] **B6 — Small B calculator probe**
+- [ ] **B7 — Historically constrained dc0**
+
+This track is parallel. It is not a mandatory prerequisite chain for the UNIX
+track.
+
+### UNIX / Thompson-oriented migration track
+
+- [x] **U1 — Bare PDP-11 machine substrate**
+  - [x] **U1.1 — Stage-3 gold round trip**
+  - [x] **U1.2 — KL11 polling input/output**
+  - [x] **U1.3 — Low-core vectors + RTI**
+  - [x] **U1.4 — Interrupt-driven KL11 console**
+  - [x] **U1.5 — TRAP/syscall entry and return**
+  - [x] **U1.6 — RAM storage primitive**
+- [ ] **U2 — Filesystem nucleus**
+  - [ ] **U2.1 — RAM filesystem initialization**: inode bitmap, inode
+    block, and root block.
+  - [ ] **U2.2 — Inode/direct-block layer**: `iget`, `iput`, `pget`, and
+    `itrunc`.
+  - [ ] **U2.3 — Directory/name layer**: `dget`, `dput`, `namei`, `dslot`,
+    and `icreat`.
+  - [ ] **U2.4 — Descriptor/file-I/O layer**: descriptor allocation, `open`,
+    `creat`, `close`, `read`, and `write`.
+  - [ ] **U2.5 — Remaining core filesystem semantics**: `unlink`, `status`,
+    and `ttyin`/`ttyout` special files.
+- [ ] **U3 — Process/execution nucleus**
+  - [ ] **U3.1 — Process record + user-image save/restore**
+  - [ ] **U3.2 — PDP-7-shaped child-first fork**
+  - [ ] **U3.3 — exit + resident/backed process selection**
+  - [ ] **U3.4 — minimal smes + wakeup/blocking interaction**
+  - [ ] **U3.5 — shell-controlled raw-image loader at 030000**: high-core
+    argv and initial stack.
+- [ ] **U4 — Minimal userland**
+  - [ ] **U4.1 — cat**
+  - [ ] **U4.2 — rm**
+  - [ ] **U4.3 — stat**
+  - [ ] **U4.4 — reduced streaming ls**
+  - [ ] **U4.5 — sh**
+- [ ] **U5 — Core-only UNIX integration**
+  - [ ] **U5.1 — Initial RAM filesystem image**
+  - [ ] **U5.2 — 24 KB capacity validation**
+  - [ ] **U5.3 — Core-only acceptance demonstration**
+- [ ] **U6 — RF11/RS11 transition**
+  - [ ] **U6.0 — Focused RF11 / first-disk research gate**
+  - [ ] **U6.1 — RF11/RS11 raw block-I/O diagnostic**
+  - [ ] **U6.2 — Persistent filesystem backend**
+  - [ ] **U6.3 — Disk-backed process storage**
+  - [ ] **U6.4 — Full pathname traversal**
+  - [ ] **U6.5 — exec + wait transition**
+  - [ ] **U6.6 — Disk-backed integration**
+- [ ] **U7 — First disk-backed PDP-11 UNIX acceptance**
+
+U1.3 through U1.6 were completed as one checklist within the already-defined
+U1 milestone. Technical dependencies determined coding order, but they were
+not four successive project stages. This same checkbox rule governs later
+milestones: incomplete items are refined beneath their existing identifier.
 
 The separate preservation view is:
 
@@ -495,15 +499,21 @@ have a proven PDP-7 `as11` integration path.
 - **Scope:** bare-machine polling proof only. No vectors, interrupt enable,
   tty queue, syscall, or Unix code is present.
 
-### Low-core vector framework + RTI
+### U1 — Bare PDP-11 machine substrate
 
-**Status: NEXT / NOT STARTED**
+**Status: COMPLETE**
 
-- **Objective:** prove low-core vector entry, current-stack PC/PS frame, and
-  RTI return independently before enabling KL11 interrupts.
-- **Dependency:** completed KA11 contract and KL11 polling diagnostic.
+The remaining U1 checklist was completed as one implementation sweep using two
+focused native-`as11` fixtures. Real KL11 RX/TX interrupts enter vectors
+060/064, preserve current-stack PC/PS frames, and return through `RTI`; a
+diagnostic `TRAP 7` enters vector 034, decodes its call number, consumes one
+inline argument, returns its result in R0, and resumes after that argument.
+The RAM primitive maps sixteen 512-byte blocks, keeps blocks 0–1 out of the
+common allocator, proves exhaustion and free/reuse, and copies a full block
+without crossing its boundary. See `evidence/u1-substrate/`.
 
-Interrupt-driven KL11 console follows this gate; it is not yet started.
+This is machine substrate, not a tty layer, syscall surface, process system,
+or filesystem. **U2 — Filesystem nucleus** is next and has not started.
 
 ## UNIX migration milestone — core-only PDP-11 UNIX
 

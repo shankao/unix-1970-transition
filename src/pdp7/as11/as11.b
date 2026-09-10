@@ -296,7 +296,7 @@ mfind(n) $(
   extrn mclass,mop,mtab; auto i,p;
   if(n[2]!=0|n[3]!=0)return(0);
   i=0;
-  while(i<16) $(
+  while(i<21) $(
     p=mtab+i*3;
     if(n[0]==p[0]&n[1]==p[1]) $(
       mclass=i+1;mop=p[2];return(1);
@@ -384,8 +384,12 @@ instruction() $(
   extrn se,sv,de,dv;
   auto s,d,v,delta,r;
   se=0;de=0;
-  if(mclass==1)$(endstmt();if(bad)return;
+  if(mclass==1|mclass==17)$(endstmt();if(bad)return;
     finishins(mop);return;$)
+  if(mclass==21)$(v=expr();r=eres;endstmt();if(bad)return;
+    if(pass==2)$(if(r==0)$(fail('un');return;$)
+      if(v<0|v>0377)$(fail('tv');return;$)$)
+    finishins(mop+(v&0377));return;$)
   if(mclass>=11&mclass<=13)$(v=expr();r=eres;endstmt();if(bad)return;
     if(loc&1)$(fail('ad');return;$)
     if(pass==2)$(if(r==0)$(fail('un');return;$)
@@ -480,7 +484,7 @@ oe;
 ov;
 se;sv;
 de;dv;
-mtab[48]
+mtab[63]
   0150141,0154164,000000,
   0143154,0162000,005000,
   0164163,0164000,005700,
@@ -496,5 +500,10 @@ mtab[48]
   0142160,0154000,0100000,
   0152155,0160000,000100,
   0152163,0162000,004000,
-  0162164,0163000,000200;
+  0162164,0163000,000200,
+  0162164,0151000,000002,
+  0142151,0164000,0030000,
+  0142151,0143000,0040000,
+  0142151,0163000,0050000,
+  0164162,0141160,0104400;
 ctab[12] '.','+','-','[',']',':','=','(',')',',','$','**';

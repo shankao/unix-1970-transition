@@ -1,0 +1,24 @@
+pre_sha256=db3c1a4d6f518fbf2ac5d0464b0122c7484549b380a81013ec2110021c7c8d86
+post_sha256=97aace89cff418e832456cfbe3b66043655f6c67d178be73b8ee978e7a2b39e1
+pre_git_status:
+ M docs/PLAN.md
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+ M src/pdp7/as11/as11.b
+?? artifacts/u1-interrupt.simh
+?? artifacts/u1-ram.simh
+?? evidence/u1-substrate/
+?? tests/pdp7-as11/u1-interrupt.s
+?? tests/pdp7-as11/u1-ram.s
+?? tools/__pycache__/
+?? tools/run_u1_substrate.py
+post_git_status:
+ M docs/PLAN.md
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+ M src/pdp7/as11/as11.b
+?? artifacts/u1-interrupt.simh
+?? artifacts/u1-ram.simh
+?? evidence/u1-substrate/
+?? tests/pdp7-as11/u1-interrupt.s
+?? tests/pdp7-as11/u1-ram.s
+?? tools/__pycache__/
+?? tools/run_u1_substrate.py

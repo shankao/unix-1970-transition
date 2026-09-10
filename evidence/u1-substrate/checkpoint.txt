@@ -1,0 +1,21 @@
+U1 bare-machine substrate checkpoint
+
+authoritative PDP-7 image:
+  machines/pdp7/pdp7-unix/build/image-shankao.fs
+  size: 4096000 bytes
+  sha256: 31498835013c176d3015128fdc4d7f3e2586a467918388625615d9d376f93620
+
+native sizes (PDP-7 words):
+  as11.b  5803
+  as11.s  8454
+  a.out   3779
+
+read-only fsck7:
+  exit 0
+  known inode-38/block-2987 self-revisit only
+
+retained native artifacts:
+  u1int.s u1int.o u1ram.s u1ram.o
+
+The abandoned oversized u1diag.s/u1diag.o diagnostic pair was removed.
+No preserved era image or configuration changed.
