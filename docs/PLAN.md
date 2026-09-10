@@ -44,14 +44,28 @@ implementation rather than inventing a new apparent stage afterward.
 ### Common migration research / contracts
 
 - [x] **R1 — PDP-7 UNIX migration corpus**
+  - **Done when:** selected responsibilities, source provenance, omissions,
+    uncertainties, and downstream workload requirements are frozen.
 - [x] **R2 — Bare KA11 machine contract**
+  - **Done when:** required hardware behavior and the boundary between KA11
+    fact and reconstruction choice are explicit enough to constrain code.
 - [x] **R3 — Core-only execution/RAM contract**
+  - **Done when:** execution, memory, loader/ABI, and RAM-backing choices are
+    frozen provisionally, with remaining empirical questions identified.
 - [x] **R4 — Filesystem/kernel-structure contract**
+  - **Done when:** PDP-7-derived filesystem/kernel responsibilities, compact
+    PDP-11 structures, limits, and unresolved sizing choices are frozen.
 - [x] **R5 — Repository-aware implementation inspection**
+  - **Done when:** actual repo interfaces, provenance path, dependency order,
+    validation boundaries, and the first bounded implementation slice are
+    recorded.
 
 ### Bootstrap / Ritchie-oriented track
 
 - [ ] **B1 — Workload-driven as11 closure** (IN PROGRESS)
+  - **Done when:** real U and B workloads have closed the required `as11`
+    language, encoding, realistic capacity, and clean-exhaustion envelope—not
+    when an arbitrarily broad KA11 catalogue exists.
   - [x] **B1.1 — Native as11 -> exact KA11 execution path proven**
   - [x] **B1.2 — First workload-driven extension set proven**: `rti`,
     `trap`, `bit`, `bic`, and `bis`.
@@ -63,6 +77,9 @@ implementation rather than inventing a new apparent stage afterward.
   - [ ] **B1.6 — Establish clean exhaustion/error behavior and the final
     bootstrap safety envelope**
 - [ ] **B2 — PDP-7-hosted b11 cross-compiler**
+  - **Done when:** native PDP-7 `b11` deterministically translates the selected
+    characterized B corpus into the intended PDP-11 threaded/`as11`
+    representation with documented provenance.
   - [ ] **B2.0 — Freeze b11 provenance/source strategy and target-emission
     contract**
   - [ ] **B2.1 — Map characterized PDP-7 B semantics/emission vocabulary onto
@@ -72,6 +89,9 @@ implementation rather than inventing a new apparent stage afterward.
     calls, returns, unary forms, and vector forms**
   - [ ] **B2.4 — Native PDP-7 deterministic compiler-output regression**
 - [ ] **B3 — B -> b11 -> as11 -> PDP-11 integration**
+  - **Done when:** B source passes through native PDP-7 `b11` and `as11`, and
+    the exact PDP-7-produced output executes correctly on PDP-11 without host
+    target-code generation.
   - [ ] **B3.1 — Close threaded-runtime operators required by selected
     compiled fixtures**
   - [ ] **B3.2 — Add only as11 capabilities forced by b11 output**
@@ -80,12 +100,18 @@ implementation rather than inventing a new apparent stage afterward.
   - [ ] **B3.5 — Nontrivial end-to-end regression with no host target-code
     generation**
 - [ ] **B4 — Paper-tape transport**
+  - **Done when:** a PDP-7-produced payload traverses the reconstructed tape
+    and actual PDP-11 reader/bootstrap/loader path, arrives word-for-word
+    intact, and reproduces its known execution result.
   - [x] **B4.0 — Freeze conservative paper-tape transport/loader contract**
   - [ ] **B4.1 — Produce exact tape bytes through the PDP-7 punch path**
   - [ ] **B4.2 — Load through the PDP-11 PTR/bootstrap path**
   - [ ] **B4.3 — Prove tape bytes -> memory identity**
   - [ ] **B4.4 — Replace modern deposit for one already-proven payload**
 - [ ] **B5 — Across the Floor**
+  - **Done when:** editing B on PDP-7 and repeating native `b11` -> `as11` ->
+    tape -> PDP-11 loading produces visibly source-dependent behavior with no
+    host target-code generation.
   - [ ] **B5.1 — Edit B source on PDP-7**
   - [ ] **B5.2 — Native b11 -> as11 -> paper-tape production**
   - [ ] **B5.3 — Carry the unchanged tape representation to PDP-11
@@ -95,10 +121,16 @@ implementation rather than inventing a new apparent stage afterward.
   - [ ] **B5.5 — Repeat the complete workflow with no host-side target-code
     generation**
 - [ ] **B6 — Small B calculator confidence probe** (OPTIONAL)
+  - **Done when:** the optional parser/stack/control/software-arithmetic probe
+    runs through the reconstructed development and transport path; this is
+    engineering confidence, not a historical requirement.
   - [ ] **B6.1 — Parser/stack/control-flow workload**
   - [ ] **B6.2 — Software-arithmetic workload**
   - [ ] **B6.3 — Complete reconstructed development/transport execution**
 - [ ] **B7 — Historically constrained dc0** (high uncertainty; non-blocking)
+  - **Done when:** the research-selected `dc0` subset runs through the
+    reconstructed B/runtime/transport environment with attested and
+    reconstructed behavior explicitly separated.
   - [ ] **B7.0 — Historical feature/provenance research gate**
   - [ ] **B7.1 — Freeze minimal number representation, stack, parser, and
     evidenced command set**
@@ -124,9 +156,8 @@ capability matrix before implementation.
 B4 is independently actionable from the stable U1 payloads and does not wait
 for B2/B3. U2 does not technically depend on it. B4 is nevertheless the
 immediate next work because U1 transport acceptance is incomplete. B5,
-dependent on B3 plus
-B4, is the central historical
-cross-development culmination. B6 is only an engineering confidence probe and
+dependent on B3 plus B4, is the central historical cross-development
+culmination. B6 is only an engineering confidence probe and
 blocks nothing. B7 depends on its own research and sufficient B/runtime/tape
 infrastructure; it is historically valuable but blocks neither Unix nor B5.
 
@@ -148,6 +179,8 @@ B4 ----------+
 
 - [ ] **U1 — Bare PDP-11 machine substrate** (implementation proven;
   historical transport acceptance pending)
+  - **Done when:** U1.1–U1.6 work together and U1.7 proves an existing
+    substantial payload through historical/mechanical loading.
   - [x] **U1.1 — Stage-3 gold round trip**
   - [x] **U1.2 — KL11 polling input/output**
   - [x] **U1.3 — Low-core vectors + RTI**
@@ -156,34 +189,52 @@ B4 ----------+
   - [x] **U1.6 — RAM storage primitive**
   - [ ] **U1.7 — Historical/mechanical-load acceptance**
 - [ ] **U2 — Filesystem nucleus**
+  - **Done when:** one integrated PDP-11 fixture initializes and exercises the
+    real RAM filesystem, file/metadata lifecycle, reuse invariants, and console
+    special-file path without host filesystem substitution.
   - [ ] **U2.1 — RAM filesystem initialization**: inode bitmap, inode
     block, and root block.
   - [ ] **U2.2 — Inode/direct-block layer**: `iget`, `iput`, `pget`, and
     `itrunc`.
   - [ ] **U2.3 — Directory/name layer**: `dget`, `dput`, `namei`, `dslot`,
     and `icreat`.
-  - [ ] **U2.4 — Descriptor/file-I/O layer**: descriptor allocation, `open`,
-    `creat`, `close`, `read`, and `write`.
+  - [ ] **U2.4 — Descriptor/file-I/O layer**: descriptor allocation, `access`,
+    `open`, `creat`, `close`, `read`, and `write`.
   - [ ] **U2.5 — Remaining core filesystem semantics**: `unlink`, `status`,
     and `ttyin`/`ttyout` special files.
+  - [ ] **U2.6 — Filesystem nucleus acceptance**
 - [ ] **U3 — Process/execution nucleus**
+  - **Done when:** an integrated fixture proves the frozen child-first,
+    single-resident process lifecycle from parent backing through child
+    execution/blocking/exit to exact parent restoration.
   - [ ] **U3.1 — Process record + user-image save/restore**
   - [ ] **U3.2 — PDP-7-shaped child-first fork**
   - [ ] **U3.3 — exit + resident/backed process selection**
   - [ ] **U3.4 — minimal smes + wakeup/blocking interaction**
   - [ ] **U3.5 — shell-controlled raw-image loader at 030000**: high-core
     argv and initial stack.
+  - [ ] **U3.6 — Process/execution nucleus acceptance**
 - [ ] **U4 — Minimal userland**
+  - **Done when:** all five selected commands exist as PDP-11 programs and
+    work through the actual U2/U3 interfaces; the polished boot demonstration
+    remains U5.
   - [ ] **U4.1 — cat**
   - [ ] **U4.2 — rm**
   - [ ] **U4.3 — stat**
   - [ ] **U4.4 — reduced streaming ls**
   - [ ] **U4.5 — sh**
+  - [ ] **U4.6 — Minimal userland acceptance**
 - [ ] **U5 — Core-only UNIX integration**
+  - **Done when:** historically transported PDP-7-produced payloads yield the
+    interactive RAM-backed command scenario within 24 KB and without host
+    target-code generation.
   - [ ] **U5.1 — Initial RAM filesystem state created by PDP-11 code**
   - [ ] **U5.2 — 24 KB capacity validation**
   - [ ] **U5.3 — Core-only historical-transport acceptance demonstration**
 - [ ] **U6 — RF11/RS11 transition**
+  - **Done when:** the reconstructed system genuinely operates on persistent
+    RF11/RS11 storage and demonstrates the researched storage, process,
+    pathname, `exec`, and `wait` transition behavior.
   - [ ] **U6.0 — Focused RF11 / first-disk research gate**
   - [ ] **U6.1 — RF11/RS11 raw block-I/O diagnostic**
   - [ ] **U6.2 — Persistent filesystem backend**
@@ -192,6 +243,9 @@ B4 ----------+
   - [ ] **U6.5 — exec + wait transition**
   - [ ] **U6.6 — Disk-backed integration**
 - [ ] **U7 — First disk-backed PDP-11 UNIX acceptance**
+  - **Done when:** the complete historically constrained disk-backed system
+    passes the repository's final reproducible acceptance demonstration; U7 is
+    itself the acceptance milestone and needs no redundant final subtask.
 
 U1.3 through U1.6 were completed as one checklist within the already-defined
 U1 milestone. Technical dependencies determined coding order, but they were
@@ -258,6 +312,66 @@ The two current U1 fixtures total 342 native words. B4 implementation should
 select the best substantial existing acceptance article rather than inventing
 a trivial transport-only payload. B4.1–B4.4 supply the mechanism for U1.7;
 only after it passes is the U1 parent complete and U2 again next.
+
+## Integrated Unix milestone acceptance gates
+
+These final checkboxes exercise the real subsystem layers. Host orchestration
+may observe and verify them, but a host-side substitute for the filesystem,
+process model, commands, or target-code generator cannot satisfy them.
+
+### U2.6 — Filesystem nucleus acceptance
+
+One integrated PDP-11 fixture must initialize the RAM filesystem through U2
+code, create an ordinary file, write meaningful data with relevant block and
+offset boundary coverage, close and reopen it, read back the exact bytes,
+obtain status metadata, unlink it, and prove that its inode and data blocks are
+reusable. The same fixture must exercise `ttyin`/`ttyout` through special-file
+dispatch and leave block/inode allocation invariants correct. Fork, switching,
+shell, and real user commands are outside U2. Fast development transport is
+allowed; no host-created complete filesystem image is required or accepted as
+the implementation.
+
+### U3.6 — Process/execution nucleus acceptance
+
+An integrated PDP-11 fixture must begin with a resident parent, perform the
+PDP-7-shaped child-first fork, compactly back the parent's live image/state in
+RAM, keep or make the child resident, and exercise the fixed-window child load
+and execution path. It must demonstrate required block/wake behavior and
+minimal `smes`, child exit, parent restoration, and resumption at the correct
+continuation with registers, SP, PC, PS, and descriptor state intact. It must
+also prove the argument/stack convention where the load path requires it. A
+synthetic fixture is sufficient; `sh` is not required for U3.
+
+### U4.6 — Minimal userland acceptance
+
+The selected PDP-7-derived `cat`, reduced `ls`, `rm`, `stat`, and `sh` must
+exist as actual PDP-11 programs and operate through U2/U3 rather than host
+stand-ins. `cat` uses real file reads/writes; `ls` traverses the actual
+directory representation; `rm` invokes real unlink semantics; `stat` consumes
+the real status structure; and `sh` demonstrates its selected minimal parsing,
+redirection, process-loading, and synchronization responsibilities. The final
+recognizable boot/demo remains U5.
+
+### U5–U7 parent outcomes
+
+U5 development may use fast deposits, but U5 DONE requires the B4 historical
+transport path, a RAM-backed environment with an interactive shell, real
+commands, and the `ls` -> existing-file `cat` -> redirected new-file creation
+-> new-file `cat` -> `stat` -> `rm` -> final `ls` scenario within 24 KB and
+without host target-code generation. B4 does not block development of U2–U4;
+it is a U5 acceptance dependency.
+
+U6 completes only when RF11/RS11 persistent operation and its researched
+storage/process/pathname/`exec`/`wait` transition are integrated and observed.
+U7 remains the single final acceptance of the resulting historically
+constrained disk-backed PDP-11 Unix; another symmetry-only subtask would add no
+capability boundary.
+
+```text
+U2 -> U3 -> U4 --+
+                   +--> U5 historical acceptance
+B4 ---------------+
+```
 
 The separate preservation view is:
 

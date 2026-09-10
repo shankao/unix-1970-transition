@@ -546,3 +546,20 @@ initialization and later U4 command-population procedure remain unknown. U5
 development may use fast deposits, but U5 DONE requires the paper-tape/loader
 path for PDP-7-produced system and command payloads, a RAM-backed interactive
 environment, its command scenario, and the 24 KB capacity gate.
+
+## D0035 — Parent milestones complete on observable outcomes
+
+**Status:** accepted
+
+Every R/B/U parent has an explicit Done-when outcome. Component checkboxes are
+necessary work but never automatically sufficient to complete their parent.
+Integrated implementation acceptance must exercise the real target subsystem
+layers rather than host substitutes; research parents instead freeze an
+evidence boundary, unresolved questions, and downstream constraints.
+
+The existing U1 state is unchanged: U1.1–U1.6 are complete, U1.7 is pending,
+and the parent remains incomplete. U2 adds U2.6 filesystem-nucleus acceptance,
+U3 adds U3.6 process/execution acceptance, and U4 adds U4.6 userland
+acceptance. These new unchecked items define integration gates and do not
+start or complete implementation. U7 is already an acceptance milestone and
+does not gain a redundant symmetry-only subtask.

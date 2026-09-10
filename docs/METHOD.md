@@ -100,6 +100,22 @@ When a stage fails:
 
 Do not compensate for failure by silently enabling later hardware/software or importing a later implementation.
 
+## Outcome-based milestone completion
+
+Every meaningful R/B/U parent milestone has a documented **Done when /
+observable outcome**. Its component checkboxes describe necessary research or
+implementation pieces; checking all of them is not by itself sufficient to
+complete the parent. The parent is complete only after its outcome is reviewed
+and demonstrated.
+
+For implementation milestones, integrated acceptance fixtures must exercise
+the real underlying target subsystem layers. Modern orchestration and
+verification remain allowed, but a host-side replacement for the subsystem or
+target computation cannot satisfy the outcome. Research milestones instead
+complete when their evidence boundary, remaining uncertainties, and downstream
+constraints are frozen clearly enough to proceed; they do not need synthetic
+execution tests merely for symmetry.
+
 ## Proven reconstruction workflow
 
 Stages 0–3 established a working method for the remaining project:
