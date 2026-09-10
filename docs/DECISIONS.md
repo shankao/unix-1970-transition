@@ -38,7 +38,7 @@ The diskless PDP-11/20 remains configured without KE11 unless historical evidenc
 
 Paper-tape transfer is historically attested, but the exact Bell Labs record/loading format is not yet established. A contemporary DEC format may be used as class C if required, but must not be described as the Bell Labs format without evidence.
 
-## D0007 — Repository-wide licensing deferred
+## D0007 — Repository-wide licensing deferred (superseded by D0033)
 
 **Status:** accepted
 
@@ -272,7 +272,7 @@ migration begins. Earlier decisions that mention prospective Stage 4D–12
 numbers retain their historical meaning, but their dependencies and current
 names are governed by `PLAN.md`.
 
-The bootstrap track contains Unix-driven `as11` completion, the Stage-3 gold
+The bootstrap track contains workload-driven `as11` closure, the Stage-3 gold
 round trip, `b11`, modern-load integration, paper-tape transport, “Across the
 Floor,” calculator work, and `dc0`. The migration track contains corpus
 definition, the bare KA11 substrate, core-only PDP-11 UNIX, and the RF11/RS11
@@ -481,3 +481,27 @@ integrity. It has no inode, directory, descriptor, process, or filesystem
 semantics. U1 is complete and U2 is next; no new era is created because this
 remains bare cross-developed substrate rather than a persistent Unix
 environment.
+
+## D0033 — Freeze mixed-provenance licensing and workload-driven roadmap policy
+
+**Status:** accepted
+
+Project-original material defaults to `GPL-3.0-only`, while imported,
+restored, historical, and generated material retains its applicable licensing
+and notices. The root license is therefore scoped, not a blanket relicense.
+`LICENSES/README.md` is authoritative for the path/provenance policy. Historical
+ancestry (A1/A2/B/C/D) and copyright license are separate dimensions; future
+work records both when relevant. This resolves D0007 without changing any
+upstream notice or preserved artifact.
+
+U1 is complete and U2 remains the next Unix implementation milestone. B1 is
+already in progress: the native exact-word execution path and the U1-forced
+`rti`, `trap`, `bit`, `bic`, and `bis` extension set are proven. Further
+assembler closure is driven by real U and B workloads. B4 can proceed from
+stable U1 payloads without waiting for B2/B3 and does not block U2; B5 depends
+on B3 plus B4 and remains the Across-the-Floor culmination. B6 is optional and
+B7 is valuable but high-uncertainty and non-blocking.
+
+Adjacent checkboxes may be completed in one explicitly bounded task when they
+form a tightly coupled slice. The task must retain a stated upper boundary,
+stop condition, and validation; this does not create new roadmap stages.

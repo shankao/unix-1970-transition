@@ -20,6 +20,16 @@ surviving historical accounts. Every material component is identified as:
 
 Class B, C, and M work is never represented as original Bell Labs source.
 
+## Licensing
+
+Project-original `unix-1970-transition` material is normally licensed under
+[`GPL-3.0-only`](LICENSE). This is a mixed-provenance repository: imported,
+restored, and historical material retains its applicable notices and is not
+silently relicensed by the project license. Generated images and preserved
+eras may inherit constraints from incorporated sources. See
+[`LICENSES/README.md`](LICENSES/README.md) for the authoritative path-level
+policy and the distinction between provenance and licensing.
+
 ## What works now
 
 Stages 0–3 and Stages 4A–4C are complete. The repository contains reproducible
@@ -51,8 +61,8 @@ and intended semantics are now frozen in
 provisional core-only execution/RAM and filesystem/data-structure contracts
 are complete. Repository-aware integration has now closed the Stage-3 gold
 round trip: native PDP-7 `as11` output is transported without host encoding
-and executes as Stage-3B test L on the PDP-11/20. The next implementation
-KL11 polling input/output diagnostic is now complete: two independently
+and executes as Stage-3B test L on the PDP-11/20. The KL11 polling
+input/output diagnostic is also complete: two independently
 injected bytes were received, saved, and echoed by native-`as11`-produced
 machine code. U1 now also proves low-core vector/RTI behavior, interrupt-driven
 KL11 receive/transmit, diagnostic TRAP entry/return, and a sixteen-block RAM

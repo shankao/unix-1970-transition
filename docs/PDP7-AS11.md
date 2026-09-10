@@ -296,7 +296,7 @@ implementation's 48/10 stress result; it does not promise that every larger
 successor executable retains the same maximum. Stage 4C guarantees those
 semantics remain available, the KA11 encoder is correct, and the current
 Stage-3-shaped 17/5 bootstrap workload fits with substantial margin. The
-Unix-driven `as11` completion gate owns the final textual object map, combined
+workload-driven B1 `as11` closure gate owns the final textual object map, combined
 bootstrap-sufficient capacity, clean exhaustion behavior, and documented
 safety margin. This preserves the
 48/10 evidence without turning it into the wrong substage gate. Stage 4C is
@@ -309,7 +309,7 @@ not changed to close it.
   engine; no target encoding.
 - **4C: complete.** KA11 encoding and current bootstrap-shaped feasibility are
   independently verified; the measured capacity frontier remains evidence.
-- **Unix-driven `as11` completion:** finalize the textual map and establish
+- **B1 workload-driven `as11` closure:** finalize the textual map and establish
   guarded, bootstrap-sufficient integrated capacity and safety margin.
 - **Stage-3 gold round trip: complete.** The readable Stage-3B test-L fixture
   is assembled by PDP-7 B `as11`; class-M tooling parses its 110 native
@@ -317,11 +317,12 @@ not changed to close it.
   deposits those exact words, and observes `D` on the PDP-11/20. The host does
   not encode or replace instructions.
 
-Stage 4C is complete; the Unix-driven `as11` completion gate has not started.
+Stage 4C is complete; B1 is in progress because U1 has already supplied its
+first workload-driven extension set.
 Its implemented mnemonic set is a validated encoder nucleus and B-bootstrap
 test corpus derived from Stage 3, not the final historical requirement for
 `as11`. The provisional v1 PDP-7 UNIX migration corpus is now frozen in
-[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). The completion gate will choose
-additional instructions or directives from that real workload and judge final
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). B1 will choose additional
+instructions or directives from real U and B workloads and judge final
 capacity against selected bootstrap/migration inputs rather than assembler
 completeness or the Stage-3 corpus alone.

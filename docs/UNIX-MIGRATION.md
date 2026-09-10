@@ -341,5 +341,6 @@ First Edition's richer persistent filesystem. High-level algorithms and the
 block-I/O boundary should survive RF11 arrival, but persistent metadata may
 legitimately evolve; RF11 is not promised to be a metadata-free backend swap.
 
-The next gate inspects current repository implementation reality and produces
-a bounded first-slice plan. It does not authorize implementation automatically.
+That repository-aware gate was subsequently completed as R5, followed by the
+completed U1 bare-machine substrate. U2 is now the next Unix implementation
+milestone, and still requires an explicitly bounded implementation task.

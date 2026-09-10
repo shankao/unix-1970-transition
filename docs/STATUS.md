@@ -36,7 +36,13 @@ with the December 1970 disk arrival—not the rest of 1971 or First Edition.
   - [x] Provisional core-only execution/RAM-layout contract v1
   - [x] Provisional filesystem/kernel data-structure contract v1
   - [x] Repository-aware implementation inspection
-- [ ] **B1–B7 bootstrap track** — future work remains open.
+- [ ] **B1 — Workload-driven as11 closure** — IN PROGRESS.
+  - [x] B1.1 — Native as11 -> exact KA11 execution path
+  - [x] B1.2 — First workload-driven extensions: `rti`, `trap`, `bit`, `bic`,
+    `bis`
+  - [ ] B1.3–B1.6 — workload additions, final contract, realistic capacity,
+    and clean exhaustion/safety envelope
+- [ ] **B2–B7 bootstrap track** — future, independently dependency-gated.
 - [x] **U1 — Bare PDP-11 machine substrate**
   - [x] U1.1 — Stage-3 gold round trip
   - [x] U1.2 — KL11 polling input/output
@@ -49,6 +55,7 @@ with the December 1970 disk arrival—not the rest of 1971 or First Edition.
 - [x] Canonical active machine configs
 - [x] First PDP-11 cross-development era preserved
 - [x] Stable R1–R5 / B1–B7 / U1–U7 hierarchy recorded
+- [x] Licensing/provenance policy frozen before U2 implementation
 
 Completion commits verified in Git:
 
@@ -143,8 +150,8 @@ required encodings with 160 words between the B stack label and global arena,
 105 more than the 38/10 case. The 48/10 failure is a capacity regression, not
 loss of Stage 4B semantics. Stage 4C therefore passes its encoder and current
 bootstrap-feasibility contract. No capacity reduction has been accepted;
-final capacity and clean exhaustion behavior belong to the Unix-driven
-`as11` completion gate.
+final capacity and clean exhaustion behavior belong to the workload-driven
+B1 `as11` closure gate.
 
 The subsequent Stage-3 gold integration checkpoint evolves the authoritative
 image to SHA-256
@@ -376,11 +383,11 @@ is unknown. `dc0` has high historical uncertainty. Core-only UNIX is very high
 technical and historical risk and may fail without invalidating the completed
 or “Across the Floor” milestones. See PLAN’s risk table.
 
-## Do not do yet
+## Do not do without a bounded task
 
-- Do not implement `b11`, tape records/loaders, `dc0`, or any UNIX stage.
-- Do not port `s1`–`s8` responsibilities or commands during the initial
-  bare-machine slices.
+- Do not begin U2, `b11`, tape records/loaders, `dc0`, or later Unix work
+  without an explicitly scoped task and its dependency gate.
+- Do not pull U3/U4 process or command work into a bounded U2 slice.
 - Do not treat the provisional memory boundaries or RAM-block geometry as
   recovered history, or mistake the common dynamic arena for a historically
   attested fixed filesystem/process partition.

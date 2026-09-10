@@ -51,18 +51,95 @@ implementation rather than inventing a new apparent stage afterward.
 
 ### Bootstrap / Ritchie-oriented track
 
-- [ ] **B1 — UNIX-driven as11 completion**
-  - [ ] Add workload-required instructions and directives only.
-  - [ ] Establish realistic workload capacity and clean exhaustion.
+- [ ] **B1 — Workload-driven as11 closure** (IN PROGRESS)
+  - [x] **B1.1 — Native as11 -> exact KA11 execution path proven**
+  - [x] **B1.2 — First workload-driven extension set proven**: `rti`,
+    `trap`, `bit`, `bic`, and `bis`.
+  - [ ] **B1.3 — Add further mnemonics/directives only when U/B workloads
+    require them**
+  - [ ] **B1.4 — Freeze the final as11 output/map/language contract** after
+    real byte, data, syscall, and compiler workloads expose what is needed.
+  - [ ] **B1.5 — Characterize capacity with realistic U and B workloads**
+  - [ ] **B1.6 — Establish clean exhaustion/error behavior and the final
+    bootstrap safety envelope**
 - [ ] **B2 — PDP-7-hosted b11 cross-compiler**
+  - [ ] **B2.0 — Freeze b11 provenance/source strategy and target-emission
+    contract**
+  - [ ] **B2.1 — Map characterized PDP-7 B semantics/emission vocabulary onto
+    PDP-11 threaded-B operators**
+  - [ ] **B2.2 — Produce readable as11 source for characterized B constructs**
+  - [ ] **B2.3 — Cover selected-corpus constants, globals, autos, control,
+    calls, returns, unary forms, and vector forms**
+  - [ ] **B2.4 — Native PDP-7 deterministic compiler-output regression**
 - [ ] **B3 — B -> b11 -> as11 -> PDP-11 integration**
+  - [ ] **B3.1 — Close threaded-runtime operators required by selected
+    compiled fixtures**
+  - [ ] **B3.2 — Add only as11 capabilities forced by b11 output**
+  - [ ] **B3.3 — Native PDP-7 B source -> b11 -> native as11**
+  - [ ] **B3.4 — Execute exact PDP-7-produced words on PDP-11**
+  - [ ] **B3.5 — Nontrivial end-to-end regression with no host target-code
+    generation**
 - [ ] **B4 — Paper-tape transport**
+  - [ ] **B4.0 — Research/freeze tape record and PDP-11 loader contract**
+  - [ ] **B4.1 — Produce exact tape bytes through the PDP-7 punch path**
+  - [ ] **B4.2 — Load through the PDP-11 PTR/bootstrap path**
+  - [ ] **B4.3 — Prove tape bytes -> memory identity**
+  - [ ] **B4.4 — Replace modern deposit for one already-proven payload**
 - [ ] **B5 — Across the Floor**
-- [ ] **B6 — Small B calculator probe**
-- [ ] **B7 — Historically constrained dc0**
+  - [ ] **B5.1 — Edit B source on PDP-7**
+  - [ ] **B5.2 — Native b11 -> as11 -> paper-tape production**
+  - [ ] **B5.3 — Carry the unchanged tape representation to PDP-11
+    PTR/loader**
+  - [ ] **B5.4 — Execute on PDP-11 and observe behavior corresponding to the
+    source change**
+  - [ ] **B5.5 — Repeat the complete workflow with no host-side target-code
+    generation**
+- [ ] **B6 — Small B calculator confidence probe** (OPTIONAL)
+  - [ ] **B6.1 — Parser/stack/control-flow workload**
+  - [ ] **B6.2 — Software-arithmetic workload**
+  - [ ] **B6.3 — Complete reconstructed development/transport execution**
+- [ ] **B7 — Historically constrained dc0** (high uncertainty; non-blocking)
+  - [ ] **B7.0 — Historical feature/provenance research gate**
+  - [ ] **B7.1 — Freeze minimal number representation, stack, parser, and
+    evidenced command set**
+  - [ ] **B7.2 — Implement the evidenced multiprecision arithmetic nucleus**
+  - [ ] **B7.3 — Run dc0 through the reconstructed B/runtime path**
+  - [ ] **B7.4 — Run through the complete paper-tape path**
+  - [ ] **B7.5 — Preserve evidence and distinguish attested behavior from
+    reconstruction**
 
 This track is parallel. It is not a mandatory prerequisite chain for the UNIX
-track.
+track. The Ritchie-oriented and Thompson-oriented names describe conceptual
+emphasis, not exclusive authorship; the historical work was collaborative and
+crossed these boundaries.
+
+B1 receives requirements from real Unix and B workloads and closes only after
+those workloads establish the needed language and its capacity/error envelope.
+The Stage-4C static remainder is therefore evidence, not the final limit. B2.0
+must record whether `b11` closely adapts the GPL restoration compiler or is a
+new implementation of the behavioral contract, then construct an explicit
+PDP-7 emission -> PDP-11 representation -> runtime operator -> `as11`
+capability matrix before implementation.
+
+B4 is independently actionable from the stable U1 payloads and neither waits
+for B2/B3 nor blocks U2. B5, dependent on B3 plus B4, is the central historical
+cross-development culmination. B6 is only an engineering confidence probe and
+blocks nothing. B7 depends on its own research and sufficient B/runtime/tape
+infrastructure; it is historically valuable but blocks neither Unix nor B5.
+
+The dependency shape is:
+
+```text
+real U workloads ----+
+                     +--> workload-forced as11 growth --> eventual B1 closure
+real B workloads ----+
+
+stable U1 payloads ------> B4 paper-tape work
+
+B2 --> B3 --+
+             +--> B5 Across the Floor
+B4 ----------+
+```
 
 ### UNIX / Thompson-oriented migration track
 
@@ -115,6 +192,10 @@ U1.3 through U1.6 were completed as one checklist within the already-defined
 U1 milestone. Technical dependencies determined coding order, but they were
 not four successive project stages. This same checkbox rule governs later
 milestones: incomplete items are refined beneath their existing identifier.
+Several adjacent checkboxes may be authorized as one bounded implementation
+slice when they are tightly coupled. Such a task still requires an explicit
+upper scope boundary, stop condition, and validation; a checkbox need not
+become a separate prompt or commit.
 
 The separate preservation view is:
 
@@ -251,14 +332,15 @@ Stage 4C is also the first checkpoint expected to maintain a short native
   and B-bootstrap test corpus, not the final historically derived assembler
   requirement.
 
-#### Unix-driven `as11` completion gate
+#### Workload-driven `as11` closure gate (B1)
 
-**Status: NOT STARTED**
+**Status: IN PROGRESS**
 
 - **Objective:** integrate 4B and 4C into a genuine two-pass PDP-11 assembler
   written in B and running on the PDP-7. Final output, mnemonic/directive
-  scope, and resource tests are driven by the audited migration corpus rather
-  than completeness for its own sake.
+  scope, and resource tests are driven by audited Unix and B workloads rather
+  than completeness for its own sake. U1 already forced and validated `rti`,
+  `trap`, `bit`, `bic`, and `bis` beyond the Stage-4C nucleus.
 - **Gate:** repeatable assembly of representative multi-fragment sources on
   PDP-7, with the final textual address/word map, stable symbols, output,
   clean memory-exhaustion behavior, realistic bootstrap capacity, and a
@@ -291,6 +373,12 @@ executes those exact records to print `D`.
   supports comparison.
 - **Major unknowns:** original source, structure, emitted syntax, and complete
   operator mapping are lost.
+- **Initial gate (B2.0):** before implementation, freeze whether `b11` is a
+  close adaptation of Robert Swierczek/DoctorWkt GPL restoration source or a
+  new implementation of the recorded behavioral contract. Retain upstream
+  GPL attribution for a close adaptation. Record a matrix from each selected
+  PDP-7 B semantic/emission operation to its intended PDP-11 threaded form,
+  existing or missing Stage-3 operator, and required `as11` capability.
 - **Dependencies:** the Stage 1/3 contracts and enough verified `as11`
   capability for the compiler's actual output.
 - **Gate:** representative B constructs compiled on PDP-7 produce `as11`
@@ -353,7 +441,7 @@ if later UNIX reconstruction proves infeasible.
 
 ### Small machine-word RPN calculator probe
 
-**Status: NOT STARTED**
+**Status: OPTIONAL / NOT STARTED**
 
 - **Objective:** build a small standalone B calculator with console I/O,
   parser, stack/data structures, loops, calls, and `+ - * /`, using software
@@ -361,7 +449,7 @@ if later UNIX reconstruction proves infeasible.
 - **Evidence basis:** a technical systems test, not a historical program.
 - **Major unknowns:** runtime/library breadth, I/O robustness, arithmetic cost.
 - **Dependencies:** sufficient standalone B runtime, cross tools, and the
-  intended transfer path.
+  intended transfer path. It blocks neither B5, B7, nor Unix work.
 - **Gate:** examples such as `2 3 + p -> 5` and `6 7 * p -> 42` work through
   the full PDP-7/tape/PDP-11 chain.
 - **Provenance:** B/M project test, not claimed original.
@@ -393,7 +481,7 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Bare PDP-11/20 machine substrate
 
-**Status: MACHINE-LAYER RESEARCH COMPLETE; IMPLEMENTATION NOT STARTED**
+**Status: U1 COMPLETE**
 
 - **Objective:** establish only the machine services required by the selected
   core-only workload: vectors, stack, console, trap/syscall entry, and a
@@ -411,8 +499,10 @@ when selected PDP-7 responsibilities run on the PDP-11.
   registers/vectors/interrupt behavior, minimum initialization, and
   conservative RAM user/backing-store organization, with uncertainties
   explicit.
-- **Later implementation gate:** each selected substrate interface is
-  demonstrated on the diskless 24 KB PDP-11 without importing later UNIX.
+- **Implementation gate result:** U1.1–U1.6 demonstrate exact native-`as11`
+  execution, polling and interrupt-driven KL11 I/O, real low-core vector/RTI
+  behavior, diagnostic TRAP entry/return, and the sixteen-block RAM primitive
+  on the diskless 24 KB PDP-11 without importing later UNIX.
 - **Provenance:** primarily B, with A documentation and M verification.
 
 ### Core-only execution and RAM-layout contract

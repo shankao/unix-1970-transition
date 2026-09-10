@@ -81,6 +81,14 @@ If imported, retain:
 - cryptographic hash of imported source where practical;
 - local modifications as separate commits or patches.
 
+Historical provenance and copyright license are separate dimensions. An
+`A1 -> B` ancestry statement does not itself grant or identify redistribution
+terms. Before copying, modifying, or closely adapting material, apply the
+policy in [`../LICENSES/README.md`](../LICENSES/README.md) and record both its
+source relationship and applicable license. Project-original material
+normally uses `GPL-3.0-only`; imports and close derivatives retain their
+applicable upstream notices.
+
 ## Failure policy
 
 When a stage fails:

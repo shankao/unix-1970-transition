@@ -16,6 +16,11 @@ This repository reconstructs a historically documented 1970 PDP-7 -> PDP-11 tran
 2. Identify the current roadmap stage and its gate.
 3. Check whether the requested change relies on a historical assertion. If so, verify/add the source in `docs/SOURCES.md` or `evidence/` before encoding the assertion in code.
 4. Do not import third-party source until licensing/provenance is recorded.
+   Read `LICENSES/README.md` before copying historical source, modifying an
+   import, closely deriving new source from upstream implementation, or moving
+   code between imported and project-original areas. New genuinely
+   project-original files normally use `SPDX-License-Identifier:
+   GPL-3.0-only`; derivation and retained upstream notices take precedence.
 5. Consume historical findings already recorded in `docs/SOURCES.md`, design
    documents, and `evidence/` instead of repeating broad research. New broad
    research is appropriate only for a genuinely unresolved question that
@@ -79,11 +84,10 @@ Never describe B/C/M material as original Bell Labs code.
 - Stages 4A–4C, the provisional v1 migration-corpus audit, the bare KA11
   machine-layer contract, provisional execution/RAM contract v1, and
   provisional filesystem/data-structure contract v1 are complete. The
-  Stage-3 gold round trip and KL11 polling diagnostic are also complete. The
-  next bounded gate is low-core vector entry and RTI return. Do not implement
-  structures,
-  start kernel/command ports, or skip to `b11`, tape transport, `dc`, or later
-  UNIX work before that contract is defined and passed.
+  Stage-3 gold round trip, KL11 polling diagnostic, and all U1 bare-machine
+  substrate checkboxes are complete. U2 is the next Unix implementation
+  milestone; do not begin it without an explicitly bounded implementation
+  task, or skip to U3/U4/RF11 work.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
 - Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the
