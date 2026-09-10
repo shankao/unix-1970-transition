@@ -66,9 +66,12 @@ input/output diagnostic is also complete: two independently
 injected bytes were received, saved, and echoed by native-`as11`-produced
 machine code. U1 now also proves low-core vector/RTI behavior, interrupt-driven
 KL11 receive/transmit, diagnostic TRAP entry/return, and a sixteen-block RAM
-storage primitive. The next milestone is the U2 filesystem nucleus. The current
-`as11` encoder remains a validated bootstrap nucleus, not the final
-specification of the assembler.
+storage primitive. The current `as11` encoder remains a validated bootstrap
+nucleus, not the final specification of the assembler. These results prove
+code-generation
+provenance, but their class-M SIMH deposits do not prove historical transport.
+U1 is therefore reopened only for U1.7 mechanical-load acceptance. B4
+paper-tape transport is next; U2 follows after that acceptance gap is closed.
 
 Active development enters the machines through the plain canonical
 configurations `machines/pdp7/pdp7.simh` and `machines/pdp11/pdp11.simh`.

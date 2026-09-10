@@ -478,9 +478,10 @@ The RAM primitive uses one sixteen-bit availability map for sixteen 512-byte
 blocks, reserves blocks 0–1 from dynamic allocation, and proves distinct
 allocation, clean exhaustion, free/reuse, address bounds, and full-block copy
 integrity. It has no inode, directory, descriptor, process, or filesystem
-semantics. U1 is complete and U2 is next; no new era is created because this
-remains bare cross-developed substrate rather than a persistent Unix
-environment.
+semantics. This completed U1.1–U1.6 and, at that checkpoint, closed the U1
+parent with U2 next. D0034 later adds the missing transport-acceptance item and
+reopens only the parent. No new era was created because this remains bare
+cross-developed substrate rather than a persistent Unix environment.
 
 ## D0033 — Freeze mixed-provenance licensing and workload-driven roadmap policy
 
@@ -494,7 +495,8 @@ ancestry (A1/A2/B/C/D) and copyright license are separate dimensions; future
 work records both when relevant. This resolves D0007 without changing any
 upstream notice or preserved artifact.
 
-U1 is complete and U2 remains the next Unix implementation milestone. B1 is
+At that policy checkpoint U1 was considered complete and U2 next; D0034
+refines the parent acceptance without changing any U1.1–U1.6 result. B1 is
 already in progress: the native exact-word execution path and the U1-forced
 `rti`, `trap`, `bit`, `bic`, and `bis` extension set are proven. Further
 assembler closure is driven by real U and B workloads. B4 can proceed from
@@ -505,3 +507,42 @@ B7 is valuable but high-uncertainty and non-blocking.
 Adjacent checkboxes may be completed in one explicitly bounded task when they
 form a tightly coupled slice. The task must retain a stated upper boundary,
 stop condition, and validation; this does not create new roadmap stages.
+
+## D0034 — Require historical transport acceptance before U2
+
+**Status:** accepted; refines D0032/D0033 parent status without invalidating
+U1.1–U1.6
+
+Code-generation provenance and transport provenance are independent. U1's
+native PDP-7 `as11` traces and exact SIMH deposits prove the former; deposits
+are class-M fast development transport and do not prove the latter. Fast
+deposit remains permanently valid for regression work provided the host never
+encodes, replaces, or repairs target words.
+
+Physical PDP-7-to-PDP-11 paper-tape transfer is historically attested, but the
+exact Bell Labs receiver loader and record format remain unknown. B4 adopts
+the contemporary DEC small bootstrap, Absolute Loader, and absolute-binary
+record mechanism as a class-C conservative reconstruction unless stronger
+Bell-specific evidence appears. This is not a claim that Bell Labs used that
+exact mechanism.
+
+Historical acceptance executes the bootstrap/loader on the emulated PDP-11,
+feeds the payload through its paper-tape reader, verifies loaded memory against
+the PDP-7-produced map, and reproduces the payload's prior result. Automation
+may deposit the plausible tiny front-panel bootstrap and operate switches,
+media, and consoles: the goal is the historical mechanism, not operator
+tedium.
+
+U1 gains U1.7 for that mechanical-load acceptance and its parent is reopened;
+all six completed implementation checkboxes remain complete. B4.0 research is
+complete, B4.1–B4.4 are the next implementation work, and their result supplies
+U1.7. U2 is not technically dependent on tape, but is deliberately held until
+this newly identified acceptance gap is repaired. Fast and historical modes
+will coexist afterward.
+
+U2 will have loaded PDP-11 code initialize its own RAM filesystem structures,
+rather than requiring a host-built 8 KB filesystem image. Exact historical
+initialization and later U4 command-population procedure remain unknown. U5
+development may use fast deposits, but U5 DONE requires the paper-tape/loader
+path for PDP-7-produced system and command payloads, a RAM-backed interactive
+environment, its command scenario, and the 24 KB capacity gate.

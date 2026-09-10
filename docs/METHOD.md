@@ -121,6 +121,25 @@ Stages 0–3 established a working method for the remaining project:
 8. Never promote descendant, binary-derived, or reconstructed code into
    original-source status merely because its behavior agrees.
 
+## Code-generation and transport provenance
+
+A target artifact has at least two independent provenance questions:
+
+- **Code-generation provenance:** did the reconstructed historical-side tools
+  genuinely produce the target words?
+- **Transport provenance:** did those words reach target memory through the
+  claimed historical or conservatively reconstructed transfer mechanism?
+
+Direct SIMH deposit of exact PDP-7-produced words proves the first and remains
+a valid fast development path; it does not prove the second. Historical
+acceptance requires the emulated PDP-11 to execute the selected loader and
+consume the tape through its reader. Modern automation may set switches,
+deposit the small bootstrap, attach media, start machines, drive consoles, and
+verify memory. The rule is: **reconstruct historical mechanisms, not historical
+operator tedium.** Fast development and historical acceptance transports
+coexist; do not impose the slower path on every inner regression once it has
+been proven.
+
 ## Historical-machine development record
 
 `machines/pdp7` is the authoritative evolving host and normal work runs there

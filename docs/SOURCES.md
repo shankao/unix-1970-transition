@@ -41,7 +41,11 @@ Supports:
 TUHS archive:
 https://www.tuhs.org/Archive/Documentation/OralHistory/transcripts/thompson.htm
 
-Supports the practical cross-development workflow, including the B-written PDP-11 assembler running on the PDP-7 and paper tape being moved from the PDP-7 to the PDP-11.
+Supports the practical cross-development workflow, including the B-written
+PDP-11 assembler running on the PDP-7, paper tape being moved from the PDP-7
+to the PDP-11, and fake/in-memory filesystem experimentation during the
+diskless period. It does not identify the tape record format or receiving
+loader.
 
 ### First Edition UNIX Programmer's Manual — 3 November 1971
 
@@ -170,6 +174,13 @@ https://www.bitsavers.org/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-A-D%20P
 Use for contemporary DEC paper-tape software, loader formats, device conventions, and PDP-11 programming details.
 
 If DEC Absolute Binary or another DEC loader is used in the experiment, its role must remain class C unless evidence establishes that Bell Labs used the same format.
+
+For B4.0 this handbook supports the conservative contemporary path: a small
+front-panel bootstrap (approximately fourteen words for the documented 24 KB
+placement), paper-tape reader, Absolute Loader, and fixed-address binary
+records. It establishes DEC availability and behavior, not Bell Labs adoption.
+Ken Thompson's oral history above establishes the Bell Labs tape workflow but
+does not identify its receiving loader or record format.
 
 ### PDP-11 Conventions / handbooks
 

@@ -80,7 +80,7 @@ implementation rather than inventing a new apparent stage afterward.
   - [ ] **B3.5 — Nontrivial end-to-end regression with no host target-code
     generation**
 - [ ] **B4 — Paper-tape transport**
-  - [ ] **B4.0 — Research/freeze tape record and PDP-11 loader contract**
+  - [x] **B4.0 — Freeze conservative paper-tape transport/loader contract**
   - [ ] **B4.1 — Produce exact tape bytes through the PDP-7 punch path**
   - [ ] **B4.2 — Load through the PDP-11 PTR/bootstrap path**
   - [ ] **B4.3 — Prove tape bytes -> memory identity**
@@ -121,8 +121,11 @@ new implementation of the behavioral contract, then construct an explicit
 PDP-7 emission -> PDP-11 representation -> runtime operator -> `as11`
 capability matrix before implementation.
 
-B4 is independently actionable from the stable U1 payloads and neither waits
-for B2/B3 nor blocks U2. B5, dependent on B3 plus B4, is the central historical
+B4 is independently actionable from the stable U1 payloads and does not wait
+for B2/B3. U2 does not technically depend on it. B4 is nevertheless the
+immediate next work because U1 transport acceptance is incomplete. B5,
+dependent on B3 plus
+B4, is the central historical
 cross-development culmination. B6 is only an engineering confidence probe and
 blocks nothing. B7 depends on its own research and sufficient B/runtime/tape
 infrastructure; it is historically valuable but blocks neither Unix nor B5.
@@ -134,7 +137,7 @@ real U workloads ----+
                      +--> workload-forced as11 growth --> eventual B1 closure
 real B workloads ----+
 
-stable U1 payloads ------> B4 paper-tape work
+stable U1 payloads ------> B4 paper-tape work --> U1.7 --> U1 acceptance
 
 B2 --> B3 --+
              +--> B5 Across the Floor
@@ -143,13 +146,15 @@ B4 ----------+
 
 ### UNIX / Thompson-oriented migration track
 
-- [x] **U1 — Bare PDP-11 machine substrate**
+- [ ] **U1 — Bare PDP-11 machine substrate** (implementation proven;
+  historical transport acceptance pending)
   - [x] **U1.1 — Stage-3 gold round trip**
   - [x] **U1.2 — KL11 polling input/output**
   - [x] **U1.3 — Low-core vectors + RTI**
   - [x] **U1.4 — Interrupt-driven KL11 console**
   - [x] **U1.5 — TRAP/syscall entry and return**
   - [x] **U1.6 — RAM storage primitive**
+  - [ ] **U1.7 — Historical/mechanical-load acceptance**
 - [ ] **U2 — Filesystem nucleus**
   - [ ] **U2.1 — RAM filesystem initialization**: inode bitmap, inode
     block, and root block.
@@ -175,9 +180,9 @@ B4 ----------+
   - [ ] **U4.4 — reduced streaming ls**
   - [ ] **U4.5 — sh**
 - [ ] **U5 — Core-only UNIX integration**
-  - [ ] **U5.1 — Initial RAM filesystem image**
+  - [ ] **U5.1 — Initial RAM filesystem state created by PDP-11 code**
   - [ ] **U5.2 — 24 KB capacity validation**
-  - [ ] **U5.3 — Core-only acceptance demonstration**
+  - [ ] **U5.3 — Core-only historical-transport acceptance demonstration**
 - [ ] **U6 — RF11/RS11 transition**
   - [ ] **U6.0 — Focused RF11 / first-disk research gate**
   - [ ] **U6.1 — RF11/RS11 raw block-I/O diagnostic**
@@ -196,6 +201,63 @@ Several adjacent checkboxes may be authorized as one bounded implementation
 slice when they are tightly coupled. Such a task still requires an explicit
 upper scope boundary, stop condition, and validation; a checkbox need not
 become a separate prompt or commit.
+
+A parent R/B/U milestone is complete only when its separately documented
+**Done when / observable outcome** passes, even if its implementation
+checkboxes are checked. U1 was therefore reopened without invalidating
+U1.1–U1.6: its missing historical transport acceptance is now U1.7.
+
+## Transport provenance and acceptance policy
+
+Code-generation provenance and transport provenance are independent. U1.1–U1.6
+proved that PDP-7-hosted `as11` produced the exact KA11 words subsequently
+verified and executed, but class-M SIMH deposits did not prove how those words
+would historically reach the PDP-11.
+
+Two test modes remain permanently legitimate:
+
+- **Fast development transport:** native PDP-7 `as11` -> exact `i`/`x`/`w`
+  words -> host parse/oracle/deposit -> PDP-11 execution. The host may
+  coordinate and verify but must never encode, replace, repair, or silently
+  alter target words. This remains the normal fast regression path and is not
+  historical transport.
+- **Historical acceptance transport:** PDP-7-hosted production -> paper-tape
+  representation -> emulated PDP-11 reader -> PDP-11-executed bootstrap and
+  loader -> identical target memory -> execution. The harness may automate
+  switches, deposits of the tiny bootstrap, tape attachment, starts, console
+  interaction, and verification.
+
+The general paper-tape transfer from PDP-7 to PDP-11 is historically attested.
+The exact late-1970 Bell Labs receiving loader and record format remain
+unknown. Unless stronger Bell-specific evidence appears, B4 adopts the
+contemporary DEC PDP-11 bootstrap plus Absolute Loader and fixed-address
+absolute-binary mechanism as a **class-C conservative reconstruction**, not as
+recovered Bell Labs practice. Contemporary documentation's approximately
+fourteen-word bootstrap near the top of 24 KB is a plausible front-panel load;
+large payloads are not.
+
+The durable ergonomics rule is: **reconstruct historical mechanisms, not
+historical operator tedium.** Authenticity requires that the PDP-11 execute the
+reconstructed loader and consume tape through the reader, not that a person
+manually toggle hundreds of words.
+
+### U1.7 done when / observable outcome
+
+U1.7 passes only when:
+
+1. an already-proven substantial U1 payload is produced by native PDP-7
+   `as11`;
+2. its paper-tape representation is produced without host target-code
+   generation;
+3. PDP-11 bootstrap/loader code consumes the tape through the emulated reader;
+4. loaded target memory is proven word-for-word identical to the native
+   PDP-7-produced map; and
+5. the loaded fixture reproduces its established U1 execution result.
+
+The two current U1 fixtures total 342 native words. B4 implementation should
+select the best substantial existing acceptance article rather than inventing
+a trivial transport-only payload. B4.1–B4.4 supply the mechanism for U1.7;
+only after it passes is the U1 parent complete and U2 again next.
 
 The separate preservation view is:
 
@@ -402,17 +464,21 @@ executes those exact records to print `D`.
 
 ### Paper-tape transport milestone
 
-**Status: NOT STARTED**
+**Status: IN PROGRESS — B4.0 COMPLETE; B4.1–B4.4 NEXT**
 
 - **Objective:** replace deposits with `PDP-7 execution -> PTP -> exact tape
   image -> PDP-11 PTR -> loader -> execution`. Tape is transport/loading, not
   part of `b11` or `as11`.
 - **Evidence basis:** physical transfer is directly attested; contemporary
-  DEC loading documentation supplies a possible fallback.
+  DEC loading documentation supplies the adopted conservative mechanism.
 - **Major unknowns:** exact Bell Labs record and loader convention. DEC
   Absolute Binary must not be attributed to Bell Labs without evidence.
-- **Dependencies:** a stable PDP-7-produced payload/map, a selected loader,
-  PDP-7 PTP, and PDP-11 PTR. It need not wait for unrelated B or UNIX work.
+- **Dependencies:** a stable PDP-7-produced payload/map, PDP-7 PTP, and
+  PDP-11 PTR. It need not wait for B2/B3 and is now actionable with U1 payloads.
+- **B4.0 decision:** absent stronger Bell-specific evidence, use the
+  contemporary DEC bootstrap plus Absolute Loader/absolute-binary mechanism
+  as class C. This selects a reconstruction; it does not resolve the class-D
+  Bell Labs format.
 - **Gate:** exact bytes produced through PDP-7 execution/PTP are attached
   unchanged to PTR, loaded, and executed. A host replacement tape fails it.
 - **Provenance:** transfer A; exact format D; DEC fallback C if selected;
@@ -481,7 +547,8 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Bare PDP-11/20 machine substrate
 
-**Status: U1 COMPLETE**
+**Status: RESEARCH AND U1.1–U1.6 IMPLEMENTATION COMPLETE; U1.7 ACCEPTANCE
+PENDING**
 
 - **Objective:** establish only the machine services required by the selected
   core-only workload: vectors, stack, console, trap/syscall entry, and a
@@ -591,7 +658,8 @@ have a proven PDP-7 `as11` integration path.
 
 ### U1 — Bare PDP-11 machine substrate
 
-**Status: COMPLETE**
+**Status: IMPLEMENTATION COMPLETE; PARENT REOPENED FOR U1.7 TRANSPORT
+ACCEPTANCE**
 
 The remaining U1 checklist was completed as one implementation sweep using two
 focused native-`as11` fixtures. Real KL11 RX/TX interrupts enter vectors
@@ -603,7 +671,19 @@ common allocator, proves exhaustion and free/reuse, and copies a full block
 without crossing its boundary. See `evidence/u1-substrate/`.
 
 This is machine substrate, not a tty layer, syscall surface, process system,
-or filesystem. **U2 — Filesystem nucleus** is next and has not started.
+or filesystem. U1.1–U1.6 remain complete. B4 paper-tape transport is next and
+will supply U1.7; U2 remains unimplemented until that acceptance gap is closed.
+
+When U2 begins, loaded PDP-11 code should itself clear and initialize the RAM
+inode area, root directory, free maps, tty special entries, and test state. U2
+does not require a host-generated/deposited 8 KB filesystem image. This is a
+reconstruction design, not a recovered historical initialization procedure.
+
+When U4 later populates real commands, paper tape is a natural input for their
+bytes, but Bell Labs' exact RAM-filesystem population procedure is unknown.
+Use the simplest reconstruction compatible with the established transport and
+filesystem interfaces rather than asserting tape, programmatic creation, or a
+mixture as historical fact.
 
 ## UNIX migration milestone — core-only PDP-11 UNIX
 
@@ -622,9 +702,13 @@ or filesystem. **U2 — Filesystem nucleus** is next and has not started.
 - **Major unknowns:** exact kernel, layout, interfaces, commands, filesystem.
 - **Dependencies:** the corpus-definition, machine, execution/RAM, and
   filesystem/data-structure contracts; an approved implementation ordering;
-  required bootstrap support; and the implemented bare-machine substrate.
-- **Gate:** reproducible core-only system mapped through the predecessor /
-  accounts / descendant evidence triangle with every inference exposed.
+  required bootstrap support; the accepted U1 substrate; and B4 historical
+  transport for final acceptance.
+- **Gate / observable outcome:** development may use fast deposits, but DONE
+  requires PDP-7-produced system/command payloads loaded through paper tape and
+  the real emulated loader into a 24 KB RAM-backed environment, followed by an
+  interactive shell and the expected `ls`, `cat`, redirection, `stat`, and
+  `rm` scenario within the memory budget.
 - **Provenance:** mainly B, constrained by A and B/C; unknowns D; harness M.
 
 Failure here does not invalidate the completed stages or independent bootstrap

@@ -42,15 +42,22 @@ with the December 1970 disk arrival—not the rest of 1971 or First Edition.
     `bis`
   - [ ] B1.3–B1.6 — workload additions, final contract, realistic capacity,
     and clean exhaustion/safety envelope
-- [ ] **B2–B7 bootstrap track** — future, independently dependency-gated.
-- [x] **U1 — Bare PDP-11 machine substrate**
+- [ ] **B2–B3 and B5–B7 bootstrap work** — future, independently
+  dependency-gated.
+- [ ] **B4 — Paper-tape transport** — NEXT / IN PROGRESS.
+  - [x] B4.0 — Conservative DEC bootstrap/Absolute Loader contract frozen
+  - [ ] B4.1–B4.4 — PDP-7 tape production, PDP-11 reader/loader, memory
+    identity, and historical acceptance execution
+- [ ] **U1 — Bare PDP-11 machine substrate** — implementation complete;
+  historical transport acceptance pending.
   - [x] U1.1 — Stage-3 gold round trip
   - [x] U1.2 — KL11 polling input/output
   - [x] U1.3 — Low-core vectors + RTI
   - [x] U1.4 — Interrupt-driven KL11 console
   - [x] U1.5 — TRAP/syscall entry and return
   - [x] U1.6 — RAM storage primitive
-- [ ] **U2 — Filesystem nucleus** — next; not started.
+  - [ ] U1.7 — Historical/mechanical-load acceptance
+- [ ] **U2 — Filesystem nucleus** — not started; follows U1.7.
 - [ ] **U3–U7 Unix migration track** — future work remains open.
 - [x] Canonical active machine configs
 - [x] First PDP-11 cross-development era preserved
@@ -377,6 +384,12 @@ bare-machine substrate into core-only
 PDP-11 UNIX. They converge on the PDP-11 and then on the December 1970 disk
 transition. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 
+The immediate work is B4.1–B4.4 paper-tape transport using an existing U1
+payload. U1.1–U1.6 retain their completed status, but U1's parent acceptance is
+reopened until U1.7 proves the loader/reader path and word identity. This is an
+acceptance refinement, not a technical dependency of U2; U2 is deliberately
+held until the gap is repaired.
+
 `as11` and `b11` are medium technical risk with material historical
 uncertainty. Tape transport is technically bounded but its exact Bell encoding
 is unknown. `dc0` has high historical uncertainty. Core-only UNIX is very high
@@ -385,7 +398,7 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Do not do without a bounded task
 
-- Do not begin U2, `b11`, tape records/loaders, `dc0`, or later Unix work
+- Do not begin U2, `b11`, `dc0`, or later Unix work
   without an explicitly scoped task and its dependency gate.
 - Do not pull U3/U4 process or command work into a bounded U2 slice.
 - Do not treat the provisional memory boundaries or RAM-block geometry as
@@ -404,14 +417,8 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Plan the first bounded **U2 filesystem nucleus** implementation slice from the
-completed U1 machine substrate and the provisional filesystem/data-structure
-contract. Use the completed native-`as11` transport as the target word path. Use
-[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md),
-[`PDP11-MACHINE-CONTRACT.md`](PDP11-MACHINE-CONTRACT.md),
-[`PDP11-EXECUTION-CONTRACT.md`](PDP11-EXECUTION-CONTRACT.md), and
-[`PDP11-FILESYSTEM-CONTRACT.md`](PDP11-FILESYSTEM-CONTRACT.md) as fixed
-inputs. Do not add unrelated assembler features, assign the Unix syscall
-number table, fix Stage-4C capacity, or start `b11`, tape, `dc`, U3 process,
-U4 command, or RF11 work. U2 implementation itself requires explicit
-authorization after that repository-aware plan.
+Implement the bounded **B4 paper-tape transport** path and use an already-proven
+substantial U1 fixture as the first acceptance article. Preserve fast direct
+deposit for development, but prove U1.7 through the emulated PDP-11 reader and
+executed loader, including target-memory identity and the fixture's existing
+result. Do not start U2, B2/B3/B5, or new target functionality in that task.

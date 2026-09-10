@@ -342,5 +342,19 @@ block-I/O boundary should survive RF11 arrival, but persistent metadata may
 legitimately evolve; RF11 is not promised to be a metadata-free backend swap.
 
 That repository-aware gate was subsequently completed as R5, followed by the
-completed U1 bare-machine substrate. U2 is now the next Unix implementation
-milestone, and still requires an explicitly bounded implementation task.
+U1.1–U1.6 bare-machine implementation. U1 is reopened only for U1.7 historical
+transport acceptance; B4 paper-tape transport is therefore next, with U2 held
+until that acceptance gap is repaired.
+
+U2 itself should load PDP-11 code and have that code clear and initialize the
+RAM inode area, root directory, free maps, tty special entries, and test state.
+It does not require a host-generated, preconstructed 8 KB filesystem image;
+the exact historical initialization method remains unknown. Later, when U4
+commands must populate that filesystem, paper tape is a natural reconstructed
+input path, but whether Bell Labs used tape-loaded contents, programmatic
+initialization, or a mixture is unresolved.
+
+Fast exact-word deposit remains available throughout U2–U5 development. U5
+may integrate by that fast path, but its DONE outcome requires PDP-7-produced
+system/command payloads loaded through B4's historical acceptance transport,
+the RAM-backed environment, interactive shell scenario, and 24 KB budget.

@@ -78,16 +78,22 @@ Never describe B/C/M material as original Bell Labs code.
 - Add automated regression vectors for reconstructed instruction encoders, runtime operators, tape formats, and compiler output.
 - Isolate failures at boundaries; do not compensate by silently adding later hardware/software.
 - The PDP-11 target remains 11/20, 24 KB, diskless, without KE11 until a recorded decision changes that.
-- Modern tools may verify output, but the final historical demonstration must make the program bytes on the PDP-7 side and transfer them through the paper-tape path.
+- Code-generation and transport provenance are separate. Modern tools may
+  parse, verify, deposit, and run exact PDP-7-produced words for fast
+  development, but this does not satisfy historical transport acceptance.
+  Such acceptance must execute the PDP-11 loader and consume the tape through
+  the emulated reader; automation may perform historically manual switch and
+  console operations. Reconstruct historical mechanisms, not operator tedium.
 - Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
 - Stages 4A–4C, the provisional v1 migration-corpus audit, the bare KA11
   machine-layer contract, provisional execution/RAM contract v1, and
   provisional filesystem/data-structure contract v1 are complete. The
   Stage-3 gold round trip, KL11 polling diagnostic, and all U1 bare-machine
-  substrate checkboxes are complete. U2 is the next Unix implementation
-  milestone; do not begin it without an explicitly bounded implementation
-  task, or skip to U3/U4/RF11 work.
+  substrate implementation checkboxes U1.1–U1.6 are complete. U1 is reopened
+  only for U1.7 historical transport acceptance. B4 paper-tape transport is
+  next and supplies that acceptance; do not begin U2 or skip to U3/U4/RF11
+  before it passes.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
 - Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the
