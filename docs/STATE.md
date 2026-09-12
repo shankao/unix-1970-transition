@@ -274,6 +274,23 @@ exhaustion returns `-1`; free/reuse returns block 2; and a full block-2 copy
 preserves words 0, 1, and 377 while the block-3 sentinel remains unchanged.
 This is volatile machine-substrate evidence only. No preserved era changed.
 
+## B4 paper-tape transport state
+
+`artifacts/u1-interrupt.ptap` and `artifacts/u1-ram.ptap` are deterministic
+outputs captured from PDP-7 PTP. They contain 131 and 211 native `as11` words,
+each as a little-endian two-byte DEC absolute record, followed by an odd
+transfer record that halts the Absolute Loader.
+
+The historical runner deposits only the fourteen-word front-panel bootstrap
+at `057744`, enables PTR, and executes it. It loads the 72-word DEC Absolute
+Loader at `057474`–`057743`, which reads each target tape. All 342 loaded words
+are examined against the accepted native traces before execution. See
+`evidence/b4/` for hashes, checksums, and transcripts. No emulator config or
+preserved era changed. The final authoritative PDP-7 image SHA-256 is
+`0a7a3589b13a4b4732b20cfa5c1afe5ed14474e2a62670add1e29016b8525dba`;
+read-only `fsck7` exits 0 with only the established inode-38/block-2987
+self-revisit.
+
 ## Stage 0 closure
 
 Captured host/tool baseline: Ubuntu 26.04.1 LTS, Linux

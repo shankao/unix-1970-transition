@@ -99,15 +99,15 @@ implementation rather than inventing a new apparent stage afterward.
   - [ ] **B3.4 — Execute exact PDP-7-produced words on PDP-11**
   - [ ] **B3.5 — Nontrivial end-to-end regression with no host target-code
     generation**
-- [ ] **B4 — Paper-tape transport**
+- [x] **B4 — Paper-tape transport**
   - **Done when:** a PDP-7-produced payload traverses the reconstructed tape
     and actual PDP-11 reader/bootstrap/loader path, arrives word-for-word
     intact, and reproduces its known execution result.
   - [x] **B4.0 — Freeze conservative paper-tape transport/loader contract**
-  - [ ] **B4.1 — Produce exact tape bytes through the PDP-7 punch path**
-  - [ ] **B4.2 — Load through the PDP-11 PTR/bootstrap path**
-  - [ ] **B4.3 — Prove tape bytes -> memory identity**
-  - [ ] **B4.4 — Replace modern deposit for one already-proven payload**
+  - [x] **B4.1 — Produce exact tape bytes through the PDP-7 punch path**
+  - [x] **B4.2 — Load through the PDP-11 PTR/bootstrap path**
+  - [x] **B4.3 — Prove tape bytes -> memory identity**
+  - [x] **B4.4 — Replace modern deposit for one already-proven payload**
 - [ ] **B5 — Across the Floor**
   - **Done when:** editing B on PDP-7 and repeating native `b11` -> `as11` ->
     tape -> PDP-11 loading produces visibly source-dependent behavior with no
@@ -168,7 +168,7 @@ real U workloads ----+
                      +--> workload-forced as11 growth --> eventual B1 closure
 real B workloads ----+
 
-stable U1 payloads ------> B4 paper-tape work --> U1.7 --> U1 acceptance
+stable U1 payloads ------> B4 paper-tape work --> U1.7 --> U1 acceptance DONE
 
 B2 --> B3 --+
              +--> B5 Across the Floor
@@ -177,8 +177,7 @@ B4 ----------+
 
 ### UNIX / Thompson-oriented migration track
 
-- [ ] **U1 — Bare PDP-11 machine substrate** (implementation proven;
-  historical transport acceptance pending)
+- [x] **U1 — Bare PDP-11 machine substrate**
   - **Done when:** U1.1–U1.6 work together and U1.7 proves an existing
     substantial payload through historical/mechanical loading.
   - [x] **U1.1 — Stage-3 gold round trip**
@@ -187,7 +186,7 @@ B4 ----------+
   - [x] **U1.4 — Interrupt-driven KL11 console**
   - [x] **U1.5 — TRAP/syscall entry and return**
   - [x] **U1.6 — RAM storage primitive**
-  - [ ] **U1.7 — Historical/mechanical-load acceptance**
+  - [x] **U1.7 — Historical/mechanical-load acceptance**
 - [ ] **U2 — Filesystem nucleus**
   - **Done when:** one integrated PDP-11 fixture initializes and exercises the
     real RAM filesystem, file/metadata lifecycle, reuse invariants, and console
@@ -228,7 +227,11 @@ B4 ----------+
   - **Done when:** historically transported PDP-7-produced payloads yield the
     interactive RAM-backed command scenario within 24 KB and without host
     target-code generation.
-  - [ ] **U5.1 — Initial RAM filesystem state created by PDP-11 code**
+  - [ ] **U5.1 — Integrated initial RAM-filesystem population**
+    - PDP-11 U2 code initializes filesystem metadata; command and fixture
+      contents use the selected filesystem/transport interfaces. The PDP-11
+      need not manufacture command binaries. Bell Labs' exact temporary-RAM
+      filesystem population mechanism remains unknown.
   - [ ] **U5.2 — 24 KB capacity validation**
   - [ ] **U5.3 — Core-only historical-transport acceptance demonstration**
 - [ ] **U6 — RF11/RS11 transition**
@@ -578,7 +581,7 @@ executes those exact records to print `D`.
 
 ### Paper-tape transport milestone
 
-**Status: IN PROGRESS — B4.0 COMPLETE; B4.1–B4.4 NEXT**
+**Status: COMPLETE**
 
 - **Objective:** replace deposits with `PDP-7 execution -> PTP -> exact tape
   image -> PDP-11 PTR -> loader -> execution`. Tape is transport/loading, not
@@ -661,8 +664,7 @@ when selected PDP-7 responsibilities run on the PDP-11.
 
 ### Bare PDP-11/20 machine substrate
 
-**Status: RESEARCH AND U1.1–U1.6 IMPLEMENTATION COMPLETE; U1.7 ACCEPTANCE
-PENDING**
+**Status: COMPLETE, INCLUDING U1.7 HISTORICAL TRANSPORT ACCEPTANCE**
 
 - **Objective:** establish only the machine services required by the selected
   core-only workload: vectors, stack, console, trap/syscall entry, and a
@@ -772,8 +774,7 @@ have a proven PDP-7 `as11` integration path.
 
 ### U1 — Bare PDP-11 machine substrate
 
-**Status: IMPLEMENTATION COMPLETE; PARENT REOPENED FOR U1.7 TRANSPORT
-ACCEPTANCE**
+**Status: COMPLETE**
 
 The remaining U1 checklist was completed as one implementation sweep using two
 focused native-`as11` fixtures. Real KL11 RX/TX interrupts enter vectors
@@ -785,8 +786,9 @@ common allocator, proves exhaustion and free/reuse, and copies a full block
 without crossing its boundary. See `evidence/u1-substrate/`.
 
 This is machine substrate, not a tty layer, syscall surface, process system,
-or filesystem. U1.1–U1.6 remain complete. B4 paper-tape transport is next and
-will supply U1.7; U2 remains unimplemented until that acceptance gap is closed.
+or filesystem. B4 now supplies U1.7 through the real PDP-7 PTP and PDP-11
+PTR/bootstrap/Absolute Loader path; both accepted U1 articles arrived exactly
+and reproduced their established results. U2 remains unimplemented and is next.
 
 When U2 begins, loaded PDP-11 code should itself clear and initialize the RAM
 inode area, root directory, free maps, tty special entries, and test state. U2

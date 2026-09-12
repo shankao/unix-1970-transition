@@ -1,0 +1,18 @@
+shankao project status
+
+working:
+ b
+ as11 two-pass parser and ka11 encoder nucleus
+ pdp7-produced words execute on pdp11
+ dec absolute tape records punched through pptout
+ pdp11 bootstrap and absolute loader acceptance
+
+known limits:
+ as11 final capacity and language are workload driven
+ dec loading is a contemporary substitute; bell loader unknown
+
+not yet working:
+ u2 filesystem nucleus
+ b11
+ pdp11 unix
+ rf11 storage

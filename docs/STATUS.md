@@ -44,20 +44,19 @@ with the December 1970 disk arrival—not the rest of 1971 or First Edition.
     and clean exhaustion/safety envelope
 - [ ] **B2–B3 and B5–B7 bootstrap work** — future, independently
   dependency-gated.
-- [ ] **B4 — Paper-tape transport** — NEXT / IN PROGRESS.
+- [x] **B4 — Paper-tape transport** — complete.
   - [x] B4.0 — Conservative DEC bootstrap/Absolute Loader contract frozen
-  - [ ] B4.1–B4.4 — PDP-7 tape production, PDP-11 reader/loader, memory
+  - [x] B4.1–B4.4 — PDP-7 tape production, PDP-11 reader/loader, memory
     identity, and historical acceptance execution
-- [ ] **U1 — Bare PDP-11 machine substrate** — implementation complete;
-  historical transport acceptance pending.
+- [x] **U1 — Bare PDP-11 machine substrate** — complete.
   - [x] U1.1 — Stage-3 gold round trip
   - [x] U1.2 — KL11 polling input/output
   - [x] U1.3 — Low-core vectors + RTI
   - [x] U1.4 — Interrupt-driven KL11 console
   - [x] U1.5 — TRAP/syscall entry and return
   - [x] U1.6 — RAM storage primitive
-  - [ ] U1.7 — Historical/mechanical-load acceptance
-- [ ] **U2 — Filesystem nucleus** — not started; follows U1.7.
+  - [x] U1.7 — Historical/mechanical-load acceptance
+- [ ] **U2 — Filesystem nucleus** — NEXT; not started.
 - [ ] **U3–U7 Unix migration track** — future work remains open.
 - [x] Canonical active machine configs
 - [x] First PDP-11 cross-development era preserved
@@ -368,9 +367,9 @@ Not currently known to survive:
 - exact core-only PDP-11 UNIX kernel source.
 
 The current RF11 plus one RS11 disk identification is a strong hypothesis,
-not proof of the exact Bell Labs physical unit. DEC Absolute Binary/Absolute
-Loader is only a possible class-C fallback if the Bell convention remains
-unknown; it is not established Bell Labs practice.
+not proof of the exact Bell Labs physical unit. B4 now uses DEC Absolute
+Binary/Absolute Loader as the demonstrated class-C substitute; it remains not
+established Bell Labs practice.
 
 ## Remaining roadmap and risk boundary
 
@@ -384,11 +383,11 @@ bare-machine substrate into core-only
 PDP-11 UNIX. They converge on the PDP-11 and then on the December 1970 disk
 transition. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 
-The immediate work is B4.1–B4.4 paper-tape transport using an existing U1
-payload. U1.1–U1.6 retain their completed status, but U1's parent acceptance is
-reopened until U1.7 proves the loader/reader path and word identity. This is an
-acceptance refinement, not a technical dependency of U2; U2 is deliberately
-held until the gap is repaired.
+B4 and U1.7 are complete. Two accepted U1 articles totaling 342 native
+PDP-7-assembled words were punched on the PDP-7, loaded through the PDP-11 PTR,
+fourteen-word bootstrap, and 72-word DEC Absolute Loader, compared exactly in
+memory, and replayed with their established results. U2 is now the immediate
+next implementation milestone and remains unimplemented.
 
 `as11` and `b11` are medium technical risk with material historical
 uncertainty. Tape transport is technically bounded but its exact Bell encoding
@@ -417,8 +416,7 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Implement the bounded **B4 paper-tape transport** path and use an already-proven
-substantial U1 fixture as the first acceptance article. Preserve fast direct
-deposit for development, but prove U1.7 through the emulated PDP-11 reader and
-executed loader, including target-memory identity and the fixture's existing
-result. Do not start U2, B2/B3/B5, or new target functionality in that task.
+Plan the bounded **U2 filesystem nucleus** implementation against its existing
+contract and acceptance outcome. Do not pull U3 process work or U4 commands
+into U2, and retain fast deposits for development plus historical transport for
+milestone acceptance where required.

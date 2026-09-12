@@ -1,0 +1,24 @@
+pre_sha256=b9b80e35a986bdf74aa3cd8ae165122cf2214dea0ba404b46d9df651dd559b9e
+post_sha256=aa324c93043243fe16e26223d43c1ea6439eb043815d68d62e89a9873ad83dfe
+pre_git_status:
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? artifacts/u1-interrupt.ptap
+?? artifacts/u1-ram.ptap
+?? evidence/b4-absolute-loader.json
+?? evidence/b4/
+?? src/pdp7/abspunch/
+?? tests/test_dec_abs.py
+?? tools/__pycache__/
+?? tools/dec_abs.py
+?? tools/run_b4_transport.py
+post_git_status:
+ M machines/pdp7/pdp7-unix/build/image-shankao.fs
+?? artifacts/u1-interrupt.ptap
+?? artifacts/u1-ram.ptap
+?? evidence/b4-absolute-loader.json
+?? evidence/b4/
+?? src/pdp7/abspunch/
+?? tests/test_dec_abs.py
+?? tools/__pycache__/
+?? tools/dec_abs.py
+?? tools/run_b4_transport.py

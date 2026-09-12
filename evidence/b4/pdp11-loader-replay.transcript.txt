@@ -1,0 +1,914 @@
+do machines/pdp11/pdp11.simh
+
+PDP-11 simulator V4.0-0 Current        simh git commit id: 8a4b3752
+sim> do machines/pdp11/pdp11.simh
+./machines/pdp11/pdp11.simh-3> set cpu 11/20
+%SIM-INFO: Disabling XQ which never existed on a Unibus system
+%SIM-INFO: RQ: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQB: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQC: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQD: RQDX3 controller not valid on a Unibus system, changing to UDA50
+CPU     11/20, autoconfiguration enabled, idle disabled
+        24KB
+PDP-11 simulator configuration
+
+CPU     11/20, autoconfiguration enabled, idle disabled
+SYSTEM  PDP-11 model options
+RHA     disabled
+RHB     disabled
+RHC     disabled
+RHD     disabled
+CLK     60Hz, address=17777546-17777547, vector=100, BR6
+PCLK    disabled
+PTR     disabled
+PTP     disabled
+TTI     7p, address=17777560-17777563, vector=60, BR4
+TTO     7p, address=17777564-17777567, vector=64, BR4
+TDC     disabled
+CR      disabled
+LPT     disabled
+DLI     disabled
+DLO     disabled
+DLCJI   disabled
+DLCJO   disabled
+DCI     disabled
+DCO     disabled
+DZ      disabled
+VH      disabled
+DH      disabled
+RC      disabled
+RF      disabled
+RK      disabled
+RL      disabled
+HK      disabled
+RX      disabled
+RY      disabled
+RP      disabled
+RPB     disabled
+RR      disabled
+RS      disabled
+RQ      disabled
+RQB     disabled
+RQC     disabled
+RQD     disabled
+TC      disabled
+TM      disabled
+TS      disabled
+TQ      disabled
+TU      disabled
+TA      disabled
+XQ      disabled
+XQB     disabled
+XU      disabled
+XUB     disabled
+KG      disabled
+DMC     disabled
+DUP     disabled
+DPV     disabled
+KDP     disabled
+KE      disabled
+ROM     disabled
+CH      disabled
+MB      disabled
+sim> set ptr enabled
+sim> attach ptr /tmp/b4-loader-m798uq45/DEC-11-L2PC-PO.ptap
+sim> deposit 057744 016701
+sim> deposit 057746 000026
+sim> deposit 057750 012702
+sim> deposit 057752 000352
+sim> deposit 057754 005211
+sim> deposit 057756 105711
+sim> deposit 057760 100376
+sim> deposit 057762 116162
+sim> deposit 057764 000002
+sim> deposit 057766 057400
+sim> deposit 057770 005267
+sim> deposit 057772 177756
+sim> deposit 057774 000765
+sim> deposit 057776 177550
+sim> go 057744
+
+HALT instruction, PC: 057500 (MOV PC,SP)
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/u1-interrupt.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 000034
+34:	002166
+sim> examine 000036
+36:	000000
+sim> examine 000060
+60:	002000
+sim> examine 000062
+62:	000200
+sim> examine 000064
+64:	002100
+sim> examine 000066
+66:	000200
+sim> examine 001000
+1000:	012706
+sim> examine 001002
+1002:	027000
+sim> examine 001004
+1004:	012737
+sim> examine 001006
+1006:	000100
+sim> examine 001010
+1010:	177560
+sim> examine 001012
+1012:	005767
+sim> examine 001014
+1014:	001772
+sim> examine 001016
+1016:	100375
+sim> examine 001020
+1020:	005037
+sim> examine 001022
+1022:	177560
+sim> examine 001024
+1024:	012701
+sim> examine 001026
+1026:	012345
+sim> examine 001030
+1030:	012702
+sim> examine 001032
+1032:	065432
+sim> examine 001034
+1034:	104407
+sim> examine 001036
+1036:	012345
+sim> examine 001040
+1040:	010067
+sim> examine 001042
+1042:	001762
+sim> examine 001044
+1044:	020127
+sim> examine 001046
+1046:	012345
+sim> examine 001050
+1050:	001007
+sim> examine 001052
+1052:	020227
+sim> examine 001054
+1054:	065432
+sim> examine 001056
+1056:	001004
+sim> examine 001060
+1060:	012767
+sim> examine 001062
+1062:	000001
+sim> examine 001064
+1064:	001742
+sim> examine 001066
+1066:	000000
+sim> examine 001070
+1070:	012767
+sim> examine 001072
+1072:	177777
+sim> examine 001074
+1074:	001732
+sim> examine 001076
+1076:	000000
+sim> examine 002000
+2000:	011667
+sim> examine 002002
+2002:	001012
+sim> examine 002004
+2004:	016667
+sim> examine 002006
+2006:	000002
+sim> examine 002010
+2010:	001006
+sim> examine 002012
+2012:	010046
+sim> examine 002014
+2014:	062767
+sim> examine 002016
+2016:	000001
+sim> examine 002020
+2020:	001000
+sim> examine 002022
+2022:	113700
+sim> examine 002024
+2024:	177562
+sim> examine 002026
+2026:	005767
+sim> examine 002030
+2030:	000746
+sim> examine 002032
+2032:	001003
+sim> examine 002034
+2034:	110067
+sim> examine 002036
+2036:	000752
+sim> examine 002040
+2040:	000402
+sim> examine 002042
+2042:	110067
+sim> examine 002044
+2044:	000746
+sim> examine 002046
+2046:	062767
+sim> examine 002050
+2050:	000001
+sim> examine 002052
+2052:	000724
+sim> examine 002054
+2054:	110067
+sim> examine 002056
+2056:	000724
+sim> examine 002060
+2060:	012767
+sim> examine 002062
+2062:	177777
+sim> examine 002064
+2064:	000714
+sim> examine 002066
+2066:	012737
+sim> examine 002070
+2070:	000100
+sim> examine 002072
+2072:	177564
+sim> examine 002074
+2074:	012600
+sim> examine 002076
+2076:	000002
+sim> examine 002100
+2100:	010046
+sim> examine 002102
+2102:	062767
+sim> examine 002104
+2104:	000001
+sim> examine 002106
+2106:	000714
+sim> examine 002110
+2110:	005767
+sim> examine 002112
+2112:	000666
+sim> examine 002114
+2114:	100006
+sim> examine 002116
+2116:	116737
+sim> examine 002120
+2120:	000662
+sim> examine 002122
+2122:	177566
+sim> examine 002124
+2124:	005067
+sim> examine 002126
+2126:	000652
+sim> examine 002130
+2130:	000414
+sim> examine 002132
+2132:	005037
+sim> examine 002134
+2134:	177564
+sim> examine 002136
+2136:	062767
+sim> examine 002140
+2140:	000001
+sim> examine 002142
+2142:	000642
+sim> examine 002144
+2144:	026727
+sim> examine 002146
+2146:	000636
+sim> examine 002150
+2150:	000002
+sim> examine 002152
+2152:	001003
+sim> examine 002154
+2154:	012767
+sim> examine 002156
+2156:	177777
+sim> examine 002160
+2160:	000626
+sim> examine 002162
+2162:	012600
+sim> examine 002164
+2164:	000002
+sim> examine 002166
+2166:	010146
+sim> examine 002170
+2170:	010246
+sim> examine 002172
+2172:	016600
+sim> examine 002174
+2174:	000004
+sim> examine 002176
+2176:	016001
+sim> examine 002200
+2200:	177776
+sim> examine 002202
+2202:	042701
+sim> examine 002204
+2204:	177400
+sim> examine 002206
+2206:	010167
+sim> examine 002210
+2210:	000572
+sim> examine 002212
+2212:	012002
+sim> examine 002214
+2214:	010066
+sim> examine 002216
+2216:	000004
+sim> examine 002220
+2220:	060102
+sim> examine 002222
+2222:	010267
+sim> examine 002224
+2224:	000600
+sim> examine 002226
+2226:	012602
+sim> examine 002230
+2230:	012601
+sim> examine 002232
+2232:	016700
+sim> examine 002234
+2234:	000570
+sim> examine 002236
+2236:	000002
+sim> examine 003000
+3000:	000000
+sim> examine 003002
+3002:	000000
+sim> examine 003004
+3004:	000000
+sim> examine 003006
+3006:	000000
+sim> examine 003010
+3010:	000000
+sim> examine 003012
+3012:	000000
+sim> examine 003014
+3014:	000000
+sim> examine 003016
+3016:	000000
+sim> examine 003020
+3020:	000000
+sim> examine 003022
+3022:	000000
+sim> examine 003024
+3024:	000000
+sim> examine 003026
+3026:	000000
+sim> examine 003030
+3030:	000000
+sim> go 001000
+AB
+HALT instruction, PC: 001070 (MOV #177777,3030)
+sim> examine 003012
+3012:	000101
+sim> examine 003014
+3014:	000102
+sim> examine 003022
+3022:	000002
+sim> examine 003024
+3024:	000004
+sim> examine 003006
+3006:	000002
+sim> examine 003004
+3004:	000007
+sim> examine 003026
+3026:	012354
+sim> examine 003020
+3020:	000004
+sim> examine 003030
+3030:	000001
+sim> quit
+Goodbye
+do machines/pdp11/pdp11.simh
+
+PDP-11 simulator V4.0-0 Current        simh git commit id: 8a4b3752
+sim> do machines/pdp11/pdp11.simh
+./machines/pdp11/pdp11.simh-3> set cpu 11/20
+%SIM-INFO: Disabling XQ which never existed on a Unibus system
+%SIM-INFO: RQ: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQB: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQC: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQD: RQDX3 controller not valid on a Unibus system, changing to UDA50
+CPU     11/20, autoconfiguration enabled, idle disabled
+        24KB
+PDP-11 simulator configuration
+
+CPU     11/20, autoconfiguration enabled, idle disabled
+SYSTEM  PDP-11 model options
+RHA     disabled
+RHB     disabled
+RHC     disabled
+RHD     disabled
+CLK     60Hz, address=17777546-17777547, vector=100, BR6
+PCLK    disabled
+PTR     disabled
+PTP     disabled
+TTI     7p, address=17777560-17777563, vector=60, BR4
+TTO     7p, address=17777564-17777567, vector=64, BR4
+TDC     disabled
+CR      disabled
+LPT     disabled
+DLI     disabled
+DLO     disabled
+DLCJI   disabled
+DLCJO   disabled
+DCI     disabled
+DCO     disabled
+DZ      disabled
+VH      disabled
+DH      disabled
+RC      disabled
+RF      disabled
+RK      disabled
+RL      disabled
+HK      disabled
+RX      disabled
+RY      disabled
+RP      disabled
+RPB     disabled
+RR      disabled
+RS      disabled
+RQ      disabled
+RQB     disabled
+RQC     disabled
+RQD     disabled
+TC      disabled
+TM      disabled
+TS      disabled
+TQ      disabled
+TU      disabled
+TA      disabled
+XQ      disabled
+XQB     disabled
+XU      disabled
+XUB     disabled
+KG      disabled
+DMC     disabled
+DUP     disabled
+DPV     disabled
+KDP     disabled
+KE      disabled
+ROM     disabled
+CH      disabled
+MB      disabled
+sim> set ptr enabled
+sim> attach ptr /tmp/b4-loader-m798uq45/DEC-11-L2PC-PO.ptap
+sim> deposit 057744 016701
+sim> deposit 057746 000026
+sim> deposit 057750 012702
+sim> deposit 057752 000352
+sim> deposit 057754 005211
+sim> deposit 057756 105711
+sim> deposit 057760 100376
+sim> deposit 057762 116162
+sim> deposit 057764 000002
+sim> deposit 057766 057400
+sim> deposit 057770 005267
+sim> deposit 057772 177756
+sim> deposit 057774 000765
+sim> deposit 057776 177550
+sim> go 057744
+
+HALT instruction, PC: 057500 (MOV PC,SP)
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/u1-ram.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 001000
+1000:	012706
+sim> examine 001002
+1002:	027000
+sim> examine 001004
+1004:	012700
+sim> examine 001006
+1006:	000000
+sim> examine 001010
+1010:	004467
+sim> examine 001012
+1012:	001110
+sim> examine 001014
+1014:	020027
+sim> examine 001016
+1016:	040000
+sim> examine 001020
+1020:	001143
+sim> examine 001022
+1022:	012700
+sim> examine 001024
+1024:	000020
+sim> examine 001026
+1026:	004467
+sim> examine 001030
+1030:	001072
+sim> examine 001032
+1032:	020027
+sim> examine 001034
+1034:	177777
+sim> examine 001036
+1036:	001134
+sim> examine 001040
+1040:	012700
+sim> examine 001042
+1042:	000000
+sim> examine 001044
+1044:	004567
+sim> examine 001046
+1046:	001002
+sim> examine 001050
+1050:	020027
+sim> examine 001052
+1052:	177777
+sim> examine 001054
+1054:	001125
+sim> examine 001056
+1056:	012703
+sim> examine 001060
+1060:	003002
+sim> examine 001062
+1062:	012704
+sim> examine 001064
+1064:	000000
+sim> examine 001066
+1066:	004567
+sim> examine 001070
+1070:	000706
+sim> examine 001072
+1072:	010023
+sim> examine 001074
+1074:	062704
+sim> examine 001076
+1076:	000001
+sim> examine 001100
+1100:	020427
+sim> examine 001102
+1102:	000016
+sim> examine 001104
+1104:	001370
+sim> examine 001106
+1106:	004567
+sim> examine 001110
+1110:	000666
+sim> examine 001112
+1112:	010067
+sim> examine 001114
+1114:	001720
+sim> examine 001116
+1116:	020027
+sim> examine 001120
+1120:	177777
+sim> examine 001122
+1122:	001102
+sim> examine 001124
+1124:	012703
+sim> examine 001126
+1126:	005000
+sim> examine 001130
+1130:	012704
+sim> examine 001132
+1132:	000000
+sim> examine 001134
+1134:	010423
+sim> examine 001136
+1136:	062704
+sim> examine 001140
+1140:	000001
+sim> examine 001142
+1142:	020427
+sim> examine 001144
+1144:	000400
+sim> examine 001146
+1146:	001372
+sim> examine 001150
+1150:	012737
+sim> examine 001152
+1152:	065432
+sim> examine 001154
+1154:	043000
+sim> examine 001156
+1156:	012700
+sim> examine 001160
+1160:	000002
+sim> examine 001162
+1162:	012701
+sim> examine 001164
+1164:	005000
+sim> examine 001166
+1166:	004567
+sim> examine 001170
+1170:	000776
+sim> examine 001172
+1172:	012703
+sim> examine 001174
+1174:	005000
+sim> examine 001176
+1176:	012704
+sim> examine 001200
+1200:	000400
+sim> examine 001202
+1202:	005023
+sim> examine 001204
+1204:	062704
+sim> examine 001206
+1206:	177777
+sim> examine 001210
+1210:	001374
+sim> examine 001212
+1212:	012700
+sim> examine 001214
+1214:	000002
+sim> examine 001216
+1216:	012701
+sim> examine 001220
+1220:	005000
+sim> examine 001222
+1222:	004567
+sim> examine 001224
+1224:	000766
+sim> examine 001226
+1226:	012703
+sim> examine 001230
+1230:	005000
+sim> examine 001232
+1232:	012704
+sim> examine 001234
+1234:	000000
+sim> examine 001236
+1236:	022304
+sim> examine 001240
+1240:	001033
+sim> examine 001242
+1242:	062704
+sim> examine 001244
+1244:	000001
+sim> examine 001246
+1246:	020427
+sim> examine 001250
+1250:	000400
+sim> examine 001252
+1252:	001371
+sim> examine 001254
+1254:	023727
+sim> examine 001256
+1256:	043000
+sim> examine 001260
+1260:	065432
+sim> examine 001262
+1262:	001022
+sim> examine 001264
+1264:	012700
+sim> examine 001266
+1266:	000002
+sim> examine 001270
+1270:	004567
+sim> examine 001272
+1272:	000556
+sim> examine 001274
+1274:	020027
+sim> examine 001276
+1276:	000000
+sim> examine 001300
+1300:	001013
+sim> examine 001302
+1302:	004567
+sim> examine 001304
+1304:	000472
+sim> examine 001306
+1306:	010067
+sim> examine 001310
+1310:	001526
+sim> examine 001312
+1312:	020027
+sim> examine 001314
+1314:	000002
+sim> examine 001316
+1316:	001004
+sim> examine 001320
+1320:	012767
+sim> examine 001322
+1322:	000001
+sim> examine 001324
+1324:	001514
+sim> examine 001326
+1326:	000000
+sim> examine 001330
+1330:	012767
+sim> examine 001332
+1332:	177777
+sim> examine 001334
+1334:	001504
+sim> examine 001336
+1336:	000000
+sim> examine 002000
+2000:	016700
+sim> examine 002002
+2002:	000774
+sim> examine 002004
+2004:	012701
+sim> examine 002006
+2006:	000004
+sim> examine 002010
+2010:	012702
+sim> examine 002012
+2012:	000002
+sim> examine 002014
+2014:	030100
+sim> examine 002016
+2016:	001011
+sim> examine 002020
+2020:	006301
+sim> examine 002022
+2022:	062702
+sim> examine 002024
+2024:	000001
+sim> examine 002026
+2026:	020227
+sim> examine 002030
+2030:	000020
+sim> examine 002032
+2032:	001370
+sim> examine 002034
+2034:	012700
+sim> examine 002036
+2036:	177777
+sim> examine 002040
+2040:	000205
+sim> examine 002042
+2042:	040167
+sim> examine 002044
+2044:	000732
+sim> examine 002046
+2046:	010200
+sim> examine 002050
+2050:	000205
+sim> examine 002052
+2052:	010003
+sim> examine 002054
+2054:	012701
+sim> examine 002056
+2056:	000004
+sim> examine 002060
+2060:	012702
+sim> examine 002062
+2062:	000002
+sim> examine 002064
+2064:	020203
+sim> examine 002066
+2066:	001005
+sim> examine 002070
+2070:	050167
+sim> examine 002072
+2072:	000704
+sim> examine 002074
+2074:	012700
+sim> examine 002076
+2076:	000000
+sim> examine 002100
+2100:	000205
+sim> examine 002102
+2102:	006301
+sim> examine 002104
+2104:	062702
+sim> examine 002106
+2106:	000001
+sim> examine 002110
+2110:	020227
+sim> examine 002112
+2112:	000020
+sim> examine 002114
+2114:	001363
+sim> examine 002116
+2116:	012700
+sim> examine 002120
+2120:	177777
+sim> examine 002122
+2122:	000205
+sim> examine 002124
+2124:	010003
+sim> examine 002126
+2126:	012702
+sim> examine 002130
+2130:	000000
+sim> examine 002132
+2132:	012700
+sim> examine 002134
+2134:	040000
+sim> examine 002136
+2136:	020203
+sim> examine 002140
+2140:	001001
+sim> examine 002142
+2142:	000204
+sim> examine 002144
+2144:	062702
+sim> examine 002146
+2146:	000001
+sim> examine 002150
+2150:	062700
+sim> examine 002152
+2152:	001000
+sim> examine 002154
+2154:	020227
+sim> examine 002156
+2156:	000020
+sim> examine 002160
+2160:	001366
+sim> examine 002162
+2162:	012700
+sim> examine 002164
+2164:	177777
+sim> examine 002166
+2166:	000204
+sim> examine 002170
+2170:	004467
+sim> examine 002172
+2172:	177730
+sim> examine 002174
+2174:	010103
+sim> examine 002176
+2176:	012702
+sim> examine 002200
+2200:	000400
+sim> examine 002202
+2202:	012320
+sim> examine 002204
+2204:	062702
+sim> examine 002206
+2206:	177777
+sim> examine 002210
+2210:	001374
+sim> examine 002212
+2212:	000205
+sim> examine 002214
+2214:	004467
+sim> examine 002216
+2216:	177704
+sim> examine 002220
+2220:	010103
+sim> examine 002222
+2222:	012702
+sim> examine 002224
+2224:	000400
+sim> examine 002226
+2226:	012023
+sim> examine 002230
+2230:	062702
+sim> examine 002232
+2232:	177777
+sim> examine 002234
+2234:	001374
+sim> examine 002236
+2236:	000205
+sim> examine 003000
+3000:	177774
+sim> examine 003002
+3002:	000000
+sim> examine 003004
+3004:	000000
+sim> examine 003006
+3006:	000000
+sim> examine 003010
+3010:	000000
+sim> examine 003012
+3012:	000000
+sim> examine 003014
+3014:	000000
+sim> examine 003016
+3016:	000000
+sim> examine 003020
+3020:	000000
+sim> examine 003022
+3022:	000000
+sim> examine 003024
+3024:	000000
+sim> examine 003026
+3026:	000000
+sim> examine 003030
+3030:	000000
+sim> examine 003032
+3032:	000000
+sim> examine 003034
+3034:	000000
+sim> examine 003036
+3036:	000000
+sim> examine 003040
+3040:	000000
+sim> examine 003042
+3042:	000000
+sim> examine 005000
+5000:	000000
+sim> go 001000
+
+HALT instruction, PC: 001330 (MOV #177777,3042)
+sim> examine 003036
+3036:	177777
+sim> examine 003040
+3040:	000002
+sim> examine 003000
+3000:	000000
+sim> examine 003042
+3042:	000001
+sim> examine 043000
+43000:	065432
+sim> quit
+Goodbye

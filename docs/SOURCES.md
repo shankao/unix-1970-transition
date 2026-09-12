@@ -182,6 +182,15 @@ records. It establishes DEC availability and behavior, not Bell Labs adoption.
 Ken Thompson's oral history above establishes the Bell Labs tape workflow but
 does not identify its receiving loader or record format.
 
+For B4.1–B4.4, the class-C loader tape actually used is DEC's
+`DEC-11-L2PC-PO` Absolute Loader, archived by PCjs as a lossless word-packed
+resource:
+https://www.pcjs.org/software/dec/pdp11/tapes/absloader/DEC-11-L2PC-PO.json
+
+The checked evidence copy, SHA-256, redistribution qualification, and execution
+record are in `evidence/b4/README.md`. This identifies the DEC artifact used;
+it does not establish Bell Labs adoption.
+
 ### PDP-11 Conventions / handbooks
 
 Bitsavers index:

@@ -342,9 +342,10 @@ block-I/O boundary should survive RF11 arrival, but persistent metadata may
 legitimately evolve; RF11 is not promised to be a metadata-free backend swap.
 
 That repository-aware gate was subsequently completed as R5, followed by the
-U1.1–U1.6 bare-machine implementation. U1 is reopened only for U1.7 historical
-transport acceptance; B4 paper-tape transport is therefore next, with U2 held
-until that acceptance gap is repaired.
+U1.1–U1.6 bare-machine implementation. B4 then supplied U1.7: two accepted U1
+articles were punched on the PDP-7, loaded through the PDP-11 reader and actual
+bootstrap/Absolute Loader execution, compared exactly, and replayed. U1 is
+complete; U2 is next and remains unimplemented.
 
 U2 itself should load PDP-11 code and have that code clear and initialize the
 RAM inode area, root directory, free maps, tty special entries, and test state.

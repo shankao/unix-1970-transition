@@ -480,8 +480,10 @@ allocation, clean exhaustion, free/reuse, address bounds, and full-block copy
 integrity. It has no inode, directory, descriptor, process, or filesystem
 semantics. This completed U1.1–U1.6 and, at that checkpoint, closed the U1
 parent with U2 next. D0034 later adds the missing transport-acceptance item and
-reopens only the parent. No new era was created because this remains bare
-cross-developed substrate rather than a persistent Unix environment.
+reopens only the parent. No additional U1-completion era was created;
+`pdp11-crossdev` remains the sole PDP-11 era because U1 extends the same bare
+cross-development substrate rather than creating a new persistent historical
+environment.
 
 ## D0033 — Freeze mixed-provenance licensing and workload-driven roadmap policy
 
@@ -563,3 +565,25 @@ U3 adds U3.6 process/execution acceptance, and U4 adds U4.6 userland
 acceptance. These new unchecked items define integration gates and do not
 start or complete implementation. U7 is already an acceptance milestone and
 does not gain a redundant symmetry-only subtask.
+
+## D0036 — Complete B4 transport and U1 mechanical-load acceptance
+
+**Status:** accepted and demonstrated
+
+Both canonical U1 fixtures are acceptance articles, totaling 342 exact native
+PDP-7 `as11` words. A project-original B formatter runs on PDP-7 UNIX and emits
+DEC absolute-binary records through real PTP. The restored `system` super-user
+is used only for this punch operation because authentic `pptout` lives in its
+system directory; native links temporarily expose the `shankao`-built formatter
+and accepted traces and are removed afterward.
+
+PDP-11 SIMH executes the fourteen-word 24 KB bootstrap, reads the archived
+72-word DEC Absolute Loader and each payload through PTR, and halts on an odd
+transfer address for inspection. The host verifies exact memory identity and
+then starts the existing entry point; it never deposits payload words in
+historical mode. Both established U1 results were reproduced.
+
+This closes B4.1–B4.4, U1.7, B4, and U1. The DEC mechanism remains a class-C
+substitute: Bell Labs' exact loader and format are unknown. Fast deposits remain
+the development path. No new era is created for transport alone; U2 is next
+and remains unimplemented.

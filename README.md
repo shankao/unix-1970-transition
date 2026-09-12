@@ -70,8 +70,9 @@ storage primitive. The current `as11` encoder remains a validated bootstrap
 nucleus, not the final specification of the assembler. These results prove
 code-generation
 provenance, but their class-M SIMH deposits do not prove historical transport.
-U1 is therefore reopened only for U1.7 mechanical-load acceptance. B4
-paper-tape transport is next; U2 follows after that acceptance gap is closed.
+B4 now proves transport provenance through native PDP-7 PTP output and actual
+PDP-11 PTR/bootstrap/Absolute Loader execution. Both accepted U1 payloads
+arrived exactly and replayed, closing U1.7 and U1. U2 is next and has not begun.
 
 Active development enters the machines through the plain canonical
 configurations `machines/pdp7/pdp7.simh` and `machines/pdp11/pdp11.simh`.
