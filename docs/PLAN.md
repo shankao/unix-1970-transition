@@ -380,11 +380,19 @@ The separate preservation view is:
 
 ```text
 eras/
-+-- stage-0, stage-1, stage-4a, stage-4b, stage-4c   existing PDP-7 eras
-+-- pdp11-crossdev                                    DONE
-+-- pdp11-core-unix                                   future; do not create yet
-`-- pdp11-rf11-unix                                   future; do not create yet
++-- pdp7-unix          current late-PDP-7 historical hypothesis
++-- pdp7-crossdev      current PDP-7 cross-development hypothesis
+`-- pdp11-crossdev     current diskless PDP-11 bring-up hypothesis
+
+snapshots/
++-- stage-0, stage-1, stage-4a, stage-4b, stage-4c
+|                      PDP-7 reconstruction-project checkpoints
+`-- pdp11-crossdev     first polling-only PDP-11 project checkpoint
 ```
+
+Future core-only and RF11-backed eras are created only when runnable evidence
+supports those historical-system states. Era boundaries are capability slices,
+not inferred dates or project-stage aliases.
 
 ## Phase I — Establish and prove the execution model
 
@@ -891,10 +899,9 @@ and artifact metadata. Generated tapes/listings are artifacts; source plus
 reproducible build steps are authoritative. Informative failures remain
 evidence rather than being erased by later success.
 
-Selected PDP-7 checkpoints that meaningfully expose a distinct development
-state are also materialized as ordinary exact images under `eras/`. This
-experiential layer supplements rather than replaces per-gate checkpoints. A
-first small PDP-11 form is now established for cross-developed runnable
-diagnostics: an era-local clean machine config plus a native-`as11`-derived
-deposit script. Layouts for future persistent RAM, tape, disk, or paired-machine
-states remain deferred until those artifacts acquire concrete requirements.
+Selected exact PDP-7 project checkpoints are retained under `snapshots/`.
+Current runnable historical-system hypotheses live under `eras/`, with
+capability-based manifests and direct replay. They may evolve when evidence
+improves without rewriting the project evidence that established earlier
+results. Future core-only and RF11-backed historical eras remain deferred until
+their implementations and evidence support a meaningful runnable state.

@@ -76,9 +76,8 @@ arrived exactly and replayed, closing U1.7 and U1. U2 is next and has not begun.
 
 Active development enters the machines through the plain canonical
 configurations `machines/pdp7/pdp7.simh` and `machines/pdp11/pdp11.simh`.
-The first preserved PDP-11 era, `eras/pdp11-crossdev`, freezes the clean KA11
-baseline and the native-`as11`-produced KL11 polling program. It records
-cross-developed PDP-11 execution, not self-hosting or UNIX.
+Historical-system reconstructions under `eras/` are distinct from the modern
+project checkpoints under `snapshots/`.
 
 Two related tracks then advance: the `as11`/threaded-B/`b11`/`dc` bootstrap
 track and the migration of selected PDP-7 kernel and command responsibilities
@@ -114,6 +113,17 @@ to 1970 originals. If the tape convention remains unknown, contemporary DEC
 loading machinery may be used only as an explicit class C substitute—not as a
 claim about Bell Labs practice.
 
+## Explore the reconstructed eras
+
+The repository is meant to be experienced as well as tested. `eras/` contains
+the current runnable historical hypotheses: late PDP-7 Unix, PDP-7-hosted
+cross-development, and diskless PDP-11 paper-tape bring-up. These living models
+may be corrected as evidence improves; `snapshots/` separately preserves what
+the reconstruction project established at its Stage checkpoints.
+
+Start with [`docs/RUNNING.md`](docs/RUNNING.md) for direct emulator commands
+and small things to try in each environment.
+
 ## Start here
 
 - [`docs/STATUS.md`](docs/STATUS.md) — authoritative current checkpoint and
@@ -139,8 +149,11 @@ claim about Bell Labs practice.
   resident-data contract.
 - [`docs/UNIX-MIGRATION.md`](docs/UNIX-MIGRATION.md) — migration corpus,
   provenance refinements, and workload-driven forward architecture.
-- [`eras/README.md`](eras/README.md) — directly runnable preserved machine
-  states, including the first PDP-11 cross-development era.
+- [`docs/RUNNING.md`](docs/RUNNING.md) — guided direct replay of the supported
+  historical-system reconstructions.
+- [`eras/README.md`](eras/README.md) — current historical-era hypotheses.
+- [`snapshots/README.md`](snapshots/README.md) — preserved reconstruction-project
+  checkpoints.
 
 The repository layout separates historical/reconstructed target code in
 `src/`, modern host tooling in `tools/`, regression tests in `tests/`, and

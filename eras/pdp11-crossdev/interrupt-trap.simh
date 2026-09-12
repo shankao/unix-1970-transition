@@ -1,0 +1,25 @@
+; Human replay: bootstrap and target payload enter through real PTR.
+do pdp11.simh
+set ptr enabled
+attach ptr dec-absolute-loader.ptap
+deposit 057744 016701
+deposit 057746 000026
+deposit 057750 012702
+deposit 057752 000352
+deposit 057754 005211
+deposit 057756 105711
+deposit 057760 100376
+deposit 057762 116162
+deposit 057764 000002
+deposit 057766 057400
+deposit 057770 005267
+deposit 057772 177756
+deposit 057774 000765
+deposit 057776 177550
+go 057744
+detach ptr
+attach ptr ../../artifacts/u1-interrupt.ptap
+go 057500
+echo U1 INTERRUPT/TRAP TAPE LOADED - TYPE AB
+go 001000
+examine 003030

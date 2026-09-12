@@ -59,7 +59,8 @@ with the December 1970 disk arrival—not the rest of 1971 or First Edition.
 - [ ] **U2 — Filesystem nucleus** — NEXT; not started.
 - [ ] **U3–U7 Unix migration track** — future work remains open.
 - [x] Canonical active machine configs
-- [x] First PDP-11 cross-development era preserved
+- [x] Historical-era and reconstruction-snapshot semantics separated
+- [x] Three current historical-system eras made directly runnable
 - [x] Stable R1–R5 / B1–B7 / U1–U7 hierarchy recorded
 - [x] Licensing/provenance policy frozen before U2 implementation
 
@@ -147,7 +148,7 @@ only the reviewed native `shankao/readme`. The installed `as11` source and
 executable were reused.
 Read-only `fsck7` exited 0 with the already-understood inode-38/block-2987
 self-revisit diagnostic. The completion checkpoint and corresponding Stage 4C
-experiential era do not change encoder logic or capacity limits.
+reconstruction snapshot do not change encoder logic or capacity limits.
 
 Focused native characterization now establishes a safe tested point of 38
 globals/10 numeric locals; 39 globals passes only with zero locals and fails
@@ -178,20 +179,23 @@ The retained native `klpoll.s`/`klpoll.o` checkpoint evolves the authoritative
 PDP-7 image to SHA-256
 `fa9294110e6e66eb5450aa600a5d52b0aba1e9d3d4f25223da67be582181b926`.
 Read-only `fsck7` exits 0 with only the established inode-38/block-2987
-self-revisit. Preserved era images remain unchanged.
+self-revisit. Exact Stage checkpoint images are preserved under `snapshots/`;
+current historical hypotheses are maintained separately.
 
 Active tools now use `machines/pdp7/pdp7.simh` for the unthrottled evolving
 PDP-7 host and `machines/pdp11/pdp11.simh` for a clean 24 KB KA11 baseline.
 The latter deposits or runs no software, attaches no storage or paper tape,
 and does not explicitly enable the clock; this SIMH build exposes CLK as an
 inherent non-disableable device. The obsolete volatile-bootstrap setup is no
-longer an active configuration. Existing PDP-7 era files remain unchanged.
+longer an active configuration.
 
-`eras/pdp11-crossdev/` is the first preserved PDP-11 era. Its era-local clean
-config and KL11 deposit script reproduce the native-PDP-7-assembled polling
-diagnostic without depending on mutable `machines/` paths. This state targets
-and executes on the PDP-11 while development tools remain hosted on the PDP-7;
-it is neither self-hosted nor UNIX.
+The five Stage-labelled PDP-7 directories are reconstruction-project
+checkpoints under `snapshots/`, not historical era boundaries. The former
+polling-only `pdp11-crossdev` files are preserved there as well. The current
+historical-system models are `eras/pdp7-unix/`, `eras/pdp7-crossdev/`, and
+`eras/pdp11-crossdev/`, each with an `ERA.md` and tested direct replay. The
+PDP-11 era consumes committed U1 tapes through PTR, the fourteen-word bootstrap,
+and DEC Absolute Loader. It remains cross-developed, not self-hosted or UNIX.
 
 **U1 bare-machine substrate:** two focused class-B/M fixtures produced 342
 native PDP-7 `as11` words containing 178 Stage-2-decoded instructions. Real
@@ -310,15 +314,14 @@ indirect block 2987 is marked in the inode scan and again when inode 38
 (`dd/shankao`) is traversed; debug output shows no distinct second owner and no
 other consistency warning.
 
-Directly explorable PDP-7 states for Stage 0, Stage 1, Stage 4A, Stage 4B, and
-Stage 4C
-are materialized under `eras/`. Each PDP-7-only directory now carries its own
-recovered bootstrap and SIMH configuration as well as the filesystem image.
-Stage 1/4A/4B remain exact checkpoint images; the Stage 0 image has intentional
-post-materialization user changes, recorded separately from its source hash in
-its README. This experiential layer is distinct from the normal per-gate
-authoritative image checkpoints. A representation for PDP-11 RAM, tape, disk,
-or paired-machine eras remains deliberately undecided. Beginning
+Directly explorable project states for Stage 0, Stage 1, Stage 4A, Stage 4B,
+and Stage 4C are materialized under `snapshots/`. Their original README,
+bootstrap, configuration, and filesystem media remain intact. Stage 1/4A/4B
+remain exact checkpoint images; the Stage 0 image has intentional
+post-materialization user changes recorded separately from its source hash.
+They document reconstruction history and are not asserted as five Bell Labs
+historical eras. Current historical hypotheses instead live under `eras/` and
+may evolve with recorded evidence. Beginning
 the Stage 4C checkpoint, the native `shankao` directory contains a short
 `readme` describing the machine's current capabilities; none was inserted
 retroactively into the older exact images.
@@ -372,6 +375,14 @@ Binary/Absolute Loader as the demonstrated class-C substitute; it remains not
 established Bell Labs practice.
 
 ## Remaining roadmap and risk boundary
+
+The repository now distinguishes two histories. `snapshots/stage-*` preserves
+the exact machine states established by modern project milestones; `eras/`
+contains three living, capability-based historical hypotheses with concise
+manifests and tested human replay. The diskless PDP-11 replay consumes the
+unchanged committed U1 tapes through PTR/bootstrap/Absolute Loader. This
+repository-semantics correction changes no B4/U1 result: both remain complete,
+and U2 remains next and unstarted.
 
 The migration corpus and provisional machine, execution/RAM, and
 filesystem/data-structure contracts are complete. Repository-aware inspection

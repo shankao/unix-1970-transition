@@ -63,8 +63,9 @@ pre-transition development state, not claims of original Bell Labs material.
   `build/image-shankao.fs`, and loads `build/boot.rim` at octal `010000`.
   The restoration tree's internal `build/unixv0.simh` remains for its own
   upstream-style build targets, but active project tools do not use it.
-  Development runs use `set nothrottle`; preserved era configurations retain
-  `set throttle 400K`. The verified terminal-transfer pacing remains 80 ms
+  Development runs use `set nothrottle`; preserved PDP-7 snapshots and current
+  historical-era configurations retain `set throttle 400K`. The verified
+  terminal-transfer pacing remains 80 ms
   per character.
 - A configuration-only query of the imported emulator (no startup file, image
   attachment, bootstrap load, or `go`) reported `PTR devno=01, not attached`
@@ -251,11 +252,16 @@ runs no software. It disables default paper-tape, storage, and later peripheral
 devices. The installed SIMH exposes CLK as inherent and refuses disabling it;
 the canonical file neither programs nor explicitly enables it.
 
-The first preserved PDP-11 era is `eras/pdp11-crossdev/`. Its local copy of
-that neutral config and its native-PDP-7-assembled KL11 deposit program are
-self-contained at runtime. This is a cross-development checkpoint, not a
-self-hosted or UNIX machine state; future RAM, paper-tape, disk, and paired
-machine era layouts remain unresolved.
+The current diskless PDP-11 historical slice is `eras/pdp11-crossdev/`. Its
+neutral config and human replay files load the committed U1 paper tapes through
+PTR, the fourteen-word bootstrap, and the DEC Absolute Loader. This is a living
+cross-development/bring-up reconstruction, not a project checkpoint,
+self-hosted environment, or UNIX machine state.
+
+The Stage 0/1/4A/4B/4C exact machine checkpoints now live under `snapshots/`.
+They preserve reconstruction-project state and their original manifests;
+`eras/pdp7-unix/` and `eras/pdp7-crossdev/` separately present the current
+runnable historical hypotheses.
 
 ## U1 bare-machine substrate
 
@@ -286,10 +292,15 @@ at `057744`, enables PTR, and executes it. It loads the 72-word DEC Absolute
 Loader at `057474`–`057743`, which reads each target tape. All 342 loaded words
 are examined against the accepted native traces before execution. See
 `evidence/b4/` for hashes, checksums, and transcripts. No emulator config or
-preserved era changed. The final authoritative PDP-7 image SHA-256 is
-`0a7a3589b13a4b4732b20cfa5c1afe5ed14474e2a62670add1e29016b8525dba`;
-read-only `fsck7` exits 0 with only the established inode-38/block-2987
-self-revisit.
+historical-era medium changed during B4 itself. The era-semantics validation
+subsequently reran Stage 4A–4C and B4 on the evolving host, producing current
+authoritative PDP-7 image SHA-256
+`5f0ccadbe9821e1b69a146080ec52f883fd200f9f8bc2043394dff3ddf3e9fc1`.
+Read-only `fsck7` exits 0 with only the established inode-38/block-2987
+self-revisit. The `pdp7-crossdev` era deliberately retains selected B4
+source-state SHA-256
+`0a7a3589b13a4b4732b20cfa5c1afe5ed14474e2a62670add1e29016b8525dba`
+rather than following later test churn.
 
 ## Stage 0 closure
 

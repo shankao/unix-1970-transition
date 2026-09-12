@@ -88,7 +88,8 @@ completed line-by-line rights analysis:
 | `machines/pdp7` filesystem image and native products | Generated/evolving machine state incorporating mixed-provenance material; no automatic independent GPL classification. |
 | `machines/pdp11/` configs | Project-original machine configuration where not supplied by SIMH or another upstream; default `GPL-3.0-only`. |
 | `artifacts/`, `evidence/` | Mixed: project records plus generated output and copies of evidence; classify by producing or incorporated material. |
-| `eras/` | Preserved generated machine/configuration states, often incorporating historical/restoration material; no blanket relicense. |
+| `eras/` | Living historical-system reconstructions with mixed source/media provenance; no blanket relicense. |
+| `snapshots/` | Preserved reconstruction-project machine/configuration checkpoints, often incorporating historical/restoration material; no blanket relicense. |
 
 No additional third-party source license was found in `src/`, `tools/`, or
 `tests/` during this policy audit. That absence is not permission to ignore a
@@ -97,13 +98,13 @@ future derivation discovered at file or commit level.
 ## Generated and preserved material
 
 Binaries, filesystem images, boot images, generated assembly/output, and
-preserved eras do not acquire an independent GPL license merely because this
+preserved eras or project snapshots do not acquire an independent GPL license merely because this
 repository generated or stores them. Their redistribution status can depend
 on incorporated source and data. Preserve the producing-source provenance and
 do not add SPDX headers to generated or experiential artifacts without a
 specific review.
 
 Current examples include the PDP-7 filesystem images and bootstrap-bearing
-eras, which incorporate mixed historical/restoration material, and PDP-11
+eras and snapshots, which incorporate mixed historical/restoration material, and PDP-11
 deposit scripts generated from project reconstruction source. This policy
 classifies their provenance; it does not make a new claim about ownership.

@@ -15,7 +15,7 @@ class Stage3GoldTests(unittest.TestCase):
         self.assertIn("set nothrottle", active)
         self.assertNotIn("set throttle 400K", active)
         expected = "c6c9f0368073c43056e3b4ed0359889ef080c908c842e9f8d7e709748a51dbe6"
-        for config in sorted((ROOT / "eras").glob("stage-*/pdp7.simh")):
+        for config in sorted((ROOT / "snapshots").glob("stage-*/pdp7.simh")):
             with self.subTest(config=config):
                 self.assertEqual(expected, hashlib.sha256(config.read_bytes()).hexdigest())
                 self.assertIn("set throttle 400K", config.read_text())

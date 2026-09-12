@@ -57,16 +57,16 @@ Never describe B/C/M material as original Bell Labs code.
   native sources, build products, inputs, and results. Remove only clearly
   accidental debris. Use a disposable copy only for a specifically identified
   destructive or high-risk experiment.
-- Development checkpoints and experiential snapshots are distinct. Every
-  passing PDP-7 development gate normally checkpoints `machines/pdp7`; selected
-  states that meaningfully show the development journey are also preserved as
-  ordinary physical files under `eras/`. Do not invent an era manager. The
-  first established PDP-11 form is the small `pdp11-crossdev` config plus
-  runnable diagnostic; do not extrapolate it into future RAM/tape/disk layouts.
-- While PDP-7-only state is sufficient, a selected experiential era is a
-  self-contained directory containing `README.md`, `boot.rim`, `pdp7.fs`, and
-  `pdp7.simh`, bootable from that directory without a wrapper. Small duplicated
-  bootstrap/configuration files are preferable to premature management tooling.
+- Reconstruction checkpoints and historical eras are distinct. Project-stage
+  machines belong under `snapshots/`; `eras/` contains current best runnable
+  hypotheses about historical-system states. Eras are living models and may be
+  corrected when evidence improves, with the reason and provenance recorded.
+  Git, evidence, and snapshots preserve earlier project results separately.
+- Each era has an `ERA.md` with its hypothesis, evidence classes, runnable
+  contents, direct replay, acceptance, and uncertainty. Capability-oriented era
+  boundaries need not be dates or milestones Bell Labs named. Human playability
+  complements but never replaces automated acceptance, and making a model
+  runnable never raises its historical certainty.
 - Beginning with the next successful PDP-7 development checkpoint (Stage 4C),
   maintain a concise native `dd/shankao/readme` describing what works and what
   does not yet exist. Update it as part of normal native development; never
@@ -89,11 +89,9 @@ Never describe B/C/M material as original Bell Labs code.
 - Stages 4A–4C, the provisional v1 migration-corpus audit, the bare KA11
   machine-layer contract, provisional execution/RAM contract v1, and
   provisional filesystem/data-structure contract v1 are complete. The
-  Stage-3 gold round trip, KL11 polling diagnostic, and all U1 bare-machine
-  substrate implementation checkboxes U1.1–U1.6 are complete. U1 is reopened
-  only for U1.7 historical transport acceptance. B4 paper-tape transport is
-  next and supplies that acceptance; do not begin U2 or skip to U3/U4/RF11
-  before it passes.
+  Stage-3 gold round trip, KL11 polling diagnostic, U1 bare-machine substrate,
+  and B4 paper-tape transport are complete. U1.7 proves historical transport
+  acceptance. U2 is next; do not skip to U3/U4/RF11.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
 - Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the

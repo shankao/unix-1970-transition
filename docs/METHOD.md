@@ -165,20 +165,22 @@ changes are expected. Preserve meaningful sources, compiler/assembler output,
 executables, inputs, and results rather than cleaning them merely because a
 modern workflow calls them intermediate.
 
-A development checkpoint and an experiential snapshot serve different needs.
-Every passing PDP-7 development gate normally records the authoritative image;
-selected states that expose a distinct, useful moment are additionally copied
-as exact physical images under `eras/`. Snapshot provenance records the source
-commit, original path, and SHA-256. The files remain ordinary, mutable Git
-content rather than requiring an era-management or copy-on-boot layer. PDP-11
-era organization is deferred until persistent tape/disk/machine combinations
-provide concrete requirements.
+A development checkpoint and a historical era serve different needs. Every
+passing PDP-7 development gate normally records the authoritative image;
+selected exact project states live under `snapshots/` with source commit, path,
+and hash provenance. They answer what this reconstruction had established.
 
-For the currently understood PDP-7-only case, each selected era carries its
-own README, recovered bootstrap, filesystem image, and direct SIMH configuration
-so it can be used from that directory. This concrete duplication is intentional;
-do not abstract it until repeated use reveals a real need. It does not prescribe
-the later multi-machine/tape/disk layout.
+`eras/` instead answers what a person might plausibly have interacted with
+during historical-system evolution. Its capability-based slices are analytical
+and need not correspond to dates or boundaries Bell Labs recognized. Eras are
+living reconstructions: correct a known historical error when evidence improves,
+record why and with what confidence, and rely on Git, evidence, and snapshots to
+retain prior project results. Runnability does not raise an evidence class.
+
+Every era carries a concise `ERA.md` and, where practical, a direct emulator
+path plus concrete interaction. Human replay complements automated acceptance;
+neither substitutes for the other. Ordinary files and small duplicated media
+remain preferable to an era manager or copy-on-boot abstraction.
 
 Before relying extensively on a recovered tool or environment, inspect its
 local source, documentation, and evidence; establish and verify one minimal

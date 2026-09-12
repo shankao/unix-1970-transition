@@ -1,0 +1,16 @@
+; Runnable PDP-7-to-PDP-11 cross-development historical slice.
+set cpu 8k
+set cpu eae
+set cpu history=100
+set cpu noidle
+set throttle 400K
+set tti unix
+set rb ena
+att rb pdp7.fs
+set g2in ena
+att -U g2in 12345
+set lpt disa
+set drm disa
+set dt disa
+load boot.rim 010000
+go

@@ -587,3 +587,32 @@ This closes B4.1–B4.4, U1.7, B4, and U1. The DEC mechanism remains a class-C
 substitute: Bell Labs' exact loader and format are unknown. Fast deposits remain
 the development path. No new era is created for transport alone; U2 is next
 and remains unimplemented.
+
+## D0037 — Separate historical eras from reconstruction snapshots
+
+**Status:** accepted; supersedes D0018/D0031/D0032/D0036 only where they use
+“era” for a frozen project checkpoint
+
+`eras/` now contains current best runnable hypotheses about historical-system
+evolution, while `snapshots/` preserves exact states of this reconstruction
+project. Stage 0, Stage 1, and Stage 4A–4C are therefore moved intact to
+`snapshots/`; their project evidence and Git history remain valid, but their
+numbers no longer imply five Bell Labs historical eras. The earlier
+polling-only PDP-11 cross-development directory is likewise retained as a
+project snapshot rather than erased when the historical era gains B4 replay.
+
+The current capability-based historical slices are late PDP-7 Unix, PDP-7 to
+PDP-11 cross-development, and diskless PDP-11 cross-development/bring-up.
+These analytical boundaries do not assert exact dates or milestones Bell Labs
+participants recognized. Eras are living reconstructions: later evidence may
+correct them, but every correction must record its reason, evidence, and
+remaining uncertainty. Git, evidence, and project snapshots preserve the old
+interpretation. Making an era runnable does not raise its provenance class.
+
+Each era has a concise `ERA.md` and a direct human replay where practical.
+Human playability and automated acceptance are complementary. The PDP-11 era
+now reflects completed B4/U1 acceptance by loading the committed native-PDP-7
+U1 tapes through actual PTR, the front-panel-equivalent bootstrap, and the DEC
+Absolute Loader; it no longer defines the era by the earlier deposit-only KL11
+project checkpoint. This changes repository semantics and replay usability,
+not B4/U1/U2 implementation status. U2 remains next and unstarted.
