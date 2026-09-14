@@ -67,6 +67,16 @@ Never describe B/C/M material as original Bell Labs code.
   boundaries need not be dates or milestones Bell Labs named. Human playability
   complements but never replaces automated acceptance, and making a model
   runnable never raises its historical certainty.
+- Before creating a public historical state, ask: does the user gain a
+  tangible new capability; is it historically meaningful; does a new state
+  improve the journey; are we retaining a structure because it is right or
+  merely because it exists; and are we optimizing for human experience or
+  our own project machinery? R/B/U completion does not automatically create
+  an era. Prefer documentation improvements to unnecessary directory churn.
+- Automate repetition that teaches nothing. Preserve constraints and
+  mechanisms that explain the history. Public instructions must distinguish
+  what a visitor can actually do from what an acceptance runner proves;
+  document usability gaps rather than implying a nonexistent workflow.
 - Beginning with the next successful PDP-7 development checkpoint (Stage 4C),
   maintain a concise native `dd/shankao/readme` describing what works and what
   does not yet exist. Update it as part of normal native development; never

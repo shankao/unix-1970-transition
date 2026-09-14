@@ -8,6 +8,7 @@ artifacts/*.pt
 artifacts/*.bin
 artifacts/*.tap
 artifacts/*.lst
+artifacts/visitor/
 
 # Local machine state
 .local/

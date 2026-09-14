@@ -33,7 +33,8 @@ cd eras/pdp11-crossdev
 pdp11 interrupt-trap.simh
 ```
 
-Type `AB` when prompted. To run the RAM diagnostic instead:
+Type `A` when prompted, wait for its echo, then type `B`. The optional RAM
+diagnostic is available separately:
 
 ```sh
 pdp11 ram-substrate.simh
@@ -41,7 +42,10 @@ pdp11 ram-substrate.simh
 
 ## Try this
 
-Run the interrupt fixture and type `AB`, then run the RAM diagnostic.
+Watch the loader bring a program from the other machine's tape into memory,
+then make it respond to your keyboard. Enter two ordinary characters, one at
+a time, waiting for each echo. `AB` is the repeatable example, not a Unix
+command. This machine has no shell yet.
 
 ## Expected result
 
@@ -49,6 +53,9 @@ The interrupt replay announces that the payload arrived through PTR, prompts
 for two characters, echoes `AB`, and halts at PC `001070`. It then displays a
 success word of `000001` at `003030`. The RAM replay loads through PTR, runs to
 PC `001330`, and displays `000001` at `003042` plus its allocator results.
+Those words are engineering checks; the public capability is receiving and
+running software prepared on another machine. RAM testing is optional detail,
+not a separate historical state or evidence that a filesystem exists.
 
 ## Acceptance / regression
 

@@ -299,8 +299,11 @@ authoritative PDP-7 image SHA-256
 Read-only `fsck7` exits 0 with only the established inode-38/block-2987
 self-revisit. The `pdp7-crossdev` era deliberately retains selected B4
 source-state SHA-256
-`0a7a3589b13a4b4732b20cfa5c1afe5ed14474e2a62670add1e29016b8525dba`
-rather than following later test churn.
+`b72b6650b2d9acaf59eaba5f7dcd6040cef4bb16a66aa2b37ec493dc7c14679d`.
+The living era now names its installed assembler `as11` and its native tape
+formatter `abspun`, retains an editable `demo.s`, and can punch a visitor's
+exact native output through the same PTP mechanism without changing B4's
+accepted artifacts.
 
 ## Stage 0 closure
 

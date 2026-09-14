@@ -22,6 +22,25 @@ with the December 1970 disk arrival—not the rest of 1971 or First Edition.
 
 ## Current stage
 
+The checklist below tracks reconstruction work, not public historical-state
+boundaries. The [running guide](RUNNING.md) now leads through working PDP-7
+Unix, hands-on PDP-11 assembly on PDP-7, and tape-loaded console interaction
+on the diskless PDP-11. Existing directory names and machine states are kept.
+Native assembly and visitor export are now one continuous path: `as11` creates
+the trace on the era disk, `punch_era.py` invokes its native `abspun` through
+PTP, and the generated replay feeds the exact tape through PDP-11 PTR and the
+class-C DEC loader. B4/U1 remain complete; U2 is unstarted.
+
+Presentation checks passed: both PDP-7 logins and `ls`, the documented small
+native assembly and exact 131-word console reassembly (on disposable era
+copies), direct PTR replay with `AB` and `ki`, and the optional RAM replay.
+The follow-up visitor bridge exercised the documented
+`101` -> `102` native edit, produced three exact words, punched 74 bytes in
+four valid DEC records, loaded them through PTR/bootstrap/Absolute Loader, and
+observed R0 `000102`. It intentionally updates the living cross-development
+era image with named tools and the editable demo. All 95 host tests pass; U2
+and Unix code are unchanged.
+
 - [x] **Historical/bootstrap foundation**
   - [x] Stage 0 — machine reproducibility
   - [x] Stage 1 — PDP-7 B characterization

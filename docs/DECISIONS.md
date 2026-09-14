@@ -616,3 +616,58 @@ U1 tapes through actual PTR, the front-panel-equivalent bootstrap, and the DEC
 Absolute Loader; it no longer defines the era by the earlier deposit-only KL11
 project checkpoint. This changes repository semantics and replay usability,
 not B4/U1/U2 implementation status. U2 remains next and unstarted.
+
+## D0038 — Lead with the runnable historical journey
+
+**Status:** accepted; presentation refinement of D0037
+
+The public entry point is a few human-observable capabilities: work in PDP-7
+Unix, assemble instructions for the PDP-11 on that host, then bring native
+paper tape to the diskless PDP-11 and see the loaded program answer the
+keyboard. The existing `eras/` name and three capability-oriented directory
+names remain adequate; explanatory titles and a verified native assembly
+exercise improve the experience without new states or directory churn.
+
+Git preserves reconstruction history; snapshots, tests, evidence, contracts,
+and R/B/U milestones preserve its technical foundation. Neither that history
+nor completion of a technical milestone automatically dictates a public state.
+A new state must offer a tangible, historically meaningful capability and
+improve the journey. Living historical models may be corrected; making them
+runnable does not increase certainty. Descendant evidence remains distinct
+from 1970 fact.
+
+Automate repetition that teaches nothing; preserve mechanisms and constraints
+that explain the history. The replay retains PDP-7 production, PTR, bootstrap,
+and actual loader execution while automating operator repetition. DEC loading
+remains class C, with Bell Labs' exact format unknown. Machine diagnostics
+remain accessible evidence but do not lead the public narrative.
+
+The current era permits hands-on native assembly, including reproduction of
+the console tape's 131-word map. The complete native punching runner instead
+uses accepted output on the evolving development host; it does not export a
+visitor's edited era file. D0039 closes that usability gap without changing
+the evidence class or B4 acceptance.
+
+## D0039 — Bridge visitor assembly to native paper-tape replay
+
+**Status:** accepted and demonstrated
+
+The cross-development era gives stable native names to its reconstructed
+tools: `as11` for the assembler and `abspun` for the already-proven absolute
+tape formatter. PDP-7 builds still use `a.out` as their temporary output name,
+but visitors no longer have to treat it as an assembler command or risk
+replacing the assembler while preparing the formatter.
+
+`tools/punch_era.py` is class-M operator automation. It reads a selected
+native `.o` trace from the visitor's saved era disk, temporarily exposes that
+file and `abspun` in the restored `system` directory, and captures the real
+`pptout` PTP stream. It independently verifies the tape against the trace and
+creates a replay that deposits only the fourteen-word bootstrap; the DEC
+loader and visitor payload both enter the PDP-11 through PTR. It neither
+encodes nor repairs target words and grants no new PDP-7 privilege.
+
+The supplied class-M three-word `demo.s` was assembled natively, punched as 74 bytes
+in four valid DEC records, loaded through bootstrap and Absolute Loader, and
+halted with the expected R0 value. This closes a public usability gap, not a
+new B/U milestone. DEC loading remains class C and Bell Labs' exact mechanism
+unknown. B4/U1 remain complete and U2 remains unstarted.

@@ -21,6 +21,13 @@ bootstrap infrastructure. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 
 ## Stable project hierarchy
 
+This is the reconstruction project's technical roadmap, not the public
+historical journey. Public state boundaries require a tangible new capability
+that a visitor can experience and a historical reason to expose it; they do
+not follow automatically from Stage/R/B/U completion. See
+[`RUNNING.md`](RUNNING.md) for the journey and [`METHOD.md`](METHOD.md) for
+the public-state selection rule.
+
 Plan-level identifiers name known, meaningful capability boundaries. Items
 inside a milestone are checkboxes, not necessarily a strict implementation
 sequence: one implementation sweep may satisfy several of them, and smaller
@@ -153,9 +160,9 @@ new implementation of the behavioral contract, then construct an explicit
 PDP-7 emission -> PDP-11 representation -> runtime operator -> `as11`
 capability matrix before implementation.
 
-B4 is independently actionable from the stable U1 payloads and does not wait
-for B2/B3. U2 does not technically depend on it. B4 is nevertheless the
-immediate next work because U1 transport acceptance is incomplete. B5,
+B4 was completed using the stable U1 payloads without waiting for B2/B3.
+It satisfied U1 transport acceptance; U2 is now the next implementation work,
+not a newly declared public historical state. B5,
 dependent on B3 plus B4, is the central historical cross-development
 culmination. B6 is only an engineering confidence probe and
 blocks nothing. B7 depends on its own research and sufficient B/runtime/tape
@@ -311,10 +318,10 @@ U1.7 passes only when:
    PDP-7-produced map; and
 5. the loaded fixture reproduces its established U1 execution result.
 
-The two current U1 fixtures total 342 native words. B4 implementation should
-select the best substantial existing acceptance article rather than inventing
-a trivial transport-only payload. B4.1–B4.4 supply the mechanism for U1.7;
-only after it passes is the U1 parent complete and U2 again next.
+The two current U1 fixtures total 342 native words. B4 transported both
+existing fixtures and reproduced their established results, satisfying U1.7
+without inventing a trivial transport-only payload. The U1 parent is complete
+and U2 is next; see [`../evidence/b4/`](../evidence/b4/).
 
 ## Integrated Unix milestone acceptance gates
 

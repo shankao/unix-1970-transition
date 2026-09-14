@@ -58,6 +58,9 @@ Prefer, in order:
 
 Conflicting sources are recorded rather than silently reconciled.
 
+Later surviving Unix source may constrain a reconstruction as descendant
+evidence, but must not silently be projected backward as 1970 fact.
+
 ## Reproducibility rule
 
 A chat transcript is never the canonical record of a technical state. Once a fact affects the reconstruction, it belongs in this repository as one of:
@@ -181,6 +184,25 @@ Every era carries a concise `ERA.md` and, where practical, a direct emulator
 path plus concrete interaction. Human replay complements automated acceptance;
 neither substitutes for the other. Ordinary files and small duplicated media
 remain preferable to an era manager or copy-on-boot abstraction.
+
+The public journey is not a gallery of engineering checkpoints. Git preserves
+how our reconstruction evolved; `snapshots/`, tests, evidence, and contracts
+retain selected project states and their technical foundation. Public eras
+present our **current** historical model, not an obligation to retain a weaker
+presentation because an earlier commit used it.
+
+Create a public state only when it gives a person a tangible, historically
+meaningful new capability and improves the journey. R/B/U completion alone
+does not justify one. Prefer a few understandable experiences to a state for
+every implementation increment; assembler availability and tape production
+can be explored within one cross-development state. Success words and
+diagnostics remain useful evidence, but are not themselves the public story.
+
+**Automate repetition that teaches nothing. Preserve constraints and
+mechanisms that explain the history.** For example, automate front-panel
+entry and tape changes while retaining native production, PTR reading, and
+actual loader execution. Keep any gap between an automated acceptance path
+and a visitor's hands-on workflow explicit.
 
 Before relying extensively on a recovered tool or environment, inspect its
 local source, documentation, and evidence; establish and verify one minimal
