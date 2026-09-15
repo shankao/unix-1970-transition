@@ -14,6 +14,8 @@ Supports, among other points:
 - a PDP-7 B cross-compiler for the PDP-11 existed and was written in B;
 - B moved to the PDP-11 very early;
 - a version of multi-precision `dc` ran on the PDP-11 before the disk arrived;
+- while the disk was absent, Thompson recoded the kernel and some basic
+  commands in PDP-11 assembly;
 - the early diskless/RAM-disk PDP-11 period preceded the usable First Edition
   system;
 - the first disk arrived around December 1970, which supports this
@@ -22,6 +24,9 @@ Supports, among other points:
 - modern `exec`, modern `wait`, and full pathnames are described with the
   first completed PDP-11 system after disk arrival; the account does not fix
   their exact introduction within the earlier pre-disk interval.
+- the earlier PDP-7 filesystem work quickly required process execution,
+  commands, and a shell to become useful; this supports intertwined
+  reconstruction work but does not recover the PDP-11 coding order.
 
 ### Dennis M. Ritchie — *The Development of the C Language*
 
@@ -181,6 +186,13 @@ placement), paper-tape reader, Absolute Loader, and fixed-address binary
 records. It establishes DEC availability and behavior, not Bell Labs adoption.
 Ken Thompson's oral history above establishes the Bell Labs tape workflow but
 does not identify its receiving loader or record format.
+
+Contemporary DEC paper-tape documentation also gives useful transfer-rate
+context: about 300 characters/second for the PC11 high-speed reader, about 50
+characters/second for the PC11 punch, and about 10 characters/second for Model
+33 ASR tape operation. These figures help estimate development cost. They do
+not identify which equipment Bell Labs used, and tests need not reproduce the
+delays.
 
 For B4.1–B4.4, the class-C loader tape actually used is DEC's
 `DEC-11-L2PC-PO` Absolute Loader, archived by PCjs as a lossless word-packed

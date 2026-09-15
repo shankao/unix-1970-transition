@@ -75,8 +75,14 @@ and Unix code are unchanged.
   - [x] U1.5 — TRAP/syscall entry and return
   - [x] U1.6 — RAM storage primitive
   - [x] U1.7 — Historical/mechanical-load acceptance
-- [ ] **U2 — Filesystem nucleus** — NEXT; not started.
-- [ ] **U3–U7 Unix migration track** — future work remains open.
+- [ ] **U2 — Filesystem nucleus** — not started; the next Unix increment
+  begins with its RAM-filesystem work.
+- [ ] **U3 — Process/execution nucleus** — not started; work may begin when
+  needed to run the next useful program, before U2 as a group is complete.
+- [ ] **U4 — Minimal userland** — not started; `cat` is planned early to test
+  the first working file and console interfaces.
+- [ ] **U5–U7 Unix integration and disk transition** — future work remains
+  open.
 - [x] Canonical active machine configs
 - [x] Historical-era and reconstruction-snapshot semantics separated
 - [x] Three current historical-system eras made directly runnable
@@ -403,7 +409,7 @@ contains three living, capability-based historical hypotheses with concise
 manifests and tested human replay. The diskless PDP-11 replay consumes the
 unchanged committed U1 tapes through PTR/bootstrap/Absolute Loader. This
 repository-semantics correction changes no B4/U1 result: both remain complete,
-and U2 remains next and unstarted.
+and Unix implementation remains unstarted.
 
 The migration corpus and provisional machine, execution/RAM, and
 filesystem/data-structure contracts are complete. Repository inspection and
@@ -418,8 +424,9 @@ transition. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 B4 and U1.7 are complete. Two accepted U1 test programs totaling 342 native
 PDP-7-assembled words were punched on the PDP-7, loaded through the PDP-11 PTR,
 fourteen-word bootstrap, and 72-word DEC Absolute Loader, compared exactly in
-memory, and replayed with their established results. U2 is now the immediate
-next implementation milestone and remains unimplemented.
+memory, and replayed with their established results. The next Unix work begins
+with U2 RAM-filesystem pieces, but U2/U3/U4 are completion groups rather than
+a required sequence. Unix implementation remains unstarted.
 
 `as11` and `b11` are medium technical risk with material historical
 uncertainty. Paper-tape loading has limited technical scope, but its exact Bell
@@ -431,7 +438,9 @@ completed or “Across the Floor” milestones. See PLAN’s risk table.
 
 - Do not begin U2, `b11`, `dc0`, or later Unix work
   without an explicitly scoped task and its dependency gate.
-- Do not pull U3/U4 process or command work into a U2 task.
+- Do not finish U2 in isolation merely because it is numbered first. Once the
+  first file operations work, use `cat`, then the minimum process and shell
+  code, to expose the next real requirement.
 - Do not treat the provisional memory boundaries or RAM-block geometry as
   recovered history, or mistake the common dynamic arena for a historically
   attested fixed filesystem/process partition.
@@ -448,7 +457,10 @@ completed or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Plan the **U2 filesystem nucleus** implementation against its existing
-contract and acceptance outcome. Do not pull U3 process work or U4 commands
-into U2. Retain fast deposits for development and use paper-tape loading when a
-milestone requires it.
+Plan the first core-only Unix increment: RAM block storage, minimal filesystem
+initialization, and enough inode, directory, descriptor, and file I/O code for
+the first working file. Then follow the dependency-driven order in PLAN rather
+than completing U2 before all U3/U4 work. Fast deposits remain suitable for
+small debugging. Before a substantial increment determines what comes next,
+build it with the PDP-7-side tools as applicable, transfer it by paper tape,
+and record its code and tape sizes.

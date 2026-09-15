@@ -675,3 +675,32 @@ as 74 bytes in four valid DEC records, loaded through the bootstrap and
 Absolute Loader, and halted with the expected R0 value. This adds the missing
 visitor step, not a new B/U milestone. DEC loading remains class C and Bell
 Labs' exact mechanism unknown. B4/U1 remain complete and U2 remains unstarted.
+
+## D0040 — Let working programs set the core-only Unix build order
+
+**Status:** accepted planning policy; refines D0036's development-loading rule;
+no Unix implementation started
+
+U2, U3, and U4 remain useful lists of filesystem, process, and command work
+that must be complete before U5. They no longer prescribe the coding order.
+The historical record does not show a clean subsystem sequence: B and `dc`
+preceded working Unix on the PDP-11; kernel and command work both occurred
+while the disk was absent; and earlier PDP-7 filesystem work quickly required
+processes, commands, and a shell. It does not recover the exact PDP-11 order.
+
+The reconstruction begins with RAM filesystem initialization and the first
+working file. It then uses `cat` to test ordinary-file and console I/O, adds
+parent saving, child-first `fork`/`exit`, and raw command loading, and brings up
+enough shell to run a stored command and regain control. Redirection, reduced
+`ls`, `rm`, and `stat` then drive the remaining file, directory, reuse, and
+status work. Dependencies may move an item earlier. This order is
+reconstruction policy, not Bell Labs chronology.
+
+Fast SIMH deposit remains valid for small debugging and regression. It must not
+make new PDP-11 software seem free to move. Before a substantial integrated
+increment is used to choose the next change, produce it through the
+reconstructed PDP-7-side tools as applicable, load it through the established
+paper-tape reader and loader, and record its target and tape sizes. Reference
+period transfer rates are used to judge cost; the emulator is not slowed to
+imitate operator waiting. Historical and public acceptance continues to use
+the transport required by its acceptance test.

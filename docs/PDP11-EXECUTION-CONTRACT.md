@@ -417,5 +417,7 @@ The following questions are now provisionally resolved in
 
 That contract derives structures from PDP-7 source first and treats First
 Edition structures only as descendant evidence. Repository inspection, U1's
-bare-machine tests, and B4 paper-tape loading are complete. U2 is the next
-planned milestone and remains unstarted.
+bare-machine tests, and B4 paper-tape loading are complete. The next Unix work
+begins with U2 filesystem pieces and remains unstarted, but U2/U3/U4 are
+completion groups rather than a strict implementation sequence. See
+[`PLAN.md`](PLAN.md).

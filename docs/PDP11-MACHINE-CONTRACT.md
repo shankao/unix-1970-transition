@@ -238,4 +238,6 @@ frozen, repository inspection is complete, and the Stage-3 gold test proves
 native PDP-7 `as11` words execute on the PDP-11. U1 subsequently proved
 the low-core vector/RTI, interrupt-driven KL11, TRAP, and RAM-storage
 primitives; B4 proved paper-tape loading. U2 is the next planned milestone and
-remains unstarted.
+remains unstarted. Its filesystem items begin the next Unix work, but U2/U3/U4
+are completion groups rather than a strict implementation sequence; see
+[`PLAN.md`](PLAN.md).

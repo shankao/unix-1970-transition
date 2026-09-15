@@ -129,8 +129,10 @@ Stages 0–3 established a working method for the remaining project:
 2. Track historical confidence separately from technical feasibility. Code
    that works is not thereby authentic.
 3. Build independent test/oracle layers before combining uncertain systems.
-4. Prove one dependency at a time. Compiler, assembler, transport, loader,
-   and runtime remain separate even when the final workflow connects them.
+4. Prove dependencies in the order that working programs require them.
+   Compiler, assembler, transport, loader, and runtime remain separate even
+   when the final workflow connects them. A dependency may cross a U2/U3/U4
+   accounting boundary; those groups do not prescribe coding order.
 5. Preserve failures when they reveal a boundary; record the diagnosis and do
    not let later success erase informative evidence.
 6. Modern instrumentation is acceptable for reconstruction and testing, but
@@ -159,6 +161,35 @@ deposit the small bootstrap, attach media, start machines, drive consoles, and
 verify memory. The rule is: **reconstruct historical mechanisms, not historical
 operator tedium.** Direct deposits and paper-tape loading coexist; do not
 impose the slower method on every inner regression once it has been proven.
+
+### Preserve historical development cost
+
+Modern shortcuts may shorten debugging, but they must not remove historical
+costs in a way that changes what we decide to build next.
+
+Use the two loading methods in three different situations:
+
+1. For a very small debug check or regression, direct deposit of exact
+   PDP-7-produced words is fine.
+2. For a substantial integrated change, use fast deposits while debugging if
+   useful. Before that program becomes the basis for choosing the next change,
+   produce it with the reconstructed PDP-7-side tools as applicable and load it
+   through paper tape. Record the target word or byte count, tape byte count,
+   and approximate period transfer cost.
+3. For a historical or public acceptance test, use the paper-tape reader,
+   bootstrap, and loader required by that test.
+
+Contemporary DEC documentation provides scale, not proof of Bell Labs'
+particular equipment: a PC11 high-speed reader ran at about 300 characters per
+second, its punch at about 50 characters per second, and Model 33 ASR tape
+operation at about 10 characters per second. Use these rates to judge design
+cost; do not delay the emulator to reproduce wall-clock time. The exact Bell
+Labs reader, punch, loader, and tape format remain unknown. See
+[`SOURCES.md`](SOURCES.md).
+
+Ask: **Would this still be the sensible next change if every substantial new
+PDP-11 image had to be assembled on the PDP-7 and transferred by paper tape?**
+If not, the fast method is distorting the reconstruction.
 
 ## Historical-machine development record
 
@@ -227,7 +258,14 @@ not with a desired cross-tool feature list. Select a responsibility, establish
 the exact source variant and provenance, define the target semantics and
 omissions, and only then derive missing assembler or machine requirements.
 This keeps `as11`, threaded B, and `b11` in their evidenced role as bootstrap
-scaffolding rather than allowing them to define the destination system.
+tools rather than allowing them to define the destination system.
+
+Filesystem, process, and command work should grow together when a working
+program requires it. Do not finish a complete subsystem merely because its
+roadmap number comes first. Build the first working file, use a small command
+such as `cat` to exercise it, then add process loading, the shell, and the
+remaining file operations as actual use demands them. This is a reconstruction
+method, not a claim about Bell Labs' exact implementation order.
 
 Use the layered A1/A2/B/C/D source-lineage categories defined in
 [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md). They supplement rather than replace

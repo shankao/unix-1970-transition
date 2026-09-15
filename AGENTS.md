@@ -94,6 +94,17 @@ Never describe B/C/M material as original Bell Labs code.
   Such acceptance must execute the PDP-11 loader and consume the tape through
   the emulated reader; automation may perform historically manual switch and
   console operations. Reconstruct historical mechanisms, not operator tedium.
+- U2, U3, and U4 are completion groups, not a required coding sequence. Begin
+  with RAM filesystem initialization and the first working file, then cross
+  group boundaries when `cat`, process loading, the shell, or another real use
+  requires it. Do not finish a subsystem merely because its number comes
+  first. The order in `docs/PLAN.md` is reconstruction policy, not recovered
+  Bell Labs chronology.
+- Direct deposit is appropriate for small debug checks and regressions. Before
+  a substantial integrated PDP-11 change determines what to build next,
+  produce it with the PDP-7-side tools as applicable, load it through the
+  established paper-tape reader and loader, and record the target and tape
+  sizes. Consider period transfer cost, but do not add artificial delays.
 - Generated tape images and listings are output files; source and reproducible
   build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
@@ -102,11 +113,13 @@ Never describe B/C/M material as original Bell Labs code.
   provisional filesystem/data-structure contract v1 are complete. The
   Stage-3 gold round trip, KL11 polling diagnostic, U1 bare-machine substrate,
   and B4 paper-tape transport are complete. U1.7 proves historical transport
-  acceptance. U2 is the next planned milestone; do not start it without
-  explicit authorization, and do not skip to U3/U4/RF11.
+  acceptance. Unix implementation remains unstarted. Its first work begins
+  with U2 RAM-filesystem pieces, but later work may cross into U3/U4 when the
+  dependency-driven order in `docs/PLAN.md` calls for it. Do not begin that
+  work without explicit authorization, and do not skip to RF11.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
-- Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the
+- Treat PDP-7 cross-development tools as bootstrap tools: implement the
   minimum evidenced capability needed to reach the next useful PDP-11 state,
   not features merely for tool completeness.
 - Derive further assembler and cross-tool requirements from selected,

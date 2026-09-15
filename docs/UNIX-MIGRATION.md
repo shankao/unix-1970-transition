@@ -169,6 +169,38 @@ sequentially and print names without sorting or long format; that is a
 resource adaptation, not a claim about lost PDP-11 behavior. `stat` validates
 metadata/status but need not block the earliest shell prompt.
 
+## Reconstruction development order
+
+U2, U3, and U4 are lists of filesystem, process, and command work that must be
+finished before core-only Unix is accepted. They do not recover or prescribe a
+strict subsystem-by-subsystem coding order.
+
+The historical evidence instead shows intertwined growth. B and early `dc`
+work ran on the PDP-11 before Unix was complete. While waiting for the disk,
+Thompson recoded the kernel and some basic commands. Earlier PDP-7 filesystem
+work also pulled in processes, utilities, and the shell because the filesystem
+alone was not useful. The exact PDP-11 order is lost.
+
+The reconstruction will therefore proceed through working uses:
+
+1. initialize enough RAM filesystem state to create and reopen a file;
+2. provide inode, root-directory, descriptor, `open`, `creat`, `read`,
+   `write`, and `close` behavior for that file;
+3. send console I/O through ordinary `read` and `write` special-file handling;
+4. add `cat` early to test files and the console together;
+5. save the parent, implement child-first `fork` and `exit`, and load a raw
+   command image;
+6. add a small shell that can run a stored command and regain control;
+7. use redirection to finish descriptor and file-creation behavior;
+8. add reduced `ls`, then `rm`, then `stat` to drive directory reading,
+   unlink/free/reuse, and remaining status data; and
+9. finish U2/U3 details exposed by those uses before the U2, U3, and U4
+   acceptance checks.
+
+This order is project policy, not a claim about Bell Labs' day-by-day work.
+An actual dependency may move an item earlier. In particular, `stat` remains
+secondary unless another working program needs it sooner.
+
 ## Core-only process and syscall contract
 
 Do not introduce modern `exec` and `wait` merely because later PDP-11 UNIX has
@@ -345,17 +377,22 @@ That repository inspection was subsequently completed as R5, followed by the
 U1.1–U1.6 bare-machine implementation. B4 then supplied U1.7: two accepted U1
 test programs were punched on the PDP-7, loaded through the PDP-11 reader and
 actual bootstrap/Absolute Loader execution, compared exactly, and replayed. U1
-is complete; U2 is next and remains unimplemented.
+is complete. Unix implementation remains unstarted; its first increment begins
+with RAM filesystem initialization and follows the working order above.
 
-U2 itself should load PDP-11 code and have that code clear and initialize the
-RAM inode area, root directory, free maps, tty special entries, and test state.
+The first filesystem work should load PDP-11 code and have that code clear and
+initialize the RAM inode area, root directory, free maps, tty special entries,
+and test state.
 It does not require a host-generated, preconstructed 8 KB filesystem image;
-the exact historical initialization method remains unknown. Later, when U4
-commands must populate that filesystem, paper tape is a natural reconstructed
-input path, but whether Bell Labs used tape-loaded contents, programmatic
-initialization, or a mixture is unresolved.
+the exact historical initialization method remains unknown. As commands are
+added, paper tape is a natural reconstructed input, but whether Bell Labs used
+tape-loaded contents, programmatic initialization, or a mixture is unresolved.
 
-Fast exact-word deposit remains available throughout U2–U5 development. U5
-may use direct deposits during integration, but its DONE outcome requires
+Fast exact-word deposit remains available for small debugging and regression.
+Before a substantial integrated increment determines what to build next, use
+the historical-side tools as applicable, transfer it through the established
+paper-tape reader and loader, and record its code and tape sizes. This preserves
+period design pressure without adding artificial emulator delays. U5 may use
+direct deposits during integration, but its DONE outcome requires
 PDP-7-produced system/command payloads loaded through B4's reader and loader,
 the RAM-backed environment, interactive shell scenario, and 24 KB budget.

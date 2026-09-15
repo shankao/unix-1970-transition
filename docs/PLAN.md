@@ -162,8 +162,9 @@ PDP-7 emission -> PDP-11 representation -> runtime operator -> `as11`
 capability matrix before implementation.
 
 B4 was completed using the stable U1 payloads without waiting for B2/B3.
-It satisfied U1 transport acceptance; U2 is now the next implementation work,
-not a newly declared public historical state. B5,
+It satisfied U1 transport acceptance. The next Unix work begins with RAM
+storage and the minimum filesystem initialization, not with completing every
+U2 item before touching U3 or U4. B5,
 dependent on B3 plus B4, is the central historical cross-development
 culmination. B6 is only an engineering confidence probe and
 blocks nothing. B7 depends on its own research and sufficient B/runtime/tape
@@ -184,6 +185,11 @@ B4 ----------+
 ```
 
 ### UNIX / Thompson-oriented migration track
+
+U2, U3, and U4 group work that must eventually be complete. Their numbers do
+not prescribe the implementation order. Work may cross these groups whenever
+the next working program requires it; for example, `cat` should exercise the
+first usable file and console interfaces before all U2 items are finished.
 
 - [x] **U1 — Bare PDP-11 machine substrate**
   - **Done when:** U1.1–U1.6 work together and U1.7 proves an existing
@@ -264,33 +270,70 @@ not four successive project stages. This same checkbox rule governs later
 milestones: incomplete items are refined beneath their existing identifier.
 Several adjacent checkboxes may be authorized as one clearly scoped
 implementation task when they are tightly coupled. Such a task still requires
-an explicit upper scope boundary, stop condition, and validation; a checkbox need not
-become a separate prompt or commit.
+an explicit upper scope boundary, stop condition, and validation; a checkbox
+need not become a separate prompt or commit.
 
 A parent R/B/U milestone is complete only when its separately documented
 **Done when / observable outcome** passes, even if its implementation
 checkboxes are checked. U1 was therefore reopened without invalidating
-U1.1–U1.6: its missing historical transport acceptance is now U1.7.
+U1.1–U1.6: its missing historical transport acceptance was added as U1.7 and
+has since passed.
 
-## Transport provenance and acceptance policy
+## Dependency-driven core-only development order
+
+The following order is reconstruction policy, not recovered Bell Labs
+chronology. Exact day-by-day PDP-11 development order is unknown. The policy
+is to implement enough cooperating parts to make something useful, then let
+that use show what is needed next:
+
+1. extend the U1 RAM block code with the minimum filesystem initialization;
+2. add the inode, root-directory, descriptor, and file operations needed to
+   create, open, read, write, and close the first working file;
+3. route console input and output through ordinary `read` and `write` on the
+   console special files;
+4. add `cat` as the first real command, using it to test ordinary files and
+   console I/O;
+5. add parent backing, child-first `fork`, `exit`, and raw command loading;
+6. add enough `sh` to load a command from the RAM filesystem and regain
+   control when it exits;
+7. use shell redirection to finish and test descriptor allocation and file
+   creation behavior;
+8. add reduced `ls` to test directory reads, `rm` to test unlink and block
+   reuse, and `stat` to test the remaining status data;
+9. finish any U2 and U3 details that these real uses expose; and
+10. complete the U2, U3, and U4 acceptance checks before U5 is accepted.
+
+An implementation task may therefore include items from more than one group.
+It must still state exactly which steps it will attempt and where it will stop.
+`cat` is deliberately early because it tests `open`, `read`, `write`, and
+`close` across both ordinary files and the console. `stat` remains later unless
+another real dependency requires it sooner.
+
+## Transport provenance, development cost, and acceptance
 
 Code-generation provenance and transport provenance are independent. U1.1–U1.6
 proved that PDP-7-hosted `as11` produced the exact KA11 words subsequently
 verified and executed, but class-M SIMH deposits did not prove how those words
 would historically reach the PDP-11.
 
-Two test modes remain permanently legitimate:
+Three uses of the loading methods remain legitimate:
 
-- **Fast development method:** native PDP-7 `as11` -> exact `i`/`x`/`w`
-  words -> host parse/oracle/deposit -> PDP-11 execution. The host may parse,
-  verify, deposit, run, and inspect, but must never encode, replace, repair, or silently
-  alter target words. This remains the normal fast regression method and is not
-  historical transport.
-- **Historical paper-tape test:** PDP-7-hosted production -> paper-tape
-  representation -> emulated PDP-11 reader -> PDP-11-executed bootstrap and
-  loader -> identical target memory -> execution. The runner may automate
-  switches, deposits of the tiny bootstrap, tape attachment, starts, console
-  interaction, and verification.
+1. **Small debugging and regression:** native PDP-7 `as11` -> exact
+   `i`/`x`/`w` words -> host parse/oracle/deposit -> PDP-11 execution. The
+   host may parse, verify, deposit, run, and inspect, but must never encode,
+   replace, repair, or silently alter target words.
+2. **An integrated development increment:** fast deposits may be used while
+   debugging, but before the result determines what to build next, produce it
+   with the reconstructed PDP-7-side tools as applicable, load it by the B4
+   paper-tape method, and record its target and tape sizes. Consider whether
+   the software still makes sense when transfer is not free.
+3. **Historical or public acceptance:** use the paper tape, PDP-11 reader,
+   bootstrap, and loader required by the acceptance test.
+
+Paper tape is not required for every small test, and emulator runs need not be
+artificially delayed. Its cost must nevertheless influence design decisions.
+See [`METHOD.md`](METHOD.md) for the reference device rates and the rule used
+when selecting the next substantial change.
 
 The general paper-tape transfer from PDP-7 to PDP-11 is historically attested.
 The exact late-1970 Bell Labs receiving loader and record format remain
@@ -322,7 +365,8 @@ U1.7 passes only when:
 The two current U1 test programs total 342 native words. B4 transported both
 programs and reproduced their established results, satisfying U1.7
 without inventing a trivial transport-only payload. The U1 parent is complete
-and U2 is next; see [`../evidence/b4/`](../evidence/b4/).
+and Unix implementation begins with the dependency-driven order above; see
+[`../evidence/b4/`](../evidence/b4/).
 
 ## Integrated Unix milestone acceptance gates
 
@@ -337,10 +381,12 @@ code, create an ordinary file, write meaningful data with relevant block and
 offset boundary coverage, close and reopen it, read back the exact bytes,
 obtain status metadata, unlink it, and prove that its inode and data blocks are
 reusable. The same test program must exercise `ttyin`/`ttyout` through
-special-file dispatch and leave block/inode allocation invariants correct. Fork, switching,
-shell, and real user commands are outside U2. Fast development transport is
-allowed; no host-created complete filesystem image is required or accepted as
-the implementation.
+special-file dispatch and leave block/inode allocation invariants correct.
+Fork, switching, shell, and real user commands are not required to pass U2.6.
+This does not forbid building an early command or process operation before U2
+is complete when it is the clearest way to test working filesystem code. No
+host-created complete filesystem image is required or accepted as the
+implementation.
 
 ### U3.6 — Process/execution nucleus acceptance
 
@@ -379,9 +425,9 @@ constrained disk-backed PDP-11 Unix; another symmetry-only subtask would add no
 capability boundary.
 
 ```text
-U2 -> U3 -> U4 --+
-                   +--> U5 historical acceptance
-B4 ---------------+
+interleaved U2 filesystem, U3 process, and U4 command work --+
+                                                             +--> U5 acceptance
+B4 paper-tape loading ---------------------------------------+
 ```
 
 The separate preservation view is:
@@ -806,15 +852,16 @@ This work provides machine-level services, not a tty layer, set of Unix
 syscalls, process system, or filesystem. B4 now supplies U1.7 through real
 PDP-7 PTP and PDP-11 PTR/bootstrap/Absolute Loader operation; both accepted U1
 programs arrived word-for-word intact and reproduced their established
-results. U2 remains unimplemented and is next.
+results. Unix implementation remains unstarted. Its first work is RAM storage
+and minimal filesystem initialization, followed by the working order above.
 
 When U2 begins, loaded PDP-11 code should itself clear and initialize the RAM
 inode area, root directory, free maps, tty special entries, and test state. U2
 does not require a host-generated/deposited 8 KB filesystem image. This is a
 reconstruction design, not a recovered historical initialization procedure.
 
-When U4 later populates real commands, paper tape is a natural input for their
-bytes, but Bell Labs' exact RAM-filesystem population procedure is unknown.
+As real commands are added, paper tape is a natural input for their bytes, but
+Bell Labs' exact RAM-filesystem population procedure is unknown.
 Use the simplest reconstruction compatible with the established transport and
 filesystem interfaces rather than asserting tape, programmatic creation, or a
 mixture as historical fact.

@@ -467,13 +467,13 @@ The repository inspection found:
 - current PDP-11 runner, Stage-3 loading steps, saved output, and oracle
   checks;
 - the smallest real Unix-derived machine-layer component;
-- exact dependency order for vectors, trap entry, KL11 polling proof, KL11
-  interrupts, RAM/block abstraction, filesystem nucleus, process control, and
-  shell/commands;
+- working order for vectors, trap entry, KL11 polling, KL11 interrupts,
+  RAM/block operations, filesystem code, process control, and commands;
 - non-speculative tests available at each boundary;
 - the point where a first persistent PDP-11 era becomes meaningful.
 
 The separately authorized Stage-3 gold integration proves that PDP-7 `as11`
 output reaches the PDP-11 unchanged. U1's bare-machine work and B4 paper-tape
-loading are now complete. U2 is the next planned milestone, and filesystem
-implementation remains unstarted.
+loading are now complete. Unix implementation remains unstarted. It begins
+with RAM filesystem initialization, then follows the working order
+in [`PLAN.md`](PLAN.md) rather than completing U2 before all U3/U4 work.
