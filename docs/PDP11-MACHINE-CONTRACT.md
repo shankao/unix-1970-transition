@@ -235,7 +235,7 @@ The research items below are now provisionally frozen in
 
 The execution and filesystem/data-structure follow-ons are provisionally
 frozen, repository-aware integration is complete, and the Stage-3 gold path
-proves native PDP-7 `as11` words execute on the PDP-11. The KL11 polling
-diagnostic now proves two successive receiver and transmitter operations at
-`177560`–`177566` without interrupt enable. The next bounded slice is the
-low-core vector framework and RTI; no kernel implementation has begun.
+proves native PDP-7 `as11` words execute on the PDP-11. U1 subsequently proved
+the low-core vector/RTI, interrupt-driven KL11, TRAP, and RAM-storage substrate;
+B4 proved paper-tape transport acceptance. U2 is the next planned milestone
+and remains unstarted.

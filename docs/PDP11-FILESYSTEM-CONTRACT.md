@@ -458,7 +458,7 @@ allocation      16-bit block map + 16-bit inode map
 block buffer    one 512-byte kernel buffer
 ```
 
-## Completed repository-aware integration and next slice
+## Completed repository-aware integration and current boundary
 
 The repository-aware inspection is complete. It established:
 
@@ -473,7 +473,7 @@ The repository-aware inspection is complete. It established:
 - non-speculative tests available at each boundary;
 - the point where a first persistent PDP-11 era becomes meaningful.
 
-The separately authorized Stage-3 gold integration now proves the PDP-7
-`as11` word path, and the KL11 polling input/output diagnostic is complete.
-The next bounded implementation slice is low-core vectors/RTI, followed by
-interrupt-driven console. Filesystem implementation remains unstarted.
+The separately authorized Stage-3 gold integration proves the PDP-7 `as11`
+word path. U1's bare-machine substrate and B4 paper-tape transport acceptance
+are now complete. U2 is the next planned milestone, and filesystem
+implementation remains unstarted.

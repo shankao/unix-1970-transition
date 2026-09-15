@@ -77,10 +77,10 @@ Never describe B/C/M material as original Bell Labs code.
   mechanisms that explain the history. Public instructions must distinguish
   what a visitor can actually do from what an acceptance runner proves;
   document usability gaps rather than implying a nonexistent workflow.
-- Beginning with the next successful PDP-7 development checkpoint (Stage 4C),
-  maintain a concise native `dd/shankao/readme` describing what works and what
-  does not yet exist. Update it as part of normal native development; never
-  alter an older snapshot retroactively to insert it.
+- For successful PDP-7 development checkpoints from Stage 4C onward, maintain
+  a concise native `dd/shankao/readme` describing what works and what does not
+  yet exist. Update it as part of normal native development; never alter an
+  older snapshot retroactively to insert it.
 - Prefer a small verified implementation over a broad speculative one.
 - Keep repository Python runners non-executable and invoke them explicitly as
   `python3 tools/<runner>.py`; do not add executable bits merely for
@@ -101,7 +101,8 @@ Never describe B/C/M material as original Bell Labs code.
   provisional filesystem/data-structure contract v1 are complete. The
   Stage-3 gold round trip, KL11 polling diagnostic, U1 bare-machine substrate,
   and B4 paper-tape transport are complete. U1.7 proves historical transport
-  acceptance. U2 is next; do not skip to U3/U4/RF11.
+  acceptance. U2 is the next planned milestone; do not start it without
+  explicit authorization, and do not skip to U3/U4/RF11.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
 - Treat PDP-7 cross-development tools as bootstrap scaffolding: implement the

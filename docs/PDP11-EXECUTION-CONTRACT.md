@@ -417,6 +417,5 @@ The following questions are now provisionally resolved in
 
 That contract derives structures from PDP-7 source first and treats First
 Edition structures only as descendant evidence. Repository-aware integration,
-the Stage-3 gold transport, and KL11 polling input/output are complete; the
-next bounded slice is low-core vectors and RTI. No UNIX implementation has
-begun.
+U1's complete bare-machine substrate, and B4 paper-tape transport acceptance
+are now complete. U2 is the next planned milestone and remains unstarted.

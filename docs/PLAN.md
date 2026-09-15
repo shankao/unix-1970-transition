@@ -13,11 +13,12 @@ confidence and technical feasibility are recorded separately. See
 [`METHOD.md`](METHOD.md) for A/B/C/D/M policy and [`STATUS.md`](STATUS.md) for
 the authoritative checkpoint.
 
-Completed stage numbers remain stable historical labels. The forward roadmap
-is now organized as cooperating dependency tracks rather than treating the
-cross-tool chain as the definition of UNIX. The surviving/restored PDP-7 UNIX
-workload defines the migration target; `as11`, threaded B, `b11`, and tape are
-bootstrap infrastructure. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
+Completed Stage 0–4C identifiers remain stable reconstruction-project labels.
+The forward roadmap is now organized as cooperating dependency tracks rather
+than treating the cross-tool chain as the definition of UNIX. The
+surviving/restored PDP-7 UNIX workload defines the migration target; `as11`,
+threaded B, `b11`, and tape are bootstrap infrastructure. See
+[`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 
 ## Stable project hierarchy
 
@@ -35,7 +36,7 @@ debugging tasks remain beneath their existing checkbox. If evidence requires a
 genuinely new plan-level boundary, this file must define and justify it before
 implementation rather than inventing a new apparent stage afterward.
 
-### Historical / bootstrap foundation
+### Completed reconstruction / bootstrap foundation
 
 - [x] **Stage 0 — Machine reproducibility**
 - [x] **Stage 1 — PDP-7 B characterization**
@@ -606,15 +607,16 @@ executes those exact records to print `D`.
 - **Major unknowns:** exact Bell Labs record and loader convention. DEC
   Absolute Binary must not be attributed to Bell Labs without evidence.
 - **Dependencies:** a stable PDP-7-produced payload/map, PDP-7 PTP, and
-  PDP-11 PTR. It need not wait for B2/B3 and is now actionable with U1 payloads.
+  PDP-11 PTR. B4 did not wait for B2/B3; its accepted U1 payloads supplied the
+  required stable articles.
 - **B4.0 decision:** absent stronger Bell-specific evidence, use the
   contemporary DEC bootstrap plus Absolute Loader/absolute-binary mechanism
   as class C. This selects a reconstruction; it does not resolve the class-D
   Bell Labs format.
 - **Gate:** exact bytes produced through PDP-7 execution/PTP are attached
   unchanged to PTR, loaded, and executed. A host replacement tape fails it.
-- **Provenance:** transfer A; exact format D; DEC fallback C if selected;
-  host coordination M.
+- **Provenance:** transfer A; exact Bell Labs format D; selected contemporary
+  DEC mechanism C; host coordination M.
 
 ### Complete “Across the Floor” milestone
 
