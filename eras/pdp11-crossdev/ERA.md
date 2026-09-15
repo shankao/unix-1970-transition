@@ -55,6 +55,9 @@ PC `001330`, and displays `000001` at `003042` plus its allocator results.
 Those words are engineering checks; the public capability is receiving and
 running software prepared on another machine. RAM testing is optional detail,
 not a separate historical state or evidence that a filesystem exists.
+Only the fourteen-word bootstrap is entered directly. Both substantial test
+programs are native `as11` output and enter through PTR; the replay files do
+not deposit their words.
 
 ## Acceptance / regression
 

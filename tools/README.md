@@ -4,6 +4,13 @@ Everything in this directory is class M unless explicitly documented otherwise.
 
 These tools exist to verify encodings, inspect tapes, automate reproducibility checks, and reduce emulator debugging loops. They are not part of the historical code-generation path.
 
+`build_stage3a.py` and `build_stage3b.py` preserve the fixed-layout host-built
+programs used before native `as11` existed. They record reconstruction history;
+do not use them as the production method for new substantial PDP-11 programs.
+Such programs use readable symbolic source and native PDP-7 `as11`. A runner
+may directly load that exact native result for repeated debugging, but must not
+encode or replace it.
+
 # Modern host-side tools
 
 - `pdp11_oracle.py`: class-M encoder/decoder and byte/branch oracle for the

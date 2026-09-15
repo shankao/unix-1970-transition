@@ -13,3 +13,7 @@ pdp11 artifacts/kl11-poll.simh
 
 After the readiness message, type two characters; each is echoed through the
 polled KL11, then the PDP-11 halts.
+
+This deposit file is a fast rerun of an already-assembled test program. The
+readable source and native `as11` trace, not the deposits, define the program.
+Current public paper-tape replay is under `eras/pdp11-crossdev/`.

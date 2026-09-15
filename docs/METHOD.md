@@ -164,19 +164,37 @@ impose the slower method on every inner regression once it has been proven.
 
 ### Preserve historical development cost
 
-Modern shortcuts may shorten debugging, but they must not remove historical
-costs in a way that changes what we decide to build next.
+Historical development cost includes the work of writing and changing machine
+code, not only the time needed to move it between machines. Without an
+assembler, a substantial PDP-11 program would require hand encoding,
+address calculation, bookkeeping, and manual correction. Native PDP-7 `as11`
+now exists to do that work, so the normal source path for a substantial new
+PDP-11 program is:
 
-Use the two loading methods in three different situations:
+```text
+symbolic PDP-11 source -> native PDP-7 as11 -> target words
+```
 
-1. For a very small debug check or regression, direct deposit of exact
-   PDP-7-produced words is fine.
-2. For a substantial integrated change, use fast deposits while debugging if
-   useful. Before that program becomes the basis for choosing the next change,
-   produce it with the reconstructed PDP-7-side tools as applicable and load it
+A host script may run SIMH, copy files, inspect memory, and check native
+output. It must not design or encode a substantial current program in place of
+`as11`. There is no fixed word-count cutoff. Ask whether hand entry would have
+been plausible or whether using the assembler would plainly have been easier.
+
+Modern shortcuts may shorten debugging, but they must not remove programming
+or transfer costs in a way that changes what we decide to build next.
+
+Use direct entry and the two loading methods in four different situations:
+
+1. Directly enter a manually plausible amount: the small bootstrap, a few
+   diagnostic instructions, or a small patch.
+2. While repeatedly debugging a substantial program, directly load the exact
+   result already produced by native `as11`. Its symbolic source and native
+   output remain authoritative.
+3. Before a substantial integrated change becomes the basis for choosing the
+   next change, build it with the reconstructed PDP-7-side tools and load it
    through paper tape. Record the target word or byte count, tape byte count,
    and approximate period transfer cost.
-3. For a historical or public acceptance test, use the paper-tape reader,
+4. For a historical or public acceptance test, use the paper-tape reader,
    bootstrap, and loader required by that test.
 
 Contemporary DEC documentation provides scale, not proof of Bell Labs'
@@ -188,8 +206,14 @@ Labs reader, punch, loader, and tape format remain unknown. See
 [`SOURCES.md`](SOURCES.md).
 
 Ask: **Would this still be the sensible next change if every substantial new
-PDP-11 image had to be assembled on the PDP-7 and transferred by paper tape?**
-If not, the fast method is distorting the reconstruction.
+PDP-11 program had to be written symbolically, assembled on the PDP-7, and
+transferred by paper tape?** If not, the fast method is distorting the
+reconstruction.
+
+Living eras follow this rule even when older project work did not. Git,
+`snapshots/`, and `evidence/` may retain pre-`as11` host-built programs because
+they record how this reconstruction developed; they are not models for new
+PDP-11 work.
 
 ## Historical-machine development record
 

@@ -12,5 +12,6 @@ emitted by native PDP-7 `as11`.
 - `pdp7-session.transcript.txt` is the latest native assembly session;
   `image-state.txt` records its filesystem-image state.
 
-The host harness parses, verifies, deposits, drives SIMH, and inspects results.
-It does not encode or replace PDP-11 instructions.
+The host runner parses, verifies, deposits, drives SIMH, and inspects results.
+These deposits are fast reruns of native `as11` output. The runner does not
+encode or replace PDP-11 instructions.

@@ -389,10 +389,12 @@ added, paper tape is a natural reconstructed input, but whether Bell Labs used
 tape-loaded contents, programmatic initialization, or a mixture is unresolved.
 
 Fast exact-word deposit remains available for small debugging and regression.
-Before a substantial integrated increment determines what to build next, use
-the historical-side tools as applicable, transfer it through the established
-paper-tape reader and loader, and record its code and tape sizes. This preserves
-period design pressure without adding artificial emulator delays. U5 may use
-direct deposits during integration, but its DONE outcome requires
+A substantial new PDP-11 program must first have readable symbolic source and
+be assembled by native PDP-7 `as11`; a host program must not replace that human
+and assembler work. Before a substantial integrated increment determines what
+to build next, transfer the native result through the established paper-tape
+reader and loader, and record its code and tape sizes. This preserves period
+programming and transfer pressure without adding artificial emulator delays.
+U5 may use direct deposits during integration, but its DONE outcome requires
 PDP-7-produced system/command payloads loaded through B4's reader and loader,
 the RAM-backed environment, interactive shell scenario, and 24 KB budget.

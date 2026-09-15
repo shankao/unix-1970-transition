@@ -59,6 +59,11 @@ words while still working inside PDP-7 Unix. The already-proven native tape
 formatter is installed too, so the exact words you assemble can leave through
 the PDP-7 paper-tape punch.
 
+For any program larger than a few plausible front-panel words, this symbolic
+assembly is the normal development method. The point of `as11` is not only to
+produce the final bytes: it replaces hand encoding, address calculation, and
+paper bookkeeping while the PDP-11 still has no native development tools.
+
 ```sh
 cd eras/pdp7-crossdev
 pdp7 pdp7.simh

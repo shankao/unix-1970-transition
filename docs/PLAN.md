@@ -316,18 +316,27 @@ proved that PDP-7-hosted `as11` produced the exact KA11 words subsequently
 verified and executed, but class-M SIMH deposits did not prove how those words
 would historically reach the PDP-11.
 
-Three uses of the loading methods remain legitimate:
+Human programming effort is also part of historical development cost. For a
+substantial new program, readable symbolic source assembled by native PDP-7
+`as11` is the normal source of PDP-11 words. A host program must not replace
+that work merely because it can calculate a large image quickly. There is no
+fixed size limit; the test is whether hand entry would have been plausible or
+whether a programmer would plainly have used the assembler.
 
-1. **Small debugging and regression:** native PDP-7 `as11` -> exact
+Four uses of the loading methods remain legitimate:
+
+1. **Manual-scale work:** directly enter the small bootstrap, a few diagnostic
+   instructions, or a small patch.
+2. **Repeated debugging and regression:** native PDP-7 `as11` -> exact
    `i`/`x`/`w` words -> host parse/oracle/deposit -> PDP-11 execution. The
    host may parse, verify, deposit, run, and inspect, but must never encode,
    replace, repair, or silently alter target words.
-2. **An integrated development increment:** fast deposits may be used while
-   debugging, but before the result determines what to build next, produce it
-   with the reconstructed PDP-7-side tools as applicable, load it by the B4
-   paper-tape method, and record its target and tape sizes. Consider whether
-   the software still makes sense when transfer is not free.
-3. **Historical or public acceptance:** use the paper tape, PDP-11 reader,
+3. **An integrated development increment:** fast deposits may be used while
+   debugging, but before the result determines what to build next, assemble it
+   with the reconstructed PDP-7-side tools, load it by the B4 paper-tape
+   method, and record its target and tape sizes. Consider both the work of
+   writing the program and the cost of moving it.
+4. **Historical or public acceptance:** use the paper tape, PDP-11 reader,
    bootstrap, and loader required by the acceptance test.
 
 Paper tape is not required for every small test, and emulator runs need not be
@@ -626,12 +635,14 @@ executes those exact records to print `D`.
   input and words compatible with the demonstrated runtime.
 - **Provenance:** compiler B; descendant evidence B/C; verification M.
 
-### B toolchain integration gate — modern loading
+### B toolchain integration gate — fast loading
 
 **Status: NOT STARTED**
 
-- **Objective:** prove `B source -> b11 -> as11 -> PDP-11 words -> modern
-  deposit -> bare PDP-11 execution` before introducing tape.
+- **Objective:** first prove `B source -> b11 -> as11 -> PDP-11 words ->
+  direct load -> bare PDP-11 execution` as a fast integration check. Before a
+  substantial result guides the next design choice, carry the same native
+  output through the already-complete B4 paper-tape method.
 - **Evidence basis:** compiler/assembler architecture is historical; loading
   is explicitly diagnostic.
 - **Major unknowns:** compiler-output/runtime-ABI integration.

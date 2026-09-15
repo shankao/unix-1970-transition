@@ -100,11 +100,21 @@ Never describe B/C/M material as original Bell Labs code.
   requires it. Do not finish a subsystem merely because its number comes
   first. The order in `docs/PLAN.md` is reconstruction policy, not recovered
   Bell Labs chronology.
-- Direct deposit is appropriate for small debug checks and regressions. Before
-  a substantial integrated PDP-11 change determines what to build next,
-  produce it with the PDP-7-side tools as applicable, load it through the
-  established paper-tape reader and loader, and record the target and tape
-  sizes. Consider period transfer cost, but do not add artificial delays.
+- Write substantial new PDP-11 programs as symbolic source and assemble them
+  with native PDP-7 `as11`. Host scripts may control machines and verify the
+  result, but must not become the assembler or the primary source of target
+  words. There is no fixed word-count cutoff: ask whether a programmer would
+  plausibly enter the program by hand or would plainly use the assembler.
+- Direct word entry is appropriate for the small bootstrap, a few diagnostic
+  instructions, or a small patch. Repeated debugging may directly load the
+  exact output of native `as11`; the symbolic source and native result remain
+  authoritative. Older host-built programs under `snapshots/` and `evidence/`
+  may remain as reconstruction history, but do not copy that method into a
+  living era or new substantial program.
+- Before a substantial integrated PDP-11 change determines what to build next,
+  load its native `as11` result through the established paper-tape reader and
+  loader, and record the target and tape sizes. Consider period programming
+  and transfer effort, but do not add artificial delays.
 - Generated tape images and listings are output files; source and reproducible
   build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.

@@ -704,3 +704,36 @@ paper-tape reader and loader, and record its target and tape sizes. Reference
 period transfer rates are used to judge cost; the emulator is not slowed to
 imitate operator waiting. Historical and public acceptance continues to use
 the transport required by its acceptance test.
+
+## D0041 — Use native as11 for substantial PDP-11 programs
+
+**Status:** accepted development policy; current living reconstruction audited;
+no Unix implementation started
+
+Historical development cost includes human programming effort. A 1970
+programmer could plausibly enter a small bootstrap, several diagnostic words,
+or a small patch at the console. A substantial program would instead require
+laborious hand encoding and address calculation. Now that native PDP-7 `as11`
+works, readable symbolic source assembled there is the normal way to create a
+substantial PDP-11 program. No fixed word limit replaces this judgment.
+
+Direct loading remains useful when it repeats exact native `as11` output during
+debugging. Host programs may operate SIMH, compare memory, and check encodings;
+they must not become the assembler or primary source of a substantial current
+program. Before an integrated change guides later design, D0040 still requires
+the native result to be carried through the paper-tape loading method so both
+programming and transfer costs remain visible.
+
+The repository audit found no violation in the living eras. Their PDP-11
+replays deposit only the fourteen-word bootstrap. The 131-word interrupt/TRAP
+and 211-word RAM programs have readable source, were assembled by native
+`as11`, and enter the public PDP-11 through PTR and the Absolute Loader. The
+direct Stage-3 gold, KL11, and U1 scripts are faster reruns of native assembler
+output, not target-code generators.
+
+The Stage 3A/3B fixed-layout Python builders and their deposit scripts predate
+native `as11`. They remain valid evidence of how this reconstruction developed
+and are retained under `tools/` and `evidence/`; the earlier polling state is
+likewise retained under `snapshots/`. They are not templates for new PDP-11
+work. Living eras may be corrected if a future audit finds a violation, while
+Git, evidence, and snapshots retain the earlier project record.

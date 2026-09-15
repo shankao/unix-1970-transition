@@ -244,6 +244,32 @@ Read-only `fsck7` exits 0 with only the established inode-38/block-2987
 self-revisit. Useful native `u1int.s/.o` and `u1ram.s/.o` remain; the abandoned
 oversized `u1diag.s/.o` pair was removed. No preserved era was changed.
 
+### PDP-11 program-production audit
+
+The current living reconstruction follows the native-assembler rule. The
+following audit groups describe loading practice, not the A/B/C/D source
+provenance classes:
+
+- **Manual-scale deposit:** the PDP-11 paper-tape replays directly enter only
+  DEC's fourteen-word bootstrap. This represents plausible front-panel entry.
+- **Fast debugging:** the Stage-3 gold, KL11 polling, and U1 direct-load scripts
+  deposit exact native PDP-7 `as11` output. Each substantial program has
+  readable symbolic source; the host decodes or compares words but does not
+  generate the executed image.
+- **Incorrect current reconstruction:** none found. The living PDP-11 era
+  loads both U1 programs through PTR, the bootstrap, and the Absolute Loader;
+  its replay files contain no payload deposits.
+- **Reconstruction-history evidence:** the Stage 3A/3B Python fixed-layout
+  builders, their SIMH deposit scripts, and the earlier polling snapshot record
+  work done before the native assembler path was available. They remain under
+  `tools/`, `evidence/`, and `snapshots/` and are not a model for new PDP-11
+  programs.
+
+New substantial PDP-11 programs must therefore be written symbolically and
+assembled by native PDP-7 `as11`. Direct loading may still repeat that exact
+output during debugging. This audit changed no machine code, media, or Unix
+implementation; U2 remains unstarted.
+
 Earlier canonical-config regression runs retained the same useful native
 sources and outputs and had advanced the evolving authoritative image to SHA-256
 `40905562d9feb63b2a5e95f542098e052c12da7fc9af136098e907c3cb781968`.
