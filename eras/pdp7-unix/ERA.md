@@ -3,8 +3,9 @@
 ## Historical hypothesis
 
 This era represents a usable late PDP-7 Unix environment before reconstructed
-PDP-11 cross-development tools dominate the experience. It is a
-capability-based slice, not a claim for an exact date or Bell Labs milestone.
+PDP-11 cross-development tools dominate the experience. It is a runnable
+state chosen for what the user can do, not a claim for an exact date or Bell
+Labs milestone.
 
 ## Evidence / provenance
 
@@ -19,8 +20,8 @@ a recovered point-in-time disk.
 ## What exists
 
 A self-contained PDP-7 configuration, bootstrap, RB09 filesystem, command
-environment, and restored source tree. PDP-11 cross-development acceptance is
-not represented by this slice. The selected `pdp7.fs` SHA-256 is
+environment, and restored source tree. This state does not include the later
+PDP-11 cross-development work. The selected `pdp7.fs` SHA-256 is
 `15eb6208c9820deef591f2f3568655bc163f374de4f281ceec0b14f9cef13e44`.
 
 ## Run it

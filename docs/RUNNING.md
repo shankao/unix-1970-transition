@@ -3,8 +3,8 @@
 
 Follow three runnable states: explore Unix on the PDP-7, write instructions
 for the PDP-11 there, then bring a tape to the new machine and run it. Each
-state adds a capability you can use. Their boundaries are reconstructed slices
-of historical development, not dates inferred from our project milestones.
+state lets you do something new. We chose these divisions to show historical
+change, not because of dates or project milestones.
 
 ## Before you start
 
@@ -167,7 +167,7 @@ at a time. `AB` is the reproducible example used by the acceptance tests.
 The [era manifest](../eras/pdp11-crossdev/ERA.md) records what else the program
 checks internally.
 
-The general paper-tape workflow is historically attested, but Bell Labs' exact
+The general paper-tape transfer is historically attested, but Bell Labs' exact
 loader and tape format are unknown. The DEC bootstrap, Absolute Loader, and
 absolute-binary format are a contemporary **class-C reconstruction choice**.
 Running them successfully does not make that choice historical fact.

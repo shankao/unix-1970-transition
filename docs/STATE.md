@@ -97,12 +97,12 @@ changes and do not rewrite the import manifest.
 Filesystem images are expensive binary snapshots, but the evolving machine is
 part of the reconstruction record. In-progress sessions may leave the image
 dirty; each successfully completed PDP-7 development substage normally commits
-the authoritative image with its hash and useful native artifacts. Failed or
-routine exploratory sessions do not independently require checkpoints.
+the authoritative image with its hash and useful native files and results.
+Failed or routine exploratory sessions do not independently require checkpoints.
 
 Important preservation rule: the PDP-7 machine is not disposable setup machinery. It is part of the experiment and must remain reproducible.
 
-It is also an evolving development host, not an immutable fixture. Normal
+It is also an evolving development host, not a fixed test image. Normal
 project builds and tests use `machines/pdp7` directly as `shankao` and may
 change its filesystem. Record Git status and hashes around meaningful work;
 use Git for recovery, but do not restore legitimate changes merely to retain a
@@ -119,8 +119,8 @@ that image; read-only `fsck7` reported no consistency warning. Details are in
 `evidence/stage4a/`.
 
 Stage 4B also ran directly on this host as `shankao`. Its completed semantic
-suite and retained source/build/input/result artifacts evolved the image to
-SHA-256 `3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
+tests and retained source, build output, input, and results evolved the image
+to SHA-256 `3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
 `fsck7` exits 0; its sole extra message is a reproducible checker self-revisit
 of large-directory indirect block 2987 when inode 38 is walked a second time,
 not ownership by another inode. See `evidence/stage4b/checkpoint.txt`.
@@ -128,14 +128,14 @@ not ownership by another inode. See `evidence/stage4b/checkpoint.txt`.
 The open Stage 4C investigation also ran directly on this host as `shankao`
 and evolved the development image to SHA-256
 `edce49358ff2f104e4114255c5ec85344626709b8a2122268617a7a66198910d`.
-The encoder and its focused fixtures work, but the maximum Stage 4B scale
-fixture exposes an ordinary-B stack/symbol-arena collision, so this is an
+The encoder and its focused tests work, but the largest Stage 4B test input
+exposes an ordinary-B stack/symbol-arena collision, so this is an
 in-progress checkpoint rather than a completed era. Read-only `fsck7` exited
 0 with the same inode-38/block-2987 checker self-revisit already explained for
 Stage 4B. See `evidence/stage4c/checkpoint-open.txt`.
 
 The subsequent capacity-only follow-up reused that installed source and
-executable and retained its fixture/results, evolving the image to SHA-256
+executable and retained its input and results, evolving the image to SHA-256
 `11d16c243a2f4e34b812b2382bdf0eec879dcb586ebb7af004caae313a3f4d36`.
 Stage 4C closure then added only the native `shankao/readme`, producing final
 SHA-256 `d9a40b9ca80b1f9fa6623947faba1e0097ff8042d12d8e75236eb9b9081de245`.
@@ -156,7 +156,7 @@ No era image changed. `fsck7` still exits 0 with only the same checker
 self-revisit.
 
 The canonical-config validation reran Stage 4A, the Stage 4B/4C functional
-sets, and fresh native Stage-3 gold/KL11 assembly. Those retained artifacts
+tests, and fresh native Stage-3 gold/KL11 assembly. Those retained files
 evolved the authoritative image to SHA-256
 `40905562d9feb63b2a5e95f542098e052c12da7fc9af136098e907c3cb781968`.
 Read-only `fsck7` again exited 0 with only the established inode-38/block-2987
@@ -278,7 +278,7 @@ the stack returns to `027000`.
 are never returned by the common allocator. Blocks 2–15 allocate distinctly;
 exhaustion returns `-1`; free/reuse returns block 2; and a full block-2 copy
 preserves words 0, 1, and 377 while the block-3 sentinel remains unchanged.
-This is volatile machine-substrate evidence only. No preserved era changed.
+These are bare-machine test results only. No preserved era changed.
 
 ## B4 paper-tape transport state
 
@@ -303,7 +303,7 @@ source-state SHA-256
 The living era now names its installed assembler `as11` and its native tape
 formatter `abspun`, retains an editable `demo.s`, and can punch a visitor's
 exact native output through the same PTP mechanism without changing B4's
-accepted artifacts.
+accepted tape files.
 
 ## Stage 0 closure
 
@@ -329,7 +329,7 @@ treat the reconstructed PDP-11 deposits as newly observed evidence.
 Stage 1 characterization completed on the persistent host and the PDP-7 was
 shut down cleanly. The retained `shankao` state includes valid native B probes,
 emitted threaded assembly, executables, and separately identified failed
-console-transfer artifacts. The filesystem image is 4,096,000 bytes, mode
+console-transfer captures. The filesystem image is 4,096,000 bytes, mode
 0654, SHA-256
 `27799503d6f4a7067b25aeb081c5634c2f6c3bd28749bf6dcd71ff996e309027`.
 

@@ -13,7 +13,7 @@ implementation evidence used here: `cmd/bl.s` for B I/O, `sys/s2.s` for
 `seek`, and `cmd/as.s` for authentic PDP-7 assembler seek use. No web research
 or third-party import was needed.
 
-## Stage 4A — two-pass I/O substrate
+## Stage 4A — two-pass I/O support
 
 Stage 4A isolates kernel seeking, B buffering, EOF, and textual output before
 any assembler parser, symbol table, or PDP-11 encoder exists.
@@ -111,7 +111,8 @@ physical newline. B EOT `004` is EOF. The scanner uses one-character pushback.
 
 Identifiers begin with a letter/underscore and continue with letters, digits,
 or underscore. Characters are compared exactly and `as11` does not case-fold;
-fixtures are lowercase because the configured transfer path lowercases input.
+test inputs are lowercase because the configured transfer method lowercases
+input.
 The complete legal spelling is consumed, but only eight characters are packed
 and significant. Thus `longnamex` and `longnamey` identify the same symbol.
 
@@ -157,17 +158,17 @@ Addresses/values are six-digit octal. Errors are
 
 ### Native results and resources
 
-The 456-byte positive fixture covers required scanner, symbol, assignment,
+The 456-byte positive test covers required scanner, symbol, assignment,
 expression, comment/semicolon, local, long-name, location, and cross-refill
-behavior. Empty/comment-only input succeeds. The 604-byte substantial fixture
+behavior. Empty/comment-only input succeeds. The 604-byte large test
 uses 48 globals and 10 numeric definitions and emits 58 words. Thirteen
-negative fixtures reject all required error classes. A production phase check
-exists; no artificial phase inconsistency fixture was added.
+negative tests reject all required error classes. A production phase check
+exists; no artificial phase-inconsistency test was added.
 
 Local Stage 3 measurement finds 17 globals and 5 numeric definitions. Native
 `stat` reports:
 
-| Artifact | PDP-7 words | Octal |
+| File | PDP-7 words | Octal |
 | --- | ---: | ---: |
 | `as11.b` | 4,414 | `010476` |
 | generated `as11.s` | 5,879 | `013367` |
@@ -210,9 +211,9 @@ existing `w` raw-word records.
 The fixed native encoding trace contains 30 oracle-decodable instructions and
 matches the Stage 2 vectors across all eight modes, PC-special modes, dual
 extensions, bytes, branches, JMP, JSR, RTS, and every Stage 3 mnemonic. All 18
-new negative fixtures pass, as does the normal Stage 4B positive fixture.
+new negative tests pass, as does the normal Stage 4B positive test.
 
-The completed U1 machine-substrate workload subsequently forced five compact
+The completed U1 machine tests subsequently forced five compact
 table-driven additions: exact `rti`, numeric `trap`, and double-operand `bit`,
 `bic`, and `bis`. They respectively support current-stack interrupt/TRAP
 return, KA11 TRAP-family entry, bitmap tests/clear/set, and TRAP call-number
@@ -230,7 +231,7 @@ the final workload-derived capacity and clean-exhaustion gate remains B1.
 
 ### Ordinary-B capacity finding
 
-The linked artifact is 3,696 words (`007160`),
+The linked executable is 3,696 words (`007160`),
 from 5,636-word `as11.b` (`013004`) and 8,217-word generated `as11.s`
 (`020031`). `bl.s` reserves the top 128 words for input/output buffers. To
 avoid charging unused capacity to the executable, the current reconstruction
@@ -240,7 +241,7 @@ of the first packed ASCII name word. This remains native B processing.
 
 At the measured maximum (48 globals, 10 locals), the lowest global begins at
 `017164`, while the executable's upward-growing B stack begins at `017160`.
-Only five words remain, and the 604-byte Stage 4B substantial fixture exits
+Only five words remain, and the 604-byte Stage 4B large test exits
 with an empty result. The informative attempts and all successful partial
 results are retained in `evidence/stage4c/`.
 
@@ -310,9 +311,9 @@ not changed to close it.
 - **4C: complete.** KA11 encoding and current bootstrap-shaped feasibility are
   independently verified; the measured capacity frontier remains evidence.
 - **B1 workload-driven `as11` closure:** finalize the textual map and establish
-  guarded, bootstrap-sufficient integrated capacity and safety margin.
-- **Stage-3 gold round trip: complete.** The readable Stage-3B test-L fixture
-  is assembled by PDP-7 B `as11`; class-M tooling parses its 110 native
+  verified bootstrap capacity, clean failure, and a safety margin.
+- **Stage-3 gold round trip: complete.** The readable Stage-3B test-L program
+  is assembled by PDP-7 B `as11`; `run_stage3_gold.py` parses its 110 native
   `i`/`x`/`w` words, verifies them against the Stage-2-backed Stage-3 manifest,
   deposits those exact words, and observes `D` on the PDP-11/20. The host does
   not encode or replace instructions.

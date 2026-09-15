@@ -7,8 +7,8 @@
 - `boot.rim` SHA-256:
   `a69adf03a700058300501b2e4a74e732b344fd175e727c9a87c7c7b7132bd4f2`
 
-This checkpoint retains the Stage 4A/4B substrate and the native Stage 4C
-`as11` source, generated PDP-7 assembly, linked executable, fixtures, traces,
+This checkpoint retains the Stage 4A/4B work and the native Stage 4C
+`as11` source, generated PDP-7 assembly, linked executable, tests, traces,
 and capacity evidence. The two-pass language/symbol engine and bootstrap KA11
 instruction encoding work. The final address/word object-map interface does
 not yet exist. High artificial symbol pressure can exhaust ordinary-B memory;

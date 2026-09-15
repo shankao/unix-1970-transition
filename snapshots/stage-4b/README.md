@@ -8,7 +8,7 @@
   `a69adf03a700058300501b2e4a74e732b344fd175e727c9a87c7c7b7132bd4f2`
 
 This checkpoint retains Stage 4A support and the native `as11.b`, generated
-PDP-7 assembly, linked executable, fixtures, and semantic results for the
+PDP-7 assembly, linked executable, test inputs, and results for the
 two-pass scanner/parser, expressions, globals, and numeric locals. PDP-11
 instruction encoding (Stage 4C) does not yet exist.
 

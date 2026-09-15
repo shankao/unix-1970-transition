@@ -63,8 +63,8 @@ Never describe B/C/M material as original Bell Labs code.
   corrected when evidence improves, with the reason and provenance recorded.
   Git, evidence, and snapshots preserve earlier project results separately.
 - Each era has an `ERA.md` with its hypothesis, evidence classes, runnable
-  contents, direct replay, acceptance, and uncertainty. Capability-oriented era
-  boundaries need not be dates or milestones Bell Labs named. Human playability
+  contents, direct replay, acceptance, and uncertainty. Era boundaries follow
+  what a user can do, not dates or milestones Bell Labs named. Human playability
   complements but never replaces automated acceptance, and making a model
   runnable never raises its historical certainty.
 - Before creating a public historical state, ask: does the user gain a
@@ -76,7 +76,7 @@ Never describe B/C/M material as original Bell Labs code.
 - Automate repetition that teaches nothing. Preserve constraints and
   mechanisms that explain the history. Public instructions must distinguish
   what a visitor can actually do from what an acceptance runner proves;
-  document usability gaps rather than implying a nonexistent workflow.
+  document missing visitor steps rather than implying that they work.
 - For successful PDP-7 development checkpoints from Stage 4C onward, maintain
   a concise native `dd/shankao/readme` describing what works and what does not
   yet exist. Update it as part of normal native development; never alter an
@@ -94,7 +94,8 @@ Never describe B/C/M material as original Bell Labs code.
   Such acceptance must execute the PDP-11 loader and consume the tape through
   the emulated reader; automation may perform historically manual switch and
   console operations. Reconstruct historical mechanisms, not operator tedium.
-- Generated tape images/listings are artifacts; source + reproducible build steps are authoritative.
+- Generated tape images and listings are output files; source and reproducible
+  build steps are authoritative.
 - When a historical uncertainty affects implementation, stop and write a short decision/evidence note rather than guessing.
 - Stages 4A–4C, the provisional v1 migration-corpus audit, the bare KA11
   machine-layer contract, provisional execution/RAM contract v1, and
@@ -116,7 +117,7 @@ Never describe B/C/M material as original Bell Labs code.
 ## PDP-7 development account policy
 
 - Use `shankao` by default for project development, tests, reconstruction work,
-  and generated artifacts on the persistent PDP-7 host.
+  and generated files on the persistent PDP-7 host.
 - Do not switch to historical accounts such as `dmr`, `ken`, or others merely
   to bypass ownership, linking, pathname, or permission restrictions.
 - Where historically reasonable, copy required files into a `shankao`-owned
@@ -126,7 +127,7 @@ Never describe B/C/M material as original Bell Labs code.
 - If historical software genuinely depends on another account's identity or
   environment, document the reason and expected effect before using it.
 - Clearly distinguish authentic historical files, copied working files,
-  reconstructed files, and generated build artifacts.
+  reconstructed files, and generated build output.
 
 ## Interaction with the operator
 
@@ -146,10 +147,10 @@ confirm that understanding with one minimal interactive native operation, then
 automate the observed procedure. Do not infer a later-Unix interface merely
 from a familiar command name; see `docs/PDP7-TOOLS.md`.
 
-Native PDP-7 work being slow is acceptable and sometimes informative. Improve
-orchestration—persistent sessions, avoiding redundant transfers, and automating
-known procedures—but do not move compilation, assembly, execution, or required
-filesystem work to a modern host solely for speed.
+Native PDP-7 work being slow is acceptable and sometimes informative. Keep
+sessions open, avoid redundant transfers, and automate known procedures, but
+do not move compilation, assembly, execution, or required filesystem work to a
+modern host solely for speed.
 
 The recovered PDP-7 `ed` is not later Unix `ed`: invoke `ed`, then use `r name`
 to load an existing file; `ed name` does not load it. For native edits, use
@@ -191,7 +192,7 @@ Keep commits stage-scoped. Suggested prefixes:
 - `tools:` modern verification tooling
 - `pdp7:` code that executes on PDP-7
 - `pdp11:` code that executes on PDP-11
-- `test:` regression/end-to-end fixtures
+- `test:` regression and end-to-end tests
 - `evidence:` source/claim updates
 
 A commit that changes a historical assumption should update the corresponding evidence/decision document in the same commit.

@@ -4,7 +4,7 @@
 
 This document freezes the **provisional core-only filesystem and kernel
 data-structure contract v1** for the diskless PDP-11/20 reconstruction. It is
-sufficiently constrained to begin repository-aware implementation planning;
+complete enough to plan implementation against the current repository;
 it is not recovered December-1970 PDP-11 source or proof of the exact lost
 layout. No structure or algorithm is implemented by this gate.
 
@@ -221,7 +221,7 @@ inode numbers are **UNRESOLVED image-building choices**, not historical facts.
 ### Initial namespace and console files
 
 Conceptually seed separate console-input and console-output special files,
-`cat`, `ls`, `rm`, `stat`, and fixture files. The shell starts directly at
+`cat`, `ls`, `rm`, `stat`, and test files. The shell starts directly at
 cold start. Keeping a `sh` executable in RAM storage is preferred only if
 measured capacity permits; boot/core initialization may instead preload the
 initial shell as process 1.
@@ -458,14 +458,14 @@ allocation      16-bit block map + 16-bit inode map
 block buffer    one 512-byte kernel buffer
 ```
 
-## Completed repository-aware integration and current boundary
+## Completed repository inspection and current state
 
-The repository-aware inspection is complete. It established:
+The repository inspection found:
 
 - exact Stage-4C assembler syntax/features, including complement and data
   directive status;
-- current PDP-11 execution harness, Stage-3 loading/transfer path, artifacts,
-  and oracle integration;
+- current PDP-11 runner, Stage-3 loading steps, saved output, and oracle
+  checks;
 - the smallest real Unix-derived machine-layer component;
 - exact dependency order for vectors, trap entry, KL11 polling proof, KL11
   interrupts, RAM/block abstraction, filesystem nucleus, process control, and
@@ -473,7 +473,7 @@ The repository-aware inspection is complete. It established:
 - non-speculative tests available at each boundary;
 - the point where a first persistent PDP-11 era becomes meaningful.
 
-The separately authorized Stage-3 gold integration proves the PDP-7 `as11`
-word path. U1's bare-machine substrate and B4 paper-tape transport acceptance
-are now complete. U2 is the next planned milestone, and filesystem
+The separately authorized Stage-3 gold integration proves that PDP-7 `as11`
+output reaches the PDP-11 unchanged. U1's bare-machine work and B4 paper-tape
+loading are now complete. U2 is the next planned milestone, and filesystem
 implementation remains unstarted.

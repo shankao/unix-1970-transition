@@ -3,9 +3,8 @@
 ## Historical hypothesis
 
 This era models a diskless 24 KB PDP-11/20 receiving PDP-7-produced programs
-by paper tape and executing them before Unix itself exists on the target. The
-slice is capability-based; its boundary is not asserted as a named historical
-milestone or exact date.
+by paper tape and executing them before Unix itself exists on the target. This
+runnable state is not asserted as a named historical milestone or exact date.
 
 ## Evidence / provenance
 
@@ -68,5 +67,5 @@ contain no target-payload deposits and consume the committed tapes unchanged.
 
 DEC loading is not claimed as Bell Labs' actual loader. U1 contains project
 machine diagnostics, not a recovered historical program. The replay automates
-front-panel entry and media handling while preserving the historical data
-path. This is cross-developed target execution, not PDP-11 self-hosting.
+front-panel entry and media handling while preserving the paper-tape loading
+steps. This is cross-developed target execution, not PDP-11 self-hosting.

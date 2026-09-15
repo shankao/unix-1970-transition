@@ -12,8 +12,8 @@
   `a69adf03a700058300501b2e4a74e732b344fd175e727c9a87c7c7b7132bd4f2`
 
 This is the first exact imported persistent project-host image. It retains the
-existing `shankao` account and exploratory files. Stage 1 characterization
-artifacts and all `as11` reconstruction work do not yet exist.
+existing `shankao` account and exploratory files. Stage 1 test results and all
+`as11` reconstruction work do not yet exist.
 
 The current `pdp7.fs` contains intentional user changes made after its original
 exact materialization; the source-checkpoint hash above preserves that

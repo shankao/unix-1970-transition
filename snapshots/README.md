@@ -22,7 +22,7 @@ Current historical-system reconstructions live under [`../eras/`](../eras/).
 
 ## Classification audit
 
-| Former `eras/` directory | Classification | Historical capability relationship |
+| Former `eras/` directory | Classification | How it relates to the historical system |
 | --- | --- | --- |
 | `stage-0` | project snapshot | Earliest imported runnable PDP-7 baseline; selected as the medium for the current late-PDP-7 era, with its project additions disclosed. |
 | `stage-1` | project snapshot | B-characterization checkpoint; evidence about the host, not a distinct historical-system boundary. |

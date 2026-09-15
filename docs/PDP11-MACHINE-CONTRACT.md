@@ -234,8 +234,8 @@ The research items below are now provisionally frozen in
 - only then, a conservative RAM block geometry if one is needed.
 
 The execution and filesystem/data-structure follow-ons are provisionally
-frozen, repository-aware integration is complete, and the Stage-3 gold path
-proves native PDP-7 `as11` words execute on the PDP-11. U1 subsequently proved
-the low-core vector/RTI, interrupt-driven KL11, TRAP, and RAM-storage substrate;
-B4 proved paper-tape transport acceptance. U2 is the next planned milestone
-and remains unstarted.
+frozen, repository inspection is complete, and the Stage-3 gold test proves
+native PDP-7 `as11` words execute on the PDP-11. U1 subsequently proved
+the low-core vector/RTI, interrupt-driven KL11, TRAP, and RAM-storage
+primitives; B4 proved paper-tape loading. U2 is the next planned milestone and
+remains unstarted.

@@ -1,9 +1,9 @@
 # Reconstructed historical eras
 
 `eras/` contains the project's current best runnable models of historically
-plausible system states. These are capability-oriented analytical slices in a
-continuous transition; they need not be boundaries Bell Labs participants
-named or recognized.
+plausible system states. They mark a few useful points in a continuous
+transition; Bell Labs participants need not have named or recognized the same
+boundaries.
 
 Historical eras are living reconstructions. Better evidence may correct their
 contents, with the reason and provenance recorded. Git and `snapshots/`

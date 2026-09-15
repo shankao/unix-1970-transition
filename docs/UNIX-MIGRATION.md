@@ -11,7 +11,7 @@ that this is the historically proven, exact December-1970 source set.
 The destination is defined by selected late-1970 PDP-7 UNIX responsibilities,
 not by how much of `as11` or `b11` can be built. The surviving/restored PDP-7
 system is the principal source base. Cross-development tools, threaded B, and
-standalone B programs are bootstrap scaffolding rather than the PDP-11 UNIX
+standalone B programs are bootstrap tools rather than the PDP-11 UNIX
 specification. Exact 1970 PDP-11 kernel and command sources are not known to
 survive; the target is a conservative reconstruction, not First Edition UNIX.
 
@@ -190,7 +190,7 @@ investigation of `exec`, `wait`, and full pathnames during RF11 convergence.
 This is conservative reconstruction from predecessor and later historical
 evidence, not recovered 1970 PDP-11 source.
 
-The provisional core-only syscall surface is:
+The provisional core-only syscall set is:
 
 ```text
 fork  exit  smes
@@ -296,7 +296,7 @@ boot or deposit core-only PDP-11 UNIX
     -> ls
 ```
 
-Fixture names and output are not historical claims. The sequence proves
+Test-program names and output are not historical claims. The sequence proves
 syscall entry/return, process creation/restoration, command loading, console
 and special-file I/O, namespace operation, create/read/write/close,
 metadata/status, unlink, and shell redirection.
@@ -341,11 +341,11 @@ First Edition's richer persistent filesystem. High-level algorithms and the
 block-I/O boundary should survive RF11 arrival, but persistent metadata may
 legitimately evolve; RF11 is not promised to be a metadata-free backend swap.
 
-That repository-aware gate was subsequently completed as R5, followed by the
+That repository inspection was subsequently completed as R5, followed by the
 U1.1–U1.6 bare-machine implementation. B4 then supplied U1.7: two accepted U1
-articles were punched on the PDP-7, loaded through the PDP-11 reader and actual
-bootstrap/Absolute Loader execution, compared exactly, and replayed. U1 is
-complete; U2 is next and remains unimplemented.
+test programs were punched on the PDP-7, loaded through the PDP-11 reader and
+actual bootstrap/Absolute Loader execution, compared exactly, and replayed. U1
+is complete; U2 is next and remains unimplemented.
 
 U2 itself should load PDP-11 code and have that code clear and initialize the
 RAM inode area, root directory, free maps, tty special entries, and test state.
@@ -356,6 +356,6 @@ input path, but whether Bell Labs used tape-loaded contents, programmatic
 initialization, or a mixture is unresolved.
 
 Fast exact-word deposit remains available throughout U2–U5 development. U5
-may integrate by that fast path, but its DONE outcome requires PDP-7-produced
-system/command payloads loaded through B4's historical acceptance transport,
+may use direct deposits during integration, but its DONE outcome requires
+PDP-7-produced system/command payloads loaded through B4's reader and loader,
 the RAM-backed environment, interactive shell scenario, and 24 KB budget.

@@ -2,7 +2,7 @@
 
 `tools/pdp11_oracle.py` is class **M** modern instrumentation. It independently
 checks words produced by later reconstruction stages; it is not an assembler,
-emulator, historical artifact, or dependency of the final PDP-7-to-paper-tape
+emulator, historical source, or dependency of the final PDP-7-to-paper-tape
 workflow.
 
 ## Historical boundary

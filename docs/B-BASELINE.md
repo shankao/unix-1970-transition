@@ -106,7 +106,7 @@ specification.
 - distinction between zero-argument `mcall` and argument-bearing `mark/call`;
 - parameter offsets and return-value placement;
 - automatic vector initialization versus expression-level indexing;
-- external symbol linkage and the callable library surface actually available;
+- external symbol linkage and the library routines actually available;
 - large literal layout and negative/18-bit behavior;
 - comparison truth representation and branch consumption;
 - whether the native compiler/assembler invocation behaves exactly as the

@@ -31,10 +31,10 @@ the trace on the era disk, `punch_era.py` invokes its native `abspun` through
 PTP, and the generated replay feeds the exact tape through PDP-11 PTR and the
 class-C DEC loader. B4/U1 remain complete; U2 is unstarted.
 
-Presentation checks passed: both PDP-7 logins and `ls`, the documented small
+Manual checks passed: both PDP-7 logins and `ls`, the documented small
 native assembly and exact 131-word console reassembly (on disposable era
 copies), direct PTR replay with `AB` and `ki`, and the optional RAM replay.
-The follow-up visitor bridge exercised the documented
+The `punch_era.py` test exercised the documented
 `101` -> `102` native edit, produced three exact words, punched 74 bytes in
 four valid DEC records, loaded them through PTR/bootstrap/Absolute Loader, and
 observed R0 `000102`. It intentionally updates the living cross-development
@@ -46,7 +46,7 @@ and Unix code are unchanged.
   - [x] Stage 1 — PDP-7 B characterization
   - [x] Stage 2 — independent KA11 oracle
   - [x] Stage 3 — standalone threaded-B PDP-11 execution (3A/3B)
-  - [x] Stage 4A — B I/O/two-pass substrate
+  - [x] Stage 4A — B I/O/two-pass support
   - [x] Stage 4B — scanner/parser/symbol/expression engine
   - [x] Stage 4C — KA11 encoder nucleus
 - [x] **R1–R5 migration research/contracts**
@@ -54,9 +54,9 @@ and Unix code are unchanged.
   - [x] Bare KA11 machine-layer contract
   - [x] Provisional core-only execution/RAM-layout contract v1
   - [x] Provisional filesystem/kernel data-structure contract v1
-  - [x] Repository-aware implementation inspection
+  - [x] Repository inspection before implementation
 - [ ] **B1 — Workload-driven as11 closure** — IN PROGRESS.
-  - [x] B1.1 — Native as11 -> exact KA11 execution path
+  - [x] B1.1 — Native as11 -> exact KA11 execution
   - [x] B1.2 — First workload-driven extensions: `rti`, `trap`, `bit`, `bic`,
     `bis`
   - [ ] B1.3–B1.6 — workload additions, final contract, realistic capacity,
@@ -92,7 +92,7 @@ Completion commits verified in Git:
 - Stage 2 oracle: `51fcfb34c39fdbf68c9a87f08c9932263cf80668`
 - Stage 3A nucleus: `5908c81a1a88193b7510144a3bc44994e8a84ad8`
 - Stage 3B / Stage 3 closure: `134b2a7e9a28c061c427620f623be01fb0e19af4`
-- Stage 4A I/O substrate: `1caacfe7a87411f4c47317dd06834b1c374a962f`
+- Stage 4A I/O support: `1caacfe7a87411f4c47317dd06834b1c374a962f`
 - Stage 4A machine checkpoint: `1143e4de12138bd9a18c9afcf627038478b7991e`
 - PDP-7 terminal/case clarification: `cb81e3393cce3470c2af1981965f1716f40fb978`
 - Stage 4B symbol engine and machine checkpoint:
@@ -142,17 +142,17 @@ Completion commits verified in Git:
   assembly-like language, maintains a PDP-11 byte-address location counter,
   resolves forward/backward globals and repeated `0:`–`9:` locals, evaluates
   restricted expressions, and emits deterministic semantic traces without
-  PDP-11 instruction encoding. Three positive native fixtures and thirteen
-  negative fixtures passed. The largest is 604 host bytes with 48 globals and
-  10 local definitions; capacity is 64/64. Stage 3 demand is 17 globals and 5
-  local definitions. See [`PDP7-AS11.md`](PDP7-AS11.md) and
+  PDP-11 instruction encoding. Three positive native tests and thirteen
+  negative tests passed. The largest input is 604 host bytes with 48 globals
+  and 10 local definitions; capacity is 64/64. Stage 3 demand is 17 globals and
+  5 local definitions. See [`PDP7-AS11.md`](PDP7-AS11.md) and
   `evidence/stage4b/`.
 - **Stage 4C:** PDP-7 B encodes all Stage-3-required KA11
   mnemonics, all eight addressing modes, PC-special forms, extension words,
   branches, JMP/JSR/RTS, and deterministic `i`/`x`/`w` traces. The fixed
-  encoding fixture and 18 rejection fixtures passed against the Stage 2
+  encoding test and 18 rejection tests passed against the Stage 2
   oracle, as did the normal Stage 4B positive regression. The 48-global,
-  10-local Stage 4B substantial fixture fails with an empty result because
+  10-local Stage 4B large test fails with an empty result because
   the 3,696-word executable and maximum-capacity symbol arena leave only
   five PDP-7 words between the upward-growing B stack and live symbol data.
   This remains a documented capacity finding for the final `as11` integration
@@ -162,8 +162,8 @@ Completion commits verified in Git:
 
 The completed Stage 4C authoritative PDP-7 image is 4,096,000 bytes with
 SHA-256 `d9a40b9ca80b1f9fa6623947faba1e0097ff8042d12d8e75236eb9b9081de245`.
-Capacity runs changed only retained native fixtures/results; closure added
-only the reviewed native `shankao/readme`. The installed `as11` source and
+Capacity runs changed only retained native test inputs and results; closure
+added only the reviewed native `shankao/readme`. The installed `as11` source and
 executable were reused.
 Read-only `fsck7` exited 0 with the already-understood inode-38/block-2987
 self-revisit diagnostic. The completion checkpoint and corresponding Stage 4C
@@ -191,7 +191,7 @@ path. Its 33-word trace contains 19 oracle-verified instructions using
 absolute I/O-page addresses. Controlled, non-PTY-echoed input `A` then `B`
 produced device output `AB`; saved RAM words independently retained octal
 `000101` and `000102`, and the program halted at `001076`. The reproducible
-manual deposit artifact is `artifacts/kl11-poll.simh`. This proves polling
+manual deposit file is `artifacts/kl11-poll.simh`. This proves polling
 only: interrupt enables and vectors 060/064 remain unused.
 
 The retained native `klpoll.s`/`klpoll.o` checkpoint evolves the authoritative
@@ -216,7 +216,7 @@ historical-system models are `eras/pdp7-unix/`, `eras/pdp7-crossdev/`, and
 PDP-11 era consumes committed U1 tapes through PTR, the fourteen-word bootstrap,
 and DEC Absolute Loader. It remains cross-developed, not self-hosted or UNIX.
 
-**U1 bare-machine substrate:** two focused class-B/M fixtures produced 342
+**U1 bare-machine substrate:** two focused class-B/M test programs produced 342
 native PDP-7 `as11` words containing 178 Stage-2-decoded instructions. Real
 KL11 RX/TX interrupts accepted and echoed `A` then `B`; vectors 060/064 saved
 PC/PS on the current stack and three `RTI` sites restored execution. Diagnostic
@@ -224,9 +224,9 @@ PC/PS on the current stack and three `RTI` sites restored execution. Diagnostic
 returned octal `12354` in R0, preserved R1/R2, resumed after the inline word,
 and restored SP `027000`. This freezes no Unix syscall-number table.
 
-The RAM fixture addressed sixteen 512-byte blocks at `040000`–`057777`, kept
+The RAM test program addressed sixteen 512-byte blocks at `040000`–`057777`, kept
 blocks 0–1 reserved from allocation, returned distinct blocks 2–15, failed
-cleanly on exhaustion, reused freed block 2 for a process-backing claimant,
+cleanly on exhaustion, reused freed block 2 for simulated process backing,
 and round-tripped all 256 words of a block without changing the next-block
 sentinel. It introduces no filesystem or process semantics. Native `as11.b`,
 generated `as11.s`, and linked `a.out` are 5,803, 8,454, and 3,779 PDP-7 words;
@@ -327,7 +327,8 @@ The Stage 4B checkpoint supersedes that machine state. The 4,096,000-byte
 `image-shankao.fs` has SHA-256
 `3543d5a5e055072c9c99af0204a01479caa62b62442dc84b8c08d2631dad4c5a`.
 It retains `as11.b`, generated `as11.s`, linked `a.out`, `rewind.s`, runtime
-working copies, final fixtures/results, and the combined `probe.s`/`probe.o`.
+working copies, final test inputs and results, and the combined
+`probe.s`/`probe.o`.
 `fsck7` exits 0. Its sole diagnostic is a checker self-revisit: large-directory
 indirect block 2987 is marked in the inode scan and again when inode 38
 (`dd/shankao`) is traversed; debug output shows no distinct second owner and no
@@ -348,8 +349,9 @@ retroactively into the older exact images.
 The active reconstructed frame convention is word 0 previous R4, word 1
 saved caller R3 (or returned value after `retv`), and word 2 onward arguments,
 automatics, and expression space. Only base KA11 instructions were used. No
-disk, UNIX, paper tape, KE11, EIS, or later hardware participated. SIMH
-deposits and capture harnesses are class M and are not the final workflow.
+disk, UNIX, paper tape, KE11, EIS, or later hardware participated. Scripts
+that deposit words and capture output are class M and are not the final
+workflow.
 
 ## Authoritative machines
 
@@ -404,32 +406,32 @@ repository-semantics correction changes no B4/U1 result: both remain complete,
 and U2 remains next and unstarted.
 
 The migration corpus and provisional machine, execution/RAM, and
-filesystem/data-structure contracts are complete. Repository-aware inspection
-and the Stage-3 gold integration proof are complete. Two dependency
+filesystem/data-structure contracts are complete. Repository inspection and
+the Stage-3 gold test are complete. Two dependency
 tracks can advance: bootstrap work (`as11`, threaded B, `b11`, paper tape,
 calculator, and `dc0`) and
-migration of selected PDP-7 kernel and command responsibilities through a
-bare-machine substrate into core-only
+migration of selected PDP-7 kernel and command responsibilities through
+bare-machine services into core-only
 PDP-11 UNIX. They converge on the PDP-11 and then on the December 1970 disk
 transition. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 
-B4 and U1.7 are complete. Two accepted U1 articles totaling 342 native
+B4 and U1.7 are complete. Two accepted U1 test programs totaling 342 native
 PDP-7-assembled words were punched on the PDP-7, loaded through the PDP-11 PTR,
 fourteen-word bootstrap, and 72-word DEC Absolute Loader, compared exactly in
 memory, and replayed with their established results. U2 is now the immediate
 next implementation milestone and remains unimplemented.
 
 `as11` and `b11` are medium technical risk with material historical
-uncertainty. Tape transport is technically bounded but its exact Bell encoding
-is unknown. `dc0` has high historical uncertainty. Core-only UNIX is very high
-technical and historical risk and may fail without invalidating the completed
-or “Across the Floor” milestones. See PLAN’s risk table.
+uncertainty. Paper-tape loading has limited technical scope, but its exact Bell
+encoding is unknown. `dc0` has high historical uncertainty. Core-only UNIX has
+very high technical and historical risk and may fail without invalidating the
+completed or “Across the Floor” milestones. See PLAN’s risk table.
 
-## Do not do without a bounded task
+## Do not do without a clearly scoped task
 
 - Do not begin U2, `b11`, `dc0`, or later Unix work
   without an explicitly scoped task and its dependency gate.
-- Do not pull U3/U4 process or command work into a bounded U2 slice.
+- Do not pull U3/U4 process or command work into a U2 task.
 - Do not treat the provisional memory boundaries or RAM-block geometry as
   recovered history, or mistake the common dynamic arena for a historically
   attested fixed filesystem/process partition.
@@ -446,7 +448,7 @@ or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Plan the bounded **U2 filesystem nucleus** implementation against its existing
+Plan the **U2 filesystem nucleus** implementation against its existing
 contract and acceptance outcome. Do not pull U3 process work or U4 commands
-into U2, and retain fast deposits for development plus historical transport for
-milestone acceptance where required.
+into U2. Retain fast deposits for development and use paper-tape loading when a
+milestone requires it.

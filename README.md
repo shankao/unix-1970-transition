@@ -36,18 +36,18 @@ reads and executes the loader, then reads the program. The filename reflects
 the diagnostic underneath, but what you experience is software arriving from
 another machine and making the console respond.
 
-**Continue with [the guided journey](docs/RUNNING.md)** for the native assembly
-and visitor-tape workflow, the richer accepted console tape, and optional
+**Continue with [the guided journey](docs/RUNNING.md)** for native assembly,
+the visitor-created tape steps, the richer accepted console tape, and optional
 machine diagnostics.
 
 ## What is reconstructed?
 
 These are our current best runnable models of plausible historical states.
-Their capability boundaries are useful slices of a continuous transition,
-without invented exact dates. We keep only a few states that give a person
-something new to do; research can change them later.
+They divide a continuous transition into a few runnable states without
+inventing exact dates. Each state gives a person something new to do; research
+can change them later.
 
-The general PDP-7-to-PDP-11 paper-tape workflow is historically attested. Bell
+The general PDP-7-to-PDP-11 paper-tape transfer is historically attested. Bell
 Labs' exact receiving loader and tape format remain unknown. The 14-word DEC
 bootstrap and 72-word Absolute Loader provide a conservative contemporary
 **class-C substitute**. Successful execution does not establish that Bell Labs
@@ -67,7 +67,7 @@ disk-backed environment associated with the 1970 RF11/RS11 transition. Neither
 is runnable today. The surviving/restored PDP-7 system supplies the principal
 migration workload. Bootstrap/B-tool work and Unix migration proceed along
 parallel tracks; the full edit-B → compiler → assembler → tape → PDP-11
-“Across the Floor” workflow is still ahead.
+“Across the Floor” sequence is still ahead.
 
 For contributors, [STATUS](docs/STATUS.md) records B4 and U1 complete and U2
 unstarted; [PLAN](docs/PLAN.md) holds the R/B/U engineering milestones and

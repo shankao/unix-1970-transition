@@ -12,7 +12,8 @@ The project is an exercise in using surviving parts in a way that fits historica
 
 **Status:** accepted
 
-The repository, documentation, tests, generated artifacts, and reproducible workflow are first-class deliverables. Chat instructions alone are not considered project output.
+The repository, documentation, tests, generated files, and reproducible steps
+are project output. Chat instructions alone are not.
 
 ## D0003 — Dependency-gated implementation
 
@@ -42,7 +43,10 @@ Paper-tape transfer is historically attested, but the exact Bell Labs record/loa
 
 **Status:** accepted
 
-Do not add a blanket repository license until we decide how newly written code, documentation, imported PDP-7 material, reconstructed B material, and generated artifacts will be separated. Imported source must retain upstream licensing/provenance.
+Do not add a blanket repository license until we decide how newly written code,
+documentation, imported PDP-7 material, reconstructed B material, and generated
+files will be separated. Imported source must retain upstream licensing and
+provenance.
 
 ## D0008 — Split the threaded-B runtime gate into Stage 3A and Stage 3B
 
@@ -75,7 +79,7 @@ and B/C archaeology, not recovered late-1970 source.
 `machines/pdp7` is the authoritative persistent working host; `../PDP-7` is a
 read-only pre-transition reference. Project work normally uses `shankao` and
 does not change historical accounts or hard-linked authentic files merely to
-bypass permissions. Working copies and generated artifacts remain
+bypass permissions. Working copies and generated files remain
 distinguishable from authentic, reconstructed, and restored originals.
 
 ## D0011 — Separate assembler, compiler, and tape transport
@@ -113,7 +117,7 @@ repository's required scope and may be continued separately.
 
 **Status:** accepted
 
-Stage 4 proceeds as: 4A PDP-7 B input-restart/text-output substrate; 4B
+Stage 4 proceeds as: 4A PDP-7 B input-restart/text-output support; 4B
 language and two-pass symbol engine without target encoding; 4C independently
 verified KA11 encoding; 4D integrated usable two-pass `as11`; and 4E the Stage
 3 nested-call gold round trip. Parent Stage 4 completes only after all five
@@ -128,7 +132,7 @@ Normal project development and tests run directly on `machines/pdp7` as
 `shankao`; its filesystem is expected to evolve. Git supplies recovery, an
 uncommitted dirty image is acceptable during active work, and each successfully
 completed PDP-7 development substage normally commits an image checkpoint with
-useful native artifacts retained. Legitimate changes are not reverted to
+useful native files and results retained. Legitimate changes are not reverted to
 preserve an old hash. Disposable image copies are reserved for experiments with
 a specific destructive or high-risk reason, not routine runner architecture.
 
@@ -138,7 +142,7 @@ a specific destructive or high-risk reason, not routine runner architecture.
 
 Native text transfer where required, B compilation, assembly/linking, program
 execution, and filesystem operations remain on the PDP-7 even when slow. Class-M
-tools may supervise and optimize orchestration but must not replace historical
+tools may control sessions efficiently but must not replace historical
 computation solely for convenience. Discovery uses a persistent interactive
 SIMH session; automation follows a demonstrated native procedure.
 
@@ -275,7 +279,7 @@ names are governed by `PLAN.md`.
 The bootstrap track contains workload-driven `as11` closure, the Stage-3 gold
 round trip, `b11`, modern-load integration, paper-tape transport, “Across the
 Floor,” calculator work, and `dc0`. The migration track contains corpus
-definition, the bare KA11 substrate, core-only PDP-11 UNIX, and the RF11/RS11
+definition, the bare KA11 machine services, core-only PDP-11 UNIX, and the RF11/RS11
 transition. Neither `b11`, the calculator, nor `dc0` is a prerequisite for
 core-only UNIX unless a later workload-specific dependency proves otherwise.
 Both tracks consume the provenance-audited migration corpus where relevant
@@ -402,8 +406,8 @@ sizes, and filesystem/process allocation pressure remain empirical. RF11
 should preserve high-level algorithms and block I/O, but persistent metadata
 may evolve; it is not constrained to a zero-metadata-change backend swap.
 
-At acceptance, the next gate was a repository-aware planning pass for the
-first implementation slice. D0029 records its completed integration result.
+At acceptance, the next task was to inspect the repository and plan the first
+implementation work. D0029 records the result.
 
 ## D0029 — Close native-as11 Stage-3 gold transport and streamline development host
 
@@ -421,7 +425,7 @@ malformed or duplicate addresses, verifies instruction records with the
 independent Stage-2-backed Stage-3 manifest, and deposits the exact native
 map without encoding or substitution. The PDP-11/20 prints `D`. This closes
 the gold integration proof but does not make Stage 4C a target-complete
-assembler. At that checkpoint the next bounded slice was KL11 polling I/O;
+assembler. At that checkpoint the next task was KL11 polling I/O;
 D0030 records its completion and advances to low-core vectors/RTI.
 
 ## D0030 — Prove KL11 polling before interrupt machinery
@@ -429,7 +433,7 @@ D0030 records its completion and advances to low-core vectors/RTI.
 **Status:** accepted and demonstrated
 
 A modern readable diagnostic uses only the existing Stage-4C instruction
-surface to poll receiver DONE and transmitter READY, read/write their data
+set to poll receiver DONE and transmitter READY, read/write their data
 buffers, save two input bytes, and halt. Native PDP-7 `as11` produced all 33
 executed words; class-M code only parsed, oracle-checked, and deposited them.
 With PTY echo disabled, controlled `A` and `B` inputs produced `AB`, and RAM
@@ -460,8 +464,8 @@ layouts. Existing PDP-7 era contents remain unchanged.
 **Status:** accepted and demonstrated
 
 U1.3–U1.6 are capability checkboxes within U1, not new project stages. Two
-focused class-B/M fixtures keep each native assembly below the characterized
-ordinary-B symbol-pressure boundary while one class-M harness validates the
+focused class-B/M test programs keep each native assembly below the characterized
+ordinary-B symbol-pressure boundary while one class-M runner validates the
 whole milestone. Native PDP-7 `as11` gained only workload-forced KA11 entries:
 exact `RTI`, numeric `TRAP`, and double-operand `BIT`, `BIC`, and `BIS`. The
 Stage-2 oracle verifies every instruction; its words are never execution
@@ -472,7 +476,7 @@ frames, repeated input, interrupt-driven output completion, and `RTI` return.
 Diagnostic `TRAP 7` proves vector 034 dispatch, low-byte call identification,
 one inline argument, R0 result, preserved working registers, adjusted saved
 PC, and `RTI` resumption. This does not freeze Unix syscall numbers or add a
-Unix syscall surface.
+set of Unix syscalls.
 
 The RAM primitive uses one sixteen-bit availability map for sixteen 512-byte
 blocks, reserves blocks 0–1 from dynamic allocation, and proves distinct
@@ -482,7 +486,7 @@ semantics. This completed U1.1–U1.6 and, at that checkpoint, closed the U1
 parent with U2 next. D0034 later adds the missing transport-acceptance item and
 reopens only the parent. No additional U1-completion era was created;
 `pdp11-crossdev` remains the sole PDP-11 era because U1 extends the same bare
-cross-development substrate rather than creating a new persistent historical
+cross-development environment rather than creating a new persistent historical
 environment.
 
 ## D0033 — Freeze mixed-provenance licensing and workload-driven roadmap policy
@@ -495,19 +499,19 @@ and notices. The root license is therefore scoped, not a blanket relicense.
 `LICENSES/README.md` is authoritative for the path/provenance policy. Historical
 ancestry (A1/A2/B/C/D) and copyright license are separate dimensions; future
 work records both when relevant. This resolves D0007 without changing any
-upstream notice or preserved artifact.
+upstream notice or preserved file.
 
 At that policy checkpoint U1 was considered complete and U2 next; D0034
 refines the parent acceptance without changing any U1.1–U1.6 result. B1 is
-already in progress: the native exact-word execution path and the U1-forced
+already in progress: native exact-word execution and the U1-forced
 `rti`, `trap`, `bit`, `bic`, and `bis` extension set are proven. Further
 assembler closure is driven by real U and B workloads. B4 can proceed from
 stable U1 payloads without waiting for B2/B3 and does not block U2; B5 depends
 on B3 plus B4 and remains the Across-the-Floor culmination. B6 is optional and
 B7 is valuable but high-uncertainty and non-blocking.
 
-Adjacent checkboxes may be completed in one explicitly bounded task when they
-form a tightly coupled slice. The task must retain a stated upper boundary,
+Adjacent checkboxes may be completed in one clearly scoped task when they
+form closely related work. The task must retain a stated upper boundary,
 stop condition, and validation; this does not create new roadmap stages.
 
 ## D0034 — Require historical transport acceptance before U2
@@ -539,7 +543,7 @@ U1 gains U1.7 for that mechanical-load acceptance and its parent is reopened;
 all six completed implementation checkboxes remain complete. B4.0 research is
 complete, B4.1–B4.4 are the next implementation work, and their result supplies
 U1.7. U2 is not technically dependent on tape, but is deliberately held until
-this newly identified acceptance gap is repaired. Fast and historical modes
+this newly identified missing test is added. Fast and historical modes
 will coexist afterward.
 
 U2 will have loaded PDP-11 code initialize its own RAM filesystem structures,
@@ -555,8 +559,8 @@ environment, its command scenario, and the 24 KB capacity gate.
 
 Every R/B/U parent has an explicit Done-when outcome. Component checkboxes are
 necessary work but never automatically sufficient to complete their parent.
-Integrated implementation acceptance must exercise the real target subsystem
-layers rather than host substitutes; research parents instead freeze an
+Integrated tests must exercise the real target system rather than host
+substitutes; research parents instead freeze an
 evidence boundary, unresolved questions, and downstream constraints.
 
 The existing U1 state is unchanged: U1.1–U1.6 are complete, U1.7 is pending,
@@ -570,7 +574,7 @@ does not gain a redundant symmetry-only subtask.
 
 **Status:** accepted and demonstrated
 
-Both canonical U1 fixtures are acceptance articles, totaling 342 exact native
+Both canonical U1 test programs total 342 exact native
 PDP-7 `as11` words. A project-original B formatter runs on PDP-7 UNIX and emits
 DEC absolute-binary records through real PTP. The restored `system` super-user
 is used only for this punch operation because authentic `pptout` lives in its
@@ -601,9 +605,9 @@ numbers no longer imply five Bell Labs historical eras. The earlier
 polling-only PDP-11 cross-development directory is likewise retained as a
 project snapshot rather than erased when the historical era gains B4 replay.
 
-The current capability-based historical slices are late PDP-7 Unix, PDP-7 to
-PDP-11 cross-development, and diskless PDP-11 cross-development/bring-up.
-These analytical boundaries do not assert exact dates or milestones Bell Labs
+The current historical states are late PDP-7 Unix, PDP-7 to PDP-11
+cross-development, and diskless PDP-11 cross-development/bring-up. These
+chosen boundaries do not assert exact dates or milestones Bell Labs
 participants recognized. Eras are living reconstructions: later evidence may
 correct them, but every correction must record its reason, evidence, and
 remaining uncertainty. Git, evidence, and project snapshots preserve the old
@@ -624,8 +628,8 @@ not B4/U1/U2 implementation status. U2 remains next and unstarted.
 The public entry point is a few human-observable capabilities: work in PDP-7
 Unix, assemble instructions for the PDP-11 on that host, then bring native
 paper tape to the diskless PDP-11 and see the loaded program answer the
-keyboard. The existing `eras/` name and three capability-oriented directory
-names remain adequate; explanatory titles and a verified native assembly
+keyboard. The existing `eras/` name and three directory names based on what
+users can do remain adequate; explanatory titles and a verified native assembly
 exercise improve the experience without new states or directory churn.
 
 Git preserves reconstruction history; snapshots, tests, evidence, contracts,
@@ -666,8 +670,8 @@ creates a replay that deposits only the fourteen-word bootstrap; the DEC
 loader and visitor payload both enter the PDP-11 through PTR. It neither
 encodes nor repairs target words and grants no new PDP-7 privilege.
 
-The supplied class-M three-word `demo.s` was assembled natively, punched as 74 bytes
-in four valid DEC records, loaded through bootstrap and Absolute Loader, and
-halted with the expected R0 value. This closes a public usability gap, not a
-new B/U milestone. DEC loading remains class C and Bell Labs' exact mechanism
-unknown. B4/U1 remain complete and U2 remains unstarted.
+The three-word `demo.s` example is class M. It was assembled natively, punched
+as 74 bytes in four valid DEC records, loaded through the bootstrap and
+Absolute Loader, and halted with the expected R0 value. This adds the missing
+visitor step, not a new B/U milestone. DEC loading remains class C and Bell
+Labs' exact mechanism unknown. B4/U1 remain complete and U2 remains unstarted.

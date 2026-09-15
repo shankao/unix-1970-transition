@@ -4,7 +4,7 @@
 
 This era models the historically attested cross-development situation in
 which PDP-11 programs were prepared on PDP-7 Unix and punched for transport.
-It is a current capability slice, not a claim that the reconstructed tools or
+It is a current runnable state, not a claim that the reconstructed tools or
 filesystem reproduce one exact Bell Labs date.
 
 ## Evidence / provenance

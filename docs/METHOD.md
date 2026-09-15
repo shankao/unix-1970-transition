@@ -16,7 +16,7 @@ Examples:
 - surviving binaries whose origin is established;
 - contemporary DEC manuals;
 - primary historical accounts by participants;
-- recovered original filesystem artifacts.
+- recovered original filesystem material.
 
 Class A does **not** mean "the file is unmodified in our tree" unless that is separately established.
 
@@ -43,20 +43,22 @@ Use this explicitly. Unknown is a valid result.
 
 ### M — Modern instrumentation/convenience
 
-Host-side tools, tests, converters, scripts, CI, and emulator automation. These are allowed and encouraged for reliability, provided they are not inserted into the final historical execution path without being labelled.
+Host-side tools, tests, converters, scripts, CI, and emulator automation. These
+are allowed and encouraged for reliability, but must be labelled when they
+take part in the historical run being claimed.
 
 ## Source hierarchy
 
 Prefer, in order:
 
-1. contemporary original artifacts;
+1. contemporary original material;
 2. primary participant accounts;
 3. recovered binaries/listings and archaeological analysis;
 4. high-quality later technical histories;
 5. conservative inference;
 6. modern analogy only as a last resort.
 
-Conflicting sources are recorded rather than silently reconciled.
+Conflicting sources are recorded rather than silently forced into agreement.
 
 Later surviving Unix source may constrain a reconstruction as descendant
 evidence, but must not silently be projected backward as 1970 fact.
@@ -68,8 +70,8 @@ A chat transcript is never the canonical record of a technical state. Once a fac
 - machine configuration;
 - source note;
 - decision record;
-- test fixture;
-- generated artifact metadata.
+- test case;
+- metadata for generated files.
 
 ## Imported code
 
@@ -111,13 +113,12 @@ implementation pieces; checking all of them is not by itself sufficient to
 complete the parent. The parent is complete only after its outcome is reviewed
 and demonstrated.
 
-For implementation milestones, integrated acceptance fixtures must exercise
-the real underlying target subsystem layers. Modern orchestration and
-verification remain allowed, but a host-side replacement for the subsystem or
-target computation cannot satisfy the outcome. Research milestones instead
-complete when their evidence boundary, remaining uncertainties, and downstream
-constraints are frozen clearly enough to proceed; they do not need synthetic
-execution tests merely for symmetry.
+For implementation milestones, acceptance test programs must exercise the
+actual target system. Modern runners and verification remain allowed, but a
+host-side replacement for the system or target computation cannot satisfy the
+outcome. Research milestones instead finish when they record the evidence,
+remaining uncertainties, and implementation limits clearly enough to proceed;
+they do not need synthetic execution tests merely for symmetry.
 
 ## Proven reconstruction workflow
 
@@ -133,8 +134,9 @@ Stages 0–3 established a working method for the remaining project:
 5. Preserve failures when they reveal a boundary; record the diagnosis and do
    not let later success erase informative evidence.
 6. Modern instrumentation is acceptable for reconstruction and testing, but
-   it must disappear from the final claimed historical data path. Coordination
-   may remain M only when it does not create or alter the historical artifact.
+   it must not perform the historical computation being claimed. Host control
+   may remain M only when it does not create or alter the target program, tape,
+   or other historical-side output.
 7. Prefer a documented contemporary substitute to an invented undocumented
    mechanism when exact practice is lost, and label that substitute C.
 8. Never promote descendant, binary-derived, or reconstructed code into
@@ -142,7 +144,7 @@ Stages 0–3 established a working method for the remaining project:
 
 ## Code-generation and transport provenance
 
-A target artifact has at least two independent provenance questions:
+A target program or file has at least two independent provenance questions:
 
 - **Code-generation provenance:** did the reconstructed historical-side tools
   genuinely produce the target words?
@@ -150,23 +152,22 @@ A target artifact has at least two independent provenance questions:
   claimed historical or conservatively reconstructed transfer mechanism?
 
 Direct SIMH deposit of exact PDP-7-produced words proves the first and remains
-a valid fast development path; it does not prove the second. Historical
+a valid fast development method; it does not prove the second. Historical
 acceptance requires the emulated PDP-11 to execute the selected loader and
 consume the tape through its reader. Modern automation may set switches,
 deposit the small bootstrap, attach media, start machines, drive consoles, and
 verify memory. The rule is: **reconstruct historical mechanisms, not historical
-operator tedium.** Fast development and historical acceptance transports
-coexist; do not impose the slower path on every inner regression once it has
-been proven.
+operator tedium.** Direct deposits and paper-tape loading coexist; do not
+impose the slower method on every inner regression once it has been proven.
 
 ## Historical-machine development record
 
 `machines/pdp7` is the authoritative evolving host and normal work runs there
 directly. A successful PDP-7 development substage normally checkpoints its
-filesystem image, hash, and useful native artifacts in Git; in-progress image
-changes are expected. Preserve meaningful sources, compiler/assembler output,
-executables, inputs, and results rather than cleaning them merely because a
-modern workflow calls them intermediate.
+filesystem image, hash, and useful native files and results in Git.
+In-progress image changes are expected. Preserve meaningful sources,
+compiler/assembler output, executables, inputs, and results rather than
+cleaning them merely because a modern workflow calls them intermediate.
 
 A development checkpoint and a historical era serve different needs. Every
 passing PDP-7 development gate normally records the authoritative image;
@@ -174,16 +175,18 @@ selected exact project states live under `snapshots/` with source commit, path,
 and hash provenance. They answer what this reconstruction had established.
 
 `eras/` instead answers what a person might plausibly have interacted with
-during historical-system evolution. Its capability-based slices are analytical
-and need not correspond to dates or boundaries Bell Labs recognized. Eras are
-living reconstructions: correct a known historical error when evidence improves,
-record why and with what confidence, and rely on Git, evidence, and snapshots to
-retain prior project results. Runnability does not raise an evidence class.
+during historical-system evolution. Eras are selected for the capabilities
+they show and need not correspond to dates or boundaries Bell Labs recognized.
+Eras are living reconstructions: correct a known historical error when evidence
+improves, record why and with what confidence, and rely on Git, evidence, and
+snapshots to retain prior project results. Runnability does not raise an
+evidence class.
 
 Every era carries a concise `ERA.md` and, where practical, a direct emulator
-path plus concrete interaction. Human replay complements automated acceptance;
-neither substitutes for the other. Ordinary files and small duplicated media
-remain preferable to an era manager or copy-on-boot abstraction.
+command plus concrete interaction. Human replay complements automated
+acceptance; neither substitutes for the other. Ordinary files and small
+duplicated media remain preferable to an era manager or copy-on-boot
+abstraction.
 
 The public journey is not a gallery of engineering checkpoints. Git preserves
 how our reconstruction evolved; `snapshots/`, tests, evidence, and contracts
@@ -201,8 +204,8 @@ diagnostics remain useful evidence, but are not themselves the public story.
 **Automate repetition that teaches nothing. Preserve constraints and
 mechanisms that explain the history.** For example, automate front-panel
 entry and tape changes while retaining native production, PTR reading, and
-actual loader execution. Keep any gap between an automated acceptance path
-and a visitor's hands-on workflow explicit.
+actual loader execution. State clearly any difference between the automated
+test and the steps a visitor can run.
 
 Before relying extensively on a recovered tool or environment, inspect its
 local source, documentation, and evidence; establish and verify one minimal
@@ -212,8 +215,8 @@ follow bootstrap sufficiency: build the evidenced subset needed for the next
 destination-machine capability rather than pursuing completeness as an end.
 
 Native PDP-7 execution may be slow. That is not grounds to replace historical
-computation with Python or another host tool. Optimize class-M orchestration:
-keep persistent interactive SIMH sessions during discovery, reuse proven
+computation with Python or another host tool. Run class-M tools efficiently:
+keep interactive SIMH sessions open during discovery, reuse proven
 flow-controlled transfer methods, avoid redundant work, and automate only once
 the native procedure is understood.
 

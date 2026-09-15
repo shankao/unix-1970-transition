@@ -1,6 +1,6 @@
 # Stage 4A PDP-7
 
-- Project state: completed B two-pass I/O substrate
+- Project state: completed B two-pass I/O support
 - Source commit: `1143e4de12138bd9a18c9afcf627038478b7991e`
 - Original path: `machines/pdp7/pdp7-unix/build/image-shankao.fs`
 - SHA-256: `ab6494ab9c3f786544533ff2cd9a054e639f64d8e5095eb4473bd4c965e6cab0`

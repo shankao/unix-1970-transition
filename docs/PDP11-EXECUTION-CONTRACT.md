@@ -233,7 +233,7 @@ status
 ```
 
 These shapes are subject to source-level confirmation during translation.
-The surface is not expanded by this contract.
+This contract adds no other syscalls.
 
 ## Child-first fork and cooperative residency
 
@@ -416,6 +416,6 @@ The following questions are now provisionally resolved in
 - any resulting, workload-demonstrated assembler requirements.
 
 That contract derives structures from PDP-7 source first and treats First
-Edition structures only as descendant evidence. Repository-aware integration,
-U1's complete bare-machine substrate, and B4 paper-tape transport acceptance
-are now complete. U2 is the next planned milestone and remains unstarted.
+Edition structures only as descendant evidence. Repository inspection, U1's
+bare-machine tests, and B4 paper-tape loading are complete. U2 is the next
+planned milestone and remains unstarted.
