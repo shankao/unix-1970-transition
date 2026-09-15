@@ -167,6 +167,22 @@ scanner are lowercase-only. Preserve exact case in tests and comparisons, use
 established lowercase historical names rather than invented uppercase variants,
 and verify the transfer path before relying on case-sensitive Stage 4 input.
 
+## Writing
+
+- Use plain, concrete technical English in documentation, comments, plans,
+  commit messages, and reports.
+- Name the actual program, test, file, machine setup, disk image, input, or
+  configuration. Use `fixture` only when it is the precise technical term.
+- Avoid vague management terms such as `surface`, `bounded`, `plumbing`,
+  `guardrail`, `leverage`, `reconcile`, `harness`, `orchestration`, and
+  `substrate` when a direct description is clearer.
+- Prefer exact nouns, direct verbs, and short sentences. When editing existing
+  prose, simplify nearby jargon that makes it harder to understand, but do not
+  turn a small change into a broad rewrite.
+- Keep real historical and computing terms such as bootstrap, loader, paper
+  tape, inode, interrupt vector, assembler, PTR, PTP, RF11, and syscall when
+  they name the actual thing.
+
 ## Commits
 
 Keep commits stage-scoped. Suggested prefixes:
