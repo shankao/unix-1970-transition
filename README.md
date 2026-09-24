@@ -5,10 +5,13 @@ Start with a working PDP-7 Unix, use it to assemble code for a new PDP-11/20,
 then take a virtual paper tape to that machine and see it answer at the
 console. How much could they make happen with almost nothing?
 
-The journey currently reaches standalone PDP-11 programs. Unix runs on the
-PDP-7; the PDP-11 has 24 KB of core and no Unix or disk yet. With no network or
-shared disk between these machines, and the development tools on the PDP-7,
-paper tape gives the new machine a way to receive its software.
+The public journey currently reaches standalone PDP-11 programs. Development
+has also reached its first core-only Unix command: a directly started PDP-11
+`cat` can open a RAM-filesystem file and print it through Unix system calls.
+This is an accepted technical result, not yet a separate public machine state.
+The PDP-11 still has 24 KB of core and no disk. With no network or shared disk
+between these machines, and the development tools on the PDP-7, paper tape
+gives the new machine a way to receive its software.
 
 ## Try the journey
 
@@ -62,17 +65,18 @@ and modern instrumentation (M). [Sources](docs/SOURCES.md) and each era's
 
 ## Where this leads
 
-The intended continuation is core-only PDP-11 Unix and then the first
+The intended continuation is a usable core-only PDP-11 Unix and then the first
 disk-backed environment associated with the 1970 RF11/RS11 transition. Neither
-is runnable today. The surviving/restored PDP-7 system supplies the principal
-migration workload. Bootstrap/B-tool work and Unix migration proceed along
-parallel tracks; the full edit-B → compiler → assembler → tape → PDP-11
-“Across the Floor” sequence is still ahead.
+is a public runnable state today. The surviving/restored PDP-7 system supplies
+the principal migration workload. Bootstrap/B-tool work and Unix migration
+proceed along parallel tracks; the full edit-B → compiler → assembler → tape
+→ PDP-11 “Across the Floor” sequence is still ahead.
 
-For contributors, [STATUS](docs/STATUS.md) records B4 and U1 complete and U2
-unstarted; [PLAN](docs/PLAN.md) holds the R/B/U engineering milestones and
-acceptance gates. They support the public journey without determining its
-state boundaries. [UNIX-MIGRATION](docs/UNIX-MIGRATION.md) and
+For contributors, [STATUS](docs/STATUS.md) records B4 and U1 complete and the
+first Unix increment working across the still-incomplete U2/U3/U4 groups;
+[PLAN](docs/PLAN.md) holds the R/B/U engineering milestones and acceptance
+checks. They support the public journey without determining its state
+boundaries. [UNIX-MIGRATION](docs/UNIX-MIGRATION.md) and
 [STATE](docs/STATE.md) link the contracts and machine records.
 
 Git preserves how the reconstruction evolved. [`snapshots/`](snapshots/),

@@ -737,3 +737,44 @@ and are retained under `tools/` and `evidence/`; the earlier polling state is
 likewise retained under `snapshots/`. They are not templates for new PDP-11
 work. Living eras may be corrected if a future audit finds a violation, while
 Git, evidence, and snapshots retain the earlier project record.
+
+## D0042 — Make `cat readme` the first core-only Unix increment
+
+**Status:** accepted and demonstrated; U2, U3, and U4 remain incomplete
+
+The first Unix increment crosses the planning groups instead of finishing a
+filesystem in isolation. PDP-11 code initializes a minimal RAM filesystem,
+implements read-only pathname and descriptor operations plus tty output, and
+directly starts a separate translation of the surviving PDP-7 `cat`. The
+command opens `readme`, reads it through Unix calls, writes the file bytes
+through the tty special inode, closes, and exits. It does not contain the
+displayed text. File creation, ordinary-file writes, tty input, fork, parent
+restoration, command loading, arguments, and a shell remain out of scope.
+
+Call numbers `exit=1`, `open=2`, `read=3`, `write=4`, and `close=5` are a
+provisional reconstruction for this working program, not recovered 1970
+numbers. The filesystem layout follows the provisional contract: block 0 has
+sixteen inode slots, block 1 is the root directory, block 2 contains `readme`,
+and blocks 3–15 remain unused. This increment does not yet maintain allocation
+maps. The one-current-inode and ten-descriptor model is PDP-7-derived; exact
+PDP-11 code and initial inode numbers are reconstruction.
+
+This workload required native `as11` entries for `sub`, `beq`, and `dec`. A
+first attempt enlarged the assembler's local-label area without respecting the
+previously measured collision with globals and the 64-word B buffers. The
+accepted build instead retains ten local labels and gives this command private
+16-word B input/output buffers. The global and local tables move into the
+space released below those buffers. The exact Stage-3 gold source and the Unix
+sources were tested natively before an explicit installation into
+`eras/pdp7-crossdev`; normal Unix builds use a disposable copy of that image
+and do not rebuild or install the assembler as a side effect. PDP-7 Unix's
+eight-character filename limit also requires short, distinct native source
+and output names.
+
+The accepted system contains 643 native-assembled words and the separate
+`cat` contains 28. Ten PDP-7-punched tapes total 6,509 bytes. Historical
+acceptance loads every tape through PDP-11 PTR, the front-panel bootstrap, and
+the DEC Absolute Loader, compares memory with native `as11` output, and
+reproduces the file text. The DEC method remains class C; Bell Labs' exact
+loading procedure remains unknown. The result is not yet a new public era:
+it is one directly started command, not a generally usable Unix environment.

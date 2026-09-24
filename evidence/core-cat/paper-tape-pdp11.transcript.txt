@@ -1,0 +1,1517 @@
+do machines/pdp11/pdp11.simh
+
+PDP-11 simulator V4.0-0 Current        simh git commit id: 8a4b3752
+sim> do machines/pdp11/pdp11.simh
+./machines/pdp11/pdp11.simh-3> set cpu 11/20
+%SIM-INFO: Disabling XQ which never existed on a Unibus system
+%SIM-INFO: RQ: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQB: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQC: RQDX3 controller not valid on a Unibus system, changing to UDA50
+%SIM-INFO: RQD: RQDX3 controller not valid on a Unibus system, changing to UDA50
+CPU     11/20, autoconfiguration enabled, idle disabled
+        24KB
+PDP-11 simulator configuration
+
+CPU     11/20, autoconfiguration enabled, idle disabled
+SYSTEM  PDP-11 model options
+RHA     disabled
+RHB     disabled
+RHC     disabled
+RHD     disabled
+CLK     60Hz, address=17777546-17777547, vector=100, BR6
+PCLK    disabled
+PTR     disabled
+PTP     disabled
+TTI     7p, address=17777560-17777563, vector=60, BR4
+TTO     7p, address=17777564-17777567, vector=64, BR4
+TDC     disabled
+CR      disabled
+LPT     disabled
+DLI     disabled
+DLO     disabled
+DLCJI   disabled
+DLCJO   disabled
+DCI     disabled
+DCO     disabled
+DZ      disabled
+VH      disabled
+DH      disabled
+RC      disabled
+RF      disabled
+RK      disabled
+RL      disabled
+HK      disabled
+RX      disabled
+RY      disabled
+RP      disabled
+RPB     disabled
+RR      disabled
+RS      disabled
+RQ      disabled
+RQB     disabled
+RQC     disabled
+RQD     disabled
+TC      disabled
+TM      disabled
+TS      disabled
+TQ      disabled
+TU      disabled
+TA      disabled
+XQ      disabled
+XQB     disabled
+XU      disabled
+XUB     disabled
+KG      disabled
+DMC     disabled
+DUP     disabled
+DPV     disabled
+KDP     disabled
+KE      disabled
+ROM     disabled
+CH      disabled
+MB      disabled
+sim> set ptr enabled
+sim> attach ptr /tmp/core-cat-loader-zbtjv7b4/DEC-11-L2PC-PO.ptap
+sim> deposit 057744 016701
+sim> deposit 057746 000026
+sim> deposit 057750 012702
+sim> deposit 057752 000352
+sim> deposit 057754 005211
+sim> deposit 057756 105711
+sim> deposit 057760 100376
+sim> deposit 057762 116162
+sim> deposit 057764 000002
+sim> deposit 057766 057400
+sim> deposit 057770 005267
+sim> deposit 057772 177756
+sim> deposit 057774 000765
+sim> deposit 057776 177550
+sim> go 057744
+
+HALT instruction, PC: 057500 (MOV PC,SP)
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-boot.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 000034
+34:	001200
+sim> examine 000036
+36:	000000
+sim> examine 001000
+1000:	012706
+sim> examine 001002
+1002:	040000
+sim> examine 001004
+1004:	004767
+sim> examine 001006
+1006:	000770
+sim> examine 001010
+1010:	004767
+sim> examine 001012
+1012:	001764
+sim> examine 001014
+1014:	000137
+sim> examine 001016
+1016:	030000
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-trap.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 001200
+1200:	010146
+sim> examine 001202
+1202:	010246
+sim> examine 001204
+1204:	010346
+sim> examine 001206
+1206:	010446
+sim> examine 001210
+1210:	010546
+sim> examine 001212
+1212:	010605
+sim> examine 001214
+1214:	062705
+sim> examine 001216
+1216:	000012
+sim> examine 001220
+1220:	011501
+sim> examine 001222
+1222:	016101
+sim> examine 001224
+1224:	177776
+sim> examine 001226
+1226:	042701
+sim> examine 001230
+1230:	177400
+sim> examine 001232
+1232:	022701
+sim> examine 001234
+1234:	000001
+sim> examine 001236
+1236:	001003
+sim> examine 001240
+1240:	004767
+sim> examine 001242
+1242:	015534
+sim> examine 001244
+1244:	000432
+sim> examine 001246
+1246:	022701
+sim> examine 001250
+1250:	000002
+sim> examine 001252
+1252:	001003
+sim> examine 001254
+1254:	004767
+sim> examine 001256
+1256:	006120
+sim> examine 001260
+1260:	000424
+sim> examine 001262
+1262:	022701
+sim> examine 001264
+1264:	000003
+sim> examine 001266
+1266:	001003
+sim> examine 001270
+1270:	004767
+sim> examine 001272
+1272:	006504
+sim> examine 001274
+1274:	000416
+sim> examine 001276
+1276:	022701
+sim> examine 001300
+1300:	000004
+sim> examine 001302
+1302:	001003
+sim> examine 001304
+1304:	004767
+sim> examine 001306
+1306:	012470
+sim> examine 001310
+1310:	000410
+sim> examine 001312
+1312:	022701
+sim> examine 001314
+1314:	000005
+sim> examine 001316
+1316:	001003
+sim> examine 001320
+1320:	004767
+sim> examine 001322
+1322:	014454
+sim> examine 001324
+1324:	000402
+sim> examine 001326
+1326:	012700
+sim> examine 001330
+1330:	177777
+sim> examine 001332
+1332:	012605
+sim> examine 001334
+1334:	012604
+sim> examine 001336
+1336:	012603
+sim> examine 001340
+1340:	012602
+sim> examine 001342
+1342:	012601
+sim> examine 001344
+1344:	000002
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-init.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 002000
+2000:	012700
+sim> examine 002002
+2002:	040000
+sim> examine 002004
+2004:	012701
+sim> examine 002006
+2006:	001400
+sim> examine 002010
+2010:	005020
+sim> examine 002012
+2012:	005301
+sim> examine 002014
+2014:	001375
+sim> examine 002016
+2016:	012767
+sim> examine 002020
+2020:	177770
+sim> examine 002022
+2022:	015760
+sim> examine 002024
+2024:	012767
+sim> examine 002026
+2026:	177740
+sim> examine 002030
+2030:	015754
+sim> examine 002032
+2032:	012767
+sim> examine 002034
+2034:	177777
+sim> examine 002036
+2036:	015742
+sim> examine 002040
+2040:	012737
+sim> examine 002042
+2042:	100036
+sim> examine 002044
+2044:	040030
+sim> examine 002046
+2046:	012737
+sim> examine 002050
+2050:	000001
+sim> examine 002052
+2052:	040032
+sim> examine 002054
+2054:	012737
+sim> examine 002056
+2056:	177777
+sim> examine 002060
+2060:	040052
+sim> examine 002062
+2062:	012737
+sim> examine 002064
+2064:	177777
+sim> examine 002066
+2066:	040054
+sim> examine 002070
+2070:	012737
+sim> examine 002072
+2072:	000036
+sim> examine 002074
+2074:	040056
+sim> examine 002076
+2076:	012737
+sim> examine 002100
+2100:	100052
+sim> examine 002102
+2102:	040060
+sim> examine 002104
+2104:	012737
+sim> examine 002106
+2106:	177777
+sim> examine 002110
+2110:	040102
+sim> examine 002112
+2112:	012737
+sim> examine 002114
+2114:	177777
+sim> examine 002116
+2116:	040104
+sim> examine 002120
+2120:	012737
+sim> examine 002122
+2122:	100045
+sim> examine 002124
+2124:	040110
+sim> examine 002126
+2126:	012737
+sim> examine 002130
+2130:	177777
+sim> examine 002132
+2132:	040132
+sim> examine 002134
+2134:	012737
+sim> examine 002136
+2136:	177777
+sim> examine 002140
+2140:	040134
+sim> examine 002142
+2142:	012737
+sim> examine 002144
+2144:	100012
+sim> examine 002146
+2146:	040140
+sim> examine 002150
+2150:	012737
+sim> examine 002152
+2152:	000002
+sim> examine 002154
+2154:	040142
+sim> examine 002156
+2156:	012737
+sim> examine 002160
+2160:	177777
+sim> examine 002162
+2162:	040162
+sim> examine 002164
+2164:	012737
+sim> examine 002166
+2166:	177777
+sim> examine 002170
+2170:	040164
+sim> examine 002172
+2172:	012737
+sim> examine 002174
+2174:	000044
+sim> examine 002176
+2176:	040166
+sim> examine 002200
+2200:	012737
+sim> examine 002202
+2202:	000002
+sim> examine 002204
+2204:	041000
+sim> examine 002206
+2206:	012737
+sim> examine 002210
+2210:	072164
+sim> examine 002212
+2212:	041002
+sim> examine 002214
+2214:	012737
+sim> examine 002216
+2216:	064571
+sim> examine 002220
+2220:	041004
+sim> examine 002222
+2222:	012737
+sim> examine 002224
+2224:	000156
+sim> examine 002226
+2226:	041006
+sim> examine 002230
+2230:	005037
+sim> examine 002232
+2232:	041010
+sim> examine 002234
+2234:	012737
+sim> examine 002236
+2236:	000003
+sim> examine 002240
+2240:	041012
+sim> examine 002242
+2242:	012737
+sim> examine 002244
+2244:	072164
+sim> examine 002246
+2246:	041014
+sim> examine 002250
+2250:	012737
+sim> examine 002252
+2252:	067571
+sim> examine 002254
+2254:	041016
+sim> examine 002256
+2256:	012737
+sim> examine 002260
+2260:	072165
+sim> examine 002262
+2262:	041020
+sim> examine 002264
+2264:	005037
+sim> examine 002266
+2266:	041022
+sim> examine 002270
+2270:	012737
+sim> examine 002272
+2272:	000004
+sim> examine 002274
+2274:	041024
+sim> examine 002276
+2276:	012737
+sim> examine 002300
+2300:	062562
+sim> examine 002302
+2302:	041026
+sim> examine 002304
+2304:	012737
+sim> examine 002306
+2306:	062141
+sim> examine 002310
+2310:	041030
+sim> examine 002312
+2312:	012737
+sim> examine 002314
+2314:	062555
+sim> examine 002316
+2316:	041032
+sim> examine 002320
+2320:	005037
+sim> examine 002322
+2322:	041034
+sim> examine 002324
+2324:	012737
+sim> examine 002326
+2326:	042120
+sim> examine 002330
+2330:	042000
+sim> examine 002332
+2332:	012737
+sim> examine 002334
+2334:	026520
+sim> examine 002336
+2336:	042002
+sim> examine 002340
+2340:	012737
+sim> examine 002342
+2342:	030461
+sim> examine 002344
+2344:	042004
+sim> examine 002346
+2346:	012737
+sim> examine 002350
+2350:	052440
+sim> examine 002352
+2352:	042006
+sim> examine 002354
+2354:	012737
+sim> examine 002356
+2356:	064556
+sim> examine 002360
+2360:	042010
+sim> examine 002362
+2362:	012737
+sim> examine 002364
+2364:	020170
+sim> examine 002366
+2366:	042012
+sim> examine 002370
+2370:	012737
+sim> examine 002372
+2372:	062562
+sim> examine 002374
+2374:	042014
+sim> examine 002376
+2376:	012737
+sim> examine 002400
+2400:	062141
+sim> examine 002402
+2402:	042016
+sim> examine 002404
+2404:	012737
+sim> examine 002406
+2406:	072040
+sim> examine 002410
+2410:	042020
+sim> examine 002412
+2412:	012737
+sim> examine 002414
+2414:	064550
+sim> examine 002416
+2416:	042022
+sim> examine 002420
+2420:	012737
+sim> examine 002422
+2422:	020163
+sim> examine 002424
+2424:	042024
+sim> examine 002426
+2426:	012737
+sim> examine 002430
+2430:	071146
+sim> examine 002432
+2432:	042026
+sim> examine 002434
+2434:	012737
+sim> examine 002436
+2436:	066557
+sim> examine 002440
+2440:	042030
+sim> examine 002442
+2442:	012737
+sim> examine 002444
+2444:	071040
+sim> examine 002446
+2446:	042032
+sim> examine 002450
+2450:	012737
+sim> examine 002452
+2452:	060545
+sim> examine 002454
+2454:	042034
+sim> examine 002456
+2456:	012737
+sim> examine 002460
+2460:	066544
+sim> examine 002462
+2462:	042036
+sim> examine 002464
+2464:	012737
+sim> examine 002466
+2466:	027145
+sim> examine 002470
+2470:	042040
+sim> examine 002472
+2472:	012737
+sim> examine 002474
+2474:	005015
+sim> examine 002476
+2476:	042042
+sim> examine 002500
+2500:	000207
+sim> examine 003000
+3000:	012700
+sim> examine 003002
+3002:	020062
+sim> examine 003004
+3004:	012701
+sim> examine 003006
+3006:	000036
+sim> examine 003010
+3010:	005020
+sim> examine 003012
+3012:	005301
+sim> examine 003014
+3014:	001375
+sim> examine 003016
+3016:	012767
+sim> examine 003020
+3020:	000006
+sim> examine 003022
+3022:	015036
+sim> examine 003024
+3024:	012767
+sim> examine 003026
+3026:	000002
+sim> examine 003030
+3030:	015034
+sim> examine 003032
+3032:	012767
+sim> examine 003034
+3034:	000005
+sim> examine 003036
+3036:	015030
+sim> examine 003040
+3040:	012767
+sim> examine 003042
+3042:	000003
+sim> examine 003044
+3044:	015026
+sim> examine 003046
+3046:	000207
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-files.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 004000
+4000:	012701
+sim> examine 004002
+4002:	041000
+sim> examine 004004
+4004:	012703
+sim> examine 004006
+4006:	000003
+sim> examine 004010
+4010:	005711
+sim> examine 004012
+4012:	001417
+sim> examine 004014
+4014:	010002
+sim> examine 004016
+4016:	022261
+sim> examine 004020
+4020:	000002
+sim> examine 004022
+4022:	001013
+sim> examine 004024
+4024:	022261
+sim> examine 004026
+4026:	000004
+sim> examine 004030
+4030:	001010
+sim> examine 004032
+4032:	022261
+sim> examine 004034
+4034:	000006
+sim> examine 004036
+4036:	001005
+sim> examine 004040
+4040:	022261
+sim> examine 004042
+4042:	000010
+sim> examine 004044
+4044:	001002
+sim> examine 004046
+4046:	011100
+sim> examine 004050
+4050:	000207
+sim> examine 004052
+4052:	062701
+sim> examine 004054
+4054:	000012
+sim> examine 004056
+4056:	005303
+sim> examine 004060
+4060:	001353
+sim> examine 004062
+4062:	012700
+sim> examine 004064
+4064:	177777
+sim> examine 004066
+4066:	000207
+sim> examine 005000
+5000:	005700
+sim> examine 005002
+5002:	100003
+sim> examine 005004
+5004:	012700
+sim> examine 005006
+5006:	177777
+sim> examine 005010
+5010:	000207
+sim> examine 005012
+5012:	020027
+sim> examine 005014
+5014:	000020
+sim> examine 005016
+5016:	100024
+sim> examine 005020
+5020:	010067
+sim> examine 005022
+5022:	012754
+sim> examine 005024
+5024:	010001
+sim> examine 005026
+5026:	006301
+sim> examine 005030
+5030:	006301
+sim> examine 005032
+5032:	006301
+sim> examine 005034
+5034:	010102
+sim> examine 005036
+5036:	006301
+sim> examine 005040
+5040:	060201
+sim> examine 005042
+5042:	062701
+sim> examine 005044
+5044:	040000
+sim> examine 005046
+5046:	012702
+sim> examine 005050
+5050:	020032
+sim> examine 005052
+5052:	012703
+sim> examine 005054
+5054:	000014
+sim> examine 005056
+5056:	012122
+sim> examine 005060
+5060:	005303
+sim> examine 005062
+5062:	001375
+sim> examine 005064
+5064:	005000
+sim> examine 005066
+5066:	000207
+sim> examine 005070
+5070:	012700
+sim> examine 005072
+5072:	177777
+sim> examine 005074
+5074:	000207
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-control.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 006000
+6000:	005767
+sim> examine 006002
+6002:	011776
+sim> examine 006004
+6004:	100002
+sim> examine 006006
+6006:	005000
+sim> examine 006010
+6010:	000207
+sim> examine 006012
+6012:	016701
+sim> examine 006014
+6014:	012014
+sim> examine 006016
+6016:	026767
+sim> examine 006020
+6020:	011760
+sim> examine 006022
+6022:	012030
+sim> examine 006024
+6024:	001002
+sim> examine 006026
+6026:	006201
+sim> examine 006030
+6030:	006201
+sim> examine 006032
+6032:	042701
+sim> examine 006034
+6034:	177774
+sim> examine 006036
+6036:	010002
+sim> examine 006040
+6040:	040102
+sim> examine 006042
+6042:	001403
+sim> examine 006044
+6044:	012700
+sim> examine 006046
+6046:	177777
+sim> examine 006050
+6050:	000207
+sim> examine 006052
+6052:	005000
+sim> examine 006054
+6054:	000207
+sim> examine 007000
+7000:	012701
+sim> examine 007002
+7002:	020062
+sim> examine 007004
+7004:	005000
+sim> examine 007006
+7006:	032711
+sim> examine 007010
+7010:	000004
+sim> examine 007012
+7012:	001411
+sim> examine 007014
+7014:	062701
+sim> examine 007016
+7016:	000006
+sim> examine 007020
+7020:	062700
+sim> examine 007022
+7022:	000001
+sim> examine 007024
+7024:	022700
+sim> examine 007026
+7026:	000012
+sim> examine 007030
+7030:	001366
+sim> examine 007032
+7032:	012700
+sim> examine 007034
+7034:	177777
+sim> examine 007036
+7036:	000207
+sim> examine 007200
+7200:	005700
+sim> examine 007202
+7202:	100002
+sim> examine 007204
+7204:	005001
+sim> examine 007206
+7206:	000207
+sim> examine 007210
+7210:	020027
+sim> examine 007212
+7212:	000012
+sim> examine 007214
+7214:	100010
+sim> examine 007216
+7216:	010001
+sim> examine 007220
+7220:	006301
+sim> examine 007222
+7222:	010102
+sim> examine 007224
+7224:	006301
+sim> examine 007226
+7226:	060201
+sim> examine 007230
+7230:	062701
+sim> examine 007232
+7232:	020062
+sim> examine 007234
+7234:	000207
+sim> examine 007236
+7236:	005001
+sim> examine 007240
+7240:	000207
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-open.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 007400
+7400:	011504
+sim> examine 007402
+7402:	062715
+sim> examine 007404
+7404:	000004
+sim> examine 007406
+7406:	005764
+sim> examine 007410
+7410:	000002
+sim> examine 007412
+7412:	001403
+sim> examine 007414
+7414:	012700
+sim> examine 007416
+7416:	177777
+sim> examine 007420
+7420:	000207
+sim> examine 007422
+7422:	011400
+sim> examine 007424
+7424:	004767
+sim> examine 007426
+7426:	174350
+sim> examine 007430
+7430:	005700
+sim> examine 007432
+7432:	100001
+sim> examine 007434
+7434:	000207
+sim> examine 007436
+7436:	004767
+sim> examine 007440
+7440:	175336
+sim> examine 007442
+7442:	005700
+sim> examine 007444
+7444:	100001
+sim> examine 007446
+7446:	000207
+sim> examine 007450
+7450:	012700
+sim> examine 007452
+7452:	000002
+sim> examine 007454
+7454:	004767
+sim> examine 007456
+7456:	176320
+sim> examine 007460
+7460:	005700
+sim> examine 007462
+7462:	100001
+sim> examine 007464
+7464:	000207
+sim> examine 007466
+7466:	004767
+sim> examine 007470
+7470:	177306
+sim> examine 007472
+7472:	005700
+sim> examine 007474
+7474:	100001
+sim> examine 007476
+7476:	000207
+sim> examine 007500
+7500:	012711
+sim> examine 007502
+7502:	000006
+sim> examine 007504
+7504:	005061
+sim> examine 007506
+7506:	000002
+sim> examine 007510
+7510:	016761
+sim> examine 007512
+7512:	010264
+sim> examine 007514
+7514:	000004
+sim> examine 007516
+7516:	010067
+sim> examine 007520
+7520:	010276
+sim> examine 007522
+7522:	000207
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-read.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 010000
+10000:	011504
+sim> examine 010002
+10002:	011467
+sim> examine 010004
+10004:	010002
+sim> examine 010006
+10006:	016467
+sim> examine 010010
+10010:	000002
+sim> examine 010012
+10012:	007776
+sim> examine 010014
+10014:	062715
+sim> examine 010016
+10016:	000004
+sim> examine 010020
+10020:	004767
+sim> examine 010022
+10022:	177154
+sim> examine 010024
+10024:	005701
+sim> examine 010026
+10026:	001531
+sim> examine 010030
+10030:	011102
+sim> examine 010032
+10032:	042702
+sim> examine 010034
+10034:	177771
+sim> examine 010036
+10036:	022702
+sim> examine 010040
+10040:	000006
+sim> examine 010042
+10042:	001123
+sim> examine 010044
+10044:	010167
+sim> examine 010046
+10046:	007744
+sim> examine 010050
+10050:	016100
+sim> examine 010052
+10052:	000004
+sim> examine 010054
+10054:	004767
+sim> examine 010056
+10056:	174720
+sim> examine 010060
+10060:	005700
+sim> examine 010062
+10062:	001113
+sim> examine 010064
+10064:	032767
+sim> examine 010066
+10066:	000040
+sim> examine 010070
+10070:	007740
+sim> examine 010072
+10072:	001107
+sim> examine 010074
+10074:	016703
+sim> examine 010076
+10076:	007760
+sim> examine 010100
+10100:	016701
+sim> examine 010102
+10102:	007710
+sim> examine 010104
+10104:	166103
+sim> examine 010106
+10106:	000002
+sim> examine 010110
+10110:	005703
+sim> examine 010112
+10112:	100001
+sim> examine 010114
+10114:	000476
+sim> examine 010116
+10116:	001473
+sim> examine 010120
+10120:	016702
+sim> examine 010122
+10122:	007666
+sim> examine 010124
+10124:	005702
+sim> examine 010126
+10126:	100001
+sim> examine 010130
+10130:	000470
+sim> examine 010132
+10132:	001465
+sim> examine 010134
+10134:	020302
+sim> examine 010136
+10136:	100001
+sim> examine 010140
+10140:	010302
+sim> examine 010142
+10142:	010267
+sim> examine 010144
+10144:	007650
+sim> examine 010146
+10146:	016100
+sim> examine 010150
+10150:	000002
+sim> examine 010152
+10152:	004767
+sim> examine 010154
+10154:	001622
+sim> examine 010156
+10156:	005700
+sim> examine 010160
+10160:	100001
+sim> examine 010162
+10162:	000453
+sim> examine 010164
+10164:	012701
+sim> examine 010166
+10166:	026000
+sim> examine 010170
+10170:	004767
+sim> examine 010172
+10172:	002604
+sim> examine 010174
+10174:	005700
+sim> examine 010176
+10176:	001045
+sim> examine 010200
+10200:	016701
+sim> examine 010202
+10202:	007610
+sim> examine 010204
+10204:	016103
+sim> examine 010206
+10206:	000002
+sim> examine 010210
+10210:	042703
+sim> examine 010212
+10212:	177000
+sim> examine 010214
+10214:	012702
+sim> examine 010216
+10216:	001000
+sim> examine 010220
+10220:	160302
+sim> examine 010222
+10222:	020267
+sim> examine 010224
+10224:	007570
+sim> examine 010226
+10226:	100002
+sim> examine 010230
+10230:	010267
+sim> examine 010232
+10232:	007562
+sim> examine 010234
+10234:	012704
+sim> examine 010236
+10236:	026000
+sim> examine 010240
+10240:	060304
+sim> examine 010242
+10242:	016703
+sim> examine 010244
+10244:	007542
+sim> examine 010246
+10246:	016702
+sim> examine 010250
+10250:	007544
+sim> examine 010252
+10252:	112423
+sim> examine 010254
+10254:	005302
+sim> examine 010256
+10256:	001375
+sim> examine 010260
+10260:	016701
+sim> examine 010262
+10262:	007530
+sim> examine 010264
+10264:	066761
+sim> examine 010266
+10266:	007526
+sim> examine 010270
+10270:	000002
+sim> examine 010272
+10272:	062767
+sim> examine 010274
+10274:	000001
+sim> examine 010276
+10276:	007524
+sim> examine 010300
+10300:	016700
+sim> examine 010302
+10302:	007512
+sim> examine 010304
+10304:	000207
+sim> examine 010306
+10306:	005000
+sim> examine 010310
+10310:	000207
+sim> examine 010312
+10312:	012700
+sim> examine 010314
+10314:	177777
+sim> examine 010316
+10316:	000207
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-blocks.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 012000
+12000:	010001
+sim> examine 012002
+12002:	006201
+sim> examine 012004
+12004:	006201
+sim> examine 012006
+12006:	006201
+sim> examine 012010
+12010:	006201
+sim> examine 012012
+12012:	006201
+sim> examine 012014
+12014:	006201
+sim> examine 012016
+12016:	006201
+sim> examine 012020
+12020:	006201
+sim> examine 012022
+12022:	006201
+sim> examine 012024
+12024:	020127
+sim> examine 012026
+12026:	000010
+sim> examine 012030
+12030:	100006
+sim> examine 012032
+12032:	006301
+sim> examine 012034
+12034:	062701
+sim> examine 012036
+12036:	020034
+sim> examine 012040
+12040:	011100
+sim> examine 012042
+12042:	005700
+sim> examine 012044
+12044:	001002
+sim> examine 012046
+12046:	012700
+sim> examine 012050
+12050:	177777
+sim> examine 012052
+12052:	000207
+sim> examine 013000
+13000:	005700
+sim> examine 013002
+13002:	100003
+sim> examine 013004
+13004:	012700
+sim> examine 013006
+13006:	177777
+sim> examine 013010
+13010:	000207
+sim> examine 013012
+13012:	020027
+sim> examine 013014
+13014:	000020
+sim> examine 013016
+13016:	100024
+sim> examine 013020
+13020:	010002
+sim> examine 013022
+13022:	006302
+sim> examine 013024
+13024:	006302
+sim> examine 013026
+13026:	006302
+sim> examine 013030
+13030:	006302
+sim> examine 013032
+13032:	006302
+sim> examine 013034
+13034:	006302
+sim> examine 013036
+13036:	006302
+sim> examine 013040
+13040:	006302
+sim> examine 013042
+13042:	006302
+sim> examine 013044
+13044:	062702
+sim> examine 013046
+13046:	040000
+sim> examine 013050
+13050:	010103
+sim> examine 013052
+13052:	012704
+sim> examine 013054
+13054:	000400
+sim> examine 013056
+13056:	012223
+sim> examine 013060
+13060:	005304
+sim> examine 013062
+13062:	001375
+sim> examine 013064
+13064:	005000
+sim> examine 013066
+13066:	000207
+sim> examine 013070
+13070:	012700
+sim> examine 013072
+13072:	177777
+sim> examine 013074
+13074:	000207
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/core-unix-write.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 014000
+14000:	011504
+sim> examine 014002
+14002:	011467
+sim> examine 014004
+14004:	004002
+sim> examine 014006
+14006:	016467
+sim> examine 014010
+14010:	000002
+sim> examine 014012
+14012:	003776
+sim> examine 014014
+14014:	062715
+sim> examine 014016
+14016:	000004
+sim> examine 014020
+14020:	004767
+sim> examine 014022
+14022:	173154
+sim> examine 014024
+14024:	005701
+sim> examine 014026
+14026:	001456
+sim> examine 014030
+14030:	011102
+sim> examine 014032
+14032:	042702
+sim> examine 014034
+14034:	177772
+sim> examine 014036
+14036:	022702
+sim> examine 014040
+14040:	000005
+sim> examine 014042
+14042:	001050
+sim> examine 014044
+14044:	016100
+sim> examine 014046
+14046:	000004
+sim> examine 014050
+14050:	004767
+sim> examine 014052
+14052:	170724
+sim> examine 014054
+14054:	005700
+sim> examine 014056
+14056:	001042
+sim> examine 014060
+14060:	032767
+sim> examine 014062
+14062:	000040
+sim> examine 014064
+14064:	003744
+sim> examine 014066
+14066:	001436
+sim> examine 014070
+14070:	022767
+sim> examine 014072
+14072:	000003
+sim> examine 014074
+14074:	003702
+sim> examine 014076
+14076:	001032
+sim> examine 014100
+14100:	016702
+sim> examine 014102
+14102:	003706
+sim> examine 014104
+14104:	005702
+sim> examine 014106
+14106:	100001
+sim> examine 014110
+14110:	000425
+sim> examine 014112
+14112:	010267
+sim> examine 014114
+14114:	003700
+sim> examine 014116
+14116:	016703
+sim> examine 014120
+14120:	003666
+sim> examine 014122
+14122:	001412
+sim> examine 014124
+14124:	105737
+sim> examine 014126
+14126:	177564
+sim> examine 014130
+14130:	100375
+sim> examine 014132
+14132:	112337
+sim> examine 014134
+14134:	177566
+sim> examine 014136
+14136:	005302
+sim> examine 014140
+14140:	001371
+sim> examine 014142
+14142:	105737
+sim> examine 014144
+14144:	177564
+sim> examine 014146
+14146:	100375
+sim> examine 014150
+14150:	062767
+sim> examine 014152
+14152:	000001
+sim> examine 014154
+14154:	003650
+sim> examine 014156
+14156:	016700
+sim> examine 014160
+14160:	003634
+sim> examine 014162
+14162:	000207
+sim> examine 014164
+14164:	012700
+sim> examine 014166
+14166:	177777
+sim> examine 014170
+14170:	000207
+sim> examine 016000
+16000:	004767
+sim> examine 016002
+16002:	171174
+sim> examine 016004
+16004:	005701
+sim> examine 016006
+16006:	001406
+sim> examine 016010
+16010:	032711
+sim> examine 016012
+16012:	000004
+sim> examine 016014
+16014:	001403
+sim> examine 016016
+16016:	005011
+sim> examine 016020
+16020:	005000
+sim> examine 016022
+16022:	000207
+sim> examine 016024
+16024:	012700
+sim> examine 016026
+16026:	177777
+sim> examine 016030
+16030:	000207
+sim> examine 017000
+17000:	016767
+sim> examine 017002
+17002:	001074
+sim> examine 017004
+17004:	001014
+sim> examine 017006
+17006:	005067
+sim> examine 017010
+17010:	001050
+sim> examine 017012
+17012:	005067
+sim> examine 017014
+17014:	001052
+sim> examine 017016
+17016:	005067
+sim> examine 017020
+17020:	001054
+sim> examine 017022
+17022:	012767
+sim> examine 017024
+17024:	000001
+sim> examine 017026
+17026:	001000
+sim> examine 017030
+17030:	000000
+sim> detach ptr
+sim> attach ptr /home/shankao/Games/Computers and Consoles/1970 - 1979/1970/unix-1970-transition/artifacts/cat.ptap
+sim> go 057500
+
+HALT instruction, PC: 057712 (BR 57514)
+sim> examine 030000
+30000:	104402
+sim> examine 030002
+30002:	030060
+sim> examine 030004
+30004:	000000
+sim> examine 030006
+30006:	005700
+sim> examine 030010
+30010:	100001
+sim> examine 030012
+30012:	104401
+sim> examine 030014
+30014:	010003
+sim> examine 030016
+30016:	010300
+sim> examine 030020
+30020:	104403
+sim> examine 030022
+30022:	037000
+sim> examine 030024
+30024:	000010
+sim> examine 030026
+30026:	005700
+sim> examine 030030
+30030:	001003
+sim> examine 030032
+30032:	010300
+sim> examine 030034
+30034:	104405
+sim> examine 030036
+30036:	104401
+sim> examine 030040
+30040:	010067
+sim> examine 030042
+30042:	000010
+sim> examine 030044
+30044:	012700
+sim> examine 030046
+30046:	000001
+sim> examine 030050
+30050:	104404
+sim> examine 030052
+30052:	037000
+sim> examine 030054
+30054:	000000
+sim> examine 030056
+30056:	000757
+sim> examine 030060
+30060:	062562
+sim> examine 030062
+30062:	062141
+sim> examine 030064
+30064:	062555
+sim> examine 030066
+30066:	000000
+sim> go 001000
+PDP-11 Unix read this from readme.
+
+HALT instruction, PC: 017032 (HALT)
+sim> examine 020020
+20020:	000002
+sim> examine 020022
+20022:	000044
+sim> examine 020024
+20024:	000005
+sim> examine 020026
+20026:	000005
+sim> examine 020030
+20030:	000001
+sim> examine 020004
+20004:	177770
+sim> examine 020006
+20006:	177740
+sim> examine 020062
+20062:	000000
+sim> examine 020070
+20070:	000000
+sim> examine 020076
+20076:	000000
+sim> examine 042000
+42000:	042120
+sim> examine 042042
+42042:	005015
+sim> examine 026000
+26000:	042120
+sim> examine 026042
+26042:	005015
+sim> quit
+Goodbye

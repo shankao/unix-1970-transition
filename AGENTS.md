@@ -123,10 +123,11 @@ Never describe B/C/M material as original Bell Labs code.
   provisional filesystem/data-structure contract v1 are complete. The
   Stage-3 gold round trip, KL11 polling diagnostic, U1 bare-machine substrate,
   and B4 paper-tape transport are complete. U1.7 proves historical transport
-  acceptance. Unix implementation remains unstarted. Its first work begins
-  with U2 RAM-filesystem pieces, but later work may cross into U3/U4 when the
-  dependency-driven order in `docs/PLAN.md` calls for it. Do not begin that
-  work without explicit authorization, and do not skip to RF11.
+  acceptance. The first Unix increment now initializes a minimal RAM
+  filesystem and runs a PDP-11 `cat` through `open`, `read`, `write`, `close`,
+  and `exit`; U2/U3/U4 remain incomplete. Continue in the dependency-driven
+  order in `docs/PLAN.md` only with explicit authorization, and do not skip to
+  RF11.
 - Keep `as11`, `b11`, and paper-tape transport as separate architectural
   layers unless a recorded evidence-backed decision changes that boundary.
 - Treat PDP-7 cross-development tools as bootstrap tools: implement the
@@ -174,6 +175,16 @@ Native PDP-7 work being slow is acceptable and sometimes informative. Keep
 sessions open, avoid redundant transfers, and automate known procedures, but
 do not move compilation, assembly, execution, or required filesystem work to a
 modern host solely for speed.
+
+For long PDP-7 or PDP-11 emulator, build, install, and acceptance commands,
+start the command once and let the host operating system wait for it. Use a
+generous timeout and a log when needed. Resume work when the command exits,
+fails, or times out. Do not spend repeated model turns running `ps`, inspecting
+the same log, or reporting that a healthy process is still running. One check
+is reasonable when a hang is suspected; if the process is making progress,
+return to one blocking wait. Do not shorten a historical machine operation to
+save model attention. If a repository command routinely takes minutes, prefer
+having its runner wait, time out clearly, and print one concise result.
 
 The recovered PDP-7 `ed` is not later Unix `ed`: invoke `ed`, then use `r name`
 to load an existing file; `ed name` does not load it. For native edits, use

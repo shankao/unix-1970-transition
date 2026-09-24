@@ -13,12 +13,14 @@ are reconstructed conservatively; contemporary substitutes are used only
 when necessary; and every category is stated. Reconstructed programs are not
 claimed to be the exact lost Bell Labs sources.
 
-The demonstrated point is still the diskless late-1970 PDP-11/20, now with a
-working reconstructed standalone threaded-B execution model and a PDP-7-hosted
-KA11 encoder nucleus. The surviving/restored PDP-7 UNIX system is now the
-principal source base for defining what migrates next. The repository’s
-eventual boundary is the first disk-backed PDP-11 UNIX environment consistent
-with the December 1970 disk arrival—not the rest of 1971 or First Edition.
+The demonstrated point is the diskless late-1970 PDP-11/20. In addition to the
+standalone threaded-B and U1 machine programs, a first core-only Unix increment
+now runs a translated `cat`: it opens `readme` in a RAM filesystem, reads the
+file through Unix calls, writes it through the tty special file, closes it, and
+exits. The surviving/restored PDP-7 UNIX system is the principal source base
+for this migration. The repository's eventual boundary is the first
+disk-backed PDP-11 UNIX environment consistent with the December 1970 disk
+arrival—not the rest of 1971 or First Edition.
 
 ## Current stage
 
@@ -29,7 +31,8 @@ on the diskless PDP-11. Existing directory names and machine states are kept.
 Native assembly and visitor export are now one continuous path: `as11` creates
 the trace on the era disk, `punch_era.py` invokes its native `abspun` through
 PTP, and the generated replay feeds the exact tape through PDP-11 PTR and the
-class-C DEC loader. B4/U1 remain complete; U2 is unstarted.
+class-C DEC loader. B4/U1 remain complete. The first interleaved U2/U3/U4
+increment is complete, while all three parent groups remain incomplete.
 
 Manual checks passed: both PDP-7 logins and `ls`, the documented small
 native assembly and exact 131-word console reassembly (on disposable era
@@ -37,9 +40,10 @@ copies), direct PTR replay with `AB` and `ki`, and the optional RAM replay.
 The `punch_era.py` test exercised the documented
 `101` -> `102` native edit, produced three exact words, punched 74 bytes in
 four valid DEC records, loaded them through PTR/bootstrap/Absolute Loader, and
-observed R0 `000102`. It intentionally updates the living cross-development
-era image with named tools and the editable demo. All 95 host tests pass; U2
-and Unix code are unchanged.
+observed R0 `000102`. The Unix build uses a disposable copy of the
+cross-development image. A separate, explicit installation updated the living
+era's `as11` after its new instructions and smaller runtime buffers passed the
+native tests. Current test totals are recorded with this increment below.
 
 - [x] **Historical/bootstrap foundation**
   - [x] Stage 0 — machine reproducibility
@@ -75,12 +79,16 @@ and Unix code are unchanged.
   - [x] U1.5 — TRAP/syscall entry and return
   - [x] U1.6 — RAM storage primitive
   - [x] U1.7 — Historical/mechanical-load acceptance
-- [ ] **U2 — Filesystem nucleus** — not started; the next Unix increment
-  begins with its RAM-filesystem work.
-- [ ] **U3 — Process/execution nucleus** — not started; work may begin when
-  needed to run the next useful program, before U2 as a group is complete.
-- [ ] **U4 — Minimal userland** — not started; `cat` is planned early to test
-  the first working file and console interfaces.
+- [ ] **U2 — Filesystem nucleus** — IN PROGRESS. RAM initialization, fixed-root
+  lookup, one current inode, direct-block reads, descriptors, read-only
+  `open`, `read`, `close`, and ttyout `write` now support the first `cat` run.
+  Creation, ordinary-file writes, mutation, tty input, and full U2 acceptance
+  remain.
+- [ ] **U3 — Process/execution nucleus** — IN PROGRESS only to the extent that
+  the directly started command can call a minimal `exit`. Fork, parent backing,
+  command loading, synchronization, and U3 acceptance remain.
+- [ ] **U4 — Minimal userland** — IN PROGRESS. U4.1 `cat` is complete in its
+  first fixed-name form; the other commands and full U4 acceptance remain.
 - [ ] **U5–U7 Unix integration and disk transition** — future work remains
   open.
 - [x] Canonical active machine configs
@@ -267,8 +275,48 @@ provenance classes:
 
 New substantial PDP-11 programs must therefore be written symbolically and
 assembled by native PDP-7 `as11`. Direct loading may still repeat that exact
-output during debugging. This audit changed no machine code, media, or Unix
-implementation; U2 remains unstarted.
+output during debugging. The audit itself changed no machine code or media;
+the later `cat` increment follows this rule.
+
+**First core-only Unix command:** nine fixed-address system source files and a
+separate `cat` source were assembled by the accepted PDP-7 `as11`. The system
+initializes RAM blocks 0–2, finds `readme` in a 30-byte root directory, opens
+it on lowest-free descriptor 2, reads its 36 bytes through a 512-byte kernel
+buffer in five calls, writes those bytes through ttyout in five calls, closes
+the descriptor, and exits cleanly. The console shows
+`PDP-11 Unix read this from readme.` followed by CR/LF. The displayed text is
+stored in the ordinary RAM file and is not present in `cat`.
+
+The system contains 643 native words and 390 decoded instructions; `cat`
+contains 28 words and 16 instructions. Their ten PDP-7-punched tapes total
+6,509 bytes. Historical acceptance loaded every tape through PTR, the
+front-panel bootstrap, and the DEC Absolute Loader, compared every memory word
+with native output, and reproduced the fast run's result. Blocks 3–15 remain
+unused; the planned allocation maps are not implemented yet. The calls are
+provisional reconstructions: `exit=1`, `open=2`, `read=3`, `write=4`, and
+`close=5`.
+
+For scale, 6,509 tape bytes correspond to about 22 seconds at a documented
+300-character/second PC11 reader rate, 2 minutes 10 seconds at a
+50-character/second PC11 punch rate, or 10 minutes 51 seconds at a
+10-character/second Model 33 rate. These are contemporary reference rates,
+not evidence for Bell Labs' exact device, and the emulator does not add an
+artificial delay.
+
+This work adds `sub`, `beq`, and `dec` to the native assembler. The explicitly
+installed era command is 3,788 PDP-7 words and uses 16-word B input/output
+buffers. Its global and local tables occupy space released below those smaller
+buffers, and the installed command passes the exact Stage-3 gold source.
+Normal Unix builds use a disposable copy of the era disk; the final recorded
+build left SHA-256
+`d2e7cd48703c80096ce64ea04ab55acfb6c219458b17e12261129ff2a212954b`
+unchanged. Creation, ordinary-file writes,
+tty input, fork, parent restoration, loading commands from the filesystem,
+arguments, and a shell remain unimplemented.
+
+All 104 host tests pass. The U1 replay still reports 342 words, 178
+instructions, and U1.3–U1.6 PASS. Read-only `fsck7` exits 0 for both changed
+PDP-7 images with only the established inode-38/block-2987 self-revisit.
 
 Earlier canonical-config regression runs retained the same useful native
 sources and outputs and had advanced the evolving authoritative image to SHA-256
@@ -433,9 +481,9 @@ The repository now distinguishes two histories. `snapshots/stage-*` preserves
 the exact machine states established by modern project milestones; `eras/`
 contains three living, capability-based historical hypotheses with concise
 manifests and tested human replay. The diskless PDP-11 replay consumes the
-unchanged committed U1 tapes through PTR/bootstrap/Absolute Loader. This
-repository-semantics correction changes no B4/U1 result: both remain complete,
-and Unix implementation remains unstarted.
+unchanged committed U1 tapes through PTR/bootstrap/Absolute Loader. B4 and U1
+remain complete. The first Unix increment is an accepted development result,
+but is not yet a new public historical state.
 
 The migration corpus and provisional machine, execution/RAM, and
 filesystem/data-structure contracts are complete. Repository inspection and
@@ -450,9 +498,10 @@ transition. See [`UNIX-MIGRATION.md`](UNIX-MIGRATION.md).
 B4 and U1.7 are complete. Two accepted U1 test programs totaling 342 native
 PDP-7-assembled words were punched on the PDP-7, loaded through the PDP-11 PTR,
 fourteen-word bootstrap, and 72-word DEC Absolute Loader, compared exactly in
-memory, and replayed with their established results. The next Unix work begins
-with U2 RAM-filesystem pieces, but U2/U3/U4 are completion groups rather than
-a required sequence. Unix implementation remains unstarted.
+memory, and replayed with their established results. The same method has now
+loaded the 643-word Unix system and separate 28-word `cat`, then reproduced
+the accepted `readme` output. U2/U3/U4 are completion groups rather than a
+required sequence; none of their parents is complete.
 
 `as11` and `b11` are medium technical risk with material historical
 uncertainty. Paper-tape loading has limited technical scope, but its exact Bell
@@ -462,8 +511,8 @@ completed or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Do not do without a clearly scoped task
 
-- Do not begin U2, `b11`, `dc0`, or later Unix work
-  without an explicitly scoped task and its dependency gate.
+- Do not extend U2/U3/U4, or begin `b11`, `dc0`, or later Unix work, without an
+  explicitly scoped task and its dependency gate.
 - Do not finish U2 in isolation merely because it is numbered first. Once the
   first file operations work, use `cat`, then the minimum process and shell
   code, to expose the next real requirement.
@@ -483,10 +532,9 @@ completed or “Across the Floor” milestones. See PLAN’s risk table.
 
 ## Resume here
 
-Plan the first core-only Unix increment: RAM block storage, minimal filesystem
-initialization, and enough inode, directory, descriptor, and file I/O code for
-the first working file. Then follow the dependency-driven order in PLAN rather
-than completing U2 before all U3/U4 work. Fast deposits remain suitable for
-small debugging. Before a substantial increment determines what comes next,
-build it with the PDP-7-side tools as applicable, transfer it by paper tape,
+Choose the next small Unix behavior from the dependencies exposed by the
+accepted `cat readme` run. Do not finish U2 in isolation or broaden the first
+implementation merely because adjacent calls are easy. Fast deposits remain
+suitable for small debugging. Before another substantial increment determines
+what comes next, build it with the PDP-7-side tools, transfer it by paper tape,
 and record its code and tape sizes.

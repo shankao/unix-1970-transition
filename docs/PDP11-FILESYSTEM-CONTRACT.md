@@ -474,6 +474,7 @@ The repository inspection found:
 
 The separately authorized Stage-3 gold integration proves that PDP-7 `as11`
 output reaches the PDP-11 unchanged. U1's bare-machine work and B4 paper-tape
-loading are now complete. Unix implementation remains unstarted. It begins
-with RAM filesystem initialization, then follows the working order
-in [`PLAN.md`](PLAN.md) rather than completing U2 before all U3/U4 work.
+loading are now complete. The first Unix increment initializes a minimal RAM
+filesystem and runs a directly started `cat` through read-only file and ttyout
+operations. U2, U3, and U4 remain incomplete; later work follows the working
+order in [`PLAN.md`](PLAN.md) rather than completing each group in number order.

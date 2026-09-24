@@ -206,15 +206,24 @@ first usable file and console interfaces before all U2 items are finished.
     filesystem, file creation and removal, block and inode reuse, and console
     special files without a host-side filesystem substitute.
   - [ ] **U2.1 — RAM filesystem initialization**: inode bitmap, inode
-    block, and root block.
+    block, and root block. **IN PROGRESS:** the first `cat` run initializes
+    blocks 0–2, four inodes, and the root entries. Allocation maps remain.
   - [ ] **U2.2 — Inode/direct-block layer**: `iget`, `iput`, `pget`, and
     `itrunc`.
+    **IN PROGRESS:** `iget`, direct-only `pget`, and one-buffer block read work;
+    `iput` and `itrunc` remain.
   - [ ] **U2.3 — Directory/name layer**: `dget`, `dput`, `namei`, `dslot`,
     and `icreat`.
+    **IN PROGRESS:** fixed-root `namei` works; mutation operations remain.
   - [ ] **U2.4 — Descriptor/file-I/O layer**: descriptor allocation, `access`,
     `open`, `creat`, `close`, `read`, and `write`.
+    **IN PROGRESS:** lowest-free descriptors, `access`, read-only `open`,
+    ordinary-file `read`, `close`, and ttyout `write` work. `creat` and
+    ordinary-file writes remain.
   - [ ] **U2.5 — Remaining core filesystem semantics**: `unlink`, `status`,
     and `ttyin`/`ttyout` special files.
+    **IN PROGRESS:** ttyout special-file dispatch works; ttyin, `unlink`, and
+    `status` remain.
   - [ ] **U2.6 — Filesystem nucleus acceptance**
 - [ ] **U3 — Process/execution nucleus**
   - **Done when:** one test program proves the frozen child-first,
@@ -231,7 +240,9 @@ first usable file and console interfaces before all U2 items are finished.
   - **Done when:** all five selected commands exist as PDP-11 programs and
     work through the actual U2/U3 interfaces; the polished boot demonstration
     remains U5.
-  - [ ] **U4.1 — cat**
+  - [x] **U4.1 — cat**: the first fixed-name form opens `readme`, reads it in
+    eight-byte chunks, writes through ttyout, closes, and exits. Argument and
+    shell integration remain later work.
   - [ ] **U4.2 — rm**
   - [ ] **U4.3 — stat**
   - [ ] **U4.4 — reduced streaming ls**
@@ -308,6 +319,12 @@ It must still state exactly which steps it will attempt and where it will stop.
 `cat` is deliberately early because it tests `open`, `read`, `write`, and
 `close` across both ordinary files and the console. `stat` remains later unless
 another real dependency requires it sooner.
+
+The first increment now completes the initial read-only path without claiming
+the broader groups complete: PDP-11 code initializes root, tty entries, and a
+`readme` file; a separate native-assembled `cat` image prints its 36 bytes and
+exits. File creation, ordinary-file writing, allocation/reuse, tty input,
+fork, command loading, and a shell remain open.
 
 ## Transport provenance, development cost, and acceptance
 
@@ -863,13 +880,14 @@ This work provides machine-level services, not a tty layer, set of Unix
 syscalls, process system, or filesystem. B4 now supplies U1.7 through real
 PDP-7 PTP and PDP-11 PTR/bootstrap/Absolute Loader operation; both accepted U1
 programs arrived word-for-word intact and reproduced their established
-results. Unix implementation remains unstarted. Its first work is RAM storage
-and minimal filesystem initialization, followed by the working order above.
+results. The later first Unix increment adds the narrow `cat readme` result
+recorded above; U2, U3, and U4 remain incomplete.
 
-When U2 begins, loaded PDP-11 code should itself clear and initialize the RAM
-inode area, root directory, free maps, tty special entries, and test state. U2
-does not require a host-generated/deposited 8 KB filesystem image. This is a
-reconstruction design, not a recovered historical initialization procedure.
+Loaded PDP-11 code now clears and initializes its own RAM inode area, root
+directory, tty special entries, and initial file. The first increment does not
+yet maintain the planned free maps. U2 does not use a host-generated/deposited
+8 KB filesystem image. This is a reconstruction design, not a recovered
+historical initialization procedure.
 
 As real commands are added, paper tape is a natural input for their bytes, but
 Bell Labs' exact RAM-filesystem population procedure is unknown.

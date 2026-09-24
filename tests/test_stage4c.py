@@ -7,6 +7,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 import pdp11_oracle as oracle
+import as11_runtime
+import run_stage4c
 
 
 AS11 = (ROOT / "src/pdp7/as11/as11.b").read_text(encoding="ascii")
@@ -85,13 +87,49 @@ class Stage4CHostTests(unittest.TestCase):
             self.assertIn(mnemonic, FIXTURE)
 
     def test_tables_and_stage4b_contract_remain_compact(self):
-        self.assertIn("017537-nglob*5", AS11)
-        self.assertIn("017544+nlocal*2", AS11)
+        self.assertIn("017677-nglob*5", AS11)
+        self.assertIn("017704+nlocal*2", AS11)
         self.assertIn("rewind();", AS11)
         self.assertIn("outcode('w ',loc,v&0177777)", AS11)
         self.assertIn("ctab[12]", AS11)
         self.assertIn("'[',']'", AS11)
         self.assertIn("nglob >= 48", AS11)  # no premature 38-global guard
+        self.assertIn("nlocal >= 10", AS11)
+        self.assertIn("017677-i*5", AS11)
+        self.assertIn("017704+i*2", AS11)
+
+    def test_first_unix_extensions_match_the_ka11_oracle(self):
+        source = (ROOT / "tests/pdp7-as11/unix-encoding.s").read_text()
+        expected = (ROOT / "tests/pdp7-as11/unix-encoding.expected").read_text()
+        self.assertIn("sub r2,r3", source)
+        self.assertIn("beq done", source)
+        self.assertIn("dec r4", source)
+        words = [int(line.split()[2], 8) for line in expected.splitlines()
+                 if line.startswith("i ")]
+        self.assertEqual([0o160203], oracle.encode(
+            "SUB", oracle.Operand(0, 2), oracle.Operand(0, 3)))
+        self.assertEqual([0o001401], oracle.encode(
+            "BEQ", address=0o1002, target=0o1006))
+        self.assertEqual([0o005304], oracle.encode(
+            "DEC", oracle.Operand(0, 4)))
+        self.assertEqual([0o160203, 0o001401, 0o005304, 0], words)
+        self.assertTrue(run_stage4c.matches(expected, expected))
+
+    def test_encoder_classes_stay_contiguous(self):
+        self.assertIn("mclass>=2&mclass<=7", AS11)
+        self.assertIn("mclass>=13&mclass<=16", AS11)
+        self.assertNotIn("|mclass==23", AS11)
+        self.assertNotIn("|mclass==24", AS11)
+
+    def test_installed_as11_runtime_uses_explicit_small_buffers(self):
+        runtime = as11_runtime.as11_runtime()
+        self.assertEqual(2, runtime.count("\n   -16\n   tad lastv"))
+        self.assertIn("sys read; ibufp: ..; 16", runtime)
+        self.assertIn("sys write; obufp: ..; 16", runtime)
+        self.assertNotIn("sys read; ibufp: ..; 64", runtime)
+        installer = (ROOT / "tools/install_as11_crossdev.py").read_text()
+        self.assertIn("stage3b-gold.s", installer)
+        self.assertIn("Stage-3 gold trace", installer)
 
     def test_native_completion_readme_records_open_capacity_work(self):
         text = (ROOT / "src/pdp7/as11/readme.stage4c").read_text()

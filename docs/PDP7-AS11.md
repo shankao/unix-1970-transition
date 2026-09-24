@@ -223,6 +223,31 @@ host does not generate execution words. This grows the validated bootstrap
 nucleus without redefining Stage 4C as a complete assembler or resolving its
 capacity limit.
 
+The first core-only Unix workload forced three more table-driven entries:
+`sub`, `beq`, and `dec`. They are used directly by file-size arithmetic,
+branching on zero-length reads, and 512-byte copy loops. Native encoding tests
+match the independent KA11 oracle. No unrelated mnemonic or directive was
+added.
+
+The longer Unix source exposed the capacity problem already measured in Stage
+4C. An early attempt increased the local-label allocation without respecting
+the nearby globals and B I/O buffers; that was wrong and was discarded. The
+accepted tool keeps the ten-local limit and uses 16-word input/output buffers
+in its private copy of the recovered B runtime. It moves the global table to
+`017677` and the local table to `017704`, below the new buffers at
+`017730..017767`. Its linked command is 3,788 PDP-7 words (`07314`), built from
+5,843 words of `as11.b` (`013323`) and a 1,084-word runtime (`02074`). Native
+tests cover the new instructions, a source longer than one input refill, the
+full Stage 4C addressing cases, the Stage-3-shaped program, and the exact
+1,408-byte Stage-3 gold program before installation.
+
+`tools/install_as11_crossdev.py` is the deliberate installation command for
+the living cross-development era. It builds and verifies a staging command,
+then uses the native PDP-7 `rn` command to install it as `as11`. Normal Unix
+builds do not run this installer: `tools/run_core_cat.py` copies the accepted
+era disk to a temporary directory and leaves `a.out`, source, and output files
+only on that disposable copy.
+
 The resulting native files measure 5,803 PDP-7 words for `as11.b`, 8,454 for
 generated `as11.s`, and 3,779 for linked `a.out`. The linked-size estimate
 therefore leaves 317 words below the ordinary 4,096-word user limit before

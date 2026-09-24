@@ -377,13 +377,21 @@ That repository inspection was subsequently completed as R5, followed by the
 U1.1–U1.6 bare-machine implementation. B4 then supplied U1.7: two accepted U1
 test programs were punched on the PDP-7, loaded through the PDP-11 reader and
 actual bootstrap/Absolute Loader execution, compared exactly, and replayed. U1
-is complete. Unix implementation remains unstarted; its first increment begins
-with RAM filesystem initialization and follows the working order above.
+is complete.
 
-The first filesystem work should load PDP-11 code and have that code clear and
-initialize the RAM inode area, root directory, free maps, tty special entries,
-and test state.
-It does not require a host-generated, preconstructed 8 KB filesystem image;
+The first Unix increment now follows the working order above without claiming
+that U2, U3, or U4 is complete. PDP-11 code initializes a one-directory RAM
+filesystem with tty entries and one ordinary `readme` file. A separate
+translation of the surviving PDP-7 `cat` uses provisional `open`, `read`,
+`write`, `close`, and `exit` calls to print that file through ttyout. It is
+directly started and uses a fixed filename; creation, ordinary-file writes,
+tty input, fork, parent restoration, command loading, arguments, and the shell
+remain later work.
+
+The current PDP-11 code clears and initializes its own RAM inode area, root
+directory, tty special entries, and initial `readme` file. It does not yet
+maintain the planned free maps, and it does not use a host-generated,
+preconstructed 8 KB filesystem image;
 the exact historical initialization method remains unknown. As commands are
 added, paper tape is a natural reconstructed input, but whether Bell Labs used
 tape-loaded contents, programmatic initialization, or a mixture is unresolved.

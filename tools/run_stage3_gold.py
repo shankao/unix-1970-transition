@@ -29,7 +29,7 @@ from run_stage4b import clean_cat
 SOURCE = ROOT / "tests/pdp7-as11/stage3b-gold.s"
 EVIDENCE = ROOT / "evidence/stage3-gold"
 RECORD_RE = re.compile(r"^([ixw]) ([0-7]{6}) ([0-7]{6})$")
-META_RE = re.compile(r"^(?:l [a-z_][a-z0-9_]{0,7}|n [0-9]) [0-7]{6}$")
+META_RE = re.compile(r"^(?:[la] [a-z_][a-z0-9_]{0,7}|n [0-9]) [0-7]{6}$")
 
 
 @dataclass(frozen=True)

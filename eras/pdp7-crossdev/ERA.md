@@ -23,7 +23,13 @@ native formatter as `abspun`, an editable `demo.s`, accepted U1 traces, native
 formatter sources, and the concise `shankao/readme`.
 The assembler is a validated bootstrap nucleus, not a complete PDP-11
 assembler or recovered Bell Labs program. The selected `pdp7.fs` SHA-256 is
-`b72b6650b2d9acaf59eaba5f7dcd6040cef4bb16a66aa2b37ec493dc7c14679d`.
+`d2e7cd48703c80096ce64ea04ab55acfb6c219458b17e12261129ff2a212954b`.
+The first Unix workload added `sub`, `beq`, and `dec`; the installed command
+uses 16-word B input/output buffers so real source fits without overlapping
+the assembler's symbol and stack area. Its global and local tables use space
+released below the smaller buffers. Ordinary Unix builds run on disposable
+copies of this image and do not leave source, output, or `a.out` scratch files
+here.
 The normal way to create a substantial PDP-11 program in this state is to keep
 readable symbolic source and assemble it with `as11`; direct word entry is
 reserved for amounts a programmer could plausibly enter by hand.

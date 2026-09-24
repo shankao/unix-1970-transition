@@ -1,0 +1,10 @@
+this is the pdp-7 to pdp-11 cross-development workspace.
+
+as11 assembles the verified ka11 nucleus plus sub, beq, and dec.
+its b runtime uses 16-word io buffers to leave room for real source files.
+its symbol tables use the space released below those smaller buffers.
+abspun writes dec absolute-binary records through the pdp-7 punch.
+demo.s is an editable example.  as11 demo.s demo.o assembles it.
+
+the unix cat work uses copies of this disk.  it does not leave a.out
+or unix build files here.  the pdp-11 unix filesystem is not complete.

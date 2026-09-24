@@ -35,13 +35,13 @@ class Stage4BArtifacts(unittest.TestCase):
 
     def test_compact_global_table_retains_packed_names(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
-        self.assertIn("017537-nglob*5", source)
+        self.assertIn("017677-nglob*5", source)
         self.assertIn("nglob >= 48", source)
         self.assertIn("p[0]&0177777", source)
 
     def test_numeric_locals_are_separate_and_bounded(self) -> None:
         source = (ROOT / "src/pdp7/as11/as11.b").read_text()
-        self.assertIn("017544+nlocal*2", source)
+        self.assertIn("017704+nlocal*2", source)
         self.assertIn("occ[10]", source)
         self.assertIn("nlocal >= 10", source)
 

@@ -295,15 +295,57 @@ are examined against the accepted native traces before execution. See
 historical-era medium changed during B4 itself. The era-semantics validation
 subsequently reran Stage 4A–4C and B4 on the evolving host, producing current
 authoritative PDP-7 image SHA-256
-`5f0ccadbe9821e1b69a146080ec52f883fd200f9f8bc2043394dff3ddf3e9fc1`.
+`36a451caeaa61bf2b041771aadd06ae4857b8cbe02f224384997895521004977`.
 Read-only `fsck7` exits 0 with only the established inode-38/block-2987
-self-revisit. The `pdp7-crossdev` era deliberately retains selected B4
-source-state SHA-256
-`b72b6650b2d9acaf59eaba5f7dcd6040cef4bb16a66aa2b37ec493dc7c14679d`.
+self-revisit. The `pdp7-crossdev` era now has SHA-256
+`d2e7cd48703c80096ce64ea04ab55acfb6c219458b17e12261129ff2a212954b`.
 The living era now names its installed assembler `as11` and its native tape
 formatter `abspun`, retains an editable `demo.s`, and can punch a visitor's
 exact native output through the same PTP mechanism without changing B4's
-accepted tape files.
+accepted tape files. The first Unix workload deliberately installed an updated
+`as11` there after native verification; ordinary Unix builds use disposable
+copies and leave the era image unchanged.
+
+## First core-only Unix command
+
+The first Unix increment is a class-B PDP-11 reconstruction derived from the
+surviving PDP-7 filesystem and `cat` sources. Nine fixed-address system source
+parts under `src/pdp11/unix/` and the separate `src/pdp11/cmd/cat.s` are all
+assembled by native PDP-7 `as11`. The system initializes RAM blocks 0–2 as a
+16-inode block, a 30-byte root directory, and a 36-byte `readme` data block.
+Thirteen of the sixteen RAM blocks remain unused; allocation maps are not yet
+implemented. One current inode buffer, ten
+per-process descriptors, lowest-free descriptor selection, `namei`, `iget`,
+direct-only `pget`, and a 512-byte block buffer support read-only file access.
+
+The provisional syscall assignments are reconstruction choices: `exit=1`,
+`open=2`, `read=3`, `write=4`, and `close=5`. The directly started command
+opens `readme`, reads eight bytes at a time, writes through the ttyout special
+inode, closes descriptor 2, and exits by halting because no parent exists yet.
+The console prints `PDP-11 Unix read this from readme.` followed by CR/LF. The
+text exists only in the RAM-filesystem initialization, not in `cat`.
+
+The system has 643 target words (1,286 bytes, including initialized data) and
+390 decoded instructions. `cat` has 28 words (56 bytes) and 16 instructions.
+The ten PDP-7-punched tapes total 6,509 bytes. The PDP-11 historical run loads
+all of them through PTR, the fourteen-word bootstrap, and the 72-word DEC
+Absolute Loader, compares every loaded word with native `as11` output, and
+then starts at `001000`. Only the bootstrap is deposited directly. DEC loading
+remains a class-C contemporary substitute; Bell Labs' receiving format is
+unknown.
+
+The installed Unix-capable `as11` is 3,788 PDP-7 words (`07314` octal), built
+from a 5,843-word `as11.b` and a 1,084-word runtime. Its B input and output
+buffers are 16 words each. This is an explicit response to the earlier
+capacity measurements: simply growing the local table had collided with the
+global table and the original 64-word buffers. The accepted source keeps ten
+local definitions, moves the global and local tables into space released by
+the smaller buffers, and passes the exact 1,408-byte Stage-3 gold source as
+well as the Unix sources. During this increment, native
+eight-character filenames also caused two longer source/output names to name
+the same file. The final build uses distinct names of eight characters or
+fewer and splits the fixed-address system source accordingly. B1's final
+capacity and clean-exhaustion work remains open.
 
 ## Stage 0 closure
 

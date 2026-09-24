@@ -1,0 +1,1657 @@
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+./pdp7.simh-9> att rb pdp7.fs
+%SIM-INFO: RB: buffering file in memory
+./pdp7.simh-11> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+
+login: shankao
+password: shankao
+@ rm uboot.s
+uboot.s  ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ Core-only PDP-11 Unix vector and boot entry.
+/ Fixed origins let the small PDP-7 as11 assemble system parts separately.
+/ Surviving PDP-7 s2/s4/s5/s6/s8 code is the behavioral ancestor.
+
+fsinit=2000
+fdinit=3000
+
+/ KA11 TRAP vector.  The saved pc points to the first inline argument.
+.=34
+1200
+0
+
+.=1000
+start:
+mov $40000,sp
+jsr pc,fsinit
+jsr pc,fdinit
+jmp *$30000
+.
+w uboot.s
+406
+q
+@ rm utrap.s
+utrap.s  ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ KA11 TRAP entry and the five calls needed by the first cat command.
+
+sysopen=7400
+sysread=10000
+syswrit=14000
+sysclos=16000
+sysexit=17000
+
+.=1200
+trapent:
+mov r1,-(sp)
+mov r2,-(sp)
+mov r3,-(sp)
+mov r4,-(sp)
+mov r5,-(sp)
+mov sp,r5
+add $12,r5
+/ The saved pc points to the first inline argument.  The preceding word is TRAP.
+mov (r5),r1
+mov -2(r1),r1
+bic $177400,r1
+cmp $1,r1
+bne 0f
+jsr pc,sysexit
+br tret
+0:;cmp $2,r1
+bne 0f
+jsr pc,sysopen
+br tret
+0:;cmp $3,r1
+bne 0f
+jsr pc,sysread
+br tret
+0:;cmp $4,r1
+bne 0f
+jsr pc,syswrit
+br tret
+0:;cmp $5,r1
+bne 0f
+jsr pc,sysclos
+br tret
+0:;mov $-1,r0
+tret:
+mov (sp)+,r5
+mov (sp)+,r4
+mov (sp)+,r3
+mov (sp)+,r2
+mov (sp)+,r1
+rti
+.
+w utrap.s
+706
+q
+@ rm uinit.s
+uinit.s  ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ Initial RAM filesystem and descriptor state for the first cat command.
+
+state=20000
+fds=20062
+
+/ Build the one-directory RAM filesystem in blocks 0, 1, and 2.
+.=2000
+fsinit:
+mov $40000,r0
+mov $1400,r1
+0:;clr (r0)+
+dec r1
+bne 0b
+mov $177770,state+4
+mov $177740,state+6
+mov $-1,state+2
+
+/ inode 1: root directory, one direct pointer to block 1, 30 bytes.
+mov $100036,*$40030
+mov $1,*$40032
+mov $-1,*$40052
+mov $-1,*$40054
+mov $36,*$40056
+
+/ inode 2 and 3: separate tty input and output special files.
+mov $100052,*$40060
+mov $-1,*$40102
+mov $-1,*$40104
+mov $100045,*$40110
+mov $-1,*$40132
+mov $-1,*$40134
+
+/ inode 4: read-only readme, one direct pointer to block 2, 36 bytes.
+mov $100012,*$40140
+mov $2,*$40142
+mov $-1,*$40162
+mov $-1,*$40164
+mov $44,*$40166
+
+/ Root directory entries are 16-bit inode plus an eight-byte name.
+mov $2,*$41000
+mov $72164,*$41002
+mov $64571,*$41004
+mov $156,*$41006
+clr *$41010
+mov $3,*$41012
+mov $72164,*$41014
+mov $67571,*$41016
+mov $72165,*$41020
+clr *$41022
+mov $4,*$41024
+mov $62562,*$41026
+mov $62141,*$41030
+mov $62555,*$41032
+clr *$41034
+
+/ These bytes are ordinary file data.  cat contains no copy of this text.
+mov $42120,*$42000
+mov $26520,*$42002
+mov $30461,*$42004
+mov $52440,*$42006
+mov $64556,*$42010
+mov $20170,*$42012
+mov $62562,*$42014
+mov $62141,*$42016
+mov $72040,*$42020
+mov $64550,*$42022
+mov $20163,*$42024
+mov $71146,*$42026
+mov $66557,*$42030
+mov $71040,*$42032
+mov $60545,*$42034
+mov $66544,*$42036
+mov $27145,*$42040
+mov $5015,*$42042
+rts pc
+
+/ One process owns ten three-word descriptors.  Lowest free is descriptor 2.
+.=3000
+fdinit:
+mov $fds,r0
+mov $36,r1
+0:;clr (r0)+
+dec r1
+bne 0b
+mov $6,fds
+mov $2,fds+4
+mov $5,fds+6
+mov $3,fds+12
+rts pc
+.
+w uinit.s
+1741
+q
+@ rm ufiles.s
+ufiles.s ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ Root-directory lookup and the single current-inode buffer.
+
+state=20000
+inode=20032
+
+.=4000
+namei:
+mov $41000,r1
+mov $3,r3
+0:;tst (r1)
+beq 1f
+mov r0,r2
+cmp (r2)+,2(r1)
+bne 1f
+cmp (r2)+,4(r1)
+bne 1f
+cmp (r2)+,6(r1)
+bne 1f
+cmp (r2)+,10(r1)
+bne 1f
+mov (r1),r0
+rts pc
+1:;add $12,r1
+dec r3
+bne 0b
+mov $-1,r0
+rts pc
+
+.=5000
+iget:
+tst r0
+bpl 0f
+mov $-1,r0
+rts pc
+0:;cmp r0,$20
+bpl 1f
+mov r0,state
+mov r0,r1
+asl r1
+asl r1
+asl r1
+mov r1,r2
+asl r1
+add r2,r1
+add $40000,r1
+mov $inode,r2
+mov $14,r3
+2:;mov (r1)+,(r2)+
+dec r3
+bne 2b
+clr r0
+rts pc
+1:;mov $-1,r0
+rts pc
+.
+w ufiles.s
+597
+q
+@ rm uctrl.s
+uctrl.s  ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ PDP-7-derived access check and per-process descriptor selection.
+
+state=20000
+inode=20032
+fds=20062
+
+.=6000
+access:
+tst state+2
+bpl 0f
+clr r0
+rts pc
+0:;mov inode,r1
+cmp state+2,inode+22
+bne 1f
+asr r1
+asr r1
+1:;bic $177774,r1
+mov r0,r2
+bic r1,r2
+beq 2f
+mov $-1,r0
+rts pc
+2:;clr r0
+rts pc
+
+.=7000
+fassign:
+mov $fds,r1
+clr r0
+0:;bit $4,(r1)
+beq 1f
+add $6,r1
+add $1,r0
+cmp $12,r0
+bne 0b
+mov $-1,r0
+1:;rts pc
+
+.=7200
+getfd:
+tst r0
+bpl 0f
+clr r1
+rts pc
+0:;cmp r0,$12
+bpl 1f
+mov r0,r1
+asl r1
+mov r1,r2
+asl r1
+add r2,r1
+add $fds,r1
+rts pc
+1:;clr r1
+rts pc
+.
+w uctrl.s
+590
+q
+@ rm uopen.s
+uopen.s  ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ Open one named ordinary file for reading.
+
+namei=4000
+iget=5000
+access=6000
+fassign=7000
+state=20000
+
+.=7400
+sysopen:
+mov (r5),r4
+add $4,(r5)
+tst 2(r4)
+beq 0f
+mov $-1,r0
+rts pc
+0:;mov (r4),r0
+jsr pc,namei
+tst r0
+bpl 0f
+rts pc
+0:;jsr pc,iget
+tst r0
+bpl 0f
+rts pc
+0:;mov $2,r0
+jsr pc,access
+tst r0
+bpl 0f
+rts pc
+0:;jsr pc,fassign
+tst r0
+bpl 0f
+rts pc
+0:;mov $6,(r1)
+clr 2(r1)
+mov state,4(r1)
+mov r0,state+20
+rts pc
+.
+w uopen.s
+455
+q
+@ rm uread.s
+uread.s  ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ Ordinary-file read through a direct RAM block and one kernel buffer.
+
+getfd=7200
+iget=5000
+pget=12000
+bread=13000
+state=20000
+inode=20032
+blockbuf=26000
+
+.=10000
+sysread:
+mov (r5),r4
+mov (r4),state+10
+mov 2(r4),state+12
+add $4,(r5)
+jsr pc,getfd
+tst r1
+beq 9f
+mov (r1),r2
+bic $177771,r2
+cmp $6,r2
+bne 9f
+mov r1,state+14
+mov 4(r1),r0
+jsr pc,iget
+tst r0
+bne 9f
+bit $40,inode
+bne 9f
+mov inode+26,r3
+mov state+14,r1
+sub 2(r1),r3
+tst r3
+bpl 0f
+br 9f
+0:;beq 8f
+mov state+12,r2
+tst r2
+bpl 1f
+br 9f
+1:;beq 8f
+cmp r3,r2
+bpl 2f
+mov r3,r2
+2:;mov r2,state+16
+mov 2(r1),r0
+jsr pc,pget
+tst r0
+bpl 3f
+br 9f
+3:;mov $blockbuf,r1
+jsr pc,bread
+tst r0
+bne 9f
+mov state+14,r1
+mov 2(r1),r3
+bic $177000,r3
+mov $1000,r2
+sub r3,r2
+cmp r2,state+16
+bpl 4f
+mov r2,state+16
+4:;mov $blockbuf,r4
+add r3,r4
+mov state+10,r3
+mov state+16,r2
+5:;movb (r4)+,(r3)+
+dec r2
+bne 5b
+mov state+14,r1
+add state+16,2(r1)
+add $1,state+24
+mov state+16,r0
+rts pc
+8:;clr r0
+rts pc
+9:;mov $-1,r0
+rts pc
+.
+w uread.s
+994
+q
+@ rm ublks.s
+ublks.s  ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ Direct-block lookup and a 512-byte RAM block read.
+
+inode=20032
+
+.=12000
+pget:
+mov r0,r1
+asr r1
+asr r1
+asr r1
+asr r1
+asr r1
+asr r1
+asr r1
+asr r1
+asr r1
+cmp r1,$10
+bpl 1f
+asl r1
+add $inode+2,r1
+mov (r1),r0
+tst r0
+bne 2f
+1:;mov $-1,r0
+2:;rts pc
+
+.=13000
+bread:
+tst r0
+bpl 0f
+mov $-1,r0
+rts pc
+0:;cmp r0,$20
+bpl 3f
+mov r0,r2
+asl r2
+asl r2
+asl r2
+asl r2
+asl r2
+asl r2
+asl r2
+asl r2
+asl r2
+add $40000,r2
+mov r1,r3
+mov $400,r4
+2:;mov (r2)+,(r3)+
+dec r4
+bne 2b
+clr r0
+rts pc
+3:;mov $-1,r0
+rts pc
+.
+w ublks.s
+531
+q
+@ rm uwrite.s
+uwrite.s ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ Console write, close, exit, and the system's mutable storage labels.
+
+getfd=7200
+iget=5000
+
+/ write(fd,buffer,count) dispatches the ttyout special inode to KL11.
+.=14000
+syswrit:
+mov (r5),r4
+mov (r4),state+10
+mov 2(r4),state+12
+add $4,(r5)
+jsr pc,getfd
+tst r1
+beq 9f
+mov (r1),r2
+bic $177772,r2
+cmp $5,r2
+bne 9f
+mov 4(r1),r0
+jsr pc,iget
+tst r0
+bne 9f
+bit $40,inode
+beq 9f
+cmp $3,state
+bne 9f
+mov state+12,r2
+tst r2
+bpl 0f
+br 9f
+0:;mov r2,state+16
+mov state+10,r3
+beq 3f
+1:;tstb *$177564
+bpl 1b
+movb (r3)+,*$177566
+dec r2
+bne 1b
+2:;tstb *$177564
+bpl 2b
+3:;add $1,state+26
+mov state+16,r0
+rts pc
+9:;mov $-1,r0
+rts pc
+
+/ close clears only the active flag; the final offset remains inspectable.
+.=16000
+sysclos:
+jsr pc,getfd
+tst r1
+beq 0f
+bit $4,(r1)
+beq 0f
+clr (r1)
+clr r0
+rts pc
+0:;mov $-1,r0
+rts pc
+
+/ With no parent yet, exit closes descriptors, records success, and halts.
+.=17000
+sysexit:
+mov fds+16,state+22
+clr fds
+clr fds+6
+clr fds+14
+mov $1,state+30
+halt
+
+/ Mutable system data remains below the 030000 user boundary.
+.=20000
+state:;.=state+32
+inode:;.=.+30
+fds:;.=.+74
+
+/ One block buffer preserves the block-read boundary for later RF11 work.
+.=26000
+blockbuf:;.=.+1000
+.
+w uwrite.s
+1219
+q
+@ rm ucat.s
+ucat.s   ?
+@ ed
+edit
+a
+/ SPDX-License-Identifier: GPL-3.0-only
+/ PDP-11 translation of the surviving PDP-7 cat command's central loop.
+/ The first loader supplies one fixed name because argv and the shell are later.
+
+sxexit=1
+sxopen=2
+sxread=3
+sxwrite=4
+sxclose=5
+
+.=30000
+start:
+/ open readme for reading; fd 0 and 1 are already the two console files.
+trap sxopen
+readme
+0
+tst r0
+bpl opened
+trap sxexit
+
+opened:;mov r0,r3
+catloop:
+/ Read eight bytes at a time, preserving the PDP-7 command's buffered shape.
+mov r3,r0
+trap sxread
+buffer
+10
+tst r0
+bne catwrite
+
+/ EOF closes the input descriptor before the command exits.
+mov r3,r0
+trap sxclose
+trap sxexit
+
+catwrite:
+/ The inline write count is patched with the short final read, as on PDP-7.
+mov r0,wcount
+mov $1,r0
+trap sxwrite
+buffer
+wcount:;0
+br catloop
+
+/ Fixed eight-byte, NUL-padded name used by the one-directory namei.
+readme:;62562;62141;62555;0
+
+/ The kernel copies ordinary-file bytes here.  The command has no output text.
+.=37000
+buffer:;.=.+10
+.
+w ucat.s
+987
+q
+@ rm uboot.o
+uboot.o  ?
+@ rm utrap.o
+utrap.o  ?
+@ rm uinit.o
+uinit.o  ?
+@ rm ufiles.o
+ufiles.o ?
+@ rm uctrl.o
+uctrl.o  ?
+@ rm uopen.o
+uopen.o  ?
+@ rm uread.o
+uread.o  ?
+@ rm ublks.o
+ublks.o  ?
+@ rm uwrite.o
+uwrite.o ?
+@ rm ucat.o
+ucat.o   ?
+@ as11 uboot.s uboot.o
+@ as11 utrap.s utrap.o
+@ as11 uinit.s uinit.o
+@ as11 ufiles.s ufiles.o
+@ as11 uctrl.s uctrl.o
+@ as11 uopen.s uopen.o
+@ as11 uread.s uread.o
+@ as11 ublks.s ublks.o
+@ as11 uwrite.s uwrite.o
+@ as11 ucat.s ucat.o
+@ cat uboot.o
+a fsinit 002000
+a fdinit 003000
+w 000034 001200
+w 000036 000000
+l start 001000
+i 001000 012706
+x 001002 040000
+i 001004 004767
+x 001006 000770
+i 001010 004767
+x 001012 001764
+i 001014 000137
+x 001016 030000
+@ cat utrap.o
+a sysopen 007400
+a sysread 010000
+a syswrit 014000
+a sysclos 016000
+a sysexit 017000
+l trapent 001200
+i 001200 010146
+i 001202 010246
+i 001204 010346
+i 001206 010446
+i 001210 010546
+i 001212 010605
+i 001214 062705
+x 001216 000012
+i 001220 011501
+i 001222 016101
+x 001224 177776
+i 001226 042701
+x 001230 177400
+i 001232 022701
+x 001234 000001
+i 001236 001003
+i 001240 004767
+x 001242 015534
+i 001244 000432
+n 0 001246
+i 001246 022701
+x 001250 000002
+i 001252 001003
+i 001254 004767
+x 001256 006120
+i 001260 000424
+n 0 001262
+i 001262 022701
+x 001264 000003
+i 001266 001003
+i 001270 004767
+x 001272 006504
+i 001274 000416
+n 0 001276
+i 001276 022701
+x 001300 000004
+i 001302 001003
+i 001304 004767
+x 001306 012470
+i 001310 000410
+n 0 001312
+i 001312 022701
+x 001314 000005
+i 001316 001003
+i 001320 004767
+x 001322 014454
+i 001324 000402
+n 0 001326
+i 001326 012700
+x 001330 177777
+l tret 001332
+i 001332 012605
+i 001334 012604
+i 001336 012603
+i 001340 012602
+i 001342 012601
+i 001344 000002
+@ cat uinit.o
+a state 020000
+a fds 020062
+l fsinit 002000
+i 002000 012700
+x 002002 040000
+i 002004 012701
+x 002006 001400
+n 0 002010
+i 002010 005020
+i 002012 005301
+i 002014 001375
+i 002016 012767
+x 002020 177770
+x 002022 015760
+i 002024 012767
+x 002026 177740
+x 002030 015754
+i 002032 012767
+x 002034 177777
+x 002036 015742
+i 002040 012737
+x 002042 100036
+x 002044 040030
+i 002046 012737
+x 002050 000001
+x 002052 040032
+i 002054 012737
+x 002056 177777
+x 002060 040052
+i 002062 012737
+x 002064 177777
+x 002066 040054
+i 002070 012737
+x 002072 000036
+x 002074 040056
+i 002076 012737
+x 002100 100052
+x 002102 040060
+i 002104 012737
+x 002106 177777
+x 002110 040102
+i 002112 012737
+x 002114 177777
+x 002116 040104
+i 002120 012737
+x 002122 100045
+x 002124 040110
+i 002126 012737
+x 002130 177777
+x 002132 040132
+i 002134 012737
+x 002136 177777
+x 002140 040134
+i 002142 012737
+x 002144 100012
+x 002146 040140
+i 002150 012737
+x 002152 000002
+x 002154 040142
+i 002156 012737
+x 002160 177777
+x 002162 040162
+i 002164 012737
+x 002166 177777
+x 002170 040164
+i 002172 012737
+x 002174 000044
+x 002176 040166
+i 002200 012737
+x 002202 000002
+x 002204 041000
+i 002206 012737
+x 002210 072164
+x 002212 041002
+i 002214 012737
+x 002216 064571
+x 002220 041004
+i 002222 012737
+x 002224 000156
+x 002226 041006
+i 002230 005037
+x 002232 041010
+i 002234 012737
+x 002236 000003
+x 002240 041012
+i 002242 012737
+x 002244 072164
+x 002246 041014
+i 002250 012737
+x 002252 067571
+x 002254 041016
+i 002256 012737
+x 002260 072165
+x 002262 041020
+i 002264 005037
+x 002266 041022
+i 002270 012737
+x 002272 000004
+x 002274 041024
+i 002276 012737
+x 002300 062562
+x 002302 041026
+i 002304 012737
+x 002306 062141
+x 002310 041030
+i 002312 012737
+x 002314 062555
+x 002316 041032
+i 002320 005037
+x 002322 041034
+i 002324 012737
+x 002326 042120
+x 002330 042000
+i 002332 012737
+x 002334 026520
+x 002336 042002
+i 002340 012737
+x 002342 030461
+x 002344 042004
+i 002346 012737
+x 002350 052440
+x 002352 042006
+i 002354 012737
+x 002356 064556
+x 002360 042010
+i 002362 012737
+x 002364 020170
+x 002366 042012
+i 002370 012737
+x 002372 062562
+x 002374 042014
+i 002376 012737
+x 002400 062141
+x 002402 042016
+i 002404 012737
+x 002406 072040
+x 002410 042020
+i 002412 012737
+x 002414 064550
+x 002416 042022
+i 002420 012737
+x 002422 020163
+x 002424 042024
+i 002426 012737
+x 002430 071146
+x 002432 042026
+i 002434 012737
+x 002436 066557
+x 002440 042030
+i 002442 012737
+x 002444 071040
+x 002446 042032
+i 002450 012737
+x 002452 060545
+x 002454 042034
+i 002456 012737
+x 002460 066544
+x 002462 042036
+i 002464 012737
+x 002466 027145
+x 002470 042040
+i 002472 012737
+x 002474 005015
+x 002476 042042
+i 002500 000207
+l fdinit 003000
+i 003000 012700
+x 003002 020062
+i 003004 012701
+x 003006 000036
+n 0 003010
+i 003010 005020
+i 003012 005301
+i 003014 001375
+i 003016 012767
+x 003020 000006
+x 003022 015036
+i 003024 012767
+x 003026 000002
+x 003030 015034
+i 003032 012767
+x 003034 000005
+x 003036 015030
+i 003040 012767
+x 003042 000003
+x 003044 015026
+i 003046 000207
+@ cat ufiles.o
+a state 020000
+a inode 020032
+l namei 004000
+i 004000 012701
+x 004002 041000
+i 004004 012703
+x 004006 000003
+n 0 004010
+i 004010 005711
+i 004012 001417
+i 004014 010002
+i 004016 022261
+x 004020 000002
+i 004022 001013
+i 004024 022261
+x 004026 000004
+i 004030 001010
+i 004032 022261
+x 004034 000006
+i 004036 001005
+i 004040 022261
+x 004042 000010
+i 004044 001002
+i 004046 011100
+i 004050 000207
+n 1 004052
+i 004052 062701
+x 004054 000012
+i 004056 005303
+i 004060 001353
+i 004062 012700
+x 004064 177777
+i 004066 000207
+l iget 005000
+i 005000 005700
+i 005002 100003
+i 005004 012700
+x 005006 177777
+i 005010 000207
+n 0 005012
+i 005012 020027
+x 005014 000020
+i 005016 100024
+i 005020 010067
+x 005022 012754
+i 005024 010001
+i 005026 006301
+i 005030 006301
+i 005032 006301
+i 005034 010102
+i 005036 006301
+i 005040 060201
+i 005042 062701
+x 005044 040000
+i 005046 012702
+x 005050 020032
+i 005052 012703
+x 005054 000014
+n 2 005056
+i 005056 012122
+i 005060 005303
+i 005062 001375
+i 005064 005000
+i 005066 000207
+n 1 005070
+i 005070 012700
+x 005072 177777
+i 005074 000207
+@ cat uctrl.o
+a state 020000
+a inode 020032
+a fds 020062
+l access 006000
+i 006000 005767
+x 006002 011776
+i 006004 100002
+i 006006 005000
+i 006010 000207
+n 0 006012
+i 006012 016701
+x 006014 012014
+i 006016 026767
+x 006020 011760
+x 006022 012030
+i 006024 001002
+i 006026 006201
+i 006030 006201
+n 1 006032
+i 006032 042701
+x 006034 177774
+i 006036 010002
+i 006040 040102
+i 006042 001403
+i 006044 012700
+x 006046 177777
+i 006050 000207
+n 2 006052
+i 006052 005000
+i 006054 000207
+l fassign 007000
+i 007000 012701
+x 007002 020062
+i 007004 005000
+n 0 007006
+i 007006 032711
+x 007010 000004
+i 007012 001411
+i 007014 062701
+x 007016 000006
+i 007020 062700
+x 007022 000001
+i 007024 022700
+x 007026 000012
+i 007030 001366
+i 007032 012700
+x 007034 177777
+n 1 007036
+i 007036 000207
+l getfd 007200
+i 007200 005700
+i 007202 100002
+i 007204 005001
+i 007206 000207
+n 0 007210
+i 007210 020027
+x 007212 000012
+i 007214 100010
+i 007216 010001
+i 007220 006301
+i 007222 010102
+i 007224 006301
+i 007226 060201
+i 007230 062701
+x 007232 020062
+i 007234 000207
+n 1 007236
+i 007236 005001
+i 007240 000207
+@ cat uopen.o
+a namei 004000
+a iget 005000
+a access 006000
+a fassign 007000
+a state 020000
+l sysopen 007400
+i 007400 011504
+i 007402 062715
+x 007404 000004
+i 007406 005764
+x 007410 000002
+i 007412 001403
+i 007414 012700
+x 007416 177777
+i 007420 000207
+n 0 007422
+i 007422 011400
+i 007424 004767
+x 007426 174350
+i 007430 005700
+i 007432 100001
+i 007434 000207
+n 0 007436
+i 007436 004767
+x 007440 175336
+i 007442 005700
+i 007444 100001
+i 007446 000207
+n 0 007450
+i 007450 012700
+x 007452 000002
+i 007454 004767
+x 007456 176320
+i 007460 005700
+i 007462 100001
+i 007464 000207
+n 0 007466
+i 007466 004767
+x 007470 177306
+i 007472 005700
+i 007474 100001
+i 007476 000207
+n 0 007500
+i 007500 012711
+x 007502 000006
+i 007504 005061
+x 007506 000002
+i 007510 016761
+x 007512 010264
+x 007514 000004
+i 007516 010067
+x 007520 010276
+i 007522 000207
+@ cat uread.o
+a getfd 007200
+a iget 005000
+a pget 012000
+a bread 013000
+a state 020000
+a inode 020032
+a blockbuf 026000
+l sysread 010000
+i 010000 011504
+i 010002 011467
+x 010004 010002
+i 010006 016467
+x 010010 000002
+x 010012 007776
+i 010014 062715
+x 010016 000004
+i 010020 004767
+x 010022 177154
+i 010024 005701
+i 010026 001531
+i 010030 011102
+i 010032 042702
+x 010034 177771
+i 010036 022702
+x 010040 000006
+i 010042 001123
+i 010044 010167
+x 010046 007744
+i 010050 016100
+x 010052 000004
+i 010054 004767
+x 010056 174720
+i 010060 005700
+i 010062 001113
+i 010064 032767
+x 010066 000040
+x 010070 007740
+i 010072 001107
+i 010074 016703
+x 010076 007760
+i 010100 016701
+x 010102 007710
+i 010104 166103
+x 010106 000002
+i 010110 005703
+i 010112 100001
+i 010114 000476
+n 0 010116
+i 010116 001473
+i 010120 016702
+x 010122 007666
+i 010124 005702
+i 010126 100001
+i 010130 000470
+n 1 010132
+i 010132 001465
+i 010134 020302
+i 010136 100001
+i 010140 010302
+n 2 010142
+i 010142 010267
+x 010144 007650
+i 010146 016100
+x 010150 000002
+i 010152 004767
+x 010154 001622
+i 010156 005700
+i 010160 100001
+i 010162 000453
+n 3 010164
+i 010164 012701
+x 010166 026000
+i 010170 004767
+x 010172 002604
+i 010174 005700
+i 010176 001045
+i 010200 016701
+x 010202 007610
+i 010204 016103
+x 010206 000002
+i 010210 042703
+x 010212 177000
+i 010214 012702
+x 010216 001000
+i 010220 160302
+i 010222 020267
+x 010224 007570
+i 010226 100002
+i 010230 010267
+x 010232 007562
+n 4 010234
+i 010234 012704
+x 010236 026000
+i 010240 060304
+i 010242 016703
+x 010244 007542
+i 010246 016702
+x 010250 007544
+n 5 010252
+i 010252 112423
+i 010254 005302
+i 010256 001375
+i 010260 016701
+x 010262 007530
+i 010264 066761
+x 010266 007526
+x 010270 000002
+i 010272 062767
+x 010274 000001
+x 010276 007524
+i 010300 016700
+x 010302 007512
+i 010304 000207
+n 8 010306
+i 010306 005000
+i 010310 000207
+n 9 010312
+i 010312 012700
+x 010314 177777
+i 010316 000207
+@ cat ublks.o
+a inode 020032
+l pget 012000
+i 012000 010001
+i 012002 006201
+i 012004 006201
+i 012006 006201
+i 012010 006201
+i 012012 006201
+i 012014 006201
+i 012016 006201
+i 012020 006201
+i 012022 006201
+i 012024 020127
+x 012026 000010
+i 012030 100006
+i 012032 006301
+i 012034 062701
+x 012036 020034
+i 012040 011100
+i 012042 005700
+i 012044 001002
+n 1 012046
+i 012046 012700
+x 012050 177777
+n 2 012052
+i 012052 000207
+l bread 013000
+i 013000 005700
+i 013002 100003
+i 013004 012700
+x 013006 177777
+i 013010 000207
+n 0 013012
+i 013012 020027
+x 013014 000020
+i 013016 100024
+i 013020 010002
+i 013022 006302
+i 013024 006302
+i 013026 006302
+i 013030 006302
+i 013032 006302
+i 013034 006302
+i 013036 006302
+i 013040 006302
+i 013042 006302
+i 013044 062702
+x 013046 040000
+i 013050 010103
+i 013052 012704
+x 013054 000400
+n 2 013056
+i 013056 012223
+i 013060 005304
+i 013062 001375
+i 013064 005000
+i 013066 000207
+n 3 013070
+i 013070 012700
+x 013072 177777
+i 013074 000207
+@ cat uwrite.o
+a getfd 007200
+a iget 005000
+l syswrit 014000
+i 014000 011504
+i 014002 011467
+x 014004 004002
+i 014006 016467
+x 014010 000002
+x 014012 003776
+i 014014 062715
+x 014016 000004
+i 014020 004767
+x 014022 173154
+i 014024 005701
+i 014026 001456
+i 014030 011102
+i 014032 042702
+x 014034 177772
+i 014036 022702
+x 014040 000005
+i 014042 001050
+i 014044 016100
+x 014046 000004
+i 014050 004767
+x 014052 170724
+i 014054 005700
+i 014056 001042
+i 014060 032767
+x 014062 000040
+x 014064 003744
+i 014066 001436
+i 014070 022767
+x 014072 000003
+x 014074 003702
+i 014076 001032
+i 014100 016702
+x 014102 003706
+i 014104 005702
+i 014106 100001
+i 014110 000425
+n 0 014112
+i 014112 010267
+x 014114 003700
+i 014116 016703
+x 014120 003666
+i 014122 001412
+n 1 014124
+i 014124 105737
+x 014126 177564
+i 014130 100375
+i 014132 112337
+x 014134 177566
+i 014136 005302
+i 014140 001371
+n 2 014142
+i 014142 105737
+x 014144 177564
+i 014146 100375
+n 3 014150
+i 014150 062767
+x 014152 000001
+x 014154 003650
+i 014156 016700
+x 014160 003634
+i 014162 000207
+n 9 014164
+i 014164 012700
+x 014166 177777
+i 014170 000207
+l sysclos 016000
+i 016000 004767
+x 016002 171174
+i 016004 005701
+i 016006 001406
+i 016010 032711
+x 016012 000004
+i 016014 001403
+i 016016 005011
+i 016020 005000
+i 016022 000207
+n 0 016024
+i 016024 012700
+x 016026 177777
+i 016030 000207
+l sysexit 017000
+i 017000 016767
+x 017002 001074
+x 017004 001014
+i 017006 005067
+x 017010 001050
+i 017012 005067
+x 017014 001052
+i 017016 005067
+x 017020 001054
+i 017022 012767
+x 017024 000001
+x 017026 001000
+i 017030 000000
+l state 020000
+l inode 020032
+l fds 020062
+l blockbuf 026000
+@ cat ucat.o
+a sxexit 000001
+a sxopen 000002
+a sxread 000003
+a sxwrite 000004
+a sxclose 000005
+l start 030000
+i 030000 104402
+w 030002 030060
+w 030004 000000
+i 030006 005700
+i 030010 100001
+i 030012 104401
+l opened 030014
+i 030014 010003
+l catloop 030016
+i 030016 010300
+i 030020 104403
+w 030022 037000
+w 030024 000010
+i 030026 005700
+i 030030 001003
+i 030032 010300
+i 030034 104405
+i 030036 104401
+l catwrite 030040
+i 030040 010067
+x 030042 000010
+i 030044 012700
+x 030046 000001
+i 030050 104404
+w 030052 037000
+l wcount 030054
+w 030054 000000
+i 030056 000757
+l readme 030060
+w 030060 062562
+w 030062 062141
+w 030064 062555
+w 030066 000000
+l buffer 037000
+@
+Simulation stopped, PC: 01062 (LAC I 10)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./pdp7.fs
+
+PDP-7 simulator V4.0-0 Current        git commit id: aad53510
+./pdp7.simh-9> att rb pdp7.fs
+%SIM-INFO: RB: buffering file in memory
+./pdp7.simh-11> att -U g2in 12345
+%SIM-INFO: Listening on port 12345
+
+login: system
+password: system
+@ rm uboot.o
+uboot.o  ?
+@ ln shankao uboot.o
+@ rm utrap.o
+utrap.o  ?
+@ ln shankao utrap.o
+@ rm uinit.o
+uinit.o  ?
+@ ln shankao uinit.o
+@ rm ufiles.o
+ufiles.o ?
+@ ln shankao ufiles.o
+@ rm uctrl.o
+uctrl.o  ?
+@ ln shankao uctrl.o
+@ rm uopen.o
+uopen.o  ?
+@ ln shankao uopen.o
+@ rm uread.o
+uread.o  ?
+@ ln shankao uread.o
+@ rm ublks.o
+ublks.o  ?
+@ ln shankao ublks.o
+@ rm uwrite.o
+uwrite.o ?
+@ ln shankao uwrite.o
+@ rm ucat.o
+ucat.o   ?
+@ ln shankao ucat.o
+@ rm abspun
+abspun   ?
+@ ln shankao abspun
+@
+Simulation stopped, PC: 02256 (JMP 2254)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-boot.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun uboot.o uxout
+@
+Simulation stopped, PC: 00743 (TAD 5663)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02254 (LAC 4105)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-trap.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun utrap.o uxout
+@
+Simulation stopped, PC: 02141 (LAC 5523)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02255 (SNA)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-init.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun uinit.o uxout
+@
+Simulation stopped, PC: 01653 (JMP I 1646)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02254 (LAC 4105)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-files.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun ufiles.o uxout
+@
+Simulation stopped, PC: 00064 (JMS 1646)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02255 (SNA)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-control.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun uctrl.o uxout
+@
+Simulation stopped, PC: 01705 (LAW 17777)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02255 (SNA)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-open.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun uopen.o uxout
+@
+Simulation stopped, PC: 01675 (LACQ)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02255 (SNA)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-read.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun uread.o uxout
+@
+Simulation stopped, PC: 01663 (SMA)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02256 (JMP 2254)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-blocks.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun ublks.o uxout
+@
+Simulation stopped, PC: 01660 (ISZ 1654)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02256 (JMP 2254)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/core-unix-write.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun uwrite.o uxout
+@
+Simulation stopped, PC: 02130 (JMS 1654)
+sim> detach ptp
+sim> continue
+
+Simulation stopped, PC: 02255 (SNA)
+sim> attach ptp /tmp/core-cat-pdp7-ulyqnpnf/cat.ptap
+%SIM-INFO: PTP: creating new file
+sim> continue
+abspun ucat.o uxout
+@
+Simulation stopped, PC: 01670 (LACQ)
+sim> detach ptp
+sim> continue
+rm abspun
+@ rm ucat.o
+@ rm uwrite.o
+@ rm ublks.o
+@ rm uread.o
+@ rm uopen.o
+@ rm uctrl.o
+@ rm ufiles.o
+@ rm uinit.o
+@ rm utrap.o
+@ rm uboot.o
+@ rm uxout
+@
+Simulation stopped, PC: 03446 (DAC 5507)
+sim> quit
+Goodbye
+%SIM-INFO: RB: writing buffer to file: ./pdp7.fs

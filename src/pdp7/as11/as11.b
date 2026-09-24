@@ -113,13 +113,13 @@ gfind(name,make) $(
   auto i, p;
   i = 0;
   while (i < nglob) $(
-    p = 017537-i*5;
+    p = 017677-i*5;
     if((p[0]&0177777)==name[0]&p[1]==name[1]&p[2]==name[2]&p[3]==name[3])return(p);
     i = i + 1;
   $)
   if (make == 0) return(0);
   if (nglob >= 48) $( fail('gf'); return(0); $)
-  p = 017537-nglob*5;
+  p = 017677-nglob*5;
   cpname(p,name);
   p[4] = 0;
   nglob = nglob + 1;
@@ -140,7 +140,7 @@ lfind(key) $(
   auto i,p;
   i = 0;
   while (i < nlocal) $(
-    p=017544+i*2;if(p[0]==key)return(p);
+    p=017704+i*2;if(p[0]==key)return(p);
     i = i + 1;
   $)
   return(0);
@@ -233,7 +233,7 @@ deflocal(d) $(
   key = d*100 + occ[d];
   if (pass == 1) $(
     if (nlocal >= 10) $( fail('lf'); return; $)
-    p=017544+nlocal*2;p[0]=key;p[1]=loc;
+    p=017704+nlocal*2;p[0]=key;p[1]=loc;
     nlocal = nlocal + 1;
   $) else $(
     p = lfind(key);
@@ -296,7 +296,7 @@ mfind(n) $(
   extrn mclass,mop,mtab; auto i,p;
   if(n[2]!=0|n[3]!=0)return(0);
   i=0;
-  while(i<21) $(
+  while(i<24) $(
     p=mtab+i*3;
     if(n[0]==p[0]&n[1]==p[1]) $(
       mclass=i+1;mop=p[2];return(1);
@@ -384,13 +384,13 @@ instruction() $(
   extrn se,sv,de,dv;
   auto s,d,v,delta,r;
   se=0;de=0;
-  if(mclass==1|mclass==17)$(endstmt();if(bad)return;
+  if(mclass==1|mclass==20)$(endstmt();if(bad)return;
     finishins(mop);return;$)
-  if(mclass==21)$(v=expr();r=eres;endstmt();if(bad)return;
+  if(mclass==24)$(v=expr();r=eres;endstmt();if(bad)return;
     if(pass==2)$(if(r==0)$(fail('un');return;$)
       if(v<0|v>0377)$(fail('tv');return;$)$)
     finishins(mop+(v&0377));return;$)
-  if(mclass>=11&mclass<=13)$(v=expr();r=eres;endstmt();if(bad)return;
+  if(mclass>=13&mclass<=16)$(v=expr();r=eres;endstmt();if(bad)return;
     if(loc&1)$(fail('ad');return;$)
     if(pass==2)$(if(r==0)$(fail('un');return;$)
       if(v<0|v>0177777|(v&1))$(fail('br');return;$)
@@ -398,15 +398,15 @@ instruction() $(
       if(delta > 0376)$(fail('br');return;$)
       if(delta<0)delta=-((-delta)/2);else delta=delta/2;
       outcode('i ',loc,mop+(delta&0377));$) loc=loc+2;return;$)
-  if(mclass==16)$(r=getreg();endstmt();if(bad)return;
+  if(mclass==19)$(r=getreg();endstmt();if(bad)return;
     finishins(mop+r);return;$)
-  if(mclass==15)$(r=getreg();if(tok!=14)$(fail('cm');return;$)
+  if(mclass==18)$(r=getreg();if(tok!=14)$(fail('cm');return;$)
     next();d=operand();de=oe;dv=ov;endstmt();if(bad)return;
     if((d/8)==0)$(fail('jm');return;$)
     finishins(mop+r*64+d);return;$)
   s=operand();se=oe;sv=ov;
-  if((mclass>=2&mclass<=6)|mclass==14)$(endstmt();if(bad)return;
-    if(mclass==14&(s/8)==0)$(fail('jm');return;$)
+  if((mclass>=2&mclass<=7)|mclass==17)$(endstmt();if(bad)return;
+    if(mclass==17&(s/8)==0)$(fail('jm');return;$)
     finishins(mop+s);return;$)
   if(tok!=14)$(fail('cm');return;$)
   next();d=operand();de=oe;dv=ov;endstmt();if(bad)return;
@@ -431,7 +431,7 @@ undefck() $(
   auto i, p;
   i = 0;
   while (i < nglob & bad == 0) $(
-    p=017537-i*5;
+    p=017677-i*5;
     if ((p[0]&0600000)==0) fail('un');
     i = i + 1;
   $)
@@ -484,20 +484,23 @@ oe;
 ov;
 se;sv;
 de;dv;
-mtab[63]
+mtab[72]
   0150141,0154164,000000,
   0143154,0162000,005000,
   0164163,0164000,005700,
   0164163,0164142,0105700,
   0141163,0154000,006300,
   0141163,0162000,006200,
+  0144145,0143000,005300,
   0155157,0166000,0010000,
   0155157,0166142,0110000,
   0143155,0160000,0020000,
   0141144,0144000,0060000,
+  0163165,0142000,0160000,
   0142162,0000000,000400,
   0142156,0145000,001000,
   0142160,0154000,0100000,
+  0142145,0161000,001400,
   0152155,0160000,000100,
   0152163,0162000,004000,
   0162164,0163000,000200,

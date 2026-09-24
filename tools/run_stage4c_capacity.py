@@ -95,10 +95,11 @@ def run(record: bool, start: int, stop: int | None, stage3_only: bool) -> None:
             command_result = session.command(f"a.out {native} {output}", timeout=600)
             observed = clean_cat(session.command(f"cat {output}", timeout=180))
             success = observed == expected and "?" not in command_result
-            arena_low = 0o17537 - (globals_ - 1) * 5 if globals_ else 0o17542
-            # a.out is loaded at 010000 and its final bi.s word is stack at
-            # 017157; count addresses available before the first global word.
-            static_gap = arena_low - 0o17157
+            arena_low = 0o17677 - (globals_ - 1) * 5 if globals_ else 0o17704
+            # The current a.out is loaded at 010000 and its final bi.s word is
+            # stack at 017313.  The tables moved up when as11 adopted 16-word
+            # buffers; count addresses before the first global word.
+            static_gap = arena_low - 0o17313
             rows.append((globals_, locals_, len(source), success, static_gap,
                          hashlib.sha256(observed.encode("ascii")).hexdigest()))
             if record:

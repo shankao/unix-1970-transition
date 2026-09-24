@@ -1,0 +1,4 @@
+canonical_image=eras/pdp7-crossdev/pdp7.fs
+canonical_sha256_before=d2e7cd48703c80096ce64ea04ab55acfb6c219458b17e12261129ff2a212954b
+canonical_sha256_after=d2e7cd48703c80096ce64ea04ab55acfb6c219458b17e12261129ff2a212954b
+build_image=disposable copy

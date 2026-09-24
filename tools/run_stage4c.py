@@ -14,6 +14,7 @@ from run_stage4a import (
     ROOT, IMAGE, PDP7, PDP7_CONFIG, Session, git_status, sha256,
 )
 from run_stage4b import assembler_failed, clean_cat, EXPECTED_SHA256 as S4B_SHA
+from as11_runtime import as11_runtime
 
 
 AS11_B = ROOT / "src/pdp7/as11/as11.b"
@@ -21,11 +22,13 @@ REWIND = ROOT / "src/pdp7/as11/rewind.s"
 NATIVE_README = ROOT / "src/pdp7/as11/readme.stage4c"
 FIXTURES = ROOT / "tests/pdp7-as11"
 EXPECTED_ENCODING = (FIXTURES / "stage4c-encoding.expected").read_text(encoding="ascii")
+EXPECTED_UNIX = (FIXTURES / "unix-encoding.expected").read_text(encoding="ascii")
 
 # Native names obey the PDP-7 fixed-width convention. Values are fixed host
 # comparison vectors; scanner/parser/encoder semantics execute only in B.
 CASES = {
     "enc.s": (FIXTURES / "stage4c-encoding.s", EXPECTED_ENCODING),
+    "unix.s": (FIXTURES / "unix-encoding.s", EXPECTED_UNIX),
     "pos.s": (FIXTURES / "stage4b-positive.s", S4B_SHA["pos.s"]),
     "bop.s": (FIXTURES / "stage4c-badoperand.s", "e 000001 xp\n"),
     "breg.s": (FIXTURES / "stage4c-badregister.s", "e 000001 rg\n"),
@@ -68,7 +71,7 @@ def install_large(session: Session, name: str, text: str) -> None:
 
 
 def matches(observed: str, expected: str) -> bool:
-    if expected.startswith("e ") or expected.startswith("l "):
+    if expected.startswith(("i ", "x ", "w ", "l ", "a ", "n ", "e ")):
         return observed == expected
     import hashlib
     return hashlib.sha256(observed.encode("ascii")).hexdigest() == expected
@@ -98,6 +101,11 @@ def run(record: bool, build_only: bool, reuse_source: bool,
         if not reuse_source:
             session.command("rm as11.b")
             install_large(session, "as11.b", AS11_B.read_text(encoding="ascii"))
+        # Stage 4A keeps the recovered general B runtime.  The current as11
+        # command deliberately uses smaller buffers so its symbol/stack area
+        # does not overlap on realistic input.
+        session.command("rm s4bl.s")
+        install_large(session, "s4bl.s", as11_runtime())
         session.command("rm as11.s")
         session.command("rm a.out")
         session.command("rm rewind.s")
